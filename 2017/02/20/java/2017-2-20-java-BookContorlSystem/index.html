@@ -1,0 +1,2630 @@
+<!doctype html>
+
+
+  
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="theme-color" content="#2e2e2e"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="codeing,java," />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+<meta name="description" content="这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结 运行效果这里先贴下运行效果,进行测试 首先打开数据库  之后运行main函数,如下:">
+<meta name="keywords" content="codeing,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java编写图书馆信息管理系统">
+<meta property="og:url" content="http://www.cgspace.date/2017/02/20/java/2017-2-20-java-BookContorlSystem/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结 运行效果这里先贴下运行效果,进行测试 首先打开数据库  之后运行main函数,如下:">
+<meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-1.png">
+<meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-login.png">
+<meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-ui.png">
+<meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-liuchengtu.png">
+<meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-plan-login-ui.png">
+<meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-plan-ms-ui.png">
+<meta property="og:updated_time" content="2017-05-02T16:53:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java编写图书馆信息管理系统">
+<meta name="twitter:description" content="这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结 运行效果这里先贴下运行效果,进行测试 首先打开数据库  之后运行main函数,如下:">
+<meta name="twitter:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-1.png">
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/02/20/java/2017-2-20-java-BookContorlSystem/"/>
+
+
+
+
+
+  <title>Java编写图书馆信息管理系统 | cgspace</title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精致地生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+ </div>
+    </header>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <div id="posts" class="posts-expand">
+    
+  
+  
+  
+  
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/20/java/2017-2-20-java-BookContorlSystem/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+    
+      <header class="post-header">
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java编写图书馆信息管理系统
+              
+            
+          </h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T14:29:07+08:00">
+                2017-02-20
+              </time>
+            
+            
+            
+          </span>
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+                
+                
+              
+            </span>
+          
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/02/20/java/2017-2-20-java-BookContorlSystem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结</p>
+<h3 id="运行效果"><a href="#运行效果" class="headerlink" title="运行效果"></a>运行效果</h3><p>这里先贴下运行效果,进行测试</p>
+<p>首先打开数据库</p>
+<p><img src="/images/java/java-bookControlSystem-1.png" alt="java-bookControlSystem"></p>
+<p>之后运行main函数,如下:</p>
+<a id="more"></a>
+<h4 id="登录界面"><a href="#登录界面" class="headerlink" title="登录界面"></a>登录界面</h4><p><img src="/images/java/java-bookControlSystem-login.png" alt="java-bookControlSystem"></p>
+<p>输出学号和密码后点击登录,就会在新的面板中出现此学号在图书馆的借阅信息,例如我输入学号为V201441122,登录后如下图</p>
+<h4 id="操作界面"><a href="#操作界面" class="headerlink" title="操作界面"></a>操作界面</h4><p><img src="/images/java/java-bookControlSystem-ui.png" alt="java-bookControlSystem"></p>
+<p>之后就可以在这个面板中进行相关的借书还书操作</p>
+<p>代码实现的大致就这样,这里需要用到的开发工具是xampp软件包(Apache + MariaDB + PHP + Perl)作为服务器,当然里面也集成了MySQL数据库,主要的编码工具是Eclipse</p>
+<p>知道了这些,就可以进行开发工作了</p>
+<p>在进行开发工作时,需要对所做的系统进行规划,编写需求分析计划书和系统概要设计等等.由于这里我只是用来打发时间,所以没详细进行这编写,只是大概的绘制了系统界面功能图及流程图</p>
+<h4 id="系统流程图"><a href="#系统流程图" class="headerlink" title="系统流程图"></a>系统流程图</h4><p>如下:</p>
+<p><img src="/images/java/java-bookControlSystem-liuchengtu.png" alt="java-bookControlSystem"></p>
+<h4 id="界面设计图"><a href="#界面设计图" class="headerlink" title="界面设计图"></a>界面设计图</h4><p>为编码前绘制的系统登录界面图</p>
+<p><img src="/images/java/java-bookControlSystem-plan-login-ui.png" alt="java-bookControlSystem"></p>
+<p>继而下图为信息面板:</p>
+<p><img src="/images/java/java-bookControlSystem-plan-ms-ui.png" alt="java-bookControlSystem"></p>
+<p>依据上面的流程图和ui设计图来进行编码工作</p>
+<h3 id="编码操作"><a href="#编码操作" class="headerlink" title="编码操作"></a>编码操作</h3><p>这里项目所有创建了的文件:</p>
+<ul>
+<li>ConnectionDatabase.java-连接数据库</li>
+<li>LoginWin.java-登录窗口</li>
+<li>LoginAction.java-处理登录窗口上发生的事件</li>
+<li>CheckAccount.java-检查验证账户的正确性及是否存在</li>
+<li>MsgShowWin.java-操作界面</li>
+<li>MsgShowWinAction.java-处理操作界面上发生的事件</li>
+<li>OperateDatabase.java-对数据的处理,并写入到数据库中</li>
+<li>MyJDialog.java-自定义的一个窗口样式</li>
+<li>BookControlSystem.java-程序的入口</li>
+<li>数据库的建立脚本</li>
+</ul>
+<p>建立需要的包和main函数后,再来创建一个文件用来连接数据库操作,例如这里为</p>
+<h4 id="ConnectionDatabase-java代码如下"><a href="#ConnectionDatabase-java代码如下" class="headerlink" title="ConnectionDatabase.java代码如下:"></a>ConnectionDatabase.java代码如下:</h4><pre><code>package com.cgtest.data;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+
+public class ConnectionDatabase {
+
+    private static final String databaseDriver = &quot;com.mysql.jdbc.Driver&quot;;
+    private static final String databaseUrl = &quot;jdbc:mysql://localhost:3306/bookControlSystem&quot;;
+    private static final String databaseUser = &quot;root&quot;;
+    private static final String databasePasswd = &quot;0827&quot;;
+
+    public Connection conectionDatabse(){
+        Connection connection = null;
+
+        try {
+            Class.forName(databaseDriver);
+            connection = DriverManager.getConnection(databaseUrl, databaseUser, databasePasswd);
+        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+            System.out.println(&quot;未找到驱动&quot;);
+        } catch (SQLException e) {
+//            e.printStackTrace();
+            System.out.println(&quot;e异常:未连接数据库&quot;);
+//            new MyJDialog
+        }
+        if(connection == null){
+            System.out.println(&quot;connectionDatabase:未连接数据库&quot;);
+        }
+
+        return connection;
+    }
+}
+</code></pre><p>连接数据库需要加载驱动,所以提前在项目的根目录下建立一个lib文件夹,将数据库驱动放置文件夹内,这里的<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">驱动下载页面</a>,下载后将解压得到的jar文件就是驱动</p>
+<p>代码中的<code>databaseUrl</code>,<code>databaseUser</code>和<code>databasePasswd</code>是自己本地利用lampp搭建的数据库服务器地址与自己配置的用户名和登录密码</p>
+<p>这个类ConnectionDatabase在连接数据库后会返回一条连接,也就是一个Connection对象</p>
+<p>当登录窗口运行后,当用户在该面板中产生点击操作后,程序将会连接数据库,也就是调用ConnectionDatabase类,获取一条数据库连接</p>
+<p>如下代码登录窗口代码,文件名为</p>
+<h4 id="LoginWin-java"><a href="#LoginWin-java" class="headerlink" title="LoginWin.java"></a>LoginWin.java</h4><pre><code>package com.cgtest.ui;
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import com.cgtest.action.LoginAction;
+
+public class LoginWin extends JFrame{
+
+    private static final long serialVersionUID = 1L;
+
+    private final static int loginWinWidth = 380,loginWinHeight = 270;
+
+    public JTextField inputName;
+    public JPasswordField inputPasswd;
+    public JButton btCancel,btLogin;
+
+    public LoginWin(){
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                drawWin(&quot;华师图书馆&quot;);
+            }
+        });
+    }
+    public void drawWin(String s){
+
+        JPanel panel = new JPanel();
+//        panel.setBackground(Color.yellow);
+        panel.setLayout(null);
+        this.add(panel);
+
+        JLabel labelFirst = new JLabel(&quot;系统登陆&quot;);
+        panel.add(labelFirst);
+        labelFirst.setBounds(180, 10, 100, 25);
+
+        JLabel labelName = new JLabel(&quot;学  号:&quot;);
+        inputName = new JTextField();
+        panel.add(labelName);
+        panel.add(inputName);
+        labelName.setBounds(90, 60, 100, 25);
+        inputName.setBounds(135, 60, 150, 25);
+
+        JLabel labelPasswd = new JLabel(&quot;密  码:&quot;);
+        inputPasswd = new JPasswordField();
+        panel.add(labelPasswd);
+        panel.add(inputPasswd);
+        labelPasswd.setBounds(90, 120, 100, 25);
+        inputPasswd.setBounds(135, 120, 150, 25);
+
+        btCancel = new JButton(&quot;取消&quot;);
+        panel.add(btCancel);
+        btCancel.setBounds(135, 180, 60, 22);
+
+        btLogin = new JButton(&quot;登录&quot;);
+        panel.add(btLogin);
+        btLogin.setBounds(225, 180, 60, 22);
+        btLogin.setEnabled(false);
+
+        new LoginAction(this,inputName, inputPasswd, btCancel, btLogin);
+
+        this.setTitle(s);
+        this.setSize(loginWinWidth, loginWinHeight);
+//        this.setLayout(null);
+        this.setResizable(false);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension  dimension = toolkit.getScreenSize();
+        int screenWidth = dimension.width;
+        int screenHeight = dimension.height;
+        this.setLocation((screenWidth - loginWinWidth) / 2, (screenHeight - loginWinHeight) / 2);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.validate();
+        this.setVisible(true);
+    }
+}
+</code></pre><p>上面的代码主要作用是担当登录窗口的布局设置,<br>其中代码:</p>
+<p><code>new LoginAction(this,inputName, inputPasswd, btCancel, btLogin);</code></p>
+<p>是将使LoginWin.java和LoginAction.java连接起来,</p>
+<p>使得登录窗口中的所有响应事件都由LoginAction.java文件来处理</p>
+<p>构造方法中的:</p>
+<p><code>SwingUtilities.invokeLater(new Runnable())</code></p>
+<p>方法是用来获取系统主题样式,并将登录窗口的样式主题设置为于系统主题一样</p>
+<p>方法中的参数代码:</p>
+<p><code>UIManager.getSystemLookAndFeelClassName();</code></p>
+<p>就是获取系统的主题样式</p>
+<p>与之相对应的相应事件操作的代码如下,文件名为</p>
+<h4 id="LoginAction-java"><a href="#LoginAction-java" class="headerlink" title="LoginAction.java:"></a>LoginAction.java:</h4><pre><code>package com.cgtest.action;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import com.cgtest.data.CheckAccount;
+import com.cgtest.ui.MsgShowWin;
+import com.cgtest.ui.MyJDialog;
+
+public class LoginAction implements ActionListener,MouseListener{
+
+    public JFrame jframe;
+    public JTextField inputName;
+    public JPasswordField inputPasswd;
+    public JButton btCancel,btLogin;
+
+    public LoginAction(JFrame jframe,JTextField inputName,JPasswordField inputPasswd,JButton btCancel,JButton btLogin){
+        btCancel.addActionListener(this);
+        btLogin.addActionListener(this);
+        btLogin.addMouseListener(this);
+        jframe.addMouseListener(this);
+        inputName.addMouseListener(this);
+        inputPasswd.addMouseListener(this);
+        this.jframe = jframe;
+        this.inputName = inputName;
+        this.inputPasswd = inputPasswd;
+        this.btCancel = btCancel;
+        this.btLogin = btLogin;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String strInputName = inputName.getText(),strInputPasswd = String.valueOf(inputPasswd.getPassword());//密码不能直接toString()
+        CheckAccount checkAccount = new CheckAccount();
+        int checkConnect = checkAccount.checkConnectDatabase();
+        if(e.getSource() == btCancel){
+            new MyJDialog(true, jframe).showChoice(&quot;确定退出?&quot;);
+
+        }else if(e.getSource() == btLogin){
+            int n = checkAccount.checkNamePasswd(strInputName, strInputPasswd);
+            if(checkConnect == 1){
+                if(n == -1){
+                    new MyJDialog(true, jframe).showMessage(&quot;无数据&quot;);
+                }else if(n == -2){
+                    new MyJDialog(true, jframe).showMessage(&quot;用户不存在&quot;);
+                }else if(n == -3){
+                    new MyJDialog(true, jframe).showMessage(&quot;密码错误,请重新输入&quot;);
+                }else if(n == 1){
+                    new MsgShowWin(checkAccount);
+                    jframe.dispose();
+                }else{
+                    System.out.println(&quot;代码错误&quot;);
+                }
+            }else{
+                new MyJDialog(true, jframe).showMessage(&quot;未连接数据库&quot;);
+            }
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        if(e.getSource() == jframe){
+            if(inputName.getText().length() != 0 &amp;&amp; inputPasswd.getPassword().length != 0){
+                btLogin.setEnabled(true);
+            }else{
+                btLogin.setEnabled(false);
+            }
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
+        if(e.getSource() == inputName || e.getSource() == inputPasswd){
+            if(inputName.getText().length() != 0 &amp;&amp; inputPasswd.getPassword().length != 0){
+                btLogin.setEnabled(true);
+            }else{
+                btLogin.setEnabled(false);
+            }
+        }
+    }
+}
+</code></pre><p>上面代码中actionPerformed(ActionEvent e)方法中,</p>
+<p>代码:</p>
+<p><code>CheckAccount checkAccount = new CheckAccount();</code></p>
+<p>将产生一个数据库连接</p>
+<p>代码:</p>
+<p><code>int checkConnect = checkAccount.checkConnectDatabase();</code></p>
+<p>中的checkConnectDatabase()方法将是用来检查数据库服务器是否开启,如果是,则进行下一步:验证用户输入的用户名是否存在.就如下代码</p>
+<p>代码:</p>
+<p><code>int n = checkAccount.checkNamePasswd(strInputName, strInputPasswd);</code></p>
+<p>方法chexkNamePasswd(strInputName, strInputPasswd)将用户输入的用户名和密码作为参数,用来验证是否存在或正确</p>
+<p>因此,来看对象checkAccount的如下代码,文件名为</p>
+<h4 id="CheckAccount-java"><a href="#CheckAccount-java" class="headerlink" title="CheckAccount.java:"></a>CheckAccount.java:</h4><pre><code>package com.cgtest.data;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
+
+
+public class CheckAccount {
+
+    public Vector&lt;Object&gt; vectorUserInputLogined = new Vector&lt;Object&gt;();
+
+    public CheckAccount(){
+
+    }
+    public Vector&lt;Vector&lt;Object&gt;&gt; getAllNamePasswd(){
+        /*
+         * 获取并返回数据库中所有的用户名和密码
+         */
+        Vector&lt;Vector&lt;Object&gt;&gt; vectorAllNamePasswd = new Vector&lt;&gt;();
+        String sqlGetNamePasswd = &quot;SELECT accountName,accountPasswd FROM accountMsg&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlGetNamePasswd);
+            while(resultSet.next()){
+                Vector&lt;Object&gt; vectorOne = new Vector&lt;Object&gt;();
+                for(int i = 1; i &lt;= 2; i++){
+                    vectorOne.add(resultSet.getString(i));
+                }
+                vectorAllNamePasswd.add(vectorOne);
+            }
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+//            System.out.println(&quot;未连接数据库&quot;);
+        }
+        try {
+
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return vectorAllNamePasswd;
+    }
+
+    public int checkNamePasswd(String strInputName, String strInputPasswd){
+        /*
+         * 根据用户输入的用户名和密码,并以此来对比数据库中存在的用户名和密码,验证登录
+         */
+        int n = 0, index = 0;
+        Vector&lt;Vector&lt;Object&gt;&gt; vectorAllNamePasswd = getAllNamePasswd();
+        if(vectorAllNamePasswd.size() == 0){
+//            new MyJDialog(true, jframe).showMessage(&quot;未连接数据库&quot;);
+            n = -1;
+        }else{
+            for(int i = 0; i &lt; vectorAllNamePasswd.size(); i++){
+                if(vectorAllNamePasswd.elementAt(i).get(0).equals(strInputName)){
+                    index = i;
+                    break;
+                }else{
+                    index = -1;
+                }
+            }
+            if(index == -1){
+//                new MyJDialog(true, jframe).showMessage(&quot;用户不存在&quot;);
+                n = -2;
+            }else{
+                if(vectorAllNamePasswd.elementAt(index).get(1).equals(strInputPasswd)){
+//                    new MsgShowWin();
+                    vectorUserInputLogined.add(vectorAllNamePasswd.elementAt(index).get(0));
+                    vectorUserInputLogined.add(vectorAllNamePasswd.elementAt(index).get(1));
+                    /*
+                     * 只有当账户密码都输入正确后(成功登录后),才将登录账户发送到vectorUserInputLogined
+                     */
+                    n = 1;
+                }else{
+//                    new MyJDialog(true, jframe).showMessage(&quot;密码错误,请重新输入&quot;);
+                    n = -3;
+                }
+            }
+        }
+//        if(vectorAllNamePasswd.size() == 0){
+//            System.out.println(&quot;空&quot;);
+//        }else{
+//            System.out.println(&quot;非空&quot; + index);
+//        }
+        return n;
+    }
+
+    public Vector&lt;Object&gt; transmitAccountMsg(){
+        /*
+         * 只有当用户成功登录后,才返回登录账户密码
+         */
+        Vector&lt;Object&gt; vector = new Vector&lt;Object&gt;();
+//        System.out.println(vectorUserInputLogined.size());
+        if(this.vectorUserInputLogined.size() != 0){
+            for(int i = 0; i &lt; this.vectorUserInputLogined.size(); i++){
+//                System.out.println(vectorUserInputLogined.get(i));
+                vector.add(this.vectorUserInputLogined.get(i));
+            }
+        }else{
+//            System.out.println(&quot;vectorUserInputLogined:用户未登录&quot;);
+        }
+        return vector;
+    }
+
+
+    public int checkConnectDatabase(){
+        /*
+         * for loginWin登录窗口
+         */
+        int n = 0;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        if(connection != null){
+            n = 1;
+        }else{ 
+            n = -1;
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return n;
+    }
+}
+</code></pre><p>看上面的代码,这里主要说方法checkNamePasswd(String strInputName, String strInputPasswd)的工作方式</p>
+<p>首相checkNamePasswd()方法将调用自身类的一个getAllNamePasswd()无参数方法,用来获取数据库中所有已注册的用户账户名和密码,getAllNamePasswd()的返回值为<code>Vector&lt;Vector&lt;Object&gt;&gt;</code>双层的Vector集合,所以会返回一条双层的<br>Vector集合,返回的集合将用在checkNamePasswd方法中作为局部变量<br>方法checkNamePasswd()将先根据用户输入的用户名来和数据库中所有存在的用户名来对比,如果为对比到,那么将返回-2,意味着用户不存在</p>
+<p>方法checkNamePasswd()将会有多中int类型的返回值,其返回值将用在LoginAction类中的actionPerformed(ActionEvent e)中,将根据其返回值来判断是否存在/正确,如果返回值为1,那么证明用户输入的用户名和密码都正确,则将打开下一个信息面板,而关闭登录窗口.再将登录的账户名和密码封装进一个专有的Vector集合,并返回</p>
+<p>返回的Vector集合将会通过LoginAction类利用代码<code>new MsgShowWin(checkAccount);</code>来传递给MsgShowWin这个类,使得在打开这个面板的时候就可以直接通过账户名来获取借阅信息并显示在信息面板上</p>
+<p>如下信息窗口代码,文件名为</p>
+<h4 id="MsgShowWin-java"><a href="#MsgShowWin-java" class="headerlink" title="MsgShowWin.java:"></a>MsgShowWin.java:</h4><pre><code>package com.cgtest.ui;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.Vector;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+import com.cgtest.action.MsgShowWinAction;
+import com.cgtest.data.CheckAccount;
+import com.cgtest.data.OperateDatabase;
+
+public class MsgShowWin extends JFrame{
+
+    private static final long serialVersionUID = 1L;
+
+    private final static int msgWinWidth = 800,msgWinHeight = 500;
+
+    public String accountName, personName, sex, allBookNum ,strShowDBMsg;
+
+    public JLabel jlabelAccountName, jlabelPersonName, jlabelSex, jlabelAllBookNum, jlabelShowDBMsg;
+    public JPanel showPortrait;
+    public JTextField jtfInputIndexBorrow,jtfShowBookBorrow,jtfInputIndexReturn,jtfShowBookReturn;
+    public JButton btSearchBorrow,btConfirmBorrow,btSearchReturn,btConfirmReturn;
+    public DefaultTableModel defaultTableModel;
+    public JTable jtableMsg;
+    public Vector&lt;Vector&lt;Object&gt;&gt; vectorJTableMsg;
+    public Vector&lt;Object&gt; vectorJTableTitle;
+    public JMenuBar jmenuBar;
+    public JMenu jmenu;
+    public JMenuItem jmenuItemLogout, jmenuItemExit;
+
+    public int myJDialogChoice;
+
+    public MsgShowWin(CheckAccount checkAccount){
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | UnsupportedLookAndFeelException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                strShowDBMsg = new OperateDatabase().checkConnectDatabase();
+                setShowAccountMsg(checkAccount);
+                vectorJTableMsg = new OperateDatabase().getUserBorrowMsg(checkAccount);
+                int bookNum = vectorJTableMsg.size();
+                allBookNum = bookNum + &quot;/10&quot;;
+                drawMsgShowWin();
+            }
+        });
+    }
+
+    public void drawMsgShowWin(){
+
+        jmenuBar = new JMenuBar();
+        this.setJMenuBar(jmenuBar);
+
+        jmenu = new JMenu(&quot;选项&quot;);
+        jmenuBar.add(jmenu);
+
+        jmenuItemLogout = new JMenuItem(&quot;注销&quot;);
+        jmenuItemExit = new JMenuItem(&quot;退出&quot;);
+        jmenu.add(jmenuItemLogout);
+        jmenu.add(jmenuItemExit);
+
+
+        JPanel jpanelMsg = new JPanel();
+        JLabel jlabel1 = new JLabel(&quot;学号:&quot;);
+        JLabel jlabel2 = new JLabel(&quot;姓名:&quot;);
+        JLabel jlabel3 = new JLabel(&quot;性别:&quot;);
+        JLabel jlabel4 = new JLabel(&quot;可借数量:&quot;);
+
+        this.setLayout(null);
+
+        JPanel panelWest = new JPanel();
+        JPanel panelEast = new JPanel();
+        JPanel panelSouth = new JPanel();
+        panelWest.setBackground(new Color(255, 255, 243));
+        panelEast.setBackground(new Color(255, 255, 243));
+        panelSouth.setBackground(new Color(255, 255, 243));
+        panelWest.setBounds(0, 0, 396, 180);
+        panelEast.setBounds(396, 0, 400, 180);
+        panelSouth.setBounds(0, 180, 800, 280);
+        panelWest.setLayout(null);
+        panelEast.setLayout(null);
+        panelSouth.setLayout(null);
+        this.add(panelWest);
+        this.add(panelEast);
+        this.add(panelSouth);
+
+        panelWest.add(jpanelMsg);
+        jpanelMsg.setBounds(47, 5, 160, 165);
+        jpanelMsg.setLayout(null);
+        jpanelMsg.setBackground(new Color(255,255,255));
+        jpanelMsg.setBorder(new MatteBorder(0,0,0,1,Color.gray));
+
+        jpanelMsg.add(jlabel1);
+        jlabel1.setBounds(0, 15, 30, 25);
+        jlabelAccountName = new JLabel(accountName);
+        jpanelMsg.add(jlabelAccountName);
+        jlabelAccountName.setBounds(35, 15, 90, 25);
+        jlabelAccountName.setOpaque(true);
+        jlabelAccountName.setBackground(new Color(255,255,255));
+
+        jpanelMsg.add(jlabel2);
+        jlabel2.setBounds(0, 48, 30, 25);
+        jlabelPersonName = new JLabel(personName);
+        jpanelMsg.add(jlabelPersonName);
+        jlabelPersonName.setBounds(35, 48, 70, 25);
+        jlabelPersonName.setOpaque(true);
+        jlabelPersonName.setBackground(new Color(255,255,255));
+
+        jpanelMsg.add(jlabel3);
+        jlabel3.setBounds(0, 81, 30, 25);
+        jlabelSex = new JLabel(sex);
+        jpanelMsg.add(jlabelSex);
+        jlabelSex.setBounds(35, 81, 30, 25);
+        jlabelSex.setOpaque(true);
+        jlabelSex.setBackground(new Color(255,255,255));
+
+        jpanelMsg.add(jlabel4);
+        jlabel4.setBounds(0, 114, 60, 25);
+        jlabelAllBookNum = new JLabel(allBookNum);
+        jpanelMsg.add(jlabelAllBookNum);
+        jlabelAllBookNum.setBounds(65, 114, 60, 25);
+        jlabelAllBookNum.setOpaque(true);
+        jlabelAllBookNum.setBackground(new Color(255,255,255));
+
+        showPortrait = new JPanel();
+        panelWest.add(showPortrait);
+        showPortrait.setBounds(240, 16, 120, 135);
+        showPortrait.setBorder(BorderFactory.createLineBorder(Color.gray));
+
+        JPanel jpanelChoice1 = new JPanel();
+        JPanel jpanelChoice2 = new JPanel();
+
+        panelEast.add(jpanelChoice1);
+        panelEast.add(jpanelChoice2);
+        jpanelChoice1.setLayout(null);
+        jpanelChoice2.setLayout(null);
+        jpanelChoice1.setBounds(0, 0, 386, 90);
+        jpanelChoice2.setBounds(0, 90, 386, 90);
+        jpanelChoice1.setBackground(new Color(255, 255, 243));
+        jpanelChoice2.setBackground(new Color(255, 255, 243));
+        jpanelChoice1.setBorder(new MatteBorder(0, 1, 1, 0, Color.gray));
+        jpanelChoice2.setBorder(new MatteBorder(0, 1, 0, 0, Color.gray));
+
+        JLabel jlabel5 = new JLabel(&quot;借书&quot;);
+        JLabel jlabel6 = new JLabel(&quot;还书&quot;);
+
+        jpanelChoice1.add(jlabel5);
+        jlabel5.setBounds(30, 31, 30, 25);
+
+        jtfInputIndexBorrow = new JTextField();
+        jtfInputIndexBorrow.setText(&quot;输入所借图书的索引&quot;);
+        jpanelChoice1.add(jtfInputIndexBorrow);
+        jtfInputIndexBorrow.setBounds(80, 10, 200, 26);
+
+        btSearchBorrow = new JButton(&quot;查找&quot;);
+        jpanelChoice1.add(btSearchBorrow);
+        btSearchBorrow.setBounds(290,11,60,25);
+
+        jtfShowBookBorrow = new JTextField();
+        jtfShowBookBorrow.setEnabled(false);
+        jpanelChoice1.add(jtfShowBookBorrow);
+        jtfShowBookBorrow.setBounds(80, 50, 200, 26);
+
+        btConfirmBorrow = new JButton(&quot;借书&quot;);
+        btConfirmBorrow.setEnabled(false);
+        jpanelChoice1.add(btConfirmBorrow);
+        btConfirmBorrow.setBounds(290,51,60,25);
+
+        jpanelChoice2.add(jlabel6);
+        jlabel6.setBounds(30, 31, 30, 25);
+
+        jtfInputIndexReturn = new JTextField();
+        jtfInputIndexReturn.setText(&quot;输入所还图书的索引&quot;);
+        jpanelChoice2.add(jtfInputIndexReturn);
+        jtfInputIndexReturn.setBounds(80, 10, 200, 26);
+
+        btSearchReturn = new JButton(&quot;查找&quot;);
+        jpanelChoice2.add(btSearchReturn);
+        btSearchReturn.setBounds(290,11,60,25);
+
+        jtfShowBookReturn = new JTextField();
+        jtfShowBookReturn.setEnabled(false);
+        jpanelChoice2.add(jtfShowBookReturn);
+        jtfShowBookReturn.setBounds(80, 50, 200, 26);
+
+        btConfirmReturn = new JButton(&quot;还书&quot;);
+        btConfirmReturn.setEnabled(false);
+        jpanelChoice2.add(btConfirmReturn);
+        btConfirmReturn.setBounds(290,51,60,25);
+
+        vectorJTableTitle = new Vector&lt;Object&gt;();
+
+        vectorJTableTitle.add(0, &quot;索引&quot;);
+        vectorJTableTitle.add(1, &quot;书名&quot;);
+        vectorJTableTitle.add(2, &quot;借书日期&quot;);
+        vectorJTableTitle.add(3, &quot;到期时间&quot;);
+
+        JPanel jpanelJTable = new JPanel();
+        panelSouth.add(jpanelJTable);
+        jpanelJTable.setLayout(null);
+        jpanelJTable.setBounds(15, 0, 768, 255);
+        jpanelJTable.setBackground(new Color(255, 255, 243));
+        jpanelJTable.setBorder(BorderFactory.createTitledBorder(new MatteBorder(1, 0, 0, 0, Color.gray), &quot;借书详情&quot;));
+
+        defaultTableModel = new DefaultTableModel(vectorJTableMsg, vectorJTableTitle);
+        jtableMsg = new JTable(defaultTableModel);
+        jtableMsg.setRowHeight(25);
+        DefaultTableCellRenderer r = new DefaultTableCellRenderer();   
+        r.setHorizontalAlignment(JLabel.CENTER);   
+        jtableMsg.setDefaultRenderer(Object.class,r);
+        JScrollPane jscrollPane = new JScrollPane(jtableMsg);
+        jpanelJTable.add(jscrollPane);
+        jscrollPane.setBackground(Color.white);
+        jscrollPane.setBounds(0, 18, 765, 235);
+
+        jlabelShowDBMsg = new JLabel(strShowDBMsg);
+        panelSouth.add(jlabelShowDBMsg);
+        jlabelShowDBMsg.setBounds(680, 250, 100, 20);
+
+
+        new MsgShowWinAction(this, jmenuItemLogout, jmenuItemExit, btSearchBorrow, btConfirmBorrow, btSearchReturn,btConfirmReturn,
+                jtfInputIndexBorrow, jtfShowBookBorrow, jtfInputIndexReturn, jtfShowBookReturn, jtableMsg, vectorJTableTitle, 
+                accountName, jlabelAllBookNum);
+
+        this.setTitle(&quot;华师图书馆&quot;);
+        this.setSize(msgWinWidth, msgWinHeight);
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension dimension = toolkit.getScreenSize();
+        int screenWidth = dimension.width;
+        int screenHeight = dimension.height;
+        this.setLocation((screenWidth - msgWinWidth) / 2, (screenHeight - msgWinHeight) / 2);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.validate();
+        this.setVisible(true);
+    }
+
+    public void setShowAccountMsg(CheckAccount checkAccount){
+        Vector&lt;Object&gt; vectorAccountMsg = new OperateDatabase().getAccountMsg(checkAccount);
+        accountName = String.valueOf(vectorAccountMsg.get(0));
+        personName = String.valueOf(vectorAccountMsg.get(2));
+        sex = String.valueOf(vectorAccountMsg.get(3));
+    }
+}
+</code></pre><p>同登录窗口的LoginWin.java文件一样,上面代码的大体作用一样是面板的布局</p>
+<p>面板第一时间显示的信息都在该类的构造方法中完成</p>
+<p>例如代码:</p>
+<p><code>strShowDBMsg = new OperateDatabase().checkConnectDatabase();</code></p>
+<p>将调用一个OperateDatabase类中的checkConnectDatabase()方法来检测是否与数据库进行连接,其返回值为String类型的数据,用来在该面板底部显示数据库连接情况.起初并未打算在此处检测是否连接,但貌似那会儿没想到如何用来传递这种信息,所以就在这进行检测了</p>
+<p>后面的几行代码依然如此</p>
+<p>下面贴下于MsgShowWin类对应的action时间处理类的代码,文件名</p>
+<h4 id="MsgShowWinAction-java"><a href="#MsgShowWinAction-java" class="headerlink" title="MsgShowWinAction.java:"></a>MsgShowWinAction.java:</h4><pre><code>package com.cgtest.action;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Vector;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import com.cgtest.data.OperateDatabase;
+import com.cgtest.ui.MyJDialog;
+
+public class MsgShowWinAction implements ActionListener, MouseListener, FocusListener{
+
+    public JFrame jframe;
+    public JMenuItem jmenuItemLogout,jmenuItemExit;
+    public JButton btSearchBorrow,btConfirmBorrow,btSearchReturn,btConfirmReturn;
+    public JTextField jtfInputIndexBorrow,jtfShowBookBorrow,jtfInputIndexReturn,jtfShowBookReturn;
+    public JTable jtable;
+    public Vector&lt;Object&gt; vectorJTableTitle;
+    public String accountName;
+    public JLabel jlabelAllBookNum;
+
+
+    public MsgShowWinAction(JFrame jframe, JMenuItem jmenuItemLogout, JMenuItem jmenuItemExit, JButton btSearchBorrow, JButton btConfirmBorrow,
+            JButton btSearchReturn, JButton btConfirmReturn, JTextField jtfInputIndexBorrow, JTextField jtfShowBookBorrow,
+            JTextField jtfInputIndexReturn, JTextField jtfShowBookReturn, JTable jtable, Vector&lt;Object&gt; vectorJTableTitle, 
+            String accountName, JLabel jlabelAllBookNum){
+        this.jframe = jframe;
+        this.jmenuItemLogout = jmenuItemLogout;
+        this.jmenuItemExit = jmenuItemExit;
+        this.btSearchBorrow = btSearchBorrow;
+        this.btConfirmBorrow = btConfirmBorrow;
+        this.btSearchReturn = btSearchReturn;
+        this.btConfirmReturn = btConfirmReturn;
+        this.jtfInputIndexBorrow = jtfInputIndexBorrow;
+        this.jtfShowBookBorrow = jtfShowBookBorrow;
+        this.jtfInputIndexReturn = jtfInputIndexReturn;
+        this.jtfShowBookReturn = jtfShowBookReturn;
+        this.jtable = jtable;
+        this.vectorJTableTitle = vectorJTableTitle;
+        this.accountName = accountName;
+        this.jlabelAllBookNum = jlabelAllBookNum;
+        jmenuItemLogout.addActionListener(this);
+        jmenuItemExit.addActionListener(this);
+        btSearchBorrow.addActionListener(this);
+        btConfirmBorrow.addActionListener(this);
+        btSearchReturn.addActionListener(this);
+        btConfirmReturn.addActionListener(this);
+        jframe.addMouseListener(this);
+        jtfShowBookBorrow.addMouseListener(this);
+        jtfShowBookReturn.addMouseListener(this);
+        btConfirmBorrow.addMouseListener(this);
+        btConfirmReturn.addMouseListener(this);
+        jtfInputIndexBorrow.addFocusListener(this);
+        jtfInputIndexReturn.addFocusListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == jmenuItemLogout){
+
+            MyJDialog myJDialog = new MyJDialog(true, jframe);
+            myJDialog.showChoiceForMsgWin(&quot;确定注销登录吗?&quot;);
+
+        }else if(e.getSource() == jmenuItemExit){
+
+            new MyJDialog(true, jframe).showChoice(&quot;确定退出系统?&quot;);
+
+        }else if(e.getSource() == btSearchBorrow){
+
+            String strjtfInputIndexBorrow = jtfInputIndexBorrow.getText();
+            if(strjtfInputIndexBorrow.length() != 0){
+                String strMsgorName = new OperateDatabase().searchBook(strjtfInputIndexBorrow);
+                if(strMsgorName.equals(&quot;未找到此书&quot;)){
+                    new MyJDialog(true, jframe).showMessage(&quot;未找到此书&quot;);
+                }else{
+                    jtfShowBookBorrow.setText(strMsgorName);
+                }
+            }else{
+                new MyJDialog(true, jframe).showMessage(&quot;请输入图书索引&quot;);
+            }
+
+        }else if(e.getSource() == btConfirmBorrow){
+            Vector&lt;Vector&lt;Object&gt;&gt; vectorJTableMsg = new Vector&lt;Vector&lt;Object&gt;&gt;();
+//            System.out.println(accountName);
+            String strjtfInputIndexBorrow = jtfInputIndexBorrow.getText();
+            String strjtfShowBookBorrow = jtfShowBookBorrow.getText();
+            String str = new OperateDatabase().borrowBook(strjtfInputIndexBorrow, strjtfShowBookBorrow, accountName);
+            new MyJDialog(true, jframe).showMessage(str);
+            if(str.equals(&quot;借书成功&quot;)){
+                vectorJTableMsg = new OperateDatabase().getUserBorrowMsg(accountName);
+                int bookNumNew = vectorJTableMsg.size();
+                DefaultTableModel defaultTableModel = new DefaultTableModel(vectorJTableMsg, vectorJTableTitle);
+                jtable.setModel(defaultTableModel);
+                String allBookNumNew = bookNumNew + &quot;/10&quot;;
+                jlabelAllBookNum.setText(allBookNumNew);
+            }
+        }else if(e.getSource() == btSearchReturn){
+
+            String strjtfInputIndexReturn = jtfInputIndexReturn.getText();
+            if(strjtfInputIndexReturn.length() != 0){
+                String strMsgorName = new OperateDatabase().searchBook(strjtfInputIndexReturn);
+                if(strMsgorName.equals(&quot;未找到此书&quot;)){
+                    new MyJDialog(true, jframe).showMessage(&quot;未找到此书&quot;);
+                }else{
+                    jtfShowBookReturn.setText(strMsgorName);
+                }
+            }else{
+                new MyJDialog(true, jframe).showMessage(&quot;请输入图书索引&quot;);
+            }
+
+        }else if(e.getSource() == btConfirmReturn){
+            Vector&lt;Vector&lt;Object&gt;&gt; vectorJTableMsg = new Vector&lt;Vector&lt;Object&gt;&gt;();
+            String strjtfShowBookReturn = jtfShowBookReturn.getText();
+            String str = new OperateDatabase().returnBook(strjtfShowBookReturn);
+            new MyJDialog(true, jframe).showMessage(str);
+            if(str.equals(&quot;还书成功&quot;)){
+                vectorJTableMsg = new OperateDatabase().getUserBorrowMsg(accountName);
+                int bookNumNew = vectorJTableMsg.size();
+                DefaultTableModel defaultTableModel = new DefaultTableModel(vectorJTableMsg, vectorJTableTitle);
+                jtable.setModel(defaultTableModel);
+                String allBookNumNew = bookNumNew + &quot;/10&quot;;
+                jlabelAllBookNum.setText(allBookNumNew);
+            }
+        }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+        if(e.getSource() == btConfirmBorrow){
+            if(jtfShowBookBorrow.getText().length() != 0){
+                btConfirmBorrow.setEnabled(true);
+            }else{
+                btConfirmBorrow.setEnabled(false);
+            }
+        }else if(e.getSource() == btConfirmReturn){
+            if(jtfShowBookReturn.getText().length() != 0){
+                btConfirmReturn.setEnabled(true);
+            }else{
+                btConfirmReturn.setEnabled(false);
+            }
+        }else if(e.getSource() == jframe){
+            if(jtfShowBookBorrow.getText().length() != 0){
+                btConfirmBorrow.setEnabled(true);
+            }else if(jtfShowBookBorrow.getText().length() == 0){
+                btConfirmBorrow.setEnabled(false);
+            }else if(jtfShowBookReturn.getText().length() != 0){
+                btConfirmReturn.setEnabled(true);
+            }else if(jtfShowBookReturn.getText().length() == 0){
+                btConfirmReturn.setEnabled(false);
+            }
+        }
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        // TODO Auto-generated method stub
+        if(e.getSource() == jtfInputIndexBorrow){
+            if(jtfInputIndexBorrow.getText().equals(&quot;输入所借图书的索引&quot;)){
+                jtfInputIndexBorrow.setText(null);
+            }
+            jtfInputIndexReturn.setText(&quot;输入所还图书的索引&quot;);
+            jtfShowBookBorrow.setText(null);
+            jtfShowBookReturn.setText(null);
+        }else if(e.getSource() == jtfInputIndexReturn){
+            if(jtfInputIndexReturn.getText().equals(&quot;输入所还图书的索引&quot;)){
+                jtfInputIndexReturn.setText(null);
+            }
+            jtfInputIndexBorrow.setText(&quot;输入所借图书的索引&quot;);
+            jtfShowBookBorrow.setText(null);
+            jtfShowBookReturn.setText(null);
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        // TODO Auto-generated method stub
+        if(e.getSource() == jtfInputIndexBorrow){
+            if(jtfInputIndexBorrow.getText().length() == 0){
+                jtfInputIndexBorrow.setText(&quot;输入所借图书的索引&quot;);
+            }
+        }else if(e.getSource() == jtfInputIndexReturn){
+            if(jtfInputIndexReturn.getText().length() == 0){
+
+                jtfInputIndexReturn.setText(&quot;输入所还图书的索引&quot;);
+            }
+        }
+    }
+
+}
+</code></pre><p>上面的代码中,在actionPerformed(ActionEvent e)方法中就是执行借书/还书/查询的操作</p>
+<p>这里就直接看下实现借书操作的代码片段</p>
+<p>借书分为两步,先是查找书籍,再是借书</p>
+<p>先看查书,实现搜索图书的关键方法代码:</p>
+<p><code>searchBook(strjtfInputIndexBorrow);</code></p>
+<p>这里将用户输入的图书索引用作OperateDatabase类中的searchBook(strjtfInputIndexBorrow)的参数,</p>
+<p>其searchBook(strjtfInputIndexBorrow)的返回值为String类型的,且只有两种返回值,</p>
+<p>其返回值赋值给strMsgorName</p>
+<p>从此行的下一行代码<code>if(strMsgorName.equals(&quot;未找到此书&quot;)){</code>就可以看出</p>
+<p>再看借书,代码是调用OperateDataBase中的borrowBook(strjtfInputIndexBorrow, strjtfShowBookBorrow, accountName)方法</p>
+<p>类OperateDataBase中的borrowBook()方法有3个参数,</p>
+<p><code>strjtfInputIndexBorrow</code>即为查找图书用的索引,查书不到就无法进行借书,所以查找图书所用的索引是正确的</p>
+<p><code>strjtfShowBookBorrow</code>即图书名字</p>
+<p><code>accountName</code>及账户名</p>
+<p>方法borrowBook()的返回值也为String类型,且只有两种情况</p>
+<p>同样根据下面一行代码<code>if(str.equals(&quot;借书成功&quot;)){</code>就可以确认,其跟searchBook(strjtfInputIndexBorrow)类似</p>
+<p>再来看类OperateDatabase的代码,文件名为</p>
+<h4 id="OperateDatabase-java"><a href="#OperateDatabase-java" class="headerlink" title="OperateDatabase.java:"></a>OperateDatabase.java:</h4><pre><code>package com.cgtest.data;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Vector;
+
+public class OperateDatabase {
+    public Vector&lt;Object&gt; dataAccount= new Vector&lt;&gt;();
+
+    public Vector&lt;Object&gt; getAccountMsg(CheckAccount checkAccount){
+        /*
+         * 登录前(打开MsgShowWin面板前)获取账户信息
+         * 使用原先创建CheckAccount对象的引用,来传递checkAccount的引用的vector
+         * 依据登录名来获取姓名,性别
+         */
+        Vector&lt;Object&gt; vectorAccountMsg = new Vector&lt;Object&gt;();
+        dataAccount = checkAccount.transmitAccountMsg();
+//        if(dataAccount.size() == 0){
+//            System.out.println(&quot;dataAccount:未得到数据&quot;);
+//        }else{
+//            for(int i = 0; i &lt; dataAccount.size(); i++){
+//                System.out.println(dataAccount.get(i));
+//            }
+//        }
+        String strAccountName = String.valueOf(dataAccount.get(0));
+        String strSearchAccountMsg = &quot;SELECT * FROM accountMsg WHERE accountName = &quot; + &quot;&apos;&quot; + strAccountName + &quot;&apos;&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(strSearchAccountMsg);
+            while(resultSet.next()){
+                for(int i = 1; i &lt;= 6; i++){
+                    vectorAccountMsg.add(resultSet.getString(i));
+                }
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return vectorAccountMsg;
+    }
+
+    public Vector&lt;Vector&lt;Object&gt;&gt; getUserBorrowMsg(CheckAccount checkAccount){
+        /*
+         * 登录前(打开MsgShowWin面板前)获取账户借书信息
+         * 根据登录账号获取所现借书信息
+         */
+        Vector&lt;Vector&lt;Object&gt;&gt; vectorUserBorrowMsg = new Vector&lt;Vector&lt;Object&gt;&gt;();
+        dataAccount = checkAccount.transmitAccountMsg();
+        String strAccountName = String.valueOf(dataAccount.get(0));
+        String strSearchUserBorrowMsg = &quot;SELECT * FROM borrowBookMsg WHERE borrowAccountName = &quot; + &quot;&apos;&quot; + strAccountName + &quot;&apos;&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(strSearchUserBorrowMsg);
+            while(resultSet.next()){
+                Vector&lt;Object&gt; vectorOne = new Vector&lt;Object&gt;();
+                for(int i = 2; i &lt;= 5; i++){
+                    vectorOne.add(resultSet.getString(i));
+                }
+                vectorUserBorrowMsg.add(vectorOne);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return vectorUserBorrowMsg;
+    }
+
+//    public Vector&lt;Object&gt; getAccountMsg(String accountName){
+//        /*
+//         * 登录后,用来刷新数据
+//         * 通过登录名来获取账户信息
+//         */
+//        Vector&lt;Object&gt; vectorAccountMsg = new Vector&lt;Object&gt;();
+//        String sqlSearchAccountMsg = &quot;SELECT * FROM accountMsg WHERE accountName = &quot; + &quot;&apos;&quot; + accountName + &quot;&apos;&quot;;
+//        Connection connection = new ConnectionDatabase().conectionDatabse();
+//        try {
+//            Statement statement = connection.createStatement();
+//            ResultSet resultSet = statement.executeQuery(sqlSearchAccountMsg);
+//            while(resultSet.next()){
+//                for(int i = 1; i &lt;= 6; i++){
+//                    vectorAccountMsg.add(resultSet.getString(i));
+//                }
+//            }
+//            resultSet.close();
+//            statement.close();
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        
+//        try {
+//            connection.close();
+//        } catch (SQLException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        
+//        return vectorAccountMsg;
+//    }
+
+    public Vector&lt;Vector&lt;Object&gt;&gt; getUserBorrowMsg(String accountName){
+        /*
+         * 登录后获取,用来刷新数据
+         * 根据登录账号名获取所现借书信息
+         */
+        Vector&lt;Vector&lt;Object&gt;&gt; vectorUserBorrowMsg = new Vector&lt;Vector&lt;Object&gt;&gt;();
+        String sqlSearchUserBorrowMsg = &quot;SELECT * FROM borrowBookMsg WHERE borrowAccountName = &quot; + &quot;&apos;&quot; + accountName + &quot;&apos;&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlSearchUserBorrowMsg);
+            while(resultSet.next()){
+                Vector&lt;Object&gt; vectorOne = new Vector&lt;Object&gt;();
+                for(int i = 2; i &lt;= 5; i++){
+                    vectorOne.add(resultSet.getString(i));
+                }
+                vectorUserBorrowMsg.add(vectorOne);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return vectorUserBorrowMsg;
+    }
+
+    public String searchBook(String strjtfInputIndexBorrow){
+        /*
+         * 根据索引来查找图书名称,并返回
+         */
+        String str = &quot;未找到此书&quot;;
+        String sqlSearchBook = &quot;SELECT bookName FROM allBook WHERE bookIndex = &quot; + &quot;&apos;&quot; + strjtfInputIndexBorrow + &quot;&apos;&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlSearchBook);
+
+            while(resultSet.next()){
+                str = resultSet.getString(1);
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public String borrowBook(String strjtfInputIndexBorrow, String strjtfShowBookBorrow, String accountName){
+        /*
+         * 借书过程,
+         * 先通过传递过来的书名,通过书名来在borrowBookMsg所有已经借出去的书的信息库中对比,确认该库中是否有这本书(若有,则表示该书已经借出去)
+         * 若有,继而再判断是不是现在的登录账户借了,如果不是,则返回已经被别人借走,
+         * 若无,则开始借书过程
+         */
+        String str = null;
+        String sqlCheckAccountWetherBorrow = &quot;SELECT borrowAccountName FROM borrowBookMsg WHERE borrowBookName = &quot; + &quot;&apos;&quot; + strjtfShowBookBorrow + &quot;&apos;&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlCheckAccountWetherBorrow);
+            Vector&lt;Object&gt; vectorAccountName = new Vector&lt;Object&gt;();
+            while(resultSet.next()){
+                vectorAccountName.add(resultSet.getString(1));
+            }
+            if(vectorAccountName.size() != 0){
+                if(vectorAccountName.get(0).equals(accountName)){
+                    str = &quot;你已借阅该图书,请注意保管&quot;;
+                }else{
+                    str = &quot;该图书已被他人借阅&quot;;
+                }
+            }else{
+//                System.out.println(&quot;该书在架上&quot;);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy.MM.dd&quot;);
+                String borrowTime = simpleDateFormat.format(new Date());
+                String borrowNeedReturnTime = getNeedReturnTime();
+                String sqlBorrowInsert = &quot;INSERT INTO borrowBookMsg(borrowAccountName, borrowBookIndex, borrowBookName, borrowTime, borrowNeedReturnTime)&quot;
+                        + &quot;VALUES&quot; + &quot;(&quot; + &quot;&apos;&quot; + accountName + &quot;&apos;&quot; + &quot;,&quot; + &quot;&apos;&quot; + strjtfInputIndexBorrow + &quot;&apos;&quot; + &quot;,&quot; + &quot;&apos;&quot; + strjtfShowBookBorrow + &quot;&apos;&quot; + &quot;,&quot; 
+                        + &quot;&apos;&quot; + borrowTime + &quot;&apos;&quot; + &quot;,&quot; + &quot;&apos;&quot;+ borrowNeedReturnTime + &quot;&apos;&quot; + &quot;)&quot;;
+                int n = statement.executeUpdate(sqlBorrowInsert);
+                if(n &gt; 0){
+                    str = &quot;借书成功&quot;;
+                }else{
+                    str = &quot;借书失败&quot;;
+                }
+            }
+            resultSet.close();
+            statement.close();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public String returnBook(String strjtfShowBookReturn){
+        /*
+         * 还书
+         */
+        String str = null;
+        String sqlCheckWetherBorrow = &quot;SELECT borrowAccountName FROM borrowBookMsg WHERE borrowBookName = &quot; + &quot;&apos;&quot; + strjtfShowBookReturn + &quot;&apos;&quot;;
+        String sqlReturnBook = &quot;DELETE FROM borrowBookMsg WHERE borrowBookName = &quot; + &quot;&apos;&quot; + strjtfShowBookReturn + &quot;&apos;&quot;;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sqlCheckWetherBorrow);
+            Vector&lt;Object&gt; vectorAccountName = new Vector&lt;Object&gt;();
+            while(resultSet.next()){
+                vectorAccountName.add(resultSet.getString(1));
+            }
+            if(vectorAccountName.size() != 0){
+                int n = statement.executeUpdate(sqlReturnBook);
+                if( n &gt; 0){
+                    str = &quot;还书成功&quot;;
+                }else{
+                    str = &quot;还书失败&quot;;
+                }
+            }else{
+                str = &quot;该书未借出&quot;;
+            }
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+    public String getNeedReturnTime(){
+        /*
+         * 获取当前系统时间的下一个月时间,并返回
+         */
+        String str = null;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.MONTH, +1);
+        Date dateNextMonth = calendar.getTime();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyy.MM.dd&quot;);
+        str = simpleDateFormat.format(dateNextMonth);
+        return str;
+    }
+
+    public String checkConnectDatabase(){
+        /*
+         * for MsgWin窗口
+         */
+        String str = null;
+        Connection connection = new ConnectionDatabase().conectionDatabse();
+        if(connection != null){
+            str = &quot;已连接数据库&quot;;
+        }else{
+            str = &quot;未连接数据库&quot;;
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return str;
+    }
+
+}
+</code></pre><p>其中的方法borrowBook()显示通过书名,来与已经借出去的书的信息库中进行对比,也就是有一张表专门用来存放记录所有已经借出去的书籍</p>
+<p>这样一来,如果对比到了的话说明这本书已经借出去,然而借出去的话有两种情况,一种是被自己借了,另一种就是被别人借走了,所以如果表中有该书名,那么还要根据表来对比账号名</p>
+<p>所以这样做,使得借书和还书都更简单了,所以借书的道理也差不多</p>
+<p>当然,这里我也自定义了一个对话框,</p>
+<p>如下对话框代码,文加名字为</p>
+<h4 id="MyJDialog-java"><a href="#MyJDialog-java" class="headerlink" title="MyJDialog.java:"></a>MyJDialog.java:</h4><pre><code>package com.cgtest.ui;
+
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+
+/**
+ * @author cg
+ *自定义对话框，
+ *如果将组件属性设置为static，那么将会出现变量值不会初始化
+ *pack()方法和validate()方法不能共存
+ *showChoiceForMsgWin(),drawShowChoiceForMsgWin()这两个方法是专门为系统注销登录而写的消息窗口,代码臃肿.重复,,,,日后改进-----2016.11.13
+ */
+public class MyJDialog{
+    public JFrame jframe;
+    public JDialog jdialog;
+    public JLabel labelShow;
+    public JButton btEnter,btCancel;
+    public JPanel panelCenter = new JPanel(),panelSouth = new JPanel();
+    boolean modal;
+
+    public int index = 0, indexChoice = 0;
+
+    public MyJDialog(boolean modal, JFrame jframe){
+        this.modal = modal;
+        this.jframe = jframe;
+    }
+
+    public void showMessage(String str){
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                drawShowMessage(str);
+            }
+        });
+
+    }
+    public void drawShowMessage(String str){
+        jdialog = new JDialog();
+        jdialog.setModal(modal);
+
+        jdialog.add(panelCenter,BorderLayout.CENTER);        
+        jdialog.add(panelSouth, BorderLayout.SOUTH);
+
+        labelShow = new JLabel(str);
+        panelCenter.add(labelShow);
+
+        btEnter = new JButton(&quot;确定&quot;);
+        panelSouth.add(btEnter);
+        btEnter.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                    jdialog.dispose();
+            }
+        });
+
+        jdialog.setTitle(&quot;消息&quot;);
+        jdialog.pack();
+        jdialog.setResizable(false);
+        int widthDia = (jframe.getX()+(jframe.getWidth())/2) - jdialog.getWidth()/2;
+        int heightDia = (jframe.getY() + (jframe.getHeight()/2) - jdialog.getHeight()/2);
+        jdialog.setLocation(widthDia, heightDia);
+        jdialog.setVisible(true);
+    }
+    public void showChoice(String str){
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                drawShowChoice(str);
+            }
+        });
+    }
+    public void drawShowChoice(String str){
+        jdialog = new JDialog();
+        jdialog.setModal(modal);
+
+        jdialog.add(panelCenter,BorderLayout.CENTER);
+        jdialog.add(panelSouth, BorderLayout.SOUTH);
+
+        labelShow = new JLabel(str);
+        panelCenter.add(labelShow);
+
+        btEnter = new JButton(&quot;确定&quot;);
+        panelSouth.add(btEnter);
+        btEnter.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jdialog.dispose();
+                jframe.dispose();
+                System.exit(0);
+            }
+        });
+
+        btCancel = new JButton(&quot;取消&quot;);
+        panelSouth.add(btCancel);
+        btCancel.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jdialog.dispose();
+            }
+        });
+
+        jdialog.setTitle(&quot;请注意&quot;);
+        jdialog.pack();
+        jdialog.setResizable(false);
+        int widthDia = (jframe.getX()+(jframe.getWidth())/2) - jdialog.getWidth()/2;
+        int heightDia = (jframe.getY() + (jframe.getHeight()/2) - jdialog.getHeight()/2);
+        jdialog.setLocation(widthDia, heightDia);
+        jdialog.setVisible(true);
+
+    }
+
+    public void showChoiceForMsgWin(String str){
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+                        | UnsupportedLookAndFeelException e) {
+                    e.printStackTrace();
+                }
+                drawShowChoiceForMsgWin(str);
+            }
+        });
+    }
+    public void drawShowChoiceForMsgWin(String str){
+        jdialog = new JDialog();
+        jdialog.setModal(modal);
+
+        jdialog.add(panelCenter,BorderLayout.CENTER);
+        jdialog.add(panelSouth, BorderLayout.SOUTH);
+
+        labelShow = new JLabel(str);
+        panelCenter.add(labelShow);
+
+        btEnter = new JButton(&quot;确定&quot;);
+        panelSouth.add(btEnter);
+        btEnter.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jdialog.dispose();
+                jframe.dispose();
+//                System.exit(0);
+                try {
+                    Thread.sleep(600);                     //神奇的代码,dispose不能关闭线程,system.exit(0)可以
+                    new LoginWin();
+                } catch (InterruptedException e1) {
+                    // TODO Auto-generated catch block
+                }
+//                System.out.println(&quot;启动登录窗口&quot;);
+            }
+        });
+
+        btCancel = new JButton(&quot;取消&quot;);
+        panelSouth.add(btCancel);
+        btCancel.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jdialog.dispose();
+            }
+        });
+
+        jdialog.setTitle(&quot;请注意&quot;);
+        jdialog.pack();
+        jdialog.setResizable(false);
+        int widthDia = (jframe.getX()+(jframe.getWidth())/2) - jdialog.getWidth()/2;
+        int heightDia = (jframe.getY() + (jframe.getHeight()/2) - jdialog.getHeight()/2);
+        jdialog.setLocation(widthDia, heightDia);
+        jdialog.setVisible(true);
+
+    }
+//    public int choiceTrigger(String str){
+//        index = showChoice(str);
+//        return index;
+//    }
+
+}
+</code></pre><p>上面的代码只是自定义对话框,代码有点臃肿,</p>
+<p>然后就是main函数了</p>
+<p>如下代码,文件名为</p>
+<h4 id="BookControlSystem-java"><a href="#BookControlSystem-java" class="headerlink" title="BookControlSystem.java:"></a>BookControlSystem.java:</h4><pre><code>package com.cgtest.main;
+
+import com.cgtest.ui.LoginWin;
+
+/**
+ * @author cg
+ * 图书管理系统
+ *基于linux系统上的xampp软件包上开发运行
+ *实现用户登录,借书,还书
+ *,
+ */
+public class BookControlSystem {
+    public static void main(String [] args){
+        new LoginWin();
+    }
+}
+</code></pre><p>最后,贴下</p>
+<h4 id="数据库的建立脚本"><a href="#数据库的建立脚本" class="headerlink" title="数据库的建立脚本:"></a>数据库的建立脚本:</h4><pre><code>CREATE DATABASE bookControlSystem;
+USE bookControlSystem;
+CREATE TABLE accountMsg(accountName char(20) PRIMARY KEY,accountPasswd char(20),accountPersonName char(20),accountSex char(5),accountAge int,accountContactInfo char(20))
+INSERT INTO accountMsg(accountName,accountPasswd,accountPersonName,accountSex,
+accountAge,accountContactInfo) VALUES (&apos;V201441122&apos;,&apos;201441122&apos;,&apos;王珉&apos;,&apos;男&apos;,&apos;20&apos;,&apos;18062449761&apos;);
+INSERT INTO accountMsg(accountName,accountPasswd,accountPersonName,accountSex,
+accountAge,accountContactInfo) VALUES (&apos;V201441123&apos;,&apos;201441123&apos;,&apos;罗洋&apos;,&apos;男&apos;,&apos;21&apos;,&apos;1390721584&apos;);
+INSERT INTO accountMsg(accountName,accountPasswd,accountPersonName,accountSex,
+accountAge,accountContactInfo) VALUES (&apos;V201441035&apos;,&apos;wuhan1035&apos;,&apos;王厕所&apos;,&apos;女&apos;,&apos;20&apos;,&apos;18062249061&apos;);
+
+
+CREATE TABLE borrowBookMsg(borrowAccountName char(20) ,borrowBookIndex char(20),borrowBookName char(20),borrowTime char(20),borrowNeedReturnTime char(20));
+INSERT INTO borrowBookMsg(borrowAccountName,borrowBookIndex,borrowBookName,
+borrowTime,borrowNeedReturnTime) VALUES (&apos;V201441122&apos;,
+&apos;TP221-21&apos;,&apos;檀香刑&apos;,&apos;2016.11.1&apos;,&apos;2016.12.1&apos;);
+INSERT INTO borrowBookMsg(borrowAccountName,borrowBookIndex,borrowBookName,
+borrowTime,borrowNeedReturnTime) VALUES (&apos;V201441122&apos;,
+&apos;TN231-34&apos;,&apos;Java编程思想&apos;,&apos;2016.11.11&apos;,&apos;2016.12.11&apos;);
+INSERT INTO borrowBookMsg
+(borrowAccountName,borrowBookIndex,borrowBookName,
+borrowTime,borrowNeedReturnTime) VALUES (&apos;V201441123&apos;,
+&apos;TB124-33&apos;,&apos;C语言入门&apos;,&apos;2016.11.05&apos;,&apos;2016.12.05&apos;);
+
+CREATE TABLE allBook(bookIndex char(20) PRIMARY KEY,bookName char(20));
+INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TP221-21&apos;,&apos;檀香刑&apos;);
+INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-34&apos;,&apos;Java编程思想&apos;);
+INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TB124-33&apos;,&apos;C语言入门&apos;);
+INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TB124-30&apos;,&apos;C语言从入门到精通&apos;);
+INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TP221-20&apos;,&apos;丰乳肥臀&apos;);
+INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java语言入门&apos;);
+</code></pre><p>至此,就完成了图书馆管理系统的建立</p>
+<p>将代码整合在各个包中,并创建该文件,配置好数据库服务器地址,用户名和密码就可以运行了</p>
+<p>代码有点臃肿,我到日后改进</p>
+<p>谢谢</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/13/java/2017-2-13-java-BufferedInputFile/" rel="next" title="Java读取自己文件内容">
+                <i class="fa fa-chevron-left"></i> Java读取自己文件内容
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/20/java/2017-2-20-java-ShowFile/" rel="prev" title="Java遍历显示文件">
+                Java遍历显示文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+    <div class="post-spread">
+      
+
+		<div id="wpac-comment"></div>
+		<script type="text/javascript">
+		wpac_init = window.wpac_init || [];
+		wpac_init.push({widget: 'Comment', id: 5780});
+		(function() {
+		    if ('WIDGETPACK_LOADED' in window) return;
+		    WIDGETPACK_LOADED = true;
+		    var mc = document.createElement('script');
+		    mc.type = 'text/javascript';
+		    mc.async = true;
+		    mc.src = 'https://embed.widgetpack.com/widget.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+		})();
+		</script>
+		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="cg" />
+          <p class="site-author-name" itemprop="name">cg</p>
+           
+              <p class="site-description motion-element" itemprop="description">精致地生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cgstudios" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#运行效果"><span class="nav-number">1.</span> <span class="nav-text">运行效果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#登录界面"><span class="nav-number">1.1.</span> <span class="nav-text">登录界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#操作界面"><span class="nav-number">1.2.</span> <span class="nav-text">操作界面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统流程图"><span class="nav-number">1.3.</span> <span class="nav-text">系统流程图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#界面设计图"><span class="nav-number">1.4.</span> <span class="nav-text">界面设计图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码操作"><span class="nav-number">2.</span> <span class="nav-text">编码操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ConnectionDatabase-java代码如下"><span class="nav-number">2.1.</span> <span class="nav-text">ConnectionDatabase.java代码如下:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LoginWin-java"><span class="nav-number">2.2.</span> <span class="nav-text">LoginWin.java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#LoginAction-java"><span class="nav-number">2.3.</span> <span class="nav-text">LoginAction.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CheckAccount-java"><span class="nav-number">2.4.</span> <span class="nav-text">CheckAccount.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MsgShowWin-java"><span class="nav-number">2.5.</span> <span class="nav-text">MsgShowWin.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MsgShowWinAction-java"><span class="nav-number">2.6.</span> <span class="nav-text">MsgShowWinAction.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OperateDatabase-java"><span class="nav-number">2.7.</span> <span class="nav-text">OperateDatabase.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyJDialog-java"><span class="nav-number">2.8.</span> <span class="nav-text">MyJDialog.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BookControlSystem-java"><span class="nav-number">2.9.</span> <span class="nav-text">BookControlSystem.java:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据库的建立脚本"><span class="nav-number">2.10.</span> <span class="nav-text">数据库的建立脚本:</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+</div>
+
+
+<div class="powered-by">
+  驱动 - <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+  </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+
+
+  
+  
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "ec18ccd847d64bfc94031509c79a2056",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

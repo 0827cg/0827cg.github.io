@@ -1,0 +1,1506 @@
+<!doctype html>
+
+
+  
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="theme-color" content="#2e2e2e"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="codeing,java,笔试题," />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+<meta name="description" content="昨天邮件收到一份笔试题目,全英文.答题时间是一个小时,本来信心满满,但自己翻译弄懂题目就花了半个多小时,哎 英语是硬伤. ok,上题目:题目（共两题，考核基础代码能力而不是算法好坏）： Problem Statement # 1 Given a set of N (&amp;gt; 1) positive integers, you are supposed to partition them into">
+<meta name="keywords" content="codeing,java,笔试题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java笔试">
+<meta property="og:url" content="http://www.cgspace.date/2017/03/16/java/2017-3-16-java-Writtenexamination/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="昨天邮件收到一份笔试题目,全英文.答题时间是一个小时,本来信心满满,但自己翻译弄懂题目就花了半个多小时,哎 英语是硬伤. ok,上题目:题目（共两题，考核基础代码能力而不是算法好坏）： Problem Statement # 1 Given a set of N (&amp;gt; 1) positive integers, you are supposed to partition them into">
+<meta property="og:updated_time" content="2017-05-02T16:13:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java笔试">
+<meta name="twitter:description" content="昨天邮件收到一份笔试题目,全英文.答题时间是一个小时,本来信心满满,但自己翻译弄懂题目就花了半个多小时,哎 英语是硬伤. ok,上题目:题目（共两题，考核基础代码能力而不是算法好坏）： Problem Statement # 1 Given a set of N (&amp;gt; 1) positive integers, you are supposed to partition them into">
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/03/16/java/2017-3-16-java-Writtenexamination/"/>
+
+
+
+
+
+  <title>Java笔试 | cgspace</title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精致地生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+ </div>
+    </header>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <div id="posts" class="posts-expand">
+    
+  
+  
+  
+  
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/03/16/java/2017-3-16-java-Writtenexamination/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+    
+      <header class="post-header">
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Java笔试
+              
+            
+          </h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-16T16:12:40+08:00">
+                2017-03-16
+              </time>
+            
+            
+            
+          </span>
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+                
+                
+              
+            </span>
+          
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/03/16/java/2017-3-16-java-Writtenexamination/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>昨天邮件收到一份笔试题目,全英文.<br>答题时间是一个小时,本来信心满满,但自己翻译弄懂题目就花了半个多小时,哎 英语是硬伤.</p>
+<h3 id="ok-上题目"><a href="#ok-上题目" class="headerlink" title="ok,上题目:"></a>ok,上题目:</h3><p>题目（共两题，考核基础代码能力而不是算法好坏）：</p>
+<p>Problem Statement # 1</p>
+<p>Given a set of N (&gt; 1) positive integers, you are supposed to partition them into two disjoint sets A1 and A2 of n1 and n2 numbers, respectively. Let S1 and S2 denote the sums of all the numbers in A1 and A2, respectively. You are supposed to make the partition so that |n1 - n2| is minimized first, and then |S1 - S2| is maximized.</p>
+<a id="more"></a>
+<p>Input Specification:<br>Each input file contains one test case. For each case, the first line gives an integer N (2 &lt;= N &lt;= 10^5), and then N positive integers follow in the next line, separated by spaces. It is guaranteed that all the integers and their sum are less than 2^31.</p>
+<p>Output Specification:<br>For each case, print in a line two numbers: |n1 - n2| and |S1 - S2|, separated by exactly one space.</p>
+<p>Sample Input 1:</p>
+<p>10</p>
+<p>23 8 10 99 46 2333 46 1 666 555</p>
+<p>Sample Output 1:</p>
+<p>0 3611</p>
+<p>Sample Input 2:</p>
+<p>13</p>
+<p>110 79 218 69 3721 100 29 135 2 6 13 5188 85</p>
+<p>Sample Output 2:</p>
+<p>1 9359</p>
+<hr>
+<p>Problem Statement # 2</p>
+<p>You are to write a program that takes a list of strings containing integers and words and returns a sorted version of the list.</p>
+<p>The goal is to sort this list in such a way that all words are in alphabetical order and all integers are in numerical order. Furthermore, if the nth element in the list is an integer it must remain an integer, and if it is a word it must remain a word.</p>
+<p>Input Specification:<br>The input will contain a single, possibly empty, line containing a space-separated list of strings to be sorted. Words will not contain spaces, will contain only the lower-case letters a-z. Integers will be in the range -999999 to 999999, inclusive. The line will be at most 1000 characters long.</p>
+<p>Output Specification:<br>The program must output the list of strings, sorted per the requirements above. Strings must be separated by a single space, with no leading space at the beginning of the line or trailing space at the end of the line.</p>
+<p>Sample Input 1:</p>
+<p>1</p>
+<p>Sample Output 1:</p>
+<p>1</p>
+<p>Sample Input 2:</p>
+<p>car truck bus</p>
+<p>Sample Output 2:</p>
+<p>bus car truck</p>
+<p>Sample Input 3:</p>
+<p>8 4 6 1 -2 9 5</p>
+<p>Sample Output 3:</p>
+<p>-2 1 4 5 6 8 9</p>
+<p>Sample Input 4:</p>
+<p>car truck 8 4 bus 6 1</p>
+<p>Sample Output 4:</p>
+<p>bus car 1 4 truck 6 8</p>
+<h3 id="解答第一题"><a href="#解答第一题" class="headerlink" title="解答第一题"></a>解答第一题</h3><h4 id="简述题意"><a href="#简述题意" class="headerlink" title="简述题意:"></a>简述题意:</h4><p>设定一组正整数,个数为N(N &gt; 1,2 &lt;= N &lt;= 10^5),将这组正整数分成两份,个数分别为N1,N2.再两个集合是A1,A2来存放,之后再获取A1,A2中的总和,赋值为S1,S2.要求当|N1-N2|最小时,|S1-S2|最大,并输出.所有的数字和结果小于2^31</p>
+<h4 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路:"></a>解题思路:</h4><p>个数差最小只有两种情况,0和1.当N为偶数时,个数差为0,但N为奇数是,个数差为1.将一开始存放数据的集合进行排序,若按从大到小的方式,当N为偶数时,N1为N/2,当N为奇数时,N1为(N/2 + 1).分好后计算总和差即可</p>
+<h4 id="答案代码"><a href="#答案代码" class="headerlink" title="答案代码:"></a>答案代码:</h4><pre><code>package com.cgtest.demo;
+
+import java.util.Scanner;
+import java.util.Vector;
+
+/**
+ * @author cg
+ *思路:个数差最小为0或1,按大小排序分个数后总和相减
+ *偶数为0,平分个数
+ *奇数为1,多取一位
+ *
+ */
+public class TestDemo1 {
+    public static void main(String [] args){
+        Hint hint = new Hint();
+        int n = hint.showHint();
+        hint.getValue(hint.sortVector(hint.getAllValue(n)));
+    }
+}
+
+class Hint{
+    Scanner scanner = new Scanner(System.in);
+
+    public int showHint(){
+        int n = -1;
+        System.out.println(&quot;输入正整数的个数:&quot;);
+        n = scanner.nextInt();
+        return n; 
+    }
+
+    public Vector&lt;Integer&gt; getAllValue(int n){
+        Vector&lt;Integer&gt; vector = new Vector&lt;Integer&gt;();
+
+        for(int i = 0; i &lt; n; i++){
+
+            System.out.println(&quot;请输入第&quot; + (i + 1) + &quot;个数&quot;);
+            int x = scanner.nextInt();
+            vector.add(i, x);
+
+        }
+
+        for(int i = 0; i &lt; vector.size(); i++){
+            System.out.print(vector.get(i) + &quot;----&quot;);
+        }
+
+        scanner.close();
+
+        return vector;
+    }
+
+    public Vector&lt;Integer&gt; sortVector(Vector&lt;Integer&gt; vector){
+
+        for(int i = 0; i &lt; vector.size(); i++){
+            for(int j = 0; j &lt; vector.size() - 1; j++){
+
+                if((int)vector.get(j) &lt; (int)vector.get(j + 1)){
+
+                    int temp = (int)vector.get(j);
+                    vector.set(j, vector.get(j+1));
+                    vector.set(j+1, temp);
+                }
+            }
+        }
+        return vector;
+
+    }
+
+    public void getValue(Vector&lt;Integer&gt; vector){
+        Vector&lt;Integer&gt; vector1 = new Vector&lt;Integer&gt;();
+        Vector&lt;Integer&gt; vector2 = new Vector&lt;Integer&gt;();
+
+        if(vector.size() % 2 == 0){
+            System.out.println(&quot;个数差为0&quot;);
+            oddSize(vector, vector1, vector2);
+        }else{
+            System.out.println(&quot;个数差为1&quot;);
+            evenSize(vector, vector1, vector2);
+        }
+
+    }
+    public void oddSize(Vector&lt;Integer&gt; vector,Vector&lt;Integer&gt; vector1,Vector&lt;Integer&gt; vector2){
+
+        int n1 = 0,n2 = 0;
+
+        for(int i = 0; i &lt; vector.size() / 2; i++){
+            vector1.add(i, vector.get(i));
+        }
+        for(int i = vector.size() / 2 ,j = 0; i &lt; vector.size(); i++,j++){
+            vector2.add(j, vector.get(i));
+        }
+
+        for (Integer integer : vector1) {
+            n1 += integer;
+        }
+        System.out.println(&quot;n1=&quot; + n1);
+
+        for (Integer integer : vector2) {
+            n2 += integer;
+        }
+
+        System.out.println(n1 - n2);
+
+    }
+    public void evenSize(Vector&lt;Integer&gt; vector,Vector&lt;Integer&gt; vector1,Vector&lt;Integer&gt; vector2){
+
+        int n1 = 0,n2 = 0;
+
+        for(int i = 0; i &lt; (vector.size() + 1) / 2; i++){
+            vector1.add(i, vector.get(i));
+        }
+        for(int i = (vector.size() + 1) / 2 ,j = 0; i &lt; vector.size(); i++,j++){
+            vector2.add(j, vector.get(i));
+        }
+
+        for (Integer integer : vector1) {
+            n1 += integer;
+        }
+
+        for (Integer integer : vector2) {
+            n2 += integer;
+        }
+
+        System.out.println(n1 - n2);
+    }
+
+}
+</code></pre><h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题:"></a>第二题:</h3><h4 id="简述题意-1"><a href="#简述题意-1" class="headerlink" title="简述题意:"></a>简述题意:</h4><p>写一个小程序,实现输入一段字符串(包括数字和字符)后,按规则排序后输出</p>
+<p>其规则是:</p>
+<ul>
+<li>数字与数字之间排序,单个字符串和字符串之间排序,</li>
+<li>原本放数字的位置就放数字,原本放字符串的位置还是放字符串.</li>
+<li>数字按大小排序,字符串依据首字母按26个字母表排序</li>
+</ul>
+<h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路:"></a>解题思路:</h4><p>首先用一个集合存放整个字符串,实现单个字符串里的字符不分离.再将该集合中的单个字符串元素和数字元素分离,并获取在原集合存放的排列位置(下标 + 1)分别存放到两个二维集合中(类似键值对的方式),再操作这两个集合,实现排序<br>然后将排序后的两个二维集合整合,再排序,此时的排序则是按照存放集合中的原集合存放的排列位置排序,并输出,就可以了</p>
+<h4 id="答案代码-1"><a href="#答案代码-1" class="headerlink" title="答案代码:"></a>答案代码:</h4><pre><code>package com.cgtest.demo2;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Vector;
+import java.util.regex.Pattern;
+
+/**
+ * @author cg
+ *思路:将输入的内容区分数字和字符串后分别存放到二维集合中,元素内容格式:\[原集合的位数(下标+1), value\],将其看做整体
+ *并在这两个集合元素中的value按规则排序
+ *排序完成后重新整合,并按位数排序
+ */
+public class TestDemo2 {
+    public static void main(String [] args){
+        Hint hint = new Hint();
+        Vector&lt;String&gt; vector = hint.getInputStr();
+        Vector&lt;Vector&lt;String&gt;&gt; vectorSortStr = hint.getStringIndexAndValue(vector);
+        Vector&lt;Vector&lt;Integer&gt;&gt; vectorSortInt = hint.getIntIndexAndValue(vector);
+        ArrayList&lt;ArrayList&lt;String&gt;&gt; arrayList = hint.produceNewString(vectorSortStr, vectorSortInt);
+        hint.showConsole(arrayList);
+    }
+}
+class Hint{
+    public Vector&lt;String&gt; getInputStr(){
+
+        Scanner scanner = new Scanner(System.in);
+        Vector&lt;String&gt; vector = new Vector&lt;String&gt;();
+        StringBuffer strBuffer = new StringBuffer();
+        int n = 0;
+
+        System.out.println(&quot;请输入内容:&quot;);
+        String str = scanner.nextLine();
+
+        char [] arrayStr = str.toCharArray();
+
+        for(int i = 0; i &lt; arrayStr.length; i++){
+            String strC = String.valueOf(arrayStr[i]);
+            if(strC.equals(&quot; &quot;)){
+                vector.add(n, strBuffer.toString());
+                strBuffer = new StringBuffer();
+                n++;
+            }else if(i == arrayStr.length - 1){
+                strBuffer.append(strC);
+                vector.add(n, strBuffer.toString());
+            }else{
+                strBuffer.append(strC);
+            }
+        }
+        System.out.println(&quot;排序前:&quot;);
+        for (String vectorItem : vector) {
+            System.out.print(vectorItem + &quot;\t&quot;);
+        }
+        System.out.println();
+        scanner.close();
+        return vector;
+    }
+
+    public Vector&lt;Vector&lt;String&gt;&gt; getStringIndexAndValue(Vector&lt;String&gt; vector){
+        /*
+         *获取String类型的字符串和在原集合中的位数(下标+1)
+         *并返回
+         */
+        Vector&lt;Vector&lt;String&gt;&gt; vectorStr = new Vector&lt;Vector&lt;String&gt;&gt;();
+        Vector&lt;Vector&lt;String&gt;&gt; vectorSortStr = new Vector&lt;Vector&lt;String&gt;&gt;();
+
+        for(int i = 0; i &lt; vector.size(); i++){
+            Vector&lt;String&gt; vector1 = new Vector&lt;String&gt;();
+            if(!isNum(vector.get(i))){
+                vector1.add(&quot;&quot; + (i + 1));
+                vector1.add(vector.get(i));
+                vectorStr.add(vector1);
+            }
+        }
+
+        vectorSortStr = getSortStringVector(vectorStr);
+
+        return vectorSortStr;
+    }
+
+    public Vector&lt;Vector&lt;Integer&gt;&gt; getIntIndexAndValue(Vector&lt;String&gt; vector){
+        /*
+         * 获取int类型的整数和在原集合中的位数(下标+1)
+         * 并返回
+         */
+        Vector&lt;Vector&lt;Integer&gt;&gt; vectorInt = new Vector&lt;Vector&lt;Integer&gt;&gt;();
+        Vector&lt;Vector&lt;Integer&gt;&gt; vectorSortInt = new Vector&lt;Vector&lt;Integer&gt;&gt;();
+
+        for(int i = 0; i &lt; vector.size(); i++){
+            Vector&lt;Integer&gt; vector1 = new Vector&lt;Integer&gt;();
+            if(isNum(vector.get(i))){
+                vector1.add((i + 1));
+                vector1.add(Integer.valueOf(vector.get(i)));
+                vectorInt.add(vector1);
+            }
+        }
+
+        vectorSortInt = getSortIntVector(vectorInt);
+
+        return vectorSortInt;
+    }
+
+    public Vector&lt;Vector&lt;String&gt;&gt; getSortStringVector(Vector&lt;Vector&lt;String&gt;&gt; vector){
+        /*
+         * 将字符串安字母表(ASII)表排序
+         * 并返回
+         */
+
+        String sortArray[] = new String[vector.size()];
+
+
+        for(int i = 0; i &lt; vector.size(); i++){
+                sortArray[i] = vector.elementAt(i).get(1);
+        }
+        for(int i = 0; i &lt; sortArray.length - 1; i++){
+            for(int j = 0; j &lt; sortArray.length - i -1; j++){
+                if(sortArray[j].toCharArray()[0] &gt; sortArray[j + 1].toCharArray()[0]){
+                    String strTemp = sortArray[j];
+                    sortArray[j] = sortArray[j + 1];
+                    sortArray[j + 1] = strTemp;
+                }
+            }
+        }
+
+        for(int i = 0; i &lt; vector.size(); i++){
+
+            vector.elementAt(i).set(1, sortArray[i]);
+
+        }
+        return vector;
+    }
+    public Vector&lt;Vector&lt;Integer&gt;&gt; getSortIntVector(Vector&lt;Vector&lt;Integer&gt;&gt; vector){
+        /*
+         * 将整数按大小排序
+         * 并返回
+         */
+
+        int sortArray[] = new int[vector.size()];
+
+        for(int i = 0; i &lt; vector.size(); i++){
+            sortArray[i] = vector.elementAt(i).get(1);
+        }
+        for(int i = 0; i &lt; sortArray.length - 1; i++){
+            for(int j = 0; j &lt; sortArray.length - i -1; j++){
+                if(sortArray[j] &gt; sortArray[j + 1]){
+                    int strTemp = sortArray[j];
+                    sortArray[j] = sortArray[j + 1];
+                    sortArray[j + 1] = strTemp;
+                }
+            }
+        }
+        for(int i = 0; i &lt; vector.size(); i++){
+            vector.elementAt(i).set(1, sortArray[i]);
+        }
+        return vector;
+    }
+
+    public ArrayList&lt;ArrayList&lt;String&gt;&gt; produceNewString(Vector&lt;Vector&lt;String&gt;&gt; vectorStr, Vector&lt;Vector&lt;Integer&gt;&gt; vectorInt){
+        /*
+         * 将两个集合整合并排序,返回
+         */
+
+        ArrayList&lt;ArrayList&lt;String&gt;&gt; arrayListStr = new ArrayList&lt;ArrayList&lt;String&gt;&gt;();
+
+        for(int i = 0; i &lt; vectorStr.size(); i++){
+            ArrayList&lt;String&gt; arrayList1 = new ArrayList&lt;String&gt;();
+            for(int j = 0; j &lt; vectorStr.elementAt(i).size(); j++){
+                arrayList1.add(vectorStr.elementAt(i).get(j));
+            }
+            arrayListStr.add(arrayList1);
+        }
+
+        for(int i = 0; i &lt; vectorInt.size(); i++){
+            ArrayList&lt;String&gt; arrayList1 = new ArrayList&lt;String&gt;();
+            for(int j = 0; j &lt; vectorInt.elementAt(i).size(); j++){
+                arrayList1.add(vectorInt.elementAt(i).get(j).toString());
+            }
+            arrayListStr.add(arrayList1);
+        }
+
+        for(int i = 0; i &lt; arrayListStr.size(); i++){
+            for(int j = 0; j &lt; arrayListStr.get(i).size(); j++){
+                for(int m = 0; m &lt; arrayListStr.size() - i - 1; m++){
+                    if(Integer.parseInt(&quot;&quot; + arrayListStr.get(m).get(0)) &gt; Integer.parseInt(&quot;&quot; + arrayListStr.get(m + 1).get(0))){
+                        ArrayList&lt;String&gt; temp = arrayListStr.get(m);
+                        arrayListStr.set(m, arrayListStr.get(m + 1));
+                        arrayListStr.set(m + 1, temp);
+                    }
+                }
+            }
+        }
+        return arrayListStr;
+    }
+
+    public boolean isNum(String str) {    
+        Pattern pattern = Pattern.compile(&quot;^[-\\+]?[\\d]*$&quot;);    
+        return pattern.matcher(str).matches();    
+      }  
+
+    public void showConsole(ArrayList&lt;ArrayList&lt;String&gt;&gt; arrayList){
+        System.out.println(&quot;排序后:&quot;);
+        for (ArrayList&lt;String&gt; arraylist : arrayList) {
+            System.out.print(arraylist.get(1) + &quot;\t&quot;);
+        }
+    }
+
+}
+</code></pre><p>在这里,提醒下自己,以后写完代码一定要测试完全!!</p>
+<p>多测试没错</p>
+<p>而我,就是没测试完全,就将我的代码发给了hr,不仅没按规定时间完成,还发了个错误的代码,,,,,,能过才怪</p>
+<p>而我的出错的地方就是没实现对负数的处理,要是输入的字符串中包含负数,</p>
+<p><code>isNum(String str)</code></p>
+<p>就不能识别负数,会将负数判定为字符串,,,,,</p>
+<p>原先的</p>
+<p><code>isNum(String str)</code></p>
+<p>的代码如下:</p>
+<pre><code>public boolean isNum(String str){
+    /*
+    * 不能判断负数,,,,,,
+    */
+ for (int i = str.length();--i&gt;=0;){    
+   if (!Character.isDigit(str.charAt(i))){  
+    return false;  
+       }  
+  }  
+ return true;  
+}
+</code></pre><p>我的答案代码太过臃肿,我也完全没想到笔试题是关于算法的</p>
+<p>我应聘的是java实习生啊,又不是C/C++语言,不过想想hr肯定是有他的目的的</p>
+<p>代码太臃肿,还得多学习</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/笔试题/" rel="tag"># 笔试题</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/13/daily/2017-3-13-daily-day/" rel="next" title="你正朽于喧哗,我正老于世故">
+                <i class="fa fa-chevron-left"></i> 你正朽于喧哗,我正老于世故
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/23/daily/2017-3-23-daily-classLast/" rel="prev" title="下课了,以后都没课了">
+                下课了,以后都没课了 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+    <div class="post-spread">
+      
+
+		<div id="wpac-comment"></div>
+		<script type="text/javascript">
+		wpac_init = window.wpac_init || [];
+		wpac_init.push({widget: 'Comment', id: 5780});
+		(function() {
+		    if ('WIDGETPACK_LOADED' in window) return;
+		    WIDGETPACK_LOADED = true;
+		    var mc = document.createElement('script');
+		    mc.type = 'text/javascript';
+		    mc.async = true;
+		    mc.src = 'https://embed.widgetpack.com/widget.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+		})();
+		</script>
+		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="cg" />
+          <p class="site-author-name" itemprop="name">cg</p>
+           
+              <p class="site-description motion-element" itemprop="description">精致地生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cgstudios" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ok-上题目"><span class="nav-number">1.</span> <span class="nav-text">ok,上题目:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解答第一题"><span class="nav-number">2.</span> <span class="nav-text">解答第一题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简述题意"><span class="nav-number">2.1.</span> <span class="nav-text">简述题意:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路"><span class="nav-number">2.2.</span> <span class="nav-text">解题思路:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#答案代码"><span class="nav-number">2.3.</span> <span class="nav-text">答案代码:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二题"><span class="nav-number">3.</span> <span class="nav-text">第二题:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#简述题意-1"><span class="nav-number">3.1.</span> <span class="nav-text">简述题意:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解题思路-1"><span class="nav-number">3.2.</span> <span class="nav-text">解题思路:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#答案代码-1"><span class="nav-number">3.3.</span> <span class="nav-text">答案代码:</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+</div>
+
+
+<div class="powered-by">
+  驱动 - <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+  </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+
+
+  
+  
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "ec18ccd847d64bfc94031509c79a2056",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

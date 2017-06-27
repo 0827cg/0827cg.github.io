@@ -1,0 +1,1356 @@
+<!doctype html>
+
+
+  
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="theme-color" content="#2e2e2e"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="codeing,javaEE," />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+<meta name="description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作 Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Objec">
+<meta name="keywords" content="codeing,javaEE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaEE-Hibernate框架概况">
+<meta property="og:url" content="http://www.cgspace.date/2017/03/08/javaee/2017-3-08-javaEE-Hibernate-introduce/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作 Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Objec">
+<meta property="og:updated_time" content="2017-05-02T16:28:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaEE-Hibernate框架概况">
+<meta name="twitter:description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作 Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Objec">
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/03/08/javaee/2017-3-08-javaEE-Hibernate-introduce/"/>
+
+
+
+
+
+  <title>JavaEE-Hibernate框架概况 | cgspace</title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精致地生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+ </div>
+    </header>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <div id="posts" class="posts-expand">
+    
+  
+  
+  
+  
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/03/08/javaee/2017-3-08-javaEE-Hibernate-introduce/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+    
+      <header class="post-header">
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaEE-Hibernate框架概况
+              
+            
+          </h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T19:48:02+08:00">
+                2017-03-08
+              </time>
+            
+            
+            
+          </span>
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javaEE/" itemprop="url" rel="index">
+                    <span itemprop="name">javaEE</span>
+                  </a>
+                </span>
+                
+                
+              
+            </span>
+          
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/03/08/javaee/2017-3-08-javaEE-Hibernate-introduce/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>复习Hibernaet框架.知识重温</p>
+<h3 id="Hibernate框架简述"><a href="#Hibernate框架简述" class="headerlink" title="Hibernate框架简述"></a>Hibernate框架简述</h3><p>总得来说,它就是用来操作数据库的.<br>在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作</p>
+<p>Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object Relation Mapping)对象关系映射</p>
+<p>通过ORM,使得系统在获取数据时可以直接从实体类中获取,而不需要一味的去操作数据库.ORM映射机制就相当于在实体类和数据库表中搭建了一座桥梁,数据库表中的数据通过桥梁,将数据赋值给实体类中的属性,根据面向对象系统只需要获取此时的实体类的对象就可以获取到其数据,并进行对数据的操作.反过来,数据在被系统操作之后,新的数据就被重新赋值给了实体类的属性,系统再通过Hibernate的ORM机制,将此时实体类的对象里的属性存储到数据库表中,完成数据的存储.</p>
+<a id="more"></a>
+<p>当中的读取和存储过程都不需要用到sql语句来对数据库表进行操作,这样使用Hibernate就简化了系统对数据库的访问操作</p>
+<p>所以,Hibernate框架就可以简单的理解为是为使系统能简单的只从实体类中就可以获得数据的一种工具</p>
+<p>为达到上面的目的,想想Hibernate要怎么做才能实现仅通过ORM而不是用sql语句就可以从数据库中获取数据呢</p>
+<p>这就是它的奥妙之处.</p>
+<p>Hibernate通过在实体类和数据库表中间建立一种映射机制,实现映射机制就需要用到映射文件,就是实体类和对应的数据库表之间的映射文件</p>
+<p>参照例子代码:</p>
+<ul>
+<li>实体类Student</li>
+<li>实体类映射配置文件Student.hbm.xml</li>
+<li>Hibernate核心配置文件hibernate.cfg.xml</li>
+</ul>
+<h4 id="Student-java"><a href="#Student-java" class="headerlink" title="Student.java"></a>Student.java</h4><p>有一个实体类Student,代码如下:</p>
+<pre><code>package com.cgtest.beans;
+
+public class Student {
+
+    private String stuId;
+    private String stuName;
+    private String stuSex;
+    private int stuAge;
+    private String stuAddress;
+    private String stuTel;
+
+    public String getStuId() {
+        return stuId;
+    }
+    public void setStuId(String stuId) {
+        this.stuId = stuId;
+    }
+    public String getStuName() {
+        return stuName;
+    }
+    public void setStuName(String stuName) {
+        this.stuName = stuName;
+    }
+    public String getStuSex() {
+        return stuSex;
+    }
+    public void setStuSex(String stuSex) {
+        this.stuSex = stuSex;
+    }
+    public int getStuAge() {
+        return stuAge;
+    }
+    public void setStuAge(int stuAge) {
+        this.stuAge = stuAge;
+    }
+    public String getStuAddress() {
+        return stuAddress;
+    }
+    public void setStuAddress(String stuAddress) {
+        this.stuAddress = stuAddress;
+    }
+    public String getStuTel() {
+        return stuTel;
+    }
+    public void setStuTel(String stuTel) {
+        this.stuTel = stuTel;
+    }
+}
+</code></pre><p>实体类中的属性都是private的,属性就是用来临时存放相对应的数据的,这些数据就是从与实体类相对应相映射的数据库表中得来的<br>那么就必须会有一张表存放这个实体类对应的数据,就比如这个表中的数据都有6个字段与上面的实体类中的6个属性值相对应<br>那么再需要一个映射文件来将表和类连接起来<br>那么对应上面</p>
+<h4 id="Student-hbm-xml"><a href="#Student-hbm-xml" class="headerlink" title="Student.hbm.xml"></a>Student.hbm.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC
+    &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;
+    &quot;http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd&quot;&gt;
+
+&lt;hibernate-mapping&gt;
+    &lt;!-- 配置类和表对应
+            class标签:    
+                name属性值:实体类全路径
+                table属性值:数据库中表的名字
+     --&gt;
+    &lt;class name=&quot;com.cgstudy.student.Student&quot; table=&quot;dt_t_stuMsg&quot;&gt;
+        &lt;!-- 配置实体类id和表id对应 
+            hibernate要求实体类有一个属性是唯一值,也就是值不能重复
+            同样也要求表中的字段有唯一值
+        --&gt;
+        &lt;!-- id标签
+            name属性值:实体类里id(唯一值)的属性名称(这里的是学号为主键,学号是唯一的)
+            column属性值:生成表的字段名称,一般跟name的值一样
+         --&gt;
+        &lt;id name=&quot;stuId&quot; column=&quot;stuId&quot;&gt;
+            &lt;!-- 设置数据库表id增长策略 
+                    native:使生成的id值为主键并自动增长
+            --&gt;
+            &lt;generator class=&quot;assigned&quot;&gt;&lt;/generator&gt;
+        &lt;/id&gt;
+        &lt;!-- 配置实体类中其他属性和表中的字段相对应--&gt;
+        &lt;!-- property标签
+                name属性值:实体类的属性值
+                column属性值:表中的字段的名字,一般跟name值一样
+         --&gt;
+         &lt;property name=&quot;stuName&quot; column=&quot;stuName&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;stuSex&quot; column=&quot;stuSex&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;stuAge&quot; column=&quot;stuAge&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;stuAddress&quot; column=&quot;stuAddress&quot;&gt;&lt;/property&gt;
+         &lt;property name=&quot;stuTel&quot; column=&quot;stuTel&quot;&gt;&lt;/property&gt;
+    &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+</code></pre><p>代码块中已经有了注释,就不再解释代码的意思了,<br>总之,需要有专门的映射文件将实体类和数据库表相连接起来</p>
+<p>另外,Hibernate会自动在数据库中创建表,只是表,不会创建数据库.其创建表的依据就是根据实体类的属性以及映射文件的相关配置来创建表.例如上面映射文件中的class标签中的table属性值为”dt_t_stuMsg”,那么在系统运行后,将会在数据库中创建一个名为dt_t_stuMsg的表,这个表就是跟Student.java这个实体类相互映射的</p>
+<p>这里总结一下知识点,顺便用来承上启下:</p>
+<ul>
+<li>实体类和表的映射文件名格式:xxx.hbm.xml(xxx一般为实体类的名字)</li>
+<li>映射文件的存放位置一般在实体类所在的包下</li>
+<li>Hibernate核心配置文件的命名格式为:hibernate.cfg.xml(固定的)</li>
+<li>Hibernate核心配置文件存放位置在src文件夹下(固定的)</li>
+<li>解压后其中的lib目录下的就是我们开发所需要的jar包，其中required是我们所必须需要的包,同样需要数据库驱动jar包</li>
+</ul>
+<h4 id="hibernate-cfg-xml"><a href="#hibernate-cfg-xml" class="headerlink" title="hibernate.cfg.xml"></a>hibernate.cfg.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;!DOCTYPE hibernate-configuration PUBLIC
+    &quot;-//Hibernate/Hibernate Configuration DTD 3.0//EN&quot;
+    &quot;http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd&quot;&gt;
+&lt;hibernate-configuration&gt;
+    &lt;session-factory&gt;
+        &lt;!-- 配置数据库信息,必须要有 --&gt;
+        &lt;property name=&quot;hibernate.connection.driver_class&quot;&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+        &lt;property name=&quot;hibernate.connection.url&quot;&gt;jdbc:mysql://localhost:3306/dt_stuMsg&lt;/property&gt;
+        &lt;property name=&quot;hibernate.connection.username&quot;&gt;root&lt;/property&gt;
+        &lt;property name=&quot;hibernate.connection.password&quot;&gt;0827&lt;/property&gt;
+
+        &lt;!-- 配置Hibernate信息,可选 --&gt;
+        &lt;!-- 输出底层sql语句 --&gt;
+        &lt;property name=&quot;hibernate.show_sql&quot;&gt;true&lt;/property&gt;
+        &lt;!-- 格式化sql语句,使语句更整洁 --&gt;
+        &lt;property name=&quot;hibernate.format_sql&quot;&gt;true&lt;/property&gt;
+        &lt;!-- Hibernate帮创建表,需要配置之后 
+            update:如已有表,则更新,若无,则创建
+        --&gt;
+
+        &lt;property name=&quot;hibernate.hbm2ddl.auto&quot;&gt;update&lt;/property&gt;
+
+
+        &lt;!-- 配置数据库方言 --&gt;
+        &lt;property name=&quot;hibernate.dialect&quot;&gt;org.hibernate.dialect.MySQLDialect&lt;/property&gt;
+
+        &lt;!-- 把映射文件放到这里核心配置文件中,必须 
+            resource的属性值为相对路径
+        --&gt;
+        &lt;mapping resource=&quot;/com/cgstudy/student/Student.hbm.xml&quot;/&gt;
+
+    &lt;/session-factory&gt;
+&lt;/hibernate-configuration&gt;
+</code></pre><h3 id="Hibernate核心配置文件的作用"><a href="#Hibernate核心配置文件的作用" class="headerlink" title="Hibernate核心配置文件的作用"></a>Hibernate核心配置文件的作用</h3><ul>
+<li>连接数据库</li>
+<li>加载映射文件</li>
+<li>配置Hibernate</li>
+</ul>
+<h3 id="使用Hibernate框架用到的一些代码和对象"><a href="#使用Hibernate框架用到的一些代码和对象" class="headerlink" title="使用Hibernate框架用到的一些代码和对象"></a>使用Hibernate框架用到的一些代码和对象</h3><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>Configuration configuration = null;
+SessionFactory sessionFactory = null;
+Session session = null;
+Transcation transcation = null;
+try{
+    //加载核心配置文件
+    configuration =  new Configuration().configure();
+    //创建sessionFactory对象,并读取核心配置文件内容
+    //在过程中会根据硬映射关系,在数据库中创建表
+    sessionFactory = configuration.buildSessionFactory();
+    //创建session对象.类似连接
+    session = sessionFactory.openSession();
+    //开启事务
+    transaction = session.beginTransaction();
+    .....
+    .....//操作数据
+    .....
+    //事务的提交
+    transaction.commit();
+}catch(Exception e){
+    //事务的回滚
+    transaction.rollback();
+}finall{
+    //关闭事务
+    transcation.close();
+    //关闭session
+    session.close();
+}
+</code></pre><p>其中,在创建SessionFactory对象的过程中,将会特别消耗资源</p>
+<h4 id="SessionFactory类"><a href="#SessionFactory类" class="headerlink" title="SessionFactory类"></a>SessionFactory类</h4><p>这里了解下SessionFactory这个类,它是一个接口</p>
+<p>一个SessionFactory实例对应一个数据存储源,应用从SessionFactory中获取Session实例.</p>
+<p>SessionFactory特点:</p>
+<ul>
+<li>线程是安全的,这意味着它的同一个实例可以被应用的多个线程共享</li>
+<li>它是重量级的,意味着不能随意创建或销毁它的实例</li>
+<li>如果应用只访问一个数据库,则只需要创建一个SessionFactory实例,在应用初始化时创建该实例</li>
+<li>如果同时访问多个数据库,则需要对每个数据库单独创建一个SessionFactory实例</li>
+</ul>
+<p>所以,考虑资源损耗方面,一般一个项目中就只创建一个SessionFactory对象</p>
+<p>所以这里的解决方法是为SessionFactory专门创建一个工具类,放在系统中,给系统其他需要用到的SessionFactory使用<br>如代码:</p>
+<pre><code>public class HibernateUtils{
+    private static Configuration configuration = null;
+    private static SessionFactory sessionFactory = null;
+
+    static{
+        configuration = new Configuration().configure();
+        sessionFactory = configuration.buildSessionFactory();
+    }
+    public static SessionFactory getSessionFactory(){
+        return sessionFactory;
+    }
+}
+</code></pre><p>这样的话,得到的sessionFactory对象就不用关闭了</p>
+<h4 id="Session类"><a href="#Session类" class="headerlink" title="Session类"></a>Session类</h4><p>其中的Session类也是一个接口</p>
+<p>Session接口是Hibernate应用里使用最广泛的接口<br>Session也被称为持久化管理器,它提供了和持久化相关的操作,如添加,更新,删除,加载和查询对象</p>
+<p>特点:<br>不是线程安全的,因此在设计软件架构时,应该避免多个线程共享一个Session实例<br>轻量级的.它的创建和销毁不需要消耗太多的资源</p>
+<p>Session类似jdbc中的connection<br>Session对象是单线程对象,不能共用</p>
+<p>session操作数据常用的方法</p>
+<ul>
+<li>添加:save()方法</li>
+<li>修改:update()方法</li>
+<li>删除:delete()方法</li>
+<li>根据主键查询:get()方法,load()方法</li>
+</ul>
+<p>在而,代码:</p>
+<p><code>transcation.rollback()</code></p>
+<p>实现了事务的回滚,那么也就是说Hibernate类似与git命令一样,有缓存机制</p>
+<p>即Hibernate的一级缓存</p>
+<p>它的缓存就是把数据存放到内存中,省去了Hibernate重复读取数据库数据的步骤<br>但系统出现异常,可以将内存中的原始的缓存数据重新存放到数据库中,避免了数据的丢失</p>
+<h3 id="Hibernate里可以实现查询的对象"><a href="#Hibernate里可以实现查询的对象" class="headerlink" title="Hibernate里可以实现查询的对象"></a>Hibernate里可以实现查询的对象</h3><h4 id="Query对象"><a href="#Query对象" class="headerlink" title="Query对象"></a>Query对象</h4><p>需要用到hql(Hibernate Query Language)语句,它跟sql相似<br>hql和sql的区别:</p>
+<ul>
+<li>sql操作的是表和表字段</li>
+<li>hql操作的是实体类和属性</li>
+</ul>
+<p>查询所有数据的hql语句:from 实体类名称<br>例:</p>
+<pre><code>Query query = session.createQuery(&quot;from Student&quot;);
+List&lt;Student&gt; list = query.list();
+for(Student student : list){
+    System.out.println(student);
+}
+</code></pre><h4 id="Criteria对象"><a href="#Criteria对象" class="headerlink" title="Criteria对象"></a>Criteria对象</h4><p>其不需要用到任何语句，<br>查询所有数据的代码:</p>
+<pre><code>Criteria criteria = session.createCriteria(Student.class);
+List&lt;Student&gt; list = criteria.list();
+for(Student student : list){
+        System.out.println(student);
+}
+</code></pre><h4 id="SQLQuery对象"><a href="#SQLQuery对象" class="headerlink" title="SQLQuery对象"></a>SQLQuery对象</h4><p>可以使用SQL语句来操作,</p>
+<pre><code>SQLQuery sqlQuery = session.createSQLQuery(&quot;SELECT * FROM td_t_stuMsg&quot;);
+List&lt;Object[]&gt; list = sqlQuery.list();
+for(Object[] object : list){
+    System.out.println(Arrays.toString(object));
+}
+</code></pre><p>其中，这里获取到的list集合是二维的集合</p>
+<p>如果需要得到和上面两个Query和Criteria对象获取的Student的所有对象信息,那么</p>
+<p>代码如下:</p>
+<pre><code>SQLQuery sqlQuery = session.createSQLQuery(&quot;SELECT * FROM td_t_stuMsg&quot;);
+sqlQuery.addEntity(Student.class);
+List&lt;Student&gt; list = sqlQuery.list();
+for(Student student : list){
+    System.out.println(student);
+}
+</code></pre><p>Query,Criteria,SQLQuery这三个对象,通常会使用前两个,第三个使用的比较少</p>
+<p>Hibernate的基本内容先写到这,当然还有许多内容并未总结,例如表的关系的配置等.到后面再慢慢总结</p>
+<p>谢谢</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/javaEE/" rel="tag"># javaEE</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/08/java/2017-3-08-java-EnvironmentVariable/" rel="next" title="Java环境变量">
+                <i class="fa fa-chevron-left"></i> Java环境变量
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/03/10/python/2017-3-10-python-encryptionText/" rel="prev" title="Python加密文本内容">
+                Python加密文本内容 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+    <div class="post-spread">
+      
+
+		<div id="wpac-comment"></div>
+		<script type="text/javascript">
+		wpac_init = window.wpac_init || [];
+		wpac_init.push({widget: 'Comment', id: 5780});
+		(function() {
+		    if ('WIDGETPACK_LOADED' in window) return;
+		    WIDGETPACK_LOADED = true;
+		    var mc = document.createElement('script');
+		    mc.type = 'text/javascript';
+		    mc.async = true;
+		    mc.src = 'https://embed.widgetpack.com/widget.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+		})();
+		</script>
+		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="cg" />
+          <p class="site-author-name" itemprop="name">cg</p>
+           
+              <p class="site-description motion-element" itemprop="description">精致地生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cgstudios" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate框架简述"><span class="nav-number">1.</span> <span class="nav-text">Hibernate框架简述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Student-java"><span class="nav-number">1.1.</span> <span class="nav-text">Student.java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Student-hbm-xml"><span class="nav-number">1.2.</span> <span class="nav-text">Student.hbm.xml</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hibernate-cfg-xml"><span class="nav-number">1.3.</span> <span class="nav-text">hibernate.cfg.xml</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate核心配置文件的作用"><span class="nav-number">2.</span> <span class="nav-text">Hibernate核心配置文件的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Hibernate框架用到的一些代码和对象"><span class="nav-number">3.</span> <span class="nav-text">使用Hibernate框架用到的一些代码和对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码"><span class="nav-number">3.1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SessionFactory类"><span class="nav-number">3.2.</span> <span class="nav-text">SessionFactory类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session类"><span class="nav-number">3.3.</span> <span class="nav-text">Session类</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hibernate里可以实现查询的对象"><span class="nav-number">4.</span> <span class="nav-text">Hibernate里可以实现查询的对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Query对象"><span class="nav-number">4.1.</span> <span class="nav-text">Query对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Criteria对象"><span class="nav-number">4.2.</span> <span class="nav-text">Criteria对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SQLQuery对象"><span class="nav-number">4.3.</span> <span class="nav-text">SQLQuery对象</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+</div>
+
+
+<div class="powered-by">
+  驱动 - <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+  </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+
+
+  
+  
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "ec18ccd847d64bfc94031509c79a2056",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

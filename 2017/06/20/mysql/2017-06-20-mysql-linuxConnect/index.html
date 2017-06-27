@@ -1,0 +1,1630 @@
+<!doctype html>
+
+
+  
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="theme-color" content="#2e2e2e"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="codeing,mysql," />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+<meta name="description" content="昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用 这里记录的只是当时的过程">
+<meta name="keywords" content="codeing,mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux上远程连接mysql数据库服务器">
+<meta property="og:url" content="http://www.cgspace.date/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用 这里记录的只是当时的过程">
+<meta property="og:updated_time" content="2017-06-20T11:34:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux上远程连接mysql数据库服务器">
+<meta name="twitter:description" content="昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用 这里记录的只是当时的过程">
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/"/>
+
+
+
+
+
+  <title>Linux上远程连接mysql数据库服务器 | cgspace</title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精致地生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+ </div>
+    </header>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <div id="posts" class="posts-expand">
+    
+  
+  
+  
+  
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+    
+      <header class="post-header">
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux上远程连接mysql数据库服务器
+              
+            
+          </h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T10:43:30+08:00">
+                2017-06-20
+              </time>
+            
+            
+            
+          </span>
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+                
+                
+              
+            </span>
+          
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用</p>
+<p>这里记录的只是当时的过程</p>
+<a id="more"></a>
+<p>过程分类:</p>
+<ul>
+<li>安装mysql</li>
+<li>远程连接mysql服务器</li>
+<li>查询操作</li>
+</ul>
+<h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><p>终端运行命令</p>
+<p><code>sudo apt-get install mysql-server</code></p>
+<p>之后选择输入y</p>
+<p>再在终端显示的面板中输入root用户的密码</p>
+<h4 id="安装过程如下"><a href="#安装过程如下" class="headerlink" title="安装过程如下:"></a>安装过程如下:</h4><pre><code>cg@cg-ThinkPad-Edge-E540 ~ $ sudo apt-get install mysql-server
+正在读取软件包列表... 完成
+正在分析软件包的依赖关系树       
+正在读取状态信息... 完成       
+将会安装下列额外的软件包：
+  libdbd-mysql-perl libdbi-perl libmysqlclient18 libterm-readkey-perl
+  mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server-5.5
+  mysql-server-core-5.5
+建议安装的软件包：
+  libmldbm-perl libnet-daemon-perl libplrpc-perl libsql-statement-perl tinyca
+  mailx
+推荐安装的软件包：
+  libhtml-template-perl
+下列【新】软件包将被安装：
+  libdbd-mysql-perl libdbi-perl libmysqlclient18 libterm-readkey-perl
+  mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server
+  mysql-server-5.5 mysql-server-core-5.5
+升级了 0 个软件包，新安装了 10 个软件包，要卸载 0 个软件包，有 220 个软件包未被升级。
+需要下载 9,642 kB 的软件包。
+解压缩后会消耗掉 96.9 MB 的额外空间。
+您希望继续执行吗？ [Y/n] y
+获取：1 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main mysql-common all 5.5.55-0ubuntu0.14.04.1 [13.0 kB]
+获取：2 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main libmysqlclient18 amd64 5.5.55-0ubuntu0.14.04.1 [597 kB]
+获取：3 http://mirrors.hust.edu.cn/ubuntu/ trusty/main libdbi-perl amd64 1.630-1 [879 kB]
+获取：4 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main libdbd-mysql-perl amd64 4.025-1ubuntu0.1 [87.6 kB]
+获取：5 http://mirrors.hust.edu.cn/ubuntu/ trusty/main libterm-readkey-perl amd64 2.31-1 [27.4 kB]
+获取：6 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main mysql-client-core-5.5 amd64 5.5.55-0ubuntu0.14.04.1 [707 kB]
+获取：7 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main mysql-client-5.5 amd64 5.5.55-0ubuntu0.14.04.1 [1,586 kB]
+获取：8 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main mysql-server-core-5.5 amd64 5.5.55-0ubuntu0.14.04.1 [3,737 kB]
+获取：9 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main mysql-server-5.5 amd64 5.5.55-0ubuntu0.14.04.1 [1,996 kB]
+获取：10 http://mirrors.hust.edu.cn/ubuntu/ trusty-updates/main mysql-server all 5.5.55-0ubuntu0.14.04.1 [11.3 kB]
+下载 9,642 kB，耗时 39秒 (247 kB/s)                                            
+正在预设定软件包 ...
+Selecting previously unselected package mysql-common.
+(正在读取数据库 ... 系统当前共安装有 177786 个文件和目录。)
+Preparing to unpack .../mysql-common_5.5.55-0ubuntu0.14.04.1_all.deb ...
+Unpacking mysql-common (5.5.55-0ubuntu0.14.04.1) ...
+Selecting previously unselected package libmysqlclient18:amd64.
+Preparing to unpack .../libmysqlclient18_5.5.55-0ubuntu0.14.04.1_amd64.deb ...
+Unpacking libmysqlclient18:amd64 (5.5.55-0ubuntu0.14.04.1) ...
+Selecting previously unselected package libdbi-perl.
+Preparing to unpack .../libdbi-perl_1.630-1_amd64.deb ...
+Unpacking libdbi-perl (1.630-1) ...
+Selecting previously unselected package libdbd-mysql-perl.
+Preparing to unpack .../libdbd-mysql-perl_4.025-1ubuntu0.1_amd64.deb ...
+Unpacking libdbd-mysql-perl (4.025-1ubuntu0.1) ...
+Selecting previously unselected package libterm-readkey-perl.
+Preparing to unpack .../libterm-readkey-perl_2.31-1_amd64.deb ...
+Unpacking libterm-readkey-perl (2.31-1) ...
+Selecting previously unselected package mysql-client-core-5.5.
+Preparing to unpack .../mysql-client-core-5.5_5.5.55-0ubuntu0.14.04.1_amd64.deb ...
+Unpacking mysql-client-core-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+Selecting previously unselected package mysql-client-5.5.
+Preparing to unpack .../mysql-client-5.5_5.5.55-0ubuntu0.14.04.1_amd64.deb ...
+Unpacking mysql-client-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+Selecting previously unselected package mysql-server-core-5.5.
+Preparing to unpack .../mysql-server-core-5.5_5.5.55-0ubuntu0.14.04.1_amd64.deb ...
+Unpacking mysql-server-core-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+正在设置 mysql-common (5.5.55-0ubuntu0.14.04.1) ...
+Selecting previously unselected package mysql-server-5.5.
+(正在读取数据库 ... 系统当前共安装有 178142 个文件和目录。)
+Preparing to unpack .../mysql-server-5.5_5.5.55-0ubuntu0.14.04.1_amd64.deb ...
+Unpacking mysql-server-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+Selecting previously unselected package mysql-server.
+Preparing to unpack .../mysql-server_5.5.55-0ubuntu0.14.04.1_all.deb ...
+Unpacking mysql-server (5.5.55-0ubuntu0.14.04.1) ...
+Processing triggers for ureadahead (0.100.0-16) ...
+ureadahead will be reprofiled on next reboot
+Processing triggers for man-db (2.6.7.1-1ubuntu1) ...
+正在设置 libmysqlclient18:amd64 (5.5.55-0ubuntu0.14.04.1) ...
+正在设置 libdbi-perl (1.630-1) ...
+正在设置 libdbd-mysql-perl (4.025-1ubuntu0.1) ...
+正在设置 libterm-readkey-perl (2.31-1) ...
+正在设置 mysql-client-core-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+正在设置 mysql-client-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+正在设置 mysql-server-core-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+正在设置 mysql-server-5.5 (5.5.55-0ubuntu0.14.04.1) ...
+170619 13:44:23 [Warning] Using unique option prefix key_buffer instead of key_buffer_size is deprecated and will be removed in a future release. Please use the full name instead.
+170619 13:44:23 [Note] Ignoring --secure-file-priv value as server is running with --bootstrap.
+170619 13:44:23 [Note] /usr/sbin/mysqld (mysqld 5.5.55-0ubuntu0.14.04.1) starting as process 17651 ...
+mysql start/running, process 17782
+Processing triggers for ureadahead (0.100.0-16) ...
+正在设置 mysql-server (5.5.55-0ubuntu0.14.04.1) ...
+Processing triggers for libc-bin (2.19-0ubuntu6.9) ...
+/sbin/ldconfig.real: /usr/lib/nvidia-375/libEGL.so.1 is not a symbolic link
+
+/sbin/ldconfig.real: /usr/lib32/nvidia-375/libEGL.so.1 is not a symbolic link
+
+cg@cg-ThinkPad-Edge-E540 ~ $ 
+</code></pre><h3 id="远程连接mysql服务器"><a href="#远程连接mysql服务器" class="headerlink" title="远程连接mysql服务器"></a>远程连接mysql服务器</h3><p>先测试下连接本地数据库</p>
+<pre><code>cg@cg-ThinkPad-Edge-E540 ~ $ mysql
+ERROR 1045 (28000): Access denied for user &apos;cg&apos;@&apos;localhost&apos; (using password: NO)
+cg@cg-ThinkPad-Edge-E540 ~ $ mysql -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 43
+Server version: 5.5.55-0ubuntu0.14.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.
+
+mysql&gt; show databases
+    -&gt; show databases;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &apos;show databases&apos; at line 2
+mysql&gt; show databases
+    -&gt; 
+  -&gt; ^Z
+[1]+  Stopped                 mysql -u root -p
+</code></pre><p>正常即可连接远程数据库</p>
+<pre><code>cg@cg-ThinkPad-Edge-E540 ~ $ mysql -h 182.254.213.111 -P 3306 -u root -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 4618
+Server version: 5.7.15 MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type &apos;help;&apos; or &apos;\h&apos; for help. Type &apos;\c&apos; to clear the current input statement.
+</code></pre><h3 id="查询操作"><a href="#查询操作" class="headerlink" title="查询操作"></a>查询操作</h3><p>连接完成之后,可以使用命令</p>
+<p><code>show databases;</code></p>
+<p>来显示数据库的库信息</p>
+<p>使用命令</p>
+<p><code>show tables;</code></p>
+<p>来显示当前库中表的信息,当然前提需要指定库</p>
+<p>指定库使用命令</p>
+<p><code>use xxxx;</code></p>
+<p>这跟mysql语句都是一样的</p>
+<p>当时过程如下:</p>
+<pre><code>mysql&gt; show databases;
+    +--------------------------+
+    | Database                 |
+    +--------------------------+
+    | information_schema       |
+    | cruise                   |
+    | jinbang                  |
+    | jinbangH5                |
+    | jinbang_dev_shiqingju    |
+    | jinbang_dev_shiqingkun   |
+    | jinbang_dev_zhouminxiang |
+    | jinbang_portal           |
+    | jinbang_portal1          |
+    | mysql                    |
+    | performance_schema       |
+    | sys                      |
+    | test1                    |
+    | test2                    |
+    | test3                    |
+    | test4                    |
+    | test5                    |
+    | wordpress                |
+    | yihaiyou_test            |
+    +--------------------------+
+    19 rows in set (0.03 sec)
+
+mysql&gt; help
+
+For information about MySQL products and services, visit:
+   http://www.mysql.com/
+For developer information, including the MySQL Reference Manual, visit:
+   http://dev.mysql.com/
+To buy MySQL Enterprise support, training, or other products, visit:
+   https://shop.mysql.com/
+
+List of all MySQL commands:
+Note that all text commands must be first on line and end with &apos;;&apos;
+?         (\?) Synonym for `help&apos;.
+clear     (\c) Clear the current input statement.
+connect   (\r) Reconnect to the server. Optional arguments are db and host.
+delimiter (\d) Set statement delimiter.
+edit      (\e) Edit command with $EDITOR.
+ego       (\G) Send command to mysql server, display result vertically.
+exit      (\q) Exit mysql. Same as quit.
+go        (\g) Send command to mysql server.
+help      (\h) Display this help.
+nopager   (\n) Disable pager, print to stdout.
+notee     (\t) Don&apos;t write into outfile.
+pager     (\P) Set PAGER [to_pager]. Print the query results via PAGER.
+print     (\p) Print current command.
+prompt    (\R) Change your mysql prompt.
+quit      (\q) Quit mysql.
+rehash    (\#) Rebuild completion hash.
+source    (\.) Execute an SQL script file. Takes a file name as an argument.
+status    (\s) Get status information from the server.
+system    (\!) Execute a system shell command.
+tee       (\T) Set outfile [to_outfile]. Append everything into given outfile.
+use       (\u) Use another database. Takes database name as argument.
+charset   (\C) Switch to another charset. Might be needed for processing binlog with multi-byte charsets.
+warnings  (\W) Show warnings after every statement.
+nowarning (\w) Don&apos;t show warnings after every statement.
+
+For server side help, type &apos;help contents&apos;
+
+mysql&gt; use yihaiyou_test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql&gt; use yihaiyou_test;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql&gt; show tables;
++---------------------------------+
+| Tables_in_yihaiyou_test         |
++---------------------------------+
+| acc                             |
+| account_log                     |
+| activities                      |
+| ads                             |
+| advice                          |
+| api_monitor                     |
+| article_category                |
+| bak_sys_menu                    |
+| bak_sys_role                    |
+| bak_sys_role_menu               |
+| bak_sys_user_role               |
+| bankcard                        |
+| board_location                  |
+| category                        |
+| category_type                   |
+| cmbpaylog                       |
+| coderepository                  |
+| comment                         |
+| comment_photo                   |
+| comment_score                   |
+| comment_score_type              |
+| commission                      |
+| contract                        |
+| contract_appendices             |
+| credit_card                     |
+| cruise_ship                     |
+| cruise_ship_date                |
+| cruise_ship_deck                |
+| cruise_ship_deck_facility       |
+| cruise_ship_extend              |
+| cruise_ship_plan                |
+| cruise_ship_project             |
+| cruise_ship_project_classify    |
+| cruise_ship_project_image       |
+| cruise_ship_room                |
+| cruise_ship_room_date           |
+| cruise_ship_visa                |
+| ctrip_city                      |
+| ctrip_region                    |
+| ctrip_scenics                   |
+| ctrip_user                      |
+| custom_require                  |
+| custom_require_destination      |
+| cw_productitem                  |
+| data_tasks                      |
+| delicacy                        |
+| delicacy_extend                 |
+| delicacy_restaurant             |
+| destination                     |
+| elong_geo_cn                    |
+| feed_back                       |
+| ferrymember                     |
+| ferryorder                      |
+| ferryorderitem                  |
+| flight_city                     |
+| globalmoneyrecord               |
+| hand_draw_map                   |
+| hand_draw_scenic                |
+| hotel                           |
+| hotel_amenities                 |
+| hotel_area                      |
+| hotel_brand                     |
+| hotel_city                      |
+| hotel_city_brand                |
+| hotel_city_service              |
+| hotel_elong_api_log             |
+| hotel_elong_static_info         |
+| hotel_extend                    |
+| hotel_price                     |
+| hotel_price_calendar            |
+| hotel_region                    |
+| hotel_room                      |
+| hotel_service_tmp               |
+| hotel_to_update                 |
+| impression                      |
+| impression_gallery              |
+| invoice                         |
+| jszx_order                      |
+| jszx_order_detail               |
+| label                           |
+| label_item                      |
+| line                            |
+| line_contact                    |
+| line_departure                  |
+| line_departure_info             |
+| line_insurance                  |
+| lineacrosscitys                 |
+| linecategory                    |
+| linecategorydetail              |
+| linecost                        |
+| linedayplaninfo                 |
+| linedays                        |
+| linedaysplan                    |
+| linedaysproductprice            |
+| lineexplain                     |
+| lineimages                      |
+| lineplaytitle                   |
+| linestatistic                   |
+| linetypeprice                   |
+| linetypeprice_agent             |
+| linetypepricedate               |
+| lxb_advice                      |
+| lxb_coupon                      |
+| lxb_friend_link                 |
+| lxb_insurance                   |
+| lxb_labels                      |
+| lxb_objectlabels                |
+| lxb_sales_images                |
+| lxb_user_coupon                 |
+| member                          |
+| msg_template                    |
+| multi_date                      |
+| nctrip_access_token             |
+| nctrip_addinfo_detail           |
+| nctrip_api_log                  |
+| nctrip_display_tag              |
+| nctrip_display_tag_group        |
+| nctrip_order_contact_info       |
+| nctrip_order_form_info          |
+| nctrip_order_form_resource_info |
+| nctrip_order_passenger_info     |
+| nctrip_product_addinfo          |
+| nctrip_resource_addinfo         |
+| nctrip_resource_price_calendar  |
+| nctrip_scenic_spot_city_info    |
+| nctrip_scenic_spot_id           |
+| nctrip_scenic_spot_info         |
+| nctrip_scenic_spot_poi_info     |
+| nctrip_scenic_spot_product      |
+| nctrip_scenic_spot_resource     |
+| order_refund                    |
+| orderalias                      |
+| other_favorite                  |
+| other_message                   |
+| other_visit_history             |
+| outer_collect_info              |
+| outer_mascot_bename             |
+| outer_participator_answer       |
+| outer_question                  |
+| outer_question_candidate        |
+| paylog                          |
+| pinglun                         |
+| pinglunreply                    |
+| plan                            |
+| plan_day                        |
+| plan_statistic                  |
+| plan_trip                       |
+| plan_urban_traffic_rel          |
+| playtitle                       |
+| product                         |
+| product_activity                |
+| product_validate_channel        |
+| product_validate_code           |
+| productimage                    |
+| productvalidatecode             |
+| productvalidaterecord           |
+| promotion                       |
+| qrtz_blob_triggers              |
+| qrtz_calendars                  |
+| qrtz_cron_triggers              |
+| qrtz_fired_triggers             |
+| qrtz_job_details                |
+| qrtz_locks                      |
+| qrtz_paused_trigger_grps        |
+| qrtz_scheduler_state            |
+| qrtz_simple_triggers            |
+| qrtz_simprop_triggers           |
+| qrtz_triggers                   |
+| quantity_sales                  |
+| quantity_sales_detail           |
+| quantity_unit_num               |
+| qunar_sight                     |
+| recday_scenics_num              |
+| recommend_plan                  |
+| recommend_plan_day              |
+| recommend_plan_photo            |
+| recommend_plan_tag              |
+| recommend_plan_trip             |
+| recpday_cityids                 |
+| recplan_days                    |
+| recplan_scenics                 |
+| refund_log                      |
+| region                          |
+| reply                           |
+| restaurang                      |
+| restaurant                      |
+| restaurant_extend               |
+| restaurant_geoinfo              |
+| scenic                          |
+| scenic_area                     |
+| scenic_extend                   |
+| scenic_extend_tmp               |
+| scenic_gallery                  |
+| scenic_geoinfo                  |
+| scenic_geoinfo_tmp              |
+| scenic_relation                 |
+| scenic_statistics               |
+| scenic_theme                    |
+| scenic_theme_relation           |
+| scenic_tmp                      |
+| sendingmsg                      |
+| sendingmsg_his                  |
+| serialscode                     |
+| shenzhouaccesstoken             |
+| shenzhouorder                   |
+| supplier                        |
+| suppliercity                    |
+| supplierconfig                  |
+| supplierservice                 |
+| sys_action_log                  |
+| sys_menu                        |
+| sys_resource                    |
+| sys_resource_map                |
+| sys_role                        |
+| sys_role_menu                   |
+| sys_role_resource               |
+| sys_site                        |
+| sys_unit                        |
+| sys_unit_detail                 |
+| sys_unit_image                  |
+| sys_unit_qualification          |
+| sys_user                        |
+| sys_user_role                   |
+| t_base_pinyin                   |
+| tb_area                         |
+| tb_area_extend                  |
+| tb_area_optimize_support_city   |
+| tb_area_relation                |
+| tb_dis                          |
+| tb_ticket_validate_info         |
+| tb_transportation               |
+| tciket_price_type_extend        |
+| testperson                      |
+| third_party_user                |
+| ticket                          |
+| ticket_receiver                 |
+| ticketdateprice                 |
+| ticketexplain                   |
+| ticketprice                     |
+| ticketprice_agent               |
+| tmp_time_desc                   |
+| torder                          |
+| tordercontact                   |
+| torderdetail                    |
+| torderdetailflattened           |
+| torderinsurance                 |
+| torderinvoice                   |
+| torderlog                       |
+| tordertourist                   |
+| tourist                         |
+| traffic                         |
+| traffic_price                   |
+| traffic_price_calendar          |
+| user                            |
+| user_copy                       |
+| user_exinfo                     |
+| user_relation                   |
+| user_share_record               |
+| userlevel                       |
+| wx_account                      |
+| wx_account_menu                 |
+| wx_data_img                     |
+| wx_data_img_text                |
+| wx_data_item                    |
+| wx_data_text                    |
+| wx_follower                     |
+| wx_location_log                 |
+| wx_qrcode                       |
+| wx_receive_msg_log              |
+| wx_reply_keyword                |
+| wx_reply_rule                   |
+| wx_resource                     |
+| wx_support_account              |
+| wx_visit_log                    |
+| yihaiyou                        |
+| zhouandcountry                  |
+| zmy_ticket                      |
++---------------------------------+
+277 rows in set (0.06 sec)
+
+mysql&gt; select * from sys_role;
++----+-------------------------+----------+--------+------+--------------------------------------------------------------------+--------+-------------+
+| id | name                    | del_flag | status | seq  | remark                                                             | siteid | displayName |
++----+-------------------------+----------+--------+------+--------------------------------------------------------------------+--------+-------------+
+| -2 | 系统管理员              |        0 |      0 |    0 | 内置超级管理员                                                     |     -1 | NULL        |
+| -1 | 站点管理员              |        0 |      0 |    0 | 站点管理员,拥有所有权限                                            |     -1 | NULL        |
+|  1 | 景点管理员              |        0 |      0 |    0 |                                                                    |     -1 | NULL        |
+|  3 | 公司管理员              |        0 |      0 |    0 | 公司通过后授予该角色                                               |     -1 | NULL        |
+|  4 | 酒店民宿系统            |        0 |      0 |    0 | 商户系统角色                                                       |     -1 | NULL        |
+|  5 | 海上休闲系统            |        0 |      0 |    0 | 商户系统角色                                                       |     -1 | NULL        |
+|  6 | 邮轮系统                |        0 |      0 |    0 | 商户系统角色                                                       |     -1 | NULL        |
+|  7 | 景点门票系统            |        0 |      0 |    0 | 商户系统角色                                                       |     -1 | NULL        |
+| 10 | 临时站点管理员          |        0 |      0 |    0 | 安全扫描临时使用角色2017.1.23                                      |     -1 | NULL        |
+| 11 | 公司管理员(默认)        |        0 |      0 |    0 | 添加公司或公司入驻时，授予公司管理员默认角色                       |     -1 | NULL        |
++----+-------------------------+----------+--------+------+--------------------------------------------------------------------+--------+-------------+
+10 rows in set (0.02 sec)
+
+mysql&gt; select * from wx_visit_log;
+Empty set (0.04 sec)
+
+mysql&gt; 
+</code></pre><p>数据库服务器连接完成之后,后面的操作命令则跟mysql语句都一样</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/05/11/daily/2017-05-11-daily-exquisiteLife/" rel="next" title="精致地生活">
+                <i class="fa fa-chevron-left"></i> 精致地生活
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/21/note/2017-06-21-createNote/" rel="prev" title="Note">
+                Note <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+    <div class="post-spread">
+      
+
+		<div id="wpac-comment"></div>
+		<script type="text/javascript">
+		wpac_init = window.wpac_init || [];
+		wpac_init.push({widget: 'Comment', id: 5780});
+		(function() {
+		    if ('WIDGETPACK_LOADED' in window) return;
+		    WIDGETPACK_LOADED = true;
+		    var mc = document.createElement('script');
+		    mc.type = 'text/javascript';
+		    mc.async = true;
+		    mc.src = 'https://embed.widgetpack.com/widget.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+		})();
+		</script>
+		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="cg" />
+          <p class="site-author-name" itemprop="name">cg</p>
+           
+              <p class="site-description motion-element" itemprop="description">精致地生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cgstudios" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装mysql"><span class="nav-number">1.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装过程如下"><span class="nav-number">1.1.</span> <span class="nav-text">安装过程如下:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程连接mysql服务器"><span class="nav-number">2.</span> <span class="nav-text">远程连接mysql服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询操作"><span class="nav-number">3.</span> <span class="nav-text">查询操作</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+</div>
+
+
+<div class="powered-by">
+  驱动 - <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+  </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+
+
+  
+  
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "ec18ccd847d64bfc94031509c79a2056",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
