@@ -72,10 +72,12 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用 这里记录的只是当时的过程">
-<meta property="og:updated_time" content="2017-06-20T11:34:28.000Z">
+<meta property="og:image" content="http://www.cgspace.date/images/mysql/mysql-show-table.png">
+<meta property="og:updated_time" content="2017-06-28T10:37:18.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux上远程连接mysql数据库服务器">
 <meta name="twitter:description" content="昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用 这里记录的只是当时的过程">
+<meta name="twitter:image" content="http://www.cgspace.date/images/mysql/mysql-show-table.png">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -382,7 +384,7 @@
 <h4 id="安装过程如下"><a href="#安装过程如下" class="headerlink" title="安装过程如下:"></a>安装过程如下:</h4><pre><code>cg@cg-ThinkPad-Edge-E540 ~ $ sudo apt-get install mysql-server
 正在读取软件包列表... 完成
 正在分析软件包的依赖关系树       
-正在读取状态信息... 完成       
+正在读取状态信息... 完成
 将会安装下列额外的软件包：
   libdbd-mysql-perl libdbi-perl libmysqlclient18 libterm-readkey-perl
   mysql-client-5.5 mysql-client-core-5.5 mysql-common mysql-server-5.5
@@ -897,6 +899,13 @@ Empty set (0.04 sec)
 
 mysql&gt; 
 </code></pre><p>数据库服务器连接完成之后,后面的操作命令则跟mysql语句都一样</p>
+<hr>
+<h4 id="update-2017-06-28"><a href="#update-2017-06-28" class="headerlink" title="update-2017-06-28"></a>update-2017-06-28</h4><p>查看表中的字段的备注信息，对字段名的含义了解</p>
+<p>命令：</p>
+<p><code>show full columns from xxx;</code></p>
+<p>查看表的注释：</p>
+<p><code>show create table xxx;</code></p>
+<p><img src="/images/mysql/mysql-show-table.png" alt="mysql-show"></p>
 
       
     </div>
@@ -1117,7 +1126,7 @@ mysql&gt;
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装mysql"><span class="nav-number">1.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装过程如下"><span class="nav-number">1.1.</span> <span class="nav-text">安装过程如下:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程连接mysql服务器"><span class="nav-number">2.</span> <span class="nav-text">远程连接mysql服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询操作"><span class="nav-number">3.</span> <span class="nav-text">查询操作</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装mysql"><span class="nav-number">1.</span> <span class="nav-text">安装mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安装过程如下"><span class="nav-number">1.1.</span> <span class="nav-text">安装过程如下:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远程连接mysql服务器"><span class="nav-number">2.</span> <span class="nav-text">远程连接mysql服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询操作"><span class="nav-number">3.</span> <span class="nav-text">查询操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#update-2017-06-28"><span class="nav-number">3.1.</span> <span class="nav-text">update-2017-06-28</span></a></li></ol></li></ol></div>
             
 
           </div>
