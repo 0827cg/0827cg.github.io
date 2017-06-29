@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="这是我仅有的" />
+  <meta name="keywords" content="codeing,javaEE," />
 
 
 
@@ -65,15 +65,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="精致地生活">
-<meta property="og:type" content="website">
-<meta property="og:title" content="cgspace">
-<meta property="og:url" content="http://www.cgspace.date/tags/厦门/index.html">
+<meta name="description" content="最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。 这里就作为总结，谈自己现在对懒加载的认识 ps:用Hibernate还不如用Mybatis..">
+<meta name="keywords" content="codeing,javaEE">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaEE-Hibernate标签中的懒加载与Session事物">
+<meta property="og:url" content="http://www.cgspace.date/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="精致地生活">
+<meta property="og:description" content="最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。 这里就作为总结，谈自己现在对懒加载的认识 ps:用Hibernate还不如用Mybatis..">
+<meta property="og:updated_time" content="2017-06-29T11:03:10.393Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cgspace">
-<meta name="twitter:description" content="精致地生活">
+<meta name="twitter:title" content="JavaEE-Hibernate标签中的懒加载与Session事物">
+<meta name="twitter:description" content="最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。 这里就作为总结，谈自己现在对懒加载的认识 ps:用Hibernate还不如用Mybatis..">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -99,13 +101,13 @@
 
 
 
-  <link rel="canonical" href="http://www.cgspace.date/tags/厦门/"/>
+  <link rel="canonical" href="http://www.cgspace.date/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/"/>
 
 
 
 
 
-  <title>标签: 厦门 | cgspace</title>
+  <title>JavaEE-Hibernate标签中的懒加载与Session事物 | cgspace</title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
@@ -136,7 +138,7 @@
   
     
   
-  <div class="container sidebar-position-left  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
@@ -260,44 +262,223 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        厦门
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
     
+  
+  
+  
+  
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+    
+      <header class="post-header">
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaEE-Hibernate标签中的懒加载与Session事物
+              
+            
+          </h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T19:02:55+08:00">
+                2017-06-29
+              </time>
+            
+            
+            
+          </span>
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javaEE/" itemprop="url" rel="index">
+                    <span itemprop="name">javaEE</span>
+                  </a>
+                </span>
+                
+                
+              
+            </span>
+          
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。</p>
+<p>这里就作为总结，谈自己现在对懒加载的认识</p>
+<p>ps:用Hibernate还不如用Mybatis..</p>
+<a id="more"></a>
+<h4 id="懒加载的认识"><a href="#懒加载的认识" class="headerlink" title="懒加载的认识"></a>懒加载的认识</h4><p>例如下面的实体类</p>
+<p>@Entity<br>@Table(name = “cruise_ship_project_classify”)<br>public class CruiseShipProjectClassify extends com.framework.hibernate.util.Entity {</p>
+<pre><code>@ManyToOne
+@JoinColumn(name = &quot;parentId&quot;)
+private CruiseShipProjectClassify cruiseShipProjectClassify;
 
-      <h1 class="post-title">
+@OneToMany(mappedBy = &quot;cruiseShipProjectClassify&quot;, fetch = FetchType.LAZY)
+private Set&lt;CruiseShipProject&gt; cruiseShipProject;
+</code></pre><p>}</p>
+<p>看上面的代码可以得出：<br>    实体类CruiseShipProjectClassify和实体类CruiseShipProject是一对多的关系<br>    并对CruiseShipProject设置了懒加载(fetch = FetchType.LAZY)</p>
+<p>拿上面的代码来解释其懒加载的定义:<br>    使用了懒加载时，系统控制器在获取CruiseShipProjectClassify对象数据后，在调试模式下会自动获取CruiseShipProject对象的数据，但在正常运行下时，只有当需要用到CruiseShipProject对象数据的时候，才会调用工具去数据库中自动获取CruiseShipProject对象数据。如果没定义使用懒加载，那么系统在每次运行时都会自动去数据库中获取CruiseShipProject对象的数据，无论当前控制器及页面是否用到CruiseShipProject对象数据。如果此时控制器及页面不需要用到这个对象的数据，这个对象又未定义懒加载，那么系统就消耗了本不该消耗的内存去加载搜索其数据，造成了内存的浪费，运行耗时且速度缓慢。<br>    使用了懒加载和未使用懒加载相对比起来，其作用效果就很明显了</p>
+<p>然而，需要注意的是，jsp最好不要直接使用其定义了懒加载的对象数据<br>拿上面的代码来说，也就是当jsp页面需要CruiseShipProject对象的数据时候，最好不要调用cruiseShipProject这个对象，就是CruiseShipProject定义懒加载而声明的对象</p>
+<p>其原因很简单，就是数据可能会取不到</p>
+<h4 id="Session认识"><a href="#Session认识" class="headerlink" title="Session认识"></a>Session认识</h4><p>这就需要对Hibernate的Session进行了解了</p>
+<p>需要知道</p>
+<p>如果系统底层的crud操作是直接调用Spring中打包的HibernateTemplate来实现，那么Session事物的开启和关闭都将自动完成，而且我也不知道具体在什么时候完成开启和关闭的操作。只知道在需要对数据库进行操作和访问的时候，就会激活Session事物，所有的对数据库操作和访问的语句都将整合到一个Session事物中，这更能确定数据库信息的安全操作。这个Session事物中只要有一条sql语句执行出错，那么整个Session事物操作将会终止，数据库中的信息将会进行回滚，Session事物的连接也将会关闭，这确保了数据的正确性和安全保护</p>
+<p>再回到懒加载，</p>
+<p>在控制器中，定义了方法获取CruiseShipProjectClassify对象的数据，使用了懒加载的CruiseShipProject将会在遇到了需要对CruiseShipProject对象数据进行使用的时候，才会进行二次获取CruiseShipProject数据，如果没有遇到，那将永远不会其获取CruiseShipProject对象数据</p>
+<p>而在进行二次获取时，此时因控制器方法而产生的Session事物已经关闭，那么获取到的CruiseShipProject对象值将会是Null</p>
+<p>那么什么时候才是需要对CruiseShipProject对象数据进行使用的时候？</p>
+<p>例如，一个jsp页面在需要数据的时候，就会调用该页面所对应的控制器去操作，控制器不知道页面具体需要什么数据，只会根据代码去调用相应的service…控制器方法中执行获取CruiseShipProjectClassify对象的数据并返回，其中本该一次性获取的cruiseShipProject，却因为使用了懒加载，使得控制器并不会去查询cruiseShipProject对象的数据，cruiseShipProject对象的数据就为Null.并返回</p>
+<p>当jsp页面定义了${cruiseShipProject.xxx}字段时，就是为例等待控制器返回的数据并填充，当控制器发现这个${cruiseShipProject.xxx}字段的时候，就意味着需要使用cruiseShipProject对象数据，那么就会进行对cruisShipProject数据的二次获取</p>
+<p>而此时，原先控制器激活的Session事物连接已经关闭，访问不到数据库，所以，最终还是获取不到定义了懒加载的CruiseShipProject实体类的对象cruiseShipProject对象数据</p>
+<p>其实，同事所说的，这有个不确定因素，有的时候获取得到，有的时候获取不到</p>
+<p>总之，jsp页面最好不要这样调用已经使用了懒加载的实体类对象</p>
+<p>需要该实体类对象数据的时候，就直接在控制器中自己添加一条代码，以此来获取该实体类对象数据</p>
+<p>另外，在debug调试模式下，是可以获取使用了懒加载对象的数据，不然怎么debug…..</p>
+
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/05/06/daily/2017-05-06-daily-xiamenBegin/" itemprop="url">
-              
-                <span itemprop="name">关于厦门-始</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-05-06T17:11:16+08:00"
-              content="2017-05-06" >
-          05-06
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/javaEE/" rel="tag"># javaEE</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/21/note/2017-06-21-createNote/" rel="next" title="Note">
+                <i class="fa fa-chevron-left"></i> Note
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
-  
+    <div class="post-spread">
+      
+
+		<div id="wpac-comment"></div>
+		<script type="text/javascript">
+		wpac_init = window.wpac_init || [];
+		wpac_init.push({widget: 'Comment', id: 5780});
+		(function() {
+		    if ('WIDGETPACK_LOADED' in window) return;
+		    WIDGETPACK_LOADED = true;
+		    var mc = document.createElement('script');
+		    mc.type = 'text/javascript';
+		    mc.async = true;
+		    mc.src = 'https://embed.widgetpack.com/widget.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+		})();
+		</script>
+		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
 
 
           </div>
@@ -305,6 +486,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
 
         </div>
         
@@ -324,8 +511,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -407,6 +603,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#懒加载的认识"><span class="nav-number">1.</span> <span class="nav-text">懒加载的认识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Session认识"><span class="nav-number">2.</span> <span class="nav-text">Session认识</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -534,6 +746,10 @@
   
   
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
+
+
   
 
 
