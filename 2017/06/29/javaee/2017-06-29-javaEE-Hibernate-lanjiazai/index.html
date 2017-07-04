@@ -72,7 +72,7 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。 这里就作为总结，谈自己现在对懒加载的认识 ps:用Hibernate还不如用Mybatis..">
-<meta property="og:updated_time" content="2017-06-29T11:03:10.393Z">
+<meta property="og:updated_time" content="2017-07-04T07:37:49.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaEE-Hibernate标签中的懒加载与Session事物">
 <meta name="twitter:description" content="最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。 这里就作为总结，谈自己现在对懒加载的认识 ps:用Hibernate还不如用Mybatis..">
@@ -371,15 +371,18 @@
 <p>ps:用Hibernate还不如用Mybatis..</p>
 <a id="more"></a>
 <h4 id="懒加载的认识"><a href="#懒加载的认识" class="headerlink" title="懒加载的认识"></a>懒加载的认识</h4><p>例如下面的实体类</p>
-<p>@Entity<br>@Table(name = “cruise_ship_project_classify”)<br>public class CruiseShipProjectClassify extends com.framework.hibernate.util.Entity {</p>
-<pre><code>@ManyToOne
-@JoinColumn(name = &quot;parentId&quot;)
-private CruiseShipProjectClassify cruiseShipProjectClassify;
+<pre><code>@Entity
+@Table(name = &quot;cruise_ship_project_classify&quot;)
+public class CruiseShipProjectClassify extends com.framework.hibernate.util.Entity {
 
-@OneToMany(mappedBy = &quot;cruiseShipProjectClassify&quot;, fetch = FetchType.LAZY)
-private Set&lt;CruiseShipProject&gt; cruiseShipProject;
-</code></pre><p>}</p>
-<p>看上面的代码可以得出：<br>    实体类CruiseShipProjectClassify和实体类CruiseShipProject是一对多的关系<br>    并对CruiseShipProject设置了懒加载(fetch = FetchType.LAZY)</p>
+    @ManyToOne
+    @JoinColumn(name = &quot;parentId&quot;)
+    private CruiseShipProjectClassify cruiseShipProjectClassify;
+
+    @OneToMany(mappedBy = &quot;cruiseShipProjectClassify&quot;, fetch = FetchType.LAZY)
+    private Set&lt;CruiseShipProject&gt; cruiseShipProject;
+}
+</code></pre><p>看上面的代码可以得出：<br>    实体类CruiseShipProjectClassify和实体类CruiseShipProject是一对多的关系<br>    并对CruiseShipProject设置了懒加载(fetch = FetchType.LAZY)</p>
 <p>拿上面的代码来解释其懒加载的定义:<br>    使用了懒加载时，系统控制器在获取CruiseShipProjectClassify对象数据后，在调试模式下会自动获取CruiseShipProject对象的数据，但在正常运行下时，只有当需要用到CruiseShipProject对象数据的时候，才会调用工具去数据库中自动获取CruiseShipProject对象数据。如果没定义使用懒加载，那么系统在每次运行时都会自动去数据库中获取CruiseShipProject对象的数据，无论当前控制器及页面是否用到CruiseShipProject对象数据。如果此时控制器及页面不需要用到这个对象的数据，这个对象又未定义懒加载，那么系统就消耗了本不该消耗的内存去加载搜索其数据，造成了内存的浪费，运行耗时且速度缓慢。<br>    使用了懒加载和未使用懒加载相对比起来，其作用效果就很明显了</p>
 <p>然而，需要注意的是，jsp最好不要直接使用其定义了懒加载的对象数据<br>拿上面的代码来说，也就是当jsp页面需要CruiseShipProject对象的数据时候，最好不要调用cruiseShipProject这个对象，就是CruiseShipProject定义懒加载而声明的对象</p>
 <p>其原因很简单，就是数据可能会取不到</p>
@@ -450,6 +453,10 @@ private Set&lt;CruiseShipProject&gt; cruiseShipProject;
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/04/javaee/2017-07-04-javaEE-SpringMVC-jquery-arttemplate/" rel="prev" title="Spring MVC注解控制器同步跳转和ajax的异步请求的协作">
+                Spring MVC注解控制器同步跳转和ajax的异步请求的协作 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -536,7 +543,7 @@ private Set&lt;CruiseShipProject&gt; cruiseShipProject;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -558,7 +565,7 @@ private Set&lt;CruiseShipProject&gt; cruiseShipProject;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
