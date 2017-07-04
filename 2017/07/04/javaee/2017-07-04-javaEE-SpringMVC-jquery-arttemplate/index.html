@@ -65,17 +65,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 其流程如下： 首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
+<meta name="description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 流程其大致流程如下  首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
 <meta name="keywords" content="javaEE,codeing，JQuery,AJAX">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring MVC注解控制器同步跳转和ajax的异步请求的协作">
 <meta property="og:url" content="http://www.cgspace.date/2017/07/04/javaee/2017-07-04-javaEE-SpringMVC-jquery-arttemplate/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 其流程如下： 首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
-<meta property="og:updated_time" content="2017-07-04T07:46:26.335Z">
+<meta property="og:description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 流程其大致流程如下  首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
+<meta property="og:updated_time" content="2017-07-04T07:53:14.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring MVC注解控制器同步跳转和ajax的异步请求的协作">
-<meta name="twitter:description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 其流程如下： 首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
+<meta name="twitter:description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 流程其大致流程如下  首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -367,7 +367,8 @@
 
       
         <p>就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程</p>
-<h3 id="其流程如下："><a href="#其流程如下：" class="headerlink" title="其流程如下："></a>其流程如下：</h3><ol>
+<h4 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h4><p>其大致流程如下</p>
+<ol>
 <li>首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)</li>
 </ol>
 <a id="more"></a>
@@ -379,7 +380,7 @@
 <li><p>将放回的结果数据当做参数传入JQuery AJAX的异步请求方法中的success函数，根据结果情况做出相对应的响应</p>
 </li>
 </ol>
-<h3 id="关于success函数"><a href="#关于success函数" class="headerlink" title="关于success函数"></a>关于success函数</h3><p>jquery ajax的异步请求方法中，定义了一个success函数机制，如下面的实现代码</p>
+<h4 id="关于success函数"><a href="#关于success函数" class="headerlink" title="关于success函数"></a>关于success函数</h4><p>jquery ajax的异步请求方法中，定义了一个success函数机制，如下面的实现代码</p>
 <p><code>success:function(result){}</code></p>
 <p>这样的</p>
 <p>我也不知道这个success功能该怎么叫，它的工作原理我也不大清楚，说是success函数机制，这也只是我按自己的理解命名的<br>控制器方法在执行完数据的处理后，return操作后的结果，这就当是服务器的返回，原先缓存在浏览器中的favorite_list.js中的jquery ajax还在运行等待服务器的返回，<br>当其检测到服务器发送回来的数据后，将数据当做参数传到success函数机制中</p>
@@ -387,11 +388,11 @@
 <pre><code>success:function(返回数据){}
 </code></pre><p>后面success函数机制在根据返回的数据进行操作判断之前请求的数据是否处理成功<br>并做出对应的相应</p>
 <p>这是我现在的猜测，<br>另外<br>根据根据控制器方法的不同返回结果，可分为不同的跳转方式</p>
-<h3 id="同步跳转"><a href="#同步跳转" class="headerlink" title="同步跳转"></a>同步跳转</h3><p>控制器方法内部有数据的处理及最后返回一个页面地址，这样的属于同步跳转<br>控制器方法内部要是没有数据的处理，最后确返回一个页面地址，这样也数据同步跳转</p>
-<h3 id="异步跳转"><a href="#异步跳转" class="headerlink" title="异步跳转"></a>异步跳转</h3><p>控制器方法内部只有数据的处理，最后也只返回数据，这样的数据异步跳转</p>
+<h4 id="同步跳转"><a href="#同步跳转" class="headerlink" title="同步跳转"></a>同步跳转</h4><p>控制器方法内部有数据的处理及最后返回一个页面地址，这样的属于同步跳转<br>控制器方法内部要是没有数据的处理，最后确返回一个页面地址，这样也数据同步跳转</p>
+<h4 id="异步跳转"><a href="#异步跳转" class="headerlink" title="异步跳转"></a>异步跳转</h4><p>控制器方法内部只有数据的处理，最后也只返回数据，这样的数据异步跳转</p>
 <p>还有就是，每个ajax的请求都对应一个控制器，每次请求都会对应实例化一个新的Request对象，后面事件触发的ajax数据请求与初次访问页面请求的Request对象是不同的</p>
 <p>下面贴出相关文件的代码</p>
-<h3 id="list-jsp"><a href="#list-jsp" class="headerlink" title="list.jsp"></a>list.jsp</h3><p>list.jsp页面的代码</p>
+<h4 id="list-jsp"><a href="#list-jsp" class="headerlink" title="list.jsp"></a>list.jsp</h4><p>list.jsp页面的代码</p>
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
 &lt;html&gt;
@@ -504,7 +505,7 @@
 
 &lt;/script&gt;
 </code></pre><p>这个页面中对应的控制器方法使用了同步加载的方法，其返回值是一个list.jsp页面路径<br>在这个页面中，关键数据使用了arttemplate模板，如<script id="tpl-list-item" type="text/html"></script>标签块中的代码实现，配合ajax实现list.jsp页面数据的异步加载并渲染</p>
-<h3 id="FavoriteController-java"><a href="#FavoriteController-java" class="headerlink" title="FavoriteController.java"></a>FavoriteController.java</h3><p>其控制器类FavoriteController的部分代码如下</p>
+<h4 id="FavoriteController-java"><a href="#FavoriteController-java" class="headerlink" title="FavoriteController.java"></a>FavoriteController.java</h4><p>其控制器类FavoriteController的部分代码如下</p>
 <pre><code>@Controller
 @RequestMapping(&quot;/favorite&quot;)
 public class FavoriteController {
@@ -550,7 +551,7 @@ public class FavoriteController {
 
 }
 </code></pre><p>观察上面的代码可以知道这是个基于注解实现的控制器，<br>使用@Controller来声明一个控制器类，<br>@RequestMapping来声明一个控制器方法，RequestMapping方法除了有value属性外，还有method属性</p>
-<h3 id="favorite-list-js"><a href="#favorite-list-js" class="headerlink" title="favorite_list.js"></a>favorite_list.js</h3><p>favorite_list.js中的部分代码</p>
+<h4 id="favorite-list-js"><a href="#favorite-list-js" class="headerlink" title="favorite_list.js"></a>favorite_list.js</h4><p>favorite_list.js中的部分代码</p>
 <pre><code>$(function() {
     if (!$.checkLogin()) { //验证登录
         return;
@@ -847,7 +848,7 @@ var Collect = {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#其流程如下："><span class="nav-number">1.</span> <span class="nav-text">其流程如下：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于success函数"><span class="nav-number">2.</span> <span class="nav-text">关于success函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步跳转"><span class="nav-number">3.</span> <span class="nav-text">同步跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步跳转"><span class="nav-number">4.</span> <span class="nav-text">异步跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#list-jsp"><span class="nav-number">5.</span> <span class="nav-text">list.jsp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FavoriteController-java"><span class="nav-number">6.</span> <span class="nav-text">FavoriteController.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#favorite-list-js"><span class="nav-number">7.</span> <span class="nav-text">favorite_list.js</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#流程"><span class="nav-number">1.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关于success函数"><span class="nav-number">2.</span> <span class="nav-text">关于success函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同步跳转"><span class="nav-number">3.</span> <span class="nav-text">同步跳转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#异步跳转"><span class="nav-number">4.</span> <span class="nav-text">异步跳转</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list-jsp"><span class="nav-number">5.</span> <span class="nav-text">list.jsp</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FavoriteController-java"><span class="nav-number">6.</span> <span class="nav-text">FavoriteController.java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#favorite-list-js"><span class="nav-number">7.</span> <span class="nav-text">favorite_list.js</span></a></li></ol></div>
             
 
           </div>
