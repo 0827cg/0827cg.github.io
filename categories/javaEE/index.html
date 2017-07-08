@@ -540,18 +540,19 @@
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">cg</span>
-</div>
-
-
-<div class="powered-by">
-  驱动 - <a class="theme-link" href="https://hexo.io">Hexo</a>
-</div>
-
-<div class="theme-info">
-  主题 -
-  <a class="theme-link" href="https://github.com/cgstudios/next-myself">
-    NexT.Mist
-  </a>
+  <span class="span-time"></span>
+  <script>
+  var startTime = new Date("2016/12/27");
+  setInterval(function () {
+    var nowTime = new Date();
+    var time = nowTime - startTime;
+    var day = parseInt(time / 1000 / 60 / 60 / 24);
+    var hour = parseInt(time / 1000 / 60 / 60 % 24);
+    var minute = parseInt(time / 1000 / 60 % 60);
+    var seconds = parseInt(time / 1000 % 60);
+    $('.span-time').html(" | 已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+  }, 1000);
+</script>
 </div>
 
 
