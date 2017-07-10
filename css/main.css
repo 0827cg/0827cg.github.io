@@ -423,6 +423,10 @@ th {
 td {
   border-bottom-width: 1px;
 }
+* {
+  padding: 0px;
+  margin: 0px;
+}
 html,
 body {
   height: 100%;
@@ -434,7 +438,7 @@ body {
 .header-inner {
   margin: 0 auto;
   padding: 100px 0 70px;
-  width: 820px;
+  width: 830px;
 }
 @media (min-width: 1600px) {
   .container .header-inner {
@@ -446,7 +450,7 @@ body {
 }
 .main-inner {
   margin: 0 auto;
-  width: 820px;
+  width: 830px;
 }
 @media (min-width: 1600px) {
   .container .main-inner {
@@ -455,15 +459,15 @@ body {
 }
 .footer {
   position: absolute;
-  left: 0;
-  bottom: 0;
+  left: 0px;
+  bottom: 0px;
   width: 100%;
   min-height: 40px;
 }
 .footer-inner {
   box-sizing: border-box;
   margin: 20px auto;
-  width: 820px;
+  width: 830px;
 }
 @media (min-width: 1600px) {
   .container .footer-inner {
@@ -1691,7 +1695,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #582220;
+  background: #fffadd;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2489,7 +2493,7 @@ hr {
   background: #2e2e2e;
 }
 .header-inner {
-  padding: 25px 0 20px;
+  padding: 18px 0px 18px;
 }
 .header-inner:before,
 .header-inner:after {
@@ -2660,7 +2664,7 @@ hr {
 .posts-expand .post-title {
   position: relative;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 300;
 }
 @media (max-width: 767px) {
   .posts-expand .post-title {
