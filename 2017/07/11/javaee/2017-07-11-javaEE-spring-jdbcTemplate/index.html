@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="linux," />
+  <meta name="keywords" content="codeing,javaEE," />
 
 
 
@@ -65,17 +65,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="我的系统是ubuntu15.10，由于dns服务器地址经常自动更改，不知道什么原因，但肯定不是network-manager的原因，因为在出问题之前network-manager也还在，那会儿dns服务器地址并没有因为其而自动更换。 了解:ubuntu系统的dns服务器地址的存放在/etc/resolv.conf文件中，每一次开机查看此文件可看到其地址都是127.0.1.1，">
-<meta name="keywords" content="linux">
+<meta name="description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口BaseCRUDService是封装在base-daoTemplate这个jar包中估计这个base-daoTemplate.jar这个jar包是公司自己写的">
+<meta name="keywords" content="codeing,javaEE">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解决ubuntu15.10开机自动更改DNS服务器问题">
-<meta property="og:url" content="http://www.cgspace.date/2016/12/27/linux/2016-12-27-ubuntu-startup-dns/index.html">
+<meta property="og:title" content="Spring中的jdbcTemplate和FreeMarker的初步接触">
+<meta property="og:url" content="http://www.cgspace.date/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="我的系统是ubuntu15.10，由于dns服务器地址经常自动更改，不知道什么原因，但肯定不是network-manager的原因，因为在出问题之前network-manager也还在，那会儿dns服务器地址并没有因为其而自动更换。 了解:ubuntu系统的dns服务器地址的存放在/etc/resolv.conf文件中，每一次开机查看此文件可看到其地址都是127.0.1.1，">
-<meta property="og:updated_time" content="2017-04-30T15:31:28.000Z">
+<meta property="og:description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口BaseCRUDService是封装在base-daoTemplate这个jar包中估计这个base-daoTemplate.jar这个jar包是公司自己写的">
+<meta property="og:updated_time" content="2017-07-11T13:43:24.138Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解决ubuntu15.10开机自动更改DNS服务器问题">
-<meta name="twitter:description" content="我的系统是ubuntu15.10，由于dns服务器地址经常自动更改，不知道什么原因，但肯定不是network-manager的原因，因为在出问题之前network-manager也还在，那会儿dns服务器地址并没有因为其而自动更换。 了解:ubuntu系统的dns服务器地址的存放在/etc/resolv.conf文件中，每一次开机查看此文件可看到其地址都是127.0.1.1，">
+<meta name="twitter:title" content="Spring中的jdbcTemplate和FreeMarker的初步接触">
+<meta name="twitter:description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口BaseCRUDService是封装在base-daoTemplate这个jar包中估计这个base-daoTemplate.jar这个jar包是公司自己写的">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -101,13 +101,13 @@
 
 
 
-  <link rel="canonical" href="http://www.cgspace.date/2016/12/27/linux/2016-12-27-ubuntu-startup-dns/"/>
+  <link rel="canonical" href="http://www.cgspace.date/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/"/>
 
 
 
 
 
-  <title>解决ubuntu15.10开机自动更改DNS服务器问题 | cgspace</title>
+  <title>Spring中的jdbcTemplate和FreeMarker的初步接触 | cgspace</title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
@@ -259,7 +259,7 @@
   
   
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2016/12/27/linux/2016-12-27-ubuntu-startup-dns/">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/">
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
@@ -276,7 +276,7 @@
             
             
               
-                解决ubuntu15.10开机自动更改DNS服务器问题
+                Spring中的jdbcTemplate和FreeMarker的初步接触
               
             
           </h1>
@@ -290,8 +290,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2016-12-27T15:23:32+08:00">
-                2016-12-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-11T21:35:01+08:00">
+                2017-07-11
               </time>
             
             
@@ -310,8 +310,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/javaEE/" itemprop="url" rel="index">
+                    <span itemprop="name">javaEE</span>
                   </a>
                 </span>
                 
@@ -326,7 +326,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2016/12/27/linux/2016-12-27-ubuntu-startup-dns/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -356,11 +356,155 @@
       
 
       
-        <p>我的系统是ubuntu15.10，由于dns服务器地址经常自动更改，不知道什么原因，但肯定不是network-manager的原因，因为在出问题之前network-manager也还在，那会儿dns服务器地址并没有因为其而自动更换。</p>
-<p>了解:ubuntu系统的dns服务器地址的存放在/etc/resolv.conf文件中，每一次开机查看此文件可看到其地址都是127.0.1.1，</p>
+        <p>这么晚还没下班，没毛病吧，人生就是这么刺激….<br>说说今天接触到的东西<br>项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口<br>BaseCRUDService是封装在base-daoTemplate这个jar包中<br>估计这个base-daoTemplate.jar这个jar包是公司自己写的</p>
 <a id="more"></a>
-<p>解决方法:修改/etc/resolvconf/resolv.conf.d/head 此文件，在里面添加:nameserver 202.114.0.131或者</p>
-<p>nameserver 202.114.0.242，这两个地址是在电脑不使用锐捷客户端而是直接使用network-manager连接无线网络时得到的dns服务器地址。这里说一下resolv.conf.d这个文件夹里面的两个文件head和base,一开始在网络上查找到的方法是修改base这个文件，然而此方法对我没用，估计那会儿献此方法的人只有base这一个文件，而没有head这个文件，因此估摸这如果两个文件都有的人，就得像我一样修改head这个文件，反之，则修改base这个文件</p>
+<p>里头封装了一些基本的crud操作</p>
+<p>这是操作数据库的一种方式</p>
+<h3 id="BaseCRUDService-java"><a href="#BaseCRUDService-java" class="headerlink" title="BaseCRUDService.java"></a>BaseCRUDService.java</h3><p>BaseCRUDService.java代码如下</p>
+<pre><code>public interface BaseCRUDService&lt;T&gt; {
+    T createEntity();
+
+    Long count(Map&lt;String, Object&gt; var1);
+
+    Long count(List&lt;Cond&gt; var1);
+
+    Long count(Conds var1);
+
+    T getById(Serializable var1);
+
+    T get(Map&lt;String, Object&gt; var1);
+
+    T get(Conds var1);
+
+    List&lt;T&gt; list(Map&lt;String, Object&gt; var1);
+
+    List&lt;T&gt; list(List&lt;Cond&gt; var1);
+
+    List&lt;T&gt; list(Conds var1);
+
+    void deleteById(Serializable var1);
+
+    void delete(Conds var1);
+
+    T insert(T var1);
+
+    T update(T var1);
+
+    T update(Update var1);
+}
+</code></pre><p>第二中方式使用spring框架的jdbcTemplate这个jar包来操作</p>
+<pre><code>String sql = FreeMarkerHelper.getValueFromTpl(&quot;sql/purchaseOrder/PurchaseOrderListList.sql&quot;, data);
+List&lt;PurchaseOrderListVo&gt; orderListVoList = jdbcTemplate.query(sql, ParameterizedBeanPropertyRowMapper.newInstance(PurchaseOrderListVo.class));
+</code></pre><p>这感觉有点搞头<br>例如一个方法代码如下</p>
+<pre><code>private ListMultimap&lt;String, PurchaseOrderListVo&gt; getOrderListList(List&lt;String&gt; orderIdList) {
+    Map&lt;String, Object&gt; data = Maps.newHashMap();
+    String orderIds = StringUtils.join(orderIdList, &quot;,&quot;);
+    if (StringUtils.isBlank(orderIds)){
+        orderIds = &quot;-1&quot;;
+    }
+    data.put(&quot;orderIds&quot;,  orderIds);
+    String sql = FreeMarkerHelper.getValueFromTpl(&quot;sql/purchaseOrder/PurchaseOrderListList.sql&quot;, data);
+    List&lt;PurchaseOrderListVo&gt; orderListVoList = jdbcTemplate.query(sql, ParameterizedBeanPropertyRowMapper.newInstance(PurchaseOrderListVo.class));
+    ListMultimap&lt;String, PurchaseOrderListVo&gt; listMultimap = ArrayListMultimap.create();
+    // 售后信息
+    Map&lt;String, Map&lt;String, List&lt;OrderItemAsFlowVo&gt;&gt;&gt; flowMap = orderItemAsFlowQueryService.getListFlowList(orderIdList);
+    for (PurchaseOrderListVo listVo : orderListVoList) {
+        if (flowMap.get(listVo.getOrderId()) != null) {
+            listVo.setFlowList(flowMap.get(listVo.getOrderId()).get(listVo.getPurGoodsSkuId()));
+        }
+        listMultimap.put(listVo.getOrderId(), listVo);
+    }
+    return listMultimap;
+}
+</code></pre><p>感觉这个方法涉及到的工具代码真是牛逼<br>来解析下这个方法<br>只节解析对我有用的，其他的功能我不管</p>
+<p>首先代码第一行</p>
+<p><code>Map&lt;String, Object&gt; data = Maps.newHashMap()</code></p>
+<p>声明并实例化了一个Map类型的data对象，</p>
+<p>之后</p>
+<p><code>data.put(&quot;orderIds&quot;,  orderIds);</code></p>
+<p>这一行代码将数据存入到data对象中，</p>
+<p><code>key=orderIds,value=orderIds</code></p>
+<p>然后使用FreeMarkerHelper这个类中的getValueFormTpl()这个方法来解析一个sql文件，并实现将搜索需要的参数参合到其中</p>
+<p>其代码的实现就是将data对象作为参数传入，并且将sql文件中的参数变量使用data中的key匹配并用value替换</p>
+<h3 id="sql文件"><a href="#sql文件" class="headerlink" title="sql文件"></a>sql文件</h3><p>PurchaseOrderListList.sql文件的代码如下</p>
+<pre><code>SELECT
+    group_concat(id) as id,
+    order_id,
+    pur_goods_sku_id,
+    pur_goods_id,
+    status,
+    sum(number) as number,
+    sum(final_amount) as final_amount,
+    pur_goods_name,
+    pur_goods_img_url,
+    pur_goods_amount as pur_goods_amount,
+    pur_goods_type,
+    ROUND(supply_price / number, 2) as supply_price,
+    create_time,
+    is_sample,
+    sum(sum_amount) as sum_amount,
+    cargo_sku_id,
+    sum(original_amount) as original_amount,
+    sum(discount_amount) as discount_amount,
+    return_time,
+    last_updated,
+    gift_flag,
+    sum(return_amount) as return_amount
+FROM
+    purchase_order_list
+WHERE
+    order_id in (${orderIds})
+    and is_valid = &apos;T&apos;
+    and del_flag = &apos;F&apos;
+group by pur_goods_sku_id,order_id
+</code></pre><p>观察PurchaseOrderListList.sql中的代码，其中有个</p>
+<p><code>${orderIds}</code></p>
+<p>这个就是用来和data对象中的key相匹配，并将data对象中key值orderIds的value传入到PurchaseOrderListList.sql文件中，</p>
+<p>FreeMarkerHelper再读取PurchaseOrderListList.sql中的内容，之后返回一个String类型的操作数据库的字符串语句</p>
+<p>之后，调用jdbaTemplate中的query()方法来操作数据库，并返回一个list集合</p>
+<h3 id="FreeMarkerHelper-java"><a href="#FreeMarkerHelper-java" class="headerlink" title="FreeMarkerHelper.java"></a>FreeMarkerHelper.java</h3><p>其FreeMarkerHelper代码如下</p>
+<pre><code>public class FreeMarkerHelper {
+
+    private static final Configuration config;
+
+    static{
+        config = new Configuration(Configuration.VERSION_2_3_22);
+        config.setDefaultEncoding(&quot;UTF-8&quot;);
+        config.setOutputEncoding(&quot;UTF-8&quot;);
+
+        try {
+//            System.out.println(&quot;===========&quot; + new ClassPathResource(&quot;./classes&quot;).getFile().getAbsolutePath() + &quot;===========&quot;);
+//            System.out.println(&quot;===========&quot; + new ClassPathResource(&quot;./sql&quot;).getFile().getAbsolutePath() + &quot;===========&quot;);
+//            System.out.println(&quot;===========&quot; + new ClassPathResource(&quot;sql&quot;).getFile().getAbsolutePath() + &quot;===========&quot;);
+//            System.out.println(&quot;===========&quot; + new ClassPathResource(&quot;&quot;).getFile().getAbsolutePath() + &quot;===========&quot;);
+//            System.out.println(&quot;===========&quot; + new ClassPathResource(&quot;/&quot;).getFile().getAbsolutePath() + &quot;===========&quot;);
+//            System.out.println(&quot;===========&quot; + new ClassPathResource(&quot;.&quot;).getFile().getAbsolutePath() + &quot;===========&quot;);
+            config.setDirectoryForTemplateLoading(new File(CfgConstants.getProperties().get(&quot;tplPath&quot;)));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static String getValueFromTpl(String tplName, Object dataModel) {
+        String value = null;
+        Template template = null;
+        try {
+            template = config.getTemplate(tplName);
+            value = FreeMarkerTemplateUtils.processTemplateIntoString(template, dataModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
+
+}
+</code></pre><p>这个FreeMarkerHelper类真是厉害，这类中的代码我根本看不懂</p>
+<p>只知道是调用了FreeMarker模板引擎</p>
+<p>只是我没接触过FreeMarker，问了前辈，前辈说也不知道，表示这个项目中使用FreeMarker只是用来组装sql语句的</p>
+<p>并让我不要去研究底层的东西，学会怎么用就行…..</p>
+<p>ps:得找个机会总结下最近学到的东西了，不然就忘了</p>
 
       
     </div>
@@ -390,7 +534,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/javaEE/" rel="tag"># javaEE</a>
           
         </div>
       
@@ -403,15 +549,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/07/04/javaee/2017-07-04-javaEE-SpringMVC-jquery-arttemplate/" rel="next" title="Spring MVC注解控制器同步跳转和ajax的异步请求的协作">
+                <i class="fa fa-chevron-left"></i> Spring MVC注解控制器同步跳转和ajax的异步请求的协作
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/27/linux/2016-12-27-ubuntu-loginlightdm-bgpic/" rel="prev" title="ubuntu15.10修改默认登录器lightdm的登录界面背景图片">
-                ubuntu15.10修改默认登录器lightdm的登录界面背景图片 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -473,8 +619,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -556,6 +711,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#BaseCRUDService-java"><span class="nav-number">1.</span> <span class="nav-text">BaseCRUDService.java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql文件"><span class="nav-number">2.</span> <span class="nav-text">sql文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FreeMarkerHelper-java"><span class="nav-number">3.</span> <span class="nav-text">FreeMarkerHelper.java</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
