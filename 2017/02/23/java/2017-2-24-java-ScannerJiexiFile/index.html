@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="codeing,java," />
+  <meta name="keywords" content="java,codeing," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="Java中的Scanner类除了可以用来读取扫描从键盘输入,还可以扫描文件 Scanner类很基本,通过读取用户从键盘输入字符来实现交互.主要是通过Scanner类中的nextLine()方法来获取输入的所有内容,也可以使用next()方法,但next()方法不会获取空格,但一般使用nextLine()方法">
-<meta name="keywords" content="codeing,java">
+<meta name="keywords" content="java,codeing">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java中Scanner类扫描文件">
 <meta property="og:url" content="http://www.cgspace.date/2017/02/23/java/2017-2-24-java-ScannerJiexiFile/index.html">
@@ -462,9 +462,9 @@ while(scanner.hasNextLine()){
       
         <div class="post-tags">
           
-            <a href="/tags/codeing/" rel="tag"># codeing</a>
-          
             <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
           
         </div>
       
@@ -503,7 +503,8 @@ while(scanner.hasNextLine()){
 
     <div class="post-spread">
       
-
+        
+        <!--
 		<div id="wpac-comment"></div>
 		<script type="text/javascript">
 		wpac_init = window.wpac_init || [];
@@ -519,6 +520,23 @@ while(scanner.hasNextLine()){
 		})();
 		</script>
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+        -->
+        
+        <div id="container"></div>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script>
+        var gitment = new Gitment({
+          
+          owner: 'cgstudios',
+          repo: 'cgstudios-blog-file',
+          oauth: {
+            client_id: '5f667cada6c6e9fefd45',
+            client_secret: '78c49a731e5396fd763524b410af73a19006f0fb',
+          },
+        })
+        gitment.render('container')
+        </script>   
 
 
           </div>
@@ -567,7 +585,7 @@ while(scanner.hasNextLine()){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="codeing,java," />
+  <meta name="keywords" content="java,codeing," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="Java打印菱形和空心菱形，如图：  首先理一下思路， 先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
-<meta name="keywords" content="codeing,java">
+<meta name="keywords" content="java,codeing">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java打印菱形  ">
 <meta property="og:url" content="http://www.cgspace.date/2017/01/19/java/2017-1-19-java-DiamonDemo/index.html">
@@ -531,9 +531,9 @@ class DrawShape{
       
         <div class="post-tags">
           
-            <a href="/tags/codeing/" rel="tag"># codeing</a>
-          
             <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
           
         </div>
       
@@ -572,7 +572,8 @@ class DrawShape{
 
     <div class="post-spread">
       
-
+        
+        <!--
 		<div id="wpac-comment"></div>
 		<script type="text/javascript">
 		wpac_init = window.wpac_init || [];
@@ -588,6 +589,23 @@ class DrawShape{
 		})();
 		</script>
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+        -->
+        
+        <div id="container"></div>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script>
+        var gitment = new Gitment({
+          
+          owner: 'cgstudios',
+          repo: 'cgstudios-blog-file',
+          oauth: {
+            client_id: '5f667cada6c6e9fefd45',
+            client_secret: '78c49a731e5396fd763524b410af73a19006f0fb',
+          },
+        })
+        gitment.render('container')
+        </script>   
 
 
           </div>
@@ -636,7 +654,7 @@ class DrawShape{
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

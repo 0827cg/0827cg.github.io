@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="codeing,java," />
+  <meta name="keywords" content="java,codeing," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="这里使用对文件进行缓冲,将得到的引用传给BufferedReader构造器,从而实现对文件的读取 代码如下:">
-<meta name="keywords" content="codeing,java">
+<meta name="keywords" content="java,codeing">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java读取自己文件内容">
 <meta property="og:url" content="http://www.cgspace.date/2017/02/13/java/2017-2-13-java-BufferedInputFile/index.html">
@@ -414,9 +414,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/codeing/" rel="tag"># codeing</a>
-          
             <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/codeing/" rel="tag"># codeing</a>
           
         </div>
       
@@ -455,7 +455,8 @@
 
     <div class="post-spread">
       
-
+        
+        <!--
 		<div id="wpac-comment"></div>
 		<script type="text/javascript">
 		wpac_init = window.wpac_init || [];
@@ -471,6 +472,23 @@
 		})();
 		</script>
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+        -->
+        
+        <div id="container"></div>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script>
+        var gitment = new Gitment({
+          
+          owner: 'cgstudios',
+          repo: 'cgstudios-blog-file',
+          oauth: {
+            client_id: '5f667cada6c6e9fefd45',
+            client_secret: '78c49a731e5396fd763524b410af73a19006f0fb',
+          },
+        })
+        gitment.render('container')
+        </script>   
 
 
           </div>
@@ -519,7 +537,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

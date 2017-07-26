@@ -445,7 +445,8 @@
 
     <div class="post-spread">
       
-
+        
+        <!--
 		<div id="wpac-comment"></div>
 		<script type="text/javascript">
 		wpac_init = window.wpac_init || [];
@@ -461,6 +462,23 @@
 		})();
 		</script>
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+        -->
+        
+        <div id="container"></div>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script>
+        var gitment = new Gitment({
+          
+          owner: 'cgstudios',
+          repo: 'cgstudios-blog-file',
+          oauth: {
+            client_id: '5f667cada6c6e9fefd45',
+            client_secret: '78c49a731e5396fd763524b410af73a19006f0fb',
+          },
+        })
+        gitment.render('container')
+        </script>   
 
 
           </div>
@@ -509,7 +527,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
