@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,codeing," />
+  <meta name="keywords" content="codeing,java," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="Java打印菱形和空心菱形，如图：  首先理一下思路， 先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
-<meta name="keywords" content="java,codeing">
+<meta name="keywords" content="codeing,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java打印菱形  ">
 <meta property="og:url" content="http://www.cgspace.date/2017/01/19/java/2017-1-19-java-DiamonDemo/index.html">
@@ -531,9 +531,9 @@ class DrawShape{
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
             <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -591,12 +591,13 @@ class DrawShape{
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
         -->
         
+        <!--
         <div id="container"></div>
         <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
         <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
         <script>
         var gitment = new Gitment({
-          
+          id: '',
           owner: 'cgstudios',
           repo: 'cgstudios-blog-file',
           oauth: {
@@ -605,7 +606,26 @@ class DrawShape{
           },
         })
         gitment.render('container')
-        </script>   
+        </script>
+        -->
+
+        <noscript>Please enable JavaScript to view the comment form powered by <a href="https://commentit.io/">Comm(ent|it)</a></noscript>
+        <div id="commentit"></div>
+        <script type="text/javascript">
+          /** CONFIGURATION VARIABLES **/
+          var commentitUsername = 'cgstudios';
+          var commentitRepo = 'cgstudios/cgstudios.github.io';
+          var commentitPath = '2017/01/19/java/2017-1-19-java-DiamonDemo/';
+
+          /** DON'T EDIT FOLLOWING LINES **/
+          (function() {
+              var commentit = document.createElement('script');
+              commentit.type = 'text/javascript';
+              commentit.async = true;
+              commentit.src = 'https://commentit.io/static/embed/dist/commentit.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(commentit);
+          })();
+        </script>
 
 
           </div>
@@ -752,7 +772,7 @@ class DrawShape{
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html(" | 已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
 </script>
 </div>

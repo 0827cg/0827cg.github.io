@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,codeing," />
+  <meta name="keywords" content="codeing,java," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="Java中的break和continue语句 自己即将毕业了,准备把之前学习时编写的代码笔记整理下.重温知识点  break用于强行退出循环，不执行循环中剩余的语句，而continue则是停止执行当前的迭代，然后退回循环起始处，开始下一次迭代  foreach语句貌似不能像for循环那样依次存储数据，只能遍历输出数据  无穷循环有两种形式:while(true)和for(;;)  为了解break">
-<meta name="keywords" content="java,codeing">
+<meta name="keywords" content="codeing,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java跳转语句">
 <meta property="og:url" content="http://www.cgspace.date/2017/02/13/java/2017-2-13-java-BreakContinue/index.html">
@@ -491,9 +491,9 @@ i == 7,执行break,结束整个for循环
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
             <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -551,12 +551,13 @@ i == 7,执行break,结束整个for循环
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
         -->
         
+        <!--
         <div id="container"></div>
         <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
         <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
         <script>
         var gitment = new Gitment({
-          
+          id: '',
           owner: 'cgstudios',
           repo: 'cgstudios-blog-file',
           oauth: {
@@ -565,7 +566,26 @@ i == 7,执行break,结束整个for循环
           },
         })
         gitment.render('container')
-        </script>   
+        </script>
+        -->
+
+        <noscript>Please enable JavaScript to view the comment form powered by <a href="https://commentit.io/">Comm(ent|it)</a></noscript>
+        <div id="commentit"></div>
+        <script type="text/javascript">
+          /** CONFIGURATION VARIABLES **/
+          var commentitUsername = 'cgstudios';
+          var commentitRepo = 'cgstudios/cgstudios.github.io';
+          var commentitPath = '2017/02/13/java/2017-2-13-java-BreakContinue/';
+
+          /** DON'T EDIT FOLLOWING LINES **/
+          (function() {
+              var commentit = document.createElement('script');
+              commentit.type = 'text/javascript';
+              commentit.async = true;
+              commentit.src = 'https://commentit.io/static/embed/dist/commentit.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(commentit);
+          })();
+        </script>
 
 
           </div>
@@ -712,7 +732,7 @@ i == 7,执行break,结束整个for循环
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html(" | 已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
 </script>
 </div>

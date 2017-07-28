@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,codeing," />
+  <meta name="keywords" content="codeing,java," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下: boolean-exp ? value1 : value2 如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1, 如果boolean-exp的结果为false,值就计算为value2.当然,如果需要达成这中需求这也可">
-<meta name="keywords" content="java,codeing">
+<meta name="keywords" content="codeing,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java三元操作符">
 <meta property="og:url" content="http://www.cgspace.date/2016/12/28/java/2016-12-28-java-TernaryOperator/index.html">
@@ -430,9 +430,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
             <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -490,12 +490,13 @@
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
         -->
         
+        <!--
         <div id="container"></div>
         <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
         <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
         <script>
         var gitment = new Gitment({
-          
+          id: '',
           owner: 'cgstudios',
           repo: 'cgstudios-blog-file',
           oauth: {
@@ -504,7 +505,26 @@
           },
         })
         gitment.render('container')
-        </script>   
+        </script>
+        -->
+
+        <noscript>Please enable JavaScript to view the comment form powered by <a href="https://commentit.io/">Comm(ent|it)</a></noscript>
+        <div id="commentit"></div>
+        <script type="text/javascript">
+          /** CONFIGURATION VARIABLES **/
+          var commentitUsername = 'cgstudios';
+          var commentitRepo = 'cgstudios/cgstudios.github.io';
+          var commentitPath = '2016/12/28/java/2016-12-28-java-TernaryOperator/';
+
+          /** DON'T EDIT FOLLOWING LINES **/
+          (function() {
+              var commentit = document.createElement('script');
+              commentit.type = 'text/javascript';
+              commentit.async = true;
+              commentit.src = 'https://commentit.io/static/embed/dist/commentit.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(commentit);
+          })();
+        </script>
 
 
           </div>
@@ -651,7 +671,7 @@
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html(" | 已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
 </script>
 </div>

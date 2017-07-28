@@ -57,7 +57,7 @@
 <link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,codeing," />
+  <meta name="keywords" content="codeing,java," />
 
 
 
@@ -66,7 +66,7 @@
 
 
 <meta name="description" content="这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结 运行效果这里先贴下运行效果,进行测试 首先打开数据库  之后运行main函数,如下:">
-<meta name="keywords" content="java,codeing">
+<meta name="keywords" content="codeing,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java编写图书馆信息管理系统">
 <meta property="og:url" content="http://www.cgspace.date/2017/02/20/java/2017-2-20-java-BookContorlSystem/index.html">
@@ -1916,9 +1916,9 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
-          
             <a href="/tags/codeing/" rel="tag"># codeing</a>
+          
+            <a href="/tags/java/" rel="tag"># java</a>
           
         </div>
       
@@ -1976,12 +1976,13 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
 		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
         -->
         
+        <!--
         <div id="container"></div>
         <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
         <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
         <script>
         var gitment = new Gitment({
-          
+          id: '',
           owner: 'cgstudios',
           repo: 'cgstudios-blog-file',
           oauth: {
@@ -1990,7 +1991,26 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
           },
         })
         gitment.render('container')
-        </script>   
+        </script>
+        -->
+
+        <noscript>Please enable JavaScript to view the comment form powered by <a href="https://commentit.io/">Comm(ent|it)</a></noscript>
+        <div id="commentit"></div>
+        <script type="text/javascript">
+          /** CONFIGURATION VARIABLES **/
+          var commentitUsername = 'cgstudios';
+          var commentitRepo = 'cgstudios/cgstudios.github.io';
+          var commentitPath = '2017/02/20/java/2017-2-20-java-BookContorlSystem/';
+
+          /** DON'T EDIT FOLLOWING LINES **/
+          (function() {
+              var commentit = document.createElement('script');
+              commentit.type = 'text/javascript';
+              commentit.async = true;
+              commentit.src = 'https://commentit.io/static/embed/dist/commentit.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(commentit);
+          })();
+        </script>
 
 
           </div>
@@ -2162,7 +2182,7 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html(" | 已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
 </script>
 </div>
