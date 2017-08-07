@@ -65,17 +65,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作 Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Objec">
+<meta name="description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object">
 <meta name="keywords" content="codeing,javaEE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaEE-Hibernate框架概况">
 <meta property="og:url" content="http://www.cgspace.date/2017/03/08/javaee/2017-3-08-javaEE-Hibernate-introduce/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作 Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Objec">
-<meta property="og:updated_time" content="2017-05-02T16:28:50.000Z">
+<meta property="og:description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object">
+<meta property="og:updated_time" content="2017-08-07T13:50:13.174Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaEE-Hibernate框架概况">
-<meta name="twitter:description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作 Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Objec">
+<meta name="twitter:description" content="复习Hibernaet框架.知识重温 Hibernate框架简述总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -98,6 +98,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -357,16 +359,9 @@
 
       
         <p>复习Hibernaet框架.知识重温</p>
-<h3 id="Hibernate框架简述"><a href="#Hibernate框架简述" class="headerlink" title="Hibernate框架简述"></a>Hibernate框架简述</h3><p>总得来说,它就是用来操作数据库的.<br>在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作</p>
-<p>Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object Relation Mapping)对象关系映射</p>
-<p>通过ORM,使得系统在获取数据时可以直接从实体类中获取,而不需要一味的去操作数据库.ORM映射机制就相当于在实体类和数据库表中搭建了一座桥梁,数据库表中的数据通过桥梁,将数据赋值给实体类中的属性,根据面向对象系统只需要获取此时的实体类的对象就可以获取到其数据,并进行对数据的操作.反过来,数据在被系统操作之后,新的数据就被重新赋值给了实体类的属性,系统再通过Hibernate的ORM机制,将此时实体类的对象里的属性存储到数据库表中,完成数据的存储.</p>
+<h3 id="Hibernate框架简述"><a href="#Hibernate框架简述" class="headerlink" title="Hibernate框架简述"></a>Hibernate框架简述</h3><p>总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作<br>Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object Relation Mapping)对象关系映射<br>通过ORM,使得系统在获取数据时可以直接从实体类中获取,而不需要一味的去操作数据库.ORM映射机制就相当于在实体类和数据库表中搭建了一座桥梁,数据库表中的数据通过桥梁,将数据赋值给实体类中的属性,根据面向对象系统只需要获取此时的实体类的对象就可以获取到其数据,并进行对数据的操作.反过来,数据在被系统操作之后,新的数据就被重新赋值给了实体类的属性,系统再通过Hibernate的ORM机制,将此时实体类的对象里的属性存储到数据库表中,完成数据的存储.</p>
 <a id="more"></a>
-<p>当中的读取和存储过程都不需要用到sql语句来对数据库表进行操作,这样使用Hibernate就简化了系统对数据库的访问操作</p>
-<p>所以,Hibernate框架就可以简单的理解为是为使系统能简单的只从实体类中就可以获得数据的一种工具</p>
-<p>为达到上面的目的,想想Hibernate要怎么做才能实现仅通过ORM而不是用sql语句就可以从数据库中获取数据呢</p>
-<p>这就是它的奥妙之处.</p>
-<p>Hibernate通过在实体类和数据库表中间建立一种映射机制,实现映射机制就需要用到映射文件,就是实体类和对应的数据库表之间的映射文件</p>
-<p>参照例子代码:</p>
+<p>当中的读取和存储过程都不需要用到sql语句来对数据库表进行操作,这样使用Hibernate就简化了系统对数据库的访问操作.所以,Hibernate框架就可以简单的理解为是为使系统能简单的只从实体类中就可以获得数据的一种工具,为达到上面的目的,想想Hibernate要怎么做才能实现仅通过ORM而不是用sql语句就可以从数据库中获取数据呢<br>这就是它的奥妙之处.<br>Hibernate通过在实体类和数据库表中间建立一种映射机制,实现映射机制就需要用到映射文件,就是实体类和对应的数据库表之间的映射文件<br>参照例子代码:</p>
 <ul>
 <li>实体类Student</li>
 <li>实体类映射配置文件Student.hbm.xml</li>
@@ -421,7 +416,7 @@ public class Student {
         this.stuTel = stuTel;
     }
 }
-</code></pre><p>实体类中的属性都是private的,属性就是用来临时存放相对应的数据的,这些数据就是从与实体类相对应相映射的数据库表中得来的<br>那么就必须会有一张表存放这个实体类对应的数据,就比如这个表中的数据都有6个字段与上面的实体类中的6个属性值相对应<br>那么再需要一个映射文件来将表和类连接起来<br>那么对应上面</p>
+</code></pre><p>实体类中的属性都是private的,属性就是用来临时存放相对应的数据的,这些数据就是从与实体类相对应相映射的数据库表中得来的,那么就必须会有一张表存放这个实体类对应的数据,就比如这个表中的数据都有6个字段与上面的实体类中的6个属性值相对应,那么再需要一个映射文件来将表和类连接起来<br>那么对应上面</p>
 <h4 id="Student-hbm-xml"><a href="#Student-hbm-xml" class="headerlink" title="Student.hbm.xml"></a>Student.hbm.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;!DOCTYPE hibernate-mapping PUBLIC
     &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;
@@ -460,9 +455,7 @@ public class Student {
          &lt;property name=&quot;stuTel&quot; column=&quot;stuTel&quot;&gt;&lt;/property&gt;
     &lt;/class&gt;
 &lt;/hibernate-mapping&gt;
-</code></pre><p>代码块中已经有了注释,就不再解释代码的意思了,<br>总之,需要有专门的映射文件将实体类和数据库表相连接起来</p>
-<p>另外,Hibernate会自动在数据库中创建表,只是表,不会创建数据库.其创建表的依据就是根据实体类的属性以及映射文件的相关配置来创建表.例如上面映射文件中的class标签中的table属性值为”dt_t_stuMsg”,那么在系统运行后,将会在数据库中创建一个名为dt_t_stuMsg的表,这个表就是跟Student.java这个实体类相互映射的</p>
-<p>这里总结一下知识点,顺便用来承上启下:</p>
+</code></pre><p>代码块中已经有了注释,就不再解释代码的意思了,总之,需要有专门的映射文件将实体类和数据库表相连接起来.另外,Hibernate会自动在数据库中创建表,只是表,不会创建数据库.其创建表的依据就是根据实体类的属性以及映射文件的相关配置来创建表.例如上面映射文件中的class标签中的table属性值为”dt_t_stuMsg”,那么在系统运行后,将会在数据库中创建一个名为dt_t_stuMsg的表,这个表就是跟Student.java这个实体类相互映射的<br>这里总结一下知识点,顺便用来承上启下</p>
 <ul>
 <li>实体类和表的映射文件名格式:xxx.hbm.xml(xxx一般为实体类的名字)</li>
 <li>映射文件的存放位置一般在实体类所在的包下</li>
@@ -538,17 +531,14 @@ try{
     session.close();
 }
 </code></pre><p>其中,在创建SessionFactory对象的过程中,将会特别消耗资源</p>
-<h4 id="SessionFactory类"><a href="#SessionFactory类" class="headerlink" title="SessionFactory类"></a>SessionFactory类</h4><p>这里了解下SessionFactory这个类,它是一个接口</p>
-<p>一个SessionFactory实例对应一个数据存储源,应用从SessionFactory中获取Session实例.</p>
-<p>SessionFactory特点:</p>
+<h4 id="SessionFactory类"><a href="#SessionFactory类" class="headerlink" title="SessionFactory类"></a>SessionFactory类</h4><p>这里了解下SessionFactory这个类,它是一个接口,一个SessionFactory实例对应一个数据存储源,应用从SessionFactory中获取Session实例.<br>SessionFactory特点:</p>
 <ul>
 <li>线程是安全的,这意味着它的同一个实例可以被应用的多个线程共享</li>
 <li>它是重量级的,意味着不能随意创建或销毁它的实例</li>
 <li>如果应用只访问一个数据库,则只需要创建一个SessionFactory实例,在应用初始化时创建该实例</li>
 <li>如果同时访问多个数据库,则需要对每个数据库单独创建一个SessionFactory实例</li>
 </ul>
-<p>所以,考虑资源损耗方面,一般一个项目中就只创建一个SessionFactory对象</p>
-<p>所以这里的解决方法是为SessionFactory专门创建一个工具类,放在系统中,给系统其他需要用到的SessionFactory使用<br>如代码:</p>
+<p>所以,考虑资源损耗方面,一般一个项目中就只创建一个SessionFactory对象,所以这里的解决方法是为SessionFactory专门创建一个工具类,放在系统中,给系统其他需要用到的SessionFactory使用<br>如代码:</p>
 <pre><code>public class HibernateUtils{
     private static Configuration configuration = null;
     private static SessionFactory sessionFactory = null;
@@ -562,56 +552,45 @@ try{
     }
 }
 </code></pre><p>这样的话,得到的sessionFactory对象就不用关闭了</p>
-<h4 id="Session类"><a href="#Session类" class="headerlink" title="Session类"></a>Session类</h4><p>其中的Session类也是一个接口</p>
-<p>Session接口是Hibernate应用里使用最广泛的接口<br>Session也被称为持久化管理器,它提供了和持久化相关的操作,如添加,更新,删除,加载和查询对象</p>
-<p>特点:<br>不是线程安全的,因此在设计软件架构时,应该避免多个线程共享一个Session实例<br>轻量级的.它的创建和销毁不需要消耗太多的资源</p>
-<p>Session类似jdbc中的connection<br>Session对象是单线程对象,不能共用</p>
-<p>session操作数据常用的方法</p>
+<h4 id="Session类"><a href="#Session类" class="headerlink" title="Session类"></a>Session类</h4><p>其中的Session类也是一个接口<br>Session接口是Hibernate应用里使用最广泛的接口<br>Session也被称为持久化管理器,它提供了和持久化相关的操作,如添加,更新,删除,加载和查询对象<br>特点<br>不是线程安全的,因此在设计软件架构时,应该避免多个线程共享一个Session实例<br>轻量级的.它的创建和销毁不需要消耗太多的资源<br>Session类似jdbc中的connection<br>Session对象是单线程对象,不能共用<br>session操作数据常用的方法</p>
 <ul>
 <li>添加:save()方法</li>
 <li>修改:update()方法</li>
 <li>删除:delete()方法</li>
 <li>根据主键查询:get()方法,load()方法</li>
 </ul>
-<p>在而,代码:</p>
-<p><code>transcation.rollback()</code></p>
-<p>实现了事务的回滚,那么也就是说Hibernate类似与git命令一样,有缓存机制</p>
-<p>即Hibernate的一级缓存</p>
-<p>它的缓存就是把数据存放到内存中,省去了Hibernate重复读取数据库数据的步骤<br>但系统出现异常,可以将内存中的原始的缓存数据重新存放到数据库中,避免了数据的丢失</p>
-<h3 id="Hibernate里可以实现查询的对象"><a href="#Hibernate里可以实现查询的对象" class="headerlink" title="Hibernate里可以实现查询的对象"></a>Hibernate里可以实现查询的对象</h3><h4 id="Query对象"><a href="#Query对象" class="headerlink" title="Query对象"></a>Query对象</h4><p>需要用到hql(Hibernate Query Language)语句,它跟sql相似<br>hql和sql的区别:</p>
+<p>在而,代码<br><code>transcation.rollback()</code><br>实现了事务的回滚,那么也就是说Hibernate类似与git命令一样,有缓存机制,即Hibernate的一级缓存.它的缓存就是把数据存放到内存中,省去了Hibernate重复读取数据库数据的步骤,但系统出现异常,可以将内存中的原始的缓存数据重新存放到数据库中,避免了数据的丢失</p>
+<h3 id="Hibernate里可以实现查询的对象"><a href="#Hibernate里可以实现查询的对象" class="headerlink" title="Hibernate里可以实现查询的对象"></a>Hibernate里可以实现查询的对象</h3><h4 id="Query对象"><a href="#Query对象" class="headerlink" title="Query对象"></a>Query对象</h4><p>需要用到hql(Hibernate Query Language)语句,它跟sql相似<br>hql和sql的区别</p>
 <ul>
 <li>sql操作的是表和表字段</li>
 <li>hql操作的是实体类和属性</li>
 </ul>
-<p>查询所有数据的hql语句:from 实体类名称<br>例:</p>
+<p>查询所有数据的hql语句:from 实体类名称<br>例</p>
 <pre><code>Query query = session.createQuery(&quot;from Student&quot;);
 List&lt;Student&gt; list = query.list();
 for(Student student : list){
     System.out.println(student);
 }
-</code></pre><h4 id="Criteria对象"><a href="#Criteria对象" class="headerlink" title="Criteria对象"></a>Criteria对象</h4><p>其不需要用到任何语句，<br>查询所有数据的代码:</p>
+</code></pre><h4 id="Criteria对象"><a href="#Criteria对象" class="headerlink" title="Criteria对象"></a>Criteria对象</h4><p>其不需要用到任何语句，查询所有数据的代码</p>
 <pre><code>Criteria criteria = session.createCriteria(Student.class);
 List&lt;Student&gt; list = criteria.list();
 for(Student student : list){
         System.out.println(student);
 }
-</code></pre><h4 id="SQLQuery对象"><a href="#SQLQuery对象" class="headerlink" title="SQLQuery对象"></a>SQLQuery对象</h4><p>可以使用SQL语句来操作,</p>
+</code></pre><h4 id="SQLQuery对象"><a href="#SQLQuery对象" class="headerlink" title="SQLQuery对象"></a>SQLQuery对象</h4><p>可以使用SQL语句来操作</p>
 <pre><code>SQLQuery sqlQuery = session.createSQLQuery(&quot;SELECT * FROM td_t_stuMsg&quot;);
 List&lt;Object[]&gt; list = sqlQuery.list();
 for(Object[] object : list){
     System.out.println(Arrays.toString(object));
 }
-</code></pre><p>其中，这里获取到的list集合是二维的集合</p>
-<p>如果需要得到和上面两个Query和Criteria对象获取的Student的所有对象信息,那么</p>
-<p>代码如下:</p>
+</code></pre><p>其中，这里获取到的list集合是二维的集合,如果需要得到和上面两个Query和Criteria对象获取的Student的所有对象信息,那么<br>代码如下</p>
 <pre><code>SQLQuery sqlQuery = session.createSQLQuery(&quot;SELECT * FROM td_t_stuMsg&quot;);
 sqlQuery.addEntity(Student.class);
 List&lt;Student&gt; list = sqlQuery.list();
 for(Student student : list){
     System.out.println(student);
 }
-</code></pre><p>Query,Criteria,SQLQuery这三个对象,通常会使用前两个,第三个使用的比较少</p>
-<p>Hibernate的基本内容先写到这,当然还有许多内容并未总结,例如表的关系的配置等.到后面再慢慢总结</p>
+</code></pre><p>Query,Criteria,SQLQuery这三个对象,通常会使用前两个,第三个使用的比较少,Hibernate的基本内容先写到这,当然还有许多内容并未总结,例如表的关系的配置等.到后面再慢慢总结</p>
 <p>谢谢</p>
 
       
@@ -754,6 +733,29 @@ for(Student student : list){
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -809,7 +811,7 @@ for(Student student : list){
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -831,7 +833,7 @@ for(Student student : list){
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

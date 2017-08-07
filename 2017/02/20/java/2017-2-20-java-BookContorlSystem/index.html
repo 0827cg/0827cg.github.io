@@ -78,7 +78,7 @@
 <meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-liuchengtu.png">
 <meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-plan-login-ui.png">
 <meta property="og:image" content="http://www.cgspace.date/images/java/java-bookControlSystem-plan-ms-ui.png">
-<meta property="og:updated_time" content="2017-05-02T16:53:22.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:38:31.996Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java编写图书馆信息管理系统">
 <meta name="twitter:description" content="这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结 运行效果这里先贴下运行效果,进行测试 首先打开数据库  之后运行main函数,如下:">
@@ -105,6 +105,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -372,10 +374,7 @@
 <h4 id="登录界面"><a href="#登录界面" class="headerlink" title="登录界面"></a>登录界面</h4><p><img src="/images/java/java-bookControlSystem-login.png" alt="java-bookControlSystem"></p>
 <p>输出学号和密码后点击登录,就会在新的面板中出现此学号在图书馆的借阅信息,例如我输入学号为V201441122,登录后如下图</p>
 <h4 id="操作界面"><a href="#操作界面" class="headerlink" title="操作界面"></a>操作界面</h4><p><img src="/images/java/java-bookControlSystem-ui.png" alt="java-bookControlSystem"></p>
-<p>之后就可以在这个面板中进行相关的借书还书操作</p>
-<p>代码实现的大致就这样,这里需要用到的开发工具是xampp软件包(Apache + MariaDB + PHP + Perl)作为服务器,当然里面也集成了MySQL数据库,主要的编码工具是Eclipse</p>
-<p>知道了这些,就可以进行开发工作了</p>
-<p>在进行开发工作时,需要对所做的系统进行规划,编写需求分析计划书和系统概要设计等等.由于这里我只是用来打发时间,所以没详细进行这编写,只是大概的绘制了系统界面功能图及流程图</p>
+<p>之后就可以在这个面板中进行相关的借书还书操作<br>代码实现的大致就这样,这里需要用到的开发工具是xampp软件包(Apache + MariaDB + PHP + Perl)作为服务器,当然里面也集成了MySQL数据库,主要的编码工具是Eclipse<br>知道了这些,就可以进行开发工作了<br>在进行开发工作时,需要对所做的系统进行规划,编写需求分析计划书和系统概要设计等等.由于这里我只是用来打发时间,所以没详细进行这编写,只是大概的绘制了系统界面功能图及流程图</p>
 <h4 id="系统流程图"><a href="#系统流程图" class="headerlink" title="系统流程图"></a>系统流程图</h4><p>如下:</p>
 <p><img src="/images/java/java-bookControlSystem-liuchengtu.png" alt="java-bookControlSystem"></p>
 <h4 id="界面设计图"><a href="#界面设计图" class="headerlink" title="界面设计图"></a>界面设计图</h4><p>为编码前绘制的系统登录界面图</p>
@@ -432,11 +431,7 @@ public class ConnectionDatabase {
         return connection;
     }
 }
-</code></pre><p>连接数据库需要加载驱动,所以提前在项目的根目录下建立一个lib文件夹,将数据库驱动放置文件夹内,这里的<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">驱动下载页面</a>,下载后将解压得到的jar文件就是驱动</p>
-<p>代码中的<code>databaseUrl</code>,<code>databaseUser</code>和<code>databasePasswd</code>是自己本地利用lampp搭建的数据库服务器地址与自己配置的用户名和登录密码</p>
-<p>这个类ConnectionDatabase在连接数据库后会返回一条连接,也就是一个Connection对象</p>
-<p>当登录窗口运行后,当用户在该面板中产生点击操作后,程序将会连接数据库,也就是调用ConnectionDatabase类,获取一条数据库连接</p>
-<p>如下代码登录窗口代码,文件名为</p>
+</code></pre><p>连接数据库需要加载驱动,所以提前在项目的根目录下建立一个lib文件夹,将数据库驱动放置文件夹内,这里的<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">驱动下载页面</a>,下载后将解压得到的jar文件就是驱动.代码中的<code>databaseUrl</code>,<code>databaseUser</code>和<code>databasePasswd</code>是自己本地利用lampp搭建的数据库服务器地址与自己配置的用户名和登录密码,这个类ConnectionDatabase在连接数据库后会返回一条连接,也就是一个Connection对象<br>当登录窗口运行后,当用户在该面板中产生点击操作后,程序将会连接数据库,也就是调用ConnectionDatabase类,获取一条数据库连接<br>如下代码登录窗口代码,文件名为</p>
 <h4 id="LoginWin-java"><a href="#LoginWin-java" class="headerlink" title="LoginWin.java"></a>LoginWin.java</h4><pre><code>package com.cgtest.ui;
 
 import java.awt.Dimension;
@@ -529,17 +524,7 @@ public class LoginWin extends JFrame{
         this.setVisible(true);
     }
 }
-</code></pre><p>上面的代码主要作用是担当登录窗口的布局设置,<br>其中代码:</p>
-<p><code>new LoginAction(this,inputName, inputPasswd, btCancel, btLogin);</code></p>
-<p>是将使LoginWin.java和LoginAction.java连接起来,</p>
-<p>使得登录窗口中的所有响应事件都由LoginAction.java文件来处理</p>
-<p>构造方法中的:</p>
-<p><code>SwingUtilities.invokeLater(new Runnable())</code></p>
-<p>方法是用来获取系统主题样式,并将登录窗口的样式主题设置为于系统主题一样</p>
-<p>方法中的参数代码:</p>
-<p><code>UIManager.getSystemLookAndFeelClassName();</code></p>
-<p>就是获取系统的主题样式</p>
-<p>与之相对应的相应事件操作的代码如下,文件名为</p>
+</code></pre><p>上面的代码主要作用是担当登录窗口的布局设置,<br>其中代码<br><code>new LoginAction(this,inputName, inputPasswd, btCancel, btLogin);</code><br>是将使LoginWin.java和LoginAction.java连接起来,使得登录窗口中的所有响应事件都由LoginAction.java文件来处理<br>构造方法中的<br><code>SwingUtilities.invokeLater(new Runnable())</code><br>方法是用来获取系统主题样式,并将登录窗口的样式主题设置为于系统主题一样<br>方法中的参数代码:<br><code>UIManager.getSystemLookAndFeelClassName();</code><br>就是获取系统的主题样式,与之相对应的相应事件操作的代码如下,文件名为</p>
 <h4 id="LoginAction-java"><a href="#LoginAction-java" class="headerlink" title="LoginAction.java:"></a>LoginAction.java:</h4><pre><code>package com.cgtest.action;
 
 import java.awt.event.ActionEvent;
@@ -645,17 +630,7 @@ public class LoginAction implements ActionListener,MouseListener{
         }
     }
 }
-</code></pre><p>上面代码中actionPerformed(ActionEvent e)方法中,</p>
-<p>代码:</p>
-<p><code>CheckAccount checkAccount = new CheckAccount();</code></p>
-<p>将产生一个数据库连接</p>
-<p>代码:</p>
-<p><code>int checkConnect = checkAccount.checkConnectDatabase();</code></p>
-<p>中的checkConnectDatabase()方法将是用来检查数据库服务器是否开启,如果是,则进行下一步:验证用户输入的用户名是否存在.就如下代码</p>
-<p>代码:</p>
-<p><code>int n = checkAccount.checkNamePasswd(strInputName, strInputPasswd);</code></p>
-<p>方法chexkNamePasswd(strInputName, strInputPasswd)将用户输入的用户名和密码作为参数,用来验证是否存在或正确</p>
-<p>因此,来看对象checkAccount的如下代码,文件名为</p>
+</code></pre><p>上面代码中actionPerformed(ActionEvent e)方法中,代码<br><code>CheckAccount checkAccount = new CheckAccount();</code><br>将产生一个数据库连接<br>代码<br><code>int checkConnect = checkAccount.checkConnectDatabase();</code><br>中的checkConnectDatabase()方法将是用来检查数据库服务器是否开启,如果是,则进行下一步:验证用户输入的用户名是否存在.就如下代码<br>代码:<br><code>int n = checkAccount.checkNamePasswd(strInputName, strInputPasswd);</code><br>方法chexkNamePasswd(strInputName, strInputPasswd)将用户输入的用户名和密码作为参数,用来验证是否存在或正确,因此,来看对象checkAccount的如下代码,文件名为</p>
 <h4 id="CheckAccount-java"><a href="#CheckAccount-java" class="headerlink" title="CheckAccount.java:"></a>CheckAccount.java:</h4><pre><code>package com.cgtest.data;
 
 import java.sql.Connection;
@@ -786,11 +761,7 @@ public class CheckAccount {
         return n;
     }
 }
-</code></pre><p>看上面的代码,这里主要说方法checkNamePasswd(String strInputName, String strInputPasswd)的工作方式</p>
-<p>首相checkNamePasswd()方法将调用自身类的一个getAllNamePasswd()无参数方法,用来获取数据库中所有已注册的用户账户名和密码,getAllNamePasswd()的返回值为<code>Vector&lt;Vector&lt;Object&gt;&gt;</code>双层的Vector集合,所以会返回一条双层的<br>Vector集合,返回的集合将用在checkNamePasswd方法中作为局部变量<br>方法checkNamePasswd()将先根据用户输入的用户名来和数据库中所有存在的用户名来对比,如果为对比到,那么将返回-2,意味着用户不存在</p>
-<p>方法checkNamePasswd()将会有多中int类型的返回值,其返回值将用在LoginAction类中的actionPerformed(ActionEvent e)中,将根据其返回值来判断是否存在/正确,如果返回值为1,那么证明用户输入的用户名和密码都正确,则将打开下一个信息面板,而关闭登录窗口.再将登录的账户名和密码封装进一个专有的Vector集合,并返回</p>
-<p>返回的Vector集合将会通过LoginAction类利用代码<code>new MsgShowWin(checkAccount);</code>来传递给MsgShowWin这个类,使得在打开这个面板的时候就可以直接通过账户名来获取借阅信息并显示在信息面板上</p>
-<p>如下信息窗口代码,文件名为</p>
+</code></pre><p>看上面的代码,这里主要说方法checkNamePasswd(String strInputName, String strInputPasswd)的工作方式.首相checkNamePasswd()方法将调用自身类的一个getAllNamePasswd()无参数方法,用来获取数据库中所有已注册的用户账户名和密码,getAllNamePasswd()的返回值为<code>Vector&lt;Vector&lt;Object&gt;&gt;</code>双层的Vector集合,所以会返回一条双层的Vector集合,返回的集合将用在checkNamePasswd方法中作为局部变量,方法checkNamePasswd()将先根据用户输入的用户名来和数据库中所有存在的用户名来对比,如果为对比到,那么将返回-2,意味着用户不存在<br>方法checkNamePasswd()将会有多中int类型的返回值,其返回值将用在LoginAction类中的actionPerformed(ActionEvent e)中,将根据其返回值来判断是否存在/正确,如果返回值为1,那么证明用户输入的用户名和密码都正确,则将打开下一个信息面板,而关闭登录窗口.再将登录的账户名和密码封装进一个专有的Vector集合,并返回的Vector集合将会通过LoginAction类利用代码<code>new MsgShowWin(checkAccount);</code>来传递给MsgShowWin这个类,使得在打开这个面板的时候就可以直接通过账户名来获取借阅信息并显示在信息面板上<br>如下信息窗口代码,文件名为</p>
 <h4 id="MsgShowWin-java"><a href="#MsgShowWin-java" class="headerlink" title="MsgShowWin.java:"></a>MsgShowWin.java:</h4><pre><code>package com.cgtest.ui;
 
 import java.awt.Color;
@@ -1061,12 +1032,7 @@ public class MsgShowWin extends JFrame{
     }
 }
 </code></pre><p>同登录窗口的LoginWin.java文件一样,上面代码的大体作用一样是面板的布局</p>
-<p>面板第一时间显示的信息都在该类的构造方法中完成</p>
-<p>例如代码:</p>
-<p><code>strShowDBMsg = new OperateDatabase().checkConnectDatabase();</code></p>
-<p>将调用一个OperateDatabase类中的checkConnectDatabase()方法来检测是否与数据库进行连接,其返回值为String类型的数据,用来在该面板底部显示数据库连接情况.起初并未打算在此处检测是否连接,但貌似那会儿没想到如何用来传递这种信息,所以就在这进行检测了</p>
-<p>后面的几行代码依然如此</p>
-<p>下面贴下于MsgShowWin类对应的action时间处理类的代码,文件名</p>
+<p>面板第一时间显示的信息都在该类的构造方法中完成<br>例如代码<br><code>strShowDBMsg = new OperateDatabase().checkConnectDatabase();</code><br>将调用一个OperateDatabase类中的checkConnectDatabase()方法来检测是否与数据库进行连接,其返回值为String类型的数据,用来在该面板底部显示数据库连接情况.起初并未打算在此处检测是否连接,但貌似那会儿没想到如何用来传递这种信息,所以就在这进行检测了,后面的几行代码依然如此<br>下面贴下于MsgShowWin类对应的action时间处理类的代码,文件名</p>
 <h4 id="MsgShowWinAction-java"><a href="#MsgShowWinAction-java" class="headerlink" title="MsgShowWinAction.java:"></a>MsgShowWinAction.java:</h4><pre><code>package com.cgtest.action;
 
 import java.awt.event.ActionEvent;
@@ -1288,23 +1254,7 @@ public class MsgShowWinAction implements ActionListener, MouseListener, FocusLis
     }
 
 }
-</code></pre><p>上面的代码中,在actionPerformed(ActionEvent e)方法中就是执行借书/还书/查询的操作</p>
-<p>这里就直接看下实现借书操作的代码片段</p>
-<p>借书分为两步,先是查找书籍,再是借书</p>
-<p>先看查书,实现搜索图书的关键方法代码:</p>
-<p><code>searchBook(strjtfInputIndexBorrow);</code></p>
-<p>这里将用户输入的图书索引用作OperateDatabase类中的searchBook(strjtfInputIndexBorrow)的参数,</p>
-<p>其searchBook(strjtfInputIndexBorrow)的返回值为String类型的,且只有两种返回值,</p>
-<p>其返回值赋值给strMsgorName</p>
-<p>从此行的下一行代码<code>if(strMsgorName.equals(&quot;未找到此书&quot;)){</code>就可以看出</p>
-<p>再看借书,代码是调用OperateDataBase中的borrowBook(strjtfInputIndexBorrow, strjtfShowBookBorrow, accountName)方法</p>
-<p>类OperateDataBase中的borrowBook()方法有3个参数,</p>
-<p><code>strjtfInputIndexBorrow</code>即为查找图书用的索引,查书不到就无法进行借书,所以查找图书所用的索引是正确的</p>
-<p><code>strjtfShowBookBorrow</code>即图书名字</p>
-<p><code>accountName</code>及账户名</p>
-<p>方法borrowBook()的返回值也为String类型,且只有两种情况</p>
-<p>同样根据下面一行代码<code>if(str.equals(&quot;借书成功&quot;)){</code>就可以确认,其跟searchBook(strjtfInputIndexBorrow)类似</p>
-<p>再来看类OperateDatabase的代码,文件名为</p>
+</code></pre><p>上面的代码中,在actionPerformed(ActionEvent e)方法中就是执行借书/还书/查询的操作,这里就直接看下实现借书操作的代码片段.借书分为两步,先是查找书籍,再是借书,先看查书,实现搜索图书的关键方法代码:<br><code>searchBook(strjtfInputIndexBorrow);</code><br>这里将用户输入的图书索引用作OperateDatabase类中的searchBook(strjtfInputIndexBorrow)的参数,其searchBook(strjtfInputIndexBorrow)的返回值为String类型的,且只有两种返回值,其返回值赋值给strMsgorName<br>从此行的下一行代码<code>if(strMsgorName.equals(&quot;未找到此书&quot;)){</code>就可以看出<br>再看借书,代码是调用OperateDataBase中的borrowBook(strjtfInputIndexBorrow, strjtfShowBookBorrow, accountName)方法,类OperateDataBase中的borrowBook()方法有3个参数,<br><code>strjtfInputIndexBorrow</code>即为查找图书用的索引,查书不到就无法进行借书,所以查找图书所用的索引是正确的<br><code>strjtfShowBookBorrow</code>即图书名字<br><code>accountName</code>及账户名<br>方法borrowBook()的返回值也为String类型,且只有两种情况,同样根据下面一行代码<code>if(str.equals(&quot;借书成功&quot;)){</code>就可以确认,其跟searchBook(strjtfInputIndexBorrow)类似<br>再来看类OperateDatabase的代码,文件名为</p>
 <h4 id="OperateDatabase-java"><a href="#OperateDatabase-java" class="headerlink" title="OperateDatabase.java:"></a>OperateDatabase.java:</h4><pre><code>package com.cgtest.data;
 
 import java.sql.Connection;
@@ -1621,11 +1571,7 @@ public class OperateDatabase {
     }
 
 }
-</code></pre><p>其中的方法borrowBook()显示通过书名,来与已经借出去的书的信息库中进行对比,也就是有一张表专门用来存放记录所有已经借出去的书籍</p>
-<p>这样一来,如果对比到了的话说明这本书已经借出去,然而借出去的话有两种情况,一种是被自己借了,另一种就是被别人借走了,所以如果表中有该书名,那么还要根据表来对比账号名</p>
-<p>所以这样做,使得借书和还书都更简单了,所以借书的道理也差不多</p>
-<p>当然,这里我也自定义了一个对话框,</p>
-<p>如下对话框代码,文加名字为</p>
+</code></pre><p>其中的方法borrowBook()显示通过书名,来与已经借出去的书的信息库中进行对比,也就是有一张表专门用来存放记录所有已经借出去的书籍,这样一来,如果对比到了的话说明这本书已经借出去,然而借出去的话有两种情况,一种是被自己借了,另一种就是被别人借走了,所以如果表中有该书名,那么还要根据表来对比账号名.所以这样做,使得借书和还书都更简单了,所以借书的道理也差不多.当然,这里我也自定义了一个对话框,<br>如下对话框代码,文加名字为</p>
 <h4 id="MyJDialog-java"><a href="#MyJDialog-java" class="headerlink" title="MyJDialog.java:"></a>MyJDialog.java:</h4><pre><code>package com.cgtest.ui;
 
 import java.awt.BorderLayout;
@@ -1833,9 +1779,7 @@ public class MyJDialog{
 //    }
 
 }
-</code></pre><p>上面的代码只是自定义对话框,代码有点臃肿,</p>
-<p>然后就是main函数了</p>
-<p>如下代码,文件名为</p>
+</code></pre><p>上面的代码只是自定义对话框,代码有点臃肿,然后就是main函数了<br>如下代码,文件名为</p>
 <h4 id="BookControlSystem-java"><a href="#BookControlSystem-java" class="headerlink" title="BookControlSystem.java:"></a>BookControlSystem.java:</h4><pre><code>package com.cgtest.main;
 
 import com.cgtest.ui.LoginWin;
@@ -2028,6 +1972,29 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -2083,7 +2050,7 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2105,7 +2072,7 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -65,17 +65,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口BaseCRUDService是封装在base-daoTemplate这个jar包中估计这个base-daoTemplate.jar这个jar包是公司自己写的">
+<meta name="description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口,BaseCRUDService是封装在base-daoTemplate这个jar包中,估计这个base-daoTemplate.jar这个jar包是公司自己写的">
 <meta name="keywords" content="codeing,javaEE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring中的jdbcTemplate和FreeMarker的初步接触">
 <meta property="og:url" content="http://www.cgspace.date/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口BaseCRUDService是封装在base-daoTemplate这个jar包中估计这个base-daoTemplate.jar这个jar包是公司自己写的">
-<meta property="og:updated_time" content="2017-07-11T13:43:24.138Z">
+<meta property="og:description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口,BaseCRUDService是封装在base-daoTemplate这个jar包中,估计这个base-daoTemplate.jar这个jar包是公司自己写的">
+<meta property="og:updated_time" content="2017-08-07T13:48:16.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring中的jdbcTemplate和FreeMarker的初步接触">
-<meta name="twitter:description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口BaseCRUDService是封装在base-daoTemplate这个jar包中估计这个base-daoTemplate.jar这个jar包是公司自己写的">
+<meta name="twitter:description" content="这么晚还没下班，没毛病吧，人生就是这么刺激….说说今天接触到的东西项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口,BaseCRUDService是封装在base-daoTemplate这个jar包中,估计这个base-daoTemplate.jar这个jar包是公司自己写的">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -98,6 +98,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -356,10 +358,9 @@
       
 
       
-        <p>这么晚还没下班，没毛病吧，人生就是这么刺激….<br>说说今天接触到的东西<br>项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口<br>BaseCRUDService是封装在base-daoTemplate这个jar包中<br>估计这个base-daoTemplate.jar这个jar包是公司自己写的</p>
+        <p>这么晚还没下班，没毛病吧，人生就是这么刺激….<br>说说今天接触到的东西<br>项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口,BaseCRUDService是封装在base-daoTemplate这个jar包中,估计这个base-daoTemplate.jar这个jar包是公司自己写的</p>
 <a id="more"></a>
-<p>里头封装了一些基本的crud操作</p>
-<p>这是操作数据库的一种方式</p>
+<p>里头封装了一些基本的crud操作这是操作数据库的一种方式</p>
 <h3 id="BaseCRUDService-java"><a href="#BaseCRUDService-java" class="headerlink" title="BaseCRUDService.java"></a>BaseCRUDService.java</h3><p>BaseCRUDService.java代码如下</p>
 <pre><code>public interface BaseCRUDService&lt;T&gt; {
     T createEntity();
@@ -416,16 +417,7 @@ List&lt;PurchaseOrderListVo&gt; orderListVoList = jdbcTemplate.query(sql, Parame
     }
     return listMultimap;
 }
-</code></pre><p>感觉这个方法涉及到的工具代码真是牛逼<br>来解析下这个方法<br>只节解析对我有用的，其他的功能我不管</p>
-<p>首先代码第一行</p>
-<p><code>Map&lt;String, Object&gt; data = Maps.newHashMap()</code></p>
-<p>声明并实例化了一个Map类型的data对象，</p>
-<p>之后</p>
-<p><code>data.put(&quot;orderIds&quot;,  orderIds);</code></p>
-<p>这一行代码将数据存入到data对象中，</p>
-<p><code>key=orderIds,value=orderIds</code></p>
-<p>然后使用FreeMarkerHelper这个类中的getValueFormTpl()这个方法来解析一个sql文件，并实现将搜索需要的参数参合到其中</p>
-<p>其代码的实现就是将data对象作为参数传入，并且将sql文件中的参数变量使用data中的key匹配并用value替换</p>
+</code></pre><p>感觉这个方法涉及到的工具代码真是牛逼,来解析下这个方法<br>只节解析对我有用的，其他的功能我不管<br>首先代码第一行<br><code>Map&lt;String, Object&gt; data = Maps.newHashMap()</code><br>声明并实例化了一个Map类型的data对象<br>之后<br><code>data.put(&quot;orderIds&quot;,  orderIds);</code><br>这一行代码将数据存入到data对象中<br><code>key=orderIds,value=orderIds</code><br>然后使用FreeMarkerHelper这个类中的getValueFormTpl()这个方法来解析一个sql文件，并实现将搜索需要的参数参合到其中,其代码的实现就是将data对象作为参数传入，并且将sql文件中的参数变量使用data中的key匹配并用value替换</p>
 <h3 id="sql文件"><a href="#sql文件" class="headerlink" title="sql文件"></a>sql文件</h3><p>PurchaseOrderListList.sql文件的代码如下</p>
 <pre><code>SELECT
     group_concat(id) as id,
@@ -457,11 +449,7 @@ WHERE
     and is_valid = &apos;T&apos;
     and del_flag = &apos;F&apos;
 group by pur_goods_sku_id,order_id
-</code></pre><p>观察PurchaseOrderListList.sql中的代码，其中有个</p>
-<p><code>${orderIds}</code></p>
-<p>这个就是用来和data对象中的key相匹配，并将data对象中key值orderIds的value传入到PurchaseOrderListList.sql文件中，</p>
-<p>FreeMarkerHelper再读取PurchaseOrderListList.sql中的内容，之后返回一个String类型的操作数据库的字符串语句</p>
-<p>之后，调用jdbaTemplate中的query()方法来操作数据库，并返回一个list集合</p>
+</code></pre><p>观察PurchaseOrderListList.sql中的代码，其中有个<br><code>${orderIds}</code><br>这个就是用来和data对象中的key相匹配，并将data对象中key值orderIds的value传入到PurchaseOrderListList.sql文件中，FreeMarkerHelper再读取PurchaseOrderListList.sql中的内容，之后返回一个String类型的操作数据库的字符串语句<br>之后，调用jdbaTemplate中的query()方法来操作数据库，并返回一个list集合</p>
 <h3 id="FreeMarkerHelper-java"><a href="#FreeMarkerHelper-java" class="headerlink" title="FreeMarkerHelper.java"></a>FreeMarkerHelper.java</h3><p>其FreeMarkerHelper代码如下</p>
 <pre><code>public class FreeMarkerHelper {
 
@@ -500,10 +488,7 @@ group by pur_goods_sku_id,order_id
     }
 
 }
-</code></pre><p>这个FreeMarkerHelper类真是厉害，这类中的代码我根本看不懂</p>
-<p>只知道是调用了FreeMarker模板引擎</p>
-<p>只是我没接触过FreeMarker，问了前辈，前辈说也不知道，表示这个项目中使用FreeMarker只是用来组装sql语句的</p>
-<p>并让我不要去研究底层的东西，学会怎么用就行…..</p>
+</code></pre><p>这个FreeMarkerHelper类真是厉害，这类中的代码我根本看不懂,只知道是调用了FreeMarker模板引擎<br>只是我没接触过FreeMarker，问了前辈，前辈说也不知道，表示这个项目中使用FreeMarker只是用来组装sql语句的,并让我不要去研究底层的东西，学会怎么用就行…..</p>
 <p>ps:得找个机会总结下最近学到的东西了，不然就忘了</p>
 
       
@@ -646,6 +631,29 @@ group by pur_goods_sku_id,order_id
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -701,7 +709,7 @@ group by pur_goods_sku_id,order_id
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -723,7 +731,7 @@ group by pur_goods_sku_id,order_id
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

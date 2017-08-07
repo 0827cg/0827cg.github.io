@@ -3,15 +3,521 @@
   
     
     <entry>
+      <title><![CDATA[搭建centos服务器]]></title>
+      <url>/2017/08/07/linux/2017-08-07-install-centos-server/</url>
+      <content type="html"><![CDATA[<p>7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录</p>
+<h3 id="安装Centos7系统"><a href="#安装Centos7系统" class="headerlink" title="安装Centos7系统"></a>安装Centos7系统</h3><p>原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题及是否需要图形化界面，当然也需要创建账户名和密码及root密码，这里我使用了图形化界面，安装了gnome桌面环境，要安装图形化界面在安装过程中取消最小安装，选择自己所需要的即可。</p>
+<a id="more"></a>
+<p>按需求，在安装完系统后需要将主机ip设为静态ip，将ip固定。</p>
+<h4 id="设置静态ip"><a href="#设置静态ip" class="headerlink" title="设置静态ip"></a>设置静态ip</h4><p>可以使用命令ifconfig查看ip信息，但现在需要进行更改，就需要修改网卡的配置文件，该配置文件存放在/etc/sysconfig/network-scripts目录下，其名字为”ifcfg-“加上网卡名，首先先来到network-scripts目录下，如下输出</p>
+<pre><code>[xm6f@localhost ~]$ cd /etc/sysconfig/network-scripts/
+[xm6f@localhost network-scripts]$ ls
+ifcfg-enp2s0  ifdown-ppp       ifup-ib      ifup-Team
+ifcfg-lo      ifdown-routes    ifup-ippp    ifup-TeamPort
+ifdown        ifdown-sit       ifup-ipv6    ifup-tunnel
+ifdown-bnep   ifdown-Team      ifup-isdn    ifup-wireless
+ifdown-eth    ifdown-TeamPort  ifup-plip    init.ipv6-global
+ifdown-ib     ifdown-tunnel    ifup-plusb   network-functions
+ifdown-ippp   ifup             ifup-post    network-functions-ipv6
+ifdown-ipv6   ifup-aliases     ifup-ppp
+ifdown-isdn   ifup-bnep        ifup-routes
+ifdown-post   ifup-eth         ifup-sit
+[xm6f@localhost network-scripts]$ sudo gedit ifcfg-enp2s0
+...
+</code></pre><p>其中上面的ifcfg-enp2s0就是本centos7服务器主机的网卡配置文件，我们需要修改的就是这个配置文件，起初这个配置文件的内容如下</p>
+<pre><code>TYPE=Ethernet
+BOOTPROTO=dhcp
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=enp2s0
+UUID=e65481a0-7c13-426d-99cb-b8b281294cb8
+DEVICE=enp2s0
+ONBOOT=no
+</code></pre><p>这里我们需要将其更改，首先修改如下两项</p>
+<pre><code>BOOTPROTO=static
+ONBOOT=yes
+</code></pre><p>之后，再在末尾添加下面几项</p>
+<pre><code>IPADDR=192.168.1.149    #最后要的ip地址
+GATEWAY=192.168.1.1    #网关
+DNS1=192.168.1.1
+</code></pre><p>之后运行命令<br><code>sudo systemctl restart network.service</code><br>或<br><code>sudo service network restart</code><br>重启网卡服务,之后查看ip信息则用命令<br><code>ip add</code><br>用此命令来查看ip信息，ip更改过来并且能上网，才算成功，之后就是为这台centos7服务器主机搭建环境安装tomcat等</p>
+<h3 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h3><p>在安装Tomcat之前，因为Tomcat是需要java环境，所以先要安装为centos服务器安装jdk。然而需要在自己电脑上操作服务器，公司给我配置的电脑是windows笔记本，那么就需要在电脑上安装xshell这个软件，用它来连接操作centos服务器，下载安装xshell后，打开xshell，利用ip和账户名和密码连接到centos7这台电脑，并了解centos7这台电脑上是否安装lrzsz这个文件传输工具，无则命令安装<br><code>sudo yum install -y lrzsz</code><br>之后再输入命令’rz’用来上传文件，这里需要注意到，上传之前可能需要切换到/tmp文件夹下来进行上传，貌似是权限的问题<br>上传完成之后，使用tar命令来解压文件，如命令<br><code>sudo tar -zvxf jdk-8u144-linux-x64.tar.gz</code><br>通常解压到/usr/local目录…解压完后直接在安装目录尝试启动tomcat看看，因为这里需要配置多个tomcat，那么就不能为单一的tomcat配置环境变量，这样会导致在哪都只能启动配置了环境变量的tomcat，而不能启动其他的tomcat。所以现在便捷的方式是不为任何一个tomcat配置环境变量，那么这样的话，启动tomcat需要到相应的tomcat文件目录中的bin目录下运行命令<code>./catalina.sh start</code> 或<code>./startup.sh</code>来启动，关闭则为<code>./catalina.sh stop</code>或<code>./shutdown.sh</code></p>
+<h4 id="启动tomcat并开放8080端口"><a href="#启动tomcat并开放8080端口" class="headerlink" title="启动tomcat并开放8080端口"></a>启动tomcat并开放8080端口</h4><p>有可能cd不能进入tomcat里的/bin文件夹，会提示权限不够，或者在启动Tomcat的时候提示权限不够，可以先用命令<br><code>ls -l</code><br>来查看下文件或文件夹的运行权限和所属用户组，如果运行权限不足则增加相应的权限，或者更改文件的拥有者，例如命令<br><code>sudo chown -R xm6f bin</code><br>即将bin目录文件的拥有者更改成xm6f普通用户，这样就可以进入bin目录了，进入bin目录后，就可以运行命令来启动tomcat了<br>命令<br><code>./catalina.sh start</code>或者<code>./startup.sh</code><br>因为使用的是8080端口，大于1024端口，而且文件所有者已经更改成了xm6f普通用户，所以不需要使用root来进行启动，启动之后再centos服务器电脑上就使用<a href="http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了" target="_blank" rel="external">http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了</a><br>其开启对外开发8080端口命令如下<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>运行上面这条命令后，如果运行正常返回success那么再运行下面这条命令<br><code>sudo firewall-cmd --reload</code><br>若同样正常返回success那么就成功的对外开发了8080端口，另外提一点，因为现在操作的是centos7系统，centos7是使用firewall，在centos7之前的系统都是使用iptables，所以如果是centos7之前的系统，那么上面这两天命令就不能使用了，而需要操作iptables了。</p>
+<h4 id="配置三台tomcat"><a href="#配置三台tomcat" class="headerlink" title="配置三台tomcat"></a>配置三台tomcat</h4><p>而需要配置三台tomcat，那就需要有三个tomcat安装文件，如下</p>
+<pre><code>[xm6f@localhost tomcat]$ ls
+apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
+</code></pre><p>依照上面的输出顺序，我配置的端口依次是8080,8081,8082,具体的配置中，apache-tomcat-7.0.79配置文件可以不变，只需要更改后面两个tomcat的配置文件，避免同时启动三台tomcat时出现端口占用的情况。其tomcat配置文件即安装目录的/conf/server.xml，其原始内容为</p>
+<pre><code>&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;
+&lt;!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the &quot;License&quot;); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--&gt;
+&lt;!-- Note:  A &quot;Server&quot; is not itself a &quot;Container&quot;, so you may not
+     define subcomponents such as &quot;Valves&quot; at this level.
+     Documentation at /docs/config/server.html
+ --&gt;
+&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+  &lt;Listener className=&quot;org.apache.catalina.startup.VersionLoggerListener&quot; /&gt;
+  &lt;!-- Security listener. Documentation at /docs/config/listeners.html
+  &lt;Listener className=&quot;org.apache.catalina.security.SecurityListener&quot; /&gt;
+  --&gt;
+  &lt;!--APR library loader. Documentation at /docs/apr.html --&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.AprLifecycleListener&quot; SSLEngine=&quot;on&quot; /&gt;
+  &lt;!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html --&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.JasperListener&quot; /&gt;
+  &lt;!-- Prevent memory leaks due to use of particular java/javax APIs--&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.JreMemoryLeakPreventionListener&quot; /&gt;
+  &lt;Listener className=&quot;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&quot; /&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.ThreadLocalLeakPreventionListener&quot; /&gt;
+
+  &lt;!-- Global JNDI resources
+       Documentation at /docs/jndi-resources-howto.html
+  --&gt;
+  &lt;GlobalNamingResources&gt;
+    &lt;!-- Editable user database that can also be used by
+         UserDatabaseRealm to authenticate users
+    --&gt;
+    &lt;Resource name=&quot;UserDatabase&quot; auth=&quot;Container&quot;
+              type=&quot;org.apache.catalina.UserDatabase&quot;
+              description=&quot;User database that can be updated and saved&quot;
+              factory=&quot;org.apache.catalina.users.MemoryUserDatabaseFactory&quot;
+              pathname=&quot;conf/tomcat-users.xml&quot; /&gt;
+  &lt;/GlobalNamingResources&gt;
+
+  &lt;!-- A &quot;Service&quot; is a collection of one or more &quot;Connectors&quot; that share
+       a single &quot;Container&quot; Note:  A &quot;Service&quot; is not itself a &quot;Container&quot;,
+       so you may not define subcomponents such as &quot;Valves&quot; at this level.
+       Documentation at /docs/config/service.html
+   --&gt;
+  &lt;Service name=&quot;Catalina&quot;&gt;
+
+    &lt;!--The connectors can use a shared executor, you can define one or more named thread pools--&gt;
+    &lt;!--
+    &lt;Executor name=&quot;tomcatThreadPool&quot; namePrefix=&quot;catalina-exec-&quot;
+        maxThreads=&quot;150&quot; minSpareThreads=&quot;4&quot;/&gt;
+    --&gt;
+
+
+    &lt;!-- A &quot;Connector&quot; represents an endpoint by which requests are received
+         and responses are returned. Documentation at :
+         Java HTTP Connector: /docs/config/http.html (blocking &amp; non-blocking)
+         Java AJP  Connector: /docs/config/ajp.html
+         APR (HTTP/AJP) Connector: /docs/apr.html
+         Define a non-SSL HTTP/1.1 Connector on port 8080
+    --&gt;
+    &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+    &lt;!-- A &quot;Connector&quot; using the shared thread pool--&gt;
+    &lt;!--
+    &lt;Connector executor=&quot;tomcatThreadPool&quot;
+               port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+    --&gt;
+    &lt;!-- Define a SSL HTTP/1.1 Connector on port 8443
+         This connector uses the BIO implementation that requires the JSSE
+         style configuration. When using the APR/native implementation, the
+         OpenSSL style configuration is required as described in the APR/native
+         documentation --&gt;
+    &lt;!--
+    &lt;Connector port=&quot;8443&quot; protocol=&quot;org.apache.coyote.http11.Http11Protocol&quot;
+               maxThreads=&quot;150&quot; SSLEnabled=&quot;true&quot; scheme=&quot;https&quot; secure=&quot;true&quot;
+               clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; /&gt;
+    --&gt;
+
+    &lt;!-- Define an AJP 1.3 Connector on port 8009 --&gt;
+    &lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
+
+
+    &lt;!-- An Engine represents the entry point (within Catalina) that processes
+         every request.  The Engine implementation for Tomcat stand alone
+         analyzes the HTTP headers included with the request, and passes them
+         on to the appropriate Host (virtual host).
+         Documentation at /docs/config/engine.html --&gt;
+
+    &lt;!-- You should set jvmRoute to support load-balancing via AJP ie :
+    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot; jvmRoute=&quot;jvm1&quot;&gt;
+    --&gt;
+    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot;&gt;
+
+      &lt;!--For clustering, please take a look at documentation at:
+          /docs/cluster-howto.html  (simple how to)
+          /docs/config/cluster.html (reference documentation) --&gt;
+      &lt;!--
+      &lt;Cluster className=&quot;org.apache.catalina.ha.tcp.SimpleTcpCluster&quot;/&gt;
+      --&gt;
+
+      &lt;!-- Use the LockOutRealm to prevent attempts to guess user passwords
+           via a brute-force attack --&gt;
+      &lt;Realm className=&quot;org.apache.catalina.realm.LockOutRealm&quot;&gt;
+        &lt;!-- This Realm uses the UserDatabase configured in the global JNDI
+             resources under the key &quot;UserDatabase&quot;.  Any edits
+             that are performed against this UserDatabase are immediately
+             available for use by the Realm.  --&gt;
+        &lt;Realm className=&quot;org.apache.catalina.realm.UserDatabaseRealm&quot;
+               resourceName=&quot;UserDatabase&quot;/&gt;
+      &lt;/Realm&gt;
+
+      &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;
+            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+
+        &lt;!-- SingleSignOn valve, share authentication between web applications
+             Documentation at: /docs/config/valve.html --&gt;
+        &lt;!--
+        &lt;Valve className=&quot;org.apache.catalina.authenticator.SingleSignOn&quot; /&gt;
+        --&gt;
+
+        &lt;!-- Access log processes all example.
+             Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern=&quot;common&quot; --&gt;
+        &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;
+               prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot;
+               pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;
+
+      &lt;/Host&gt;
+    &lt;/Engine&gt;
+  &lt;/Service&gt;
+&lt;/Server&gt;
+</code></pre><p>其需要更改的地方只有三处<br>第一处如下</p>
+<pre><code>&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+</code></pre><p>第二台更改成9005,第三台更改成7005<br>第二处如下</p>
+<pre><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+    connectionTimeout=&quot;20000&quot;
+    redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>第二台更改成8081,9443，第三台更改成8082,7443<br>第三处如下</p>
+<pre><code>&lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>第二胎更改成9009,9443，第三台更改成7009,7443<br>并且将8081和8082这两个端口都进行对外开放，这样就可以了，要测试的话，分别到各个tomcat目录中将其都启动，浏览器输入ip地址和对应的端口号即可。</p>
+<p>至此，就完成了tomcat的安装</p>
+<h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><p>centos7服务器电脑还需要安装redis<br>还没接触过redis，后面跟同事了解到，redis是使用c编写的，redis一般在系统开发中只用作缓存，因为如果要使用的数据量太大的话，而且需要多次使用，如果不使用缓存，那么在每一次请求数据的时候都需要从数据库中进行查找，这样不仅耗时也好资源，所以如果使用redis缓存机制，用户请求数据的时候，如果数据量过大，就会使用redis将该数据暂时放入内存中，以键值对的方式存放着，并于该请求用户的临时id进行关联，使得再次使用到该数据的时候可以直接使用get方式从内存中读取，而不需要从数据库中查…..ok<br>那么下载安装,下载redis-2.8.4.tar压缩包后，将压缩包上传到centos7服务器中<br>因为需要gcc编译，查看了后知道未安装gcc，那么先安装gcc,其命令<br><code>sudo yum install gcc make</code><br>之后解压redis-2.8.4.tar,并编译<br>解压命令<br><code>sudo tar -zvxf redis-2.8.4.tar</code><br>解压之后cd到解压得到的目录中，运行命令sudo make来编译，出了个错误</p>
+<pre><code>zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目录
+</code></pre><p>网上查了之后才知道命令中需要添加一个参数变量,运行命令sudo make MALLOC=libc,就不会出现这个问题，然后测试redis是否安装成功，运行命令<br><code>make test</code><br>时，出现个问题</p>
+<pre><code>You need tcl 8.5 or newer in order to run the Redis test
+</code></pre><p>看着抛出的错误，提示这需要下载tcl8.5并编译安装</p>
+<pre><code>cd  /usr/local/tcl8.6.1/unix/  
+sudo ./configure  
+sudo make  
+sudo make install 
+</code></pre><p>之后，再<code>make test</code>，这里我的还是不行，不知道为什么,我选择的是先不管它，直接将redis的服务器和客户端等复制到/usr/local/bin/目录下<br><code>sudo cp redis-server redis-cli /usr/local/bin/</code><br>及其他一些可运行程序<br><code>sudo cp redis-sentinel redis-benchmark redis-check-aof redis-check-dump /usr/local/bin/</code><br>之后新开一个终端连接，直接命令redis-server和redis-cli发现都可以运行,并且在redis-cli下测试都正常，如下</p>
+<pre><code>[xm6f@localhost redis-2.8.4]$ ./src/redis-cli 
+127.0.0.1:6379&gt; set name aa
+OK
+127.0.0.1:6379&gt; get name
+&quot;aa&quot;
+127.0.0.1:6379&gt; 
+</code></pre><p>只要这样测试结果正常，那就意味着redis安装成功，不过，redis需要配置开机启动</p>
+<h4 id="配置redis开机启动"><a href="#配置redis开机启动" class="headerlink" title="配置redis开机启动"></a>配置redis开机启动</h4><p>所以为了方便启动和管理，我在/usr/local/下新建了个redis文件夹，并将redis-server，redis-cli，redis-sentinel，redis-benchmark，redis-check-aof，redis-check-dump及redis.conf复制到该redis文件夹下，配置开机启动的方式就是在/etc/rc.d/init.d目录下创建一个启动脚本，命令如下<br><code>sudo vim redis</code><br>脚本是从网上找的，只是进行了修改，其内容如下</p>
+<pre><code>#!/bin/sh
+#chkconfig: 345 86 14
+#description: Startup and shutdown script for Redis
+
+PROGDIR=/usr/local/redis
+PROGNAME=redis-server
+DAEMON=$PROGDIR/$PROGNAME
+CONFIG=/usr/local/redis/redis.conf
+PIDFILE=/var/run/redis.pid
+DESC=&quot;redis daemon&quot;
+SCRIPTNAME=/etc/rc.d/init.d/redis
+
+start()
+{
+    if test -x $DAEMON
+        then
+        echo -e &quot;Starting $DESC: $PROGNAME&quot;
+                  if $DAEMON $CONFIG
+                  then
+                            echo -e &quot;OK&quot;
+                  else
+                            echo -e &quot;failed&quot;
+                  fi
+        else
+                  echo -e &quot;Couldn&apos;t find Redis Server ($DAEMON)&quot;
+        fi
+}
+
+stop()
+{
+        if test -e $PIDFILE
+        then
+                  echo -e &quot;Stopping $DESC: $PROGNAME&quot;
+                  if kill `cat $PIDFILE`
+                  then
+                            echo -e &quot;OK&quot;
+                  else
+                            echo -e &quot;failed&quot;
+                  fi
+        else
+                  echo -e &quot;No Redis Server ($DAEMON) running&quot;
+        fi
+}
+
+restart()
+{
+    echo -e &quot;Restarting $DESC: $PROGNAME&quot;
+    stop
+        start
+}
+
+list()
+{
+        ps aux | grep $PROGNAME
+}
+
+case $1 in
+        start)
+                  start
+        ;;
+        stop)
+        stop
+        ;;
+        restart)
+        restart
+        ;;
+        list)
+        list
+        ;;
+
+        *)
+        echo &quot;Usage: $SCRIPTNAME {start|stop|restart|list}&quot; &gt;&amp;2
+        exit 1
+        ;;
+esac
+exit 0
+</code></pre><p>之后就需要修改对redis进行chkconfig配置，其命令如下</p>
+<pre><code>sudo chkconfig --add redis
+sudo chkconfig --level 345 redis on    #345这个数字根据脚本中来定
+sudo chkconfig --list redis
+</code></pre><p>之后就可以重启系统进行测试了，只要确定redis能在开机后启动就可以了</p>
+<h4 id="手动启动redis"><a href="#手动启动redis" class="headerlink" title="手动启动redis"></a>手动启动redis</h4><p>手动启动redis一般需要到redis的安装目录的src文件夹下运行redis-server，不过这里我已经将这些可运行程序及配置文件拷贝到/usr/local/redis/目录下，所以可以直接在这个目录下手动启动redis,其命令如下</p>
+<pre><code>cd /usr/local/redis
+./redis-server redis.conf    #启动redis
+./redis-cli -p 端口号 shutdown    #关闭redis服务
+
+./redis-cli        #启动redis客户端
+</code></pre><p>查看redis服务是否启动，命令如下<br><code>ps -aux | grep redis</code><br>查看某端口是否被占用,命令如下<br><code>netstat –tunpl | grep 端口</code><br>后期配置<br>在/etc/sysctl.conf文件中添加下面代码:<br><code>vm.overcommit_memory=1</code><br>这个代码可以解决下面这个问题</p>
+<pre><code>[3876] 01 Aug 14:09:11.809 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add &apos;vm.overcommit_memory = 1&apos; to /etc/sysctl.conf and then reboot or run     the command &apos;sysctl vm.overcommit_memory=1&apos; for this to take effect.
+</code></pre><h3 id="安装nginx服务"><a href="#安装nginx服务" class="headerlink" title="安装nginx服务"></a>安装nginx服务</h3><p>nginx是负责均衡服务器，是c语言开发的，相当于一个调配工具，那个tomcat压力大就调用压力轻的来顶</p>
+<h4 id="配置ngin环境"><a href="#配置ngin环境" class="headerlink" title="配置ngin环境"></a>配置ngin环境</h4><p>安装nginx之前先安装好其所需环境<br>1.安装gcc<br>安装 nginx 需要先将官网下载的源码进行编译，编译依赖 gcc 环境，<br>命令<br><code>yum install gcc-c++</code><br>2.安装PCRE库  pcre-devel库<br>PCRE(Perl Compatible Regular Expressions) 是一个Perl库，包括 perl 兼容的正则表达式库。nginx 的 http 模块使用 pcre 来解析正则表达式，所以需要在 linux 上安装 pcre 库，pcre-devel 是使用 pcre 开发的一个二次开发库。nginx也需要此库<br>命令<br><code>yum install -y pcre pcre-devel</code><br>3.zlib 安装<br>zlib 库提供了很多种压缩和解压缩的方式， nginx 使用 zlib 对 http 包的内容进行 gzip ，所以需要在 Centos 上安装 zlib 库<br>命令<br><code>yum install -y zlib zlib-devel</code><br>4.OpenSSL 安装<br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及 SSL 协议,nginx 不仅支持 http 协议，还支持 https（即在ssl协议上传输http），所以需要在 Centos 安装 OpenSSL 库<br>命令<br><code>yum install -y openssl openssl-devel</code></p>
+<h4 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h4><p>在tmp文件夹下，使用<code>rz</code>命令上传下载好的nginx-1.12.1.tar压缩文件，之后对其进行解压，将得到一个nginx-1.12.1文件夹，之后安装的命令如下</p>
+<pre><code>cd nginx-1.12.1
+sudo ./configure
+sudo make &amp;&amp; sudo make install
+</code></pre><p>这样的编译安装方式会将nginx安装到/usr/local/nginx下，然后我们进入到安装目录下的sbin文件夹中，使用命令<br><code>sudo ./nginx</code><br>就可以运行nginx了<br>提示<br>如果不使用sudo来启动nginx就会出现如下错误</p>
+<pre><code>nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
+</code></pre><p>这个错误不是文件权限错误，而是端口权限的错误，在linux系统中，所有启动数字小于1024的端口都需要root权限，而nginx使用的80端口，所以，就需要sudo使用root身份</p>
+<h4 id="nginx启动与关闭"><a href="#nginx启动与关闭" class="headerlink" title="nginx启动与关闭"></a>nginx启动与关闭</h4><p>启动、停止nginx的命令如下</p>
+<pre><code>cd /usr/local/nginx/sbin/
+sudo ./nginx  : 启动nginx
+sudo ./nginx -s stop  : 此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程
+sudo ./nginx -s quit  : 此方式是待nginx进程处理任务完毕进行停止
+sudo ./nginx -s reload  : 重启
+</code></pre><p>之后，跟redis一样，也需要将nginx添加开机启动，开机启动我不是特别了解，网上了解到好像有两种区别，一种是如果直接使用编译安装的方式，那其添加到开机启动的方法就是编辑/etc/rc.local这个文件，往其中添加下面的代码<br><code>/usr/local/nginx/sbin/nginx</code><br>然后就是修改/etc/rc.local这个文件的权限，在/etc目录下使用命令<br><code>sudo chmod 755 rc.local</code><br>如果不修改这个文件的权限，那其开机后只会启动一个进程，如下</p>
+<pre><code>Last login: Thu Aug  3 11:22:37 2017 from 192.168.1.70
+[xm6f@localhost ~]$ ps -ef | grep nginx
+xm6f      2963  2919  0 13:53 pts/0    00:00:00 grep --color=auto nginx
+</code></pre><p>这个进程只能被普通用户xm6f控制，而正常启动的nginx会有三个进程，如下</p>
+<pre><code>Type `help&apos; to learn how to use Xshell prompt.
+[c:\~]$ open
+
+Connecting to 192.168.1.149:22...
+Connection established.
+To escape to local shell, press &apos;Ctrl+Alt+]&apos;.
+
+Last login: Thu Aug  3 13:53:21 2017 from 192.168.1.70
+[xm6f@localhost ~]$ ps -ef | grep nginx
+root      1245     1  0 13:55 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
+nobody    1246  1245  0 13:55 ?        00:00:00 nginx: worker process
+xm6f      2974  2923  0 13:57 pts/0    00:00:00 grep --color=auto nginx
+[xm6f@localhost ~]$ 
+</code></pre><p>另一个区别就是如果是使用yum命令安装的方式，就是用systemctl来启动，具体我也不了解……<br>到现在为止，已经成功的安装了nginx并设为开机启动了,那现在需要做的就是配合前面安装的三台tomcat来实现负载均衡，打开nginx安装目录中conf文件夹下的nginx.conf这个配置文件，它是nginx的配置文件，其原始的内容如下</p>
+<pre><code>#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache&apos;s document root
+        # concurs with nginx&apos;s one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    #server {
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+}
+</code></pre><p>在nginx.conf配置文件中添加如下代码，位置可以在gzip这一行后面，只要在location前面即可</p>
+<pre><code>upstream tomcat{
+    server 192.168.1.149:8080 weight=1;
+    server 192.168.1.149:8081 weight=1;
+    server 192.168.1.149:8082 weight=1;
+}
+</code></pre><p>并将其中的<code>gzip  on</code>前面的注释，这个功能是将需要发送到浏览器的文件进行压缩，之后再修改location块中的内容修改成如下</p>
+<pre><code>location / {
+    proxy_buffering on;
+
+    proxy_connect_timeout 3;
+    proxy_send_timeout 3;
+    proxy_read_timeout 3;
+    proxy_pass  http://tomcat;
+    # root   html;
+    # index  index.html index.htm;
+}
+</code></pre><p>这算是最基本的修改了，后面还得涉及到nginx性能的优化配置，这里先不扯。继续看上面的原始配置文件，nginx的server块中表明了nginx使用的地址server_name和端口号listen，其端口号是80端口，为使服务器能够外网访问就需要开放80端口，所以我们需要开放端口，其命令为<br><code>sudo firewall-cmd --zone=public --add-port=80/tcp --permanent</code><br>之后运行下面的命令<br><code>sudo firewall-cmd --reload</code><br>两者都正常运行返回success即为开放成功，另外提下，列出所有已经开放的端口命令如下<br><code>sudo firewall-cmd --list-ports</code><br>目前，将nginx服务启动后，在我自己的笔记本上使用centos7服务器的ip及80端口通过浏览器即可访问到tomcat，但是负载均衡不能得到体现，所以我们可以修改三台tomcat安装目录下的/webapps/ROOT/index.jsp页面，来区分三台不同的tomcat，为了方便，我就修改了index.jsp页面的title，每个title的值就是相应tomcat所在的端口号，浏览器中输入<a href="http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。" target="_blank" rel="external">http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。</a><br>至此nginx安装与配置已经完成<br>查询nginx进程：<br><code>ps aux|grep nginx</code><br>查看服务的状态<br><code>service nginx status或systemctl nginx status</code></p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> centos </tag>
+            
+            <tag> redis </tag>
+            
+            <tag> tomcat </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[毕业后杂谈]]></title>
       <url>/2017/07/25/daily/2017-07-25-daily-biyezatan/</url>
-      <content type="html"><![CDATA[<p>从毕业到现在，也过了那么一个多月了，从三月份出去实习到现在，也有四个多月了，还是混得不咋地，现在也是穷的一塌糊涂，瞎折腾吧。从武汉找到厦门，从厦门找到福州，从福州再找到厦门，并实习了两个月。毕业后再找到上海，未果，又回到厦门，工作两个月。到现在又在找工作…..</p>
+      <content type="html"><![CDATA[<p>从毕业到现在，也过了那么一个多月了，从三月份出去实习到现在，也有四个多月了，还是混得不咋地，现在也是穷的一塌糊涂，瞎折腾吧。从武汉找到厦门，从厦门找到福州，从福州再找到厦门，并实习了两个月。毕业后再找到上海，未果，又回到厦门，工作两个月。到现在又在找工作….三月份来厦门之后，不久才知道了厦门确实不适合找程序员的工作，白兰鸽从一开始就飞错方向，自己傻逼似的把它往那边赶，落成现在这样也是作。</p>
 <a id="more"></a>
-<p>毕业不好混。</p>
-<p>最近看到一个微博，说是三个男的，他们都彼此喜欢，组建成一个家庭，生活在一起。我特别羡慕这样的生活，跟自己喜欢玩得来的人生活在一起，我并不是同性恋，但我也特别希望能和自己的兄弟在一起生活，假如哪一天结婚了，各自和自己的另一半在一起。我也期待着能他们生活在一起，哪怕就在附近，每天生活都有交集。这就感觉是全世界就我们几个人，在一起生活，不需要过多外界的接触，我喜欢这种感觉。</p>
+<p>其实到哪个城市都一样，它们就像盒子，四四方方，有边有角，只是大小不同而已。<br>毕业又有点兴奋有点无奈,兴奋是那种磨刀霍霍向猪羊的感觉，无奈是这条路只有自己一个人走，其实他们也都一样，不过有点被思念，有点不被思念罢了<br>最近看到一个微博，说是三个男的，他们都彼此喜欢，组建成一个家庭，生活在一起。我特别羡慕这样的生活，跟自己喜欢玩得来的人生活在一起，我并不是同性恋，但我也特别希望能和自己的兄弟在一起生活，假如哪一天结婚了，各自和自己的另一半在一起。我也期待着能他们生活在一起，哪怕就在附近，每天生活都有交集。这就感觉是全世界就我们几个人，在一起生活，不需要过多外界的接触，我喜欢这种感觉。</p>
 <p>总是想着下辈子要是一棵树就好了，一棵生长在原始森林的树，旁边的树从小就在身边，直到死去，不受任何干扰，一起看着日升日落，度过春夏秋冬。</p>
 <p>但现实往往不是这样，接触过的人都会离去，不管是兄弟还是恋人，兄弟之间会随着时间变淡，恋人也会因为某种原因而离开，总有那么一个时候，彼此天各一方，各自会有各自的家庭，有自己的生活圈子，跟以前的人不会再有过多的嬉笑唏嘘。取而代之的是新认识的人，新交的兄弟。我反感这样，反感他们现在身边所谓的兄弟，凭什么我的兄弟现在成了别人的兄弟，这算是私心吧。</p>
 <p>刚入大学那会这样的感慨最深。那会儿我们都在不同的城市，打工的打工，上学的上学，过着互不一样的生活。圈子不同联络就少了，大伙也只能在年末才能聚全。我也偶尔会请假去他们的城市看看，接触下他们的生活，看看过的怎么样，这样也能了解下他们的变化，避免后面感情联络不上。不过，时间这东西，我还是输。我不喜欢重新交朋友，心里想着有这么一些玩的好的朋友就已经够了，何必交太那些点头之交虚假的朋友…..想想那会儿还是太傻太天真，任何东西都禁不起时间的磨合，而你还是像个傻逼一样一直活在过去，这就扯到鸡汤了。不过偶尔活在过去也好，有回味，才叫生活。我一直记得一句话，一个忘记历史的名族，是一个没有希望的名族。如果换做一个人来说，总是会忘记自己以前的生活，那你就白活了，因为在你的脑海里你的生活是空白的，而你却在这个世界上存活了这么多年。这算是我喜欢恋旧的一个勉勉强强的理由吧，所以我有个习惯，就是生活一段时间就总结一段时间。找个空闲的时间，安静的角落，自己静下心来想想这段时间怎么生活的，总结一番，给自己加油打气。说实在，我时常在坐车的时候会想这个，坐公交，火车，滴滴…只要能静下来，脑袋里就像是放电影一样回想起过去，朋友面前嘻嘻哈哈，一静下来就会想到过去，高中那伙兄弟当时也都知道了我这脑回路….<br>这让我想到了前段时间看的一个，说是当你回想起以前的事情是，是不是会发现所有的事都是站在第三人称的角度来看的，可这明明都是自己经历的这些，那到底是谁在第三角度看的?仔细想想还真是那么一回事。</p>
+<p>有一句话很经典，每个人都是想着自己的生活。</p>
 <p>这几天一直在厦门找工作,大概有一个星期了。没工作的日子过得很颓废，除了找工作和自娱自乐还能干啥，还是得尽快找着工作，这样生活也能规律起来，还能养活自己。谈谈我现在的计划吧，在今年剩下的下半年里找个相对稳定点的工作，攒点钱并多积攒点经验，明年再去深圳找工作，以后工作就定深圳了。至于去深圳的原因有两点，其一，一线城市机会多，相对于我的专业来说，一线城市的需求量大，而且技术更新。其二就是离家近，爸妈都在家里，且爸妈只有我跟我哥两儿子，爸妈年级五旬左右，身体逐渐变弱，日后我俩兄弟当中肯定需要有个得经常回家照顾爸妈的。我哥还在念研究生，有考虑出国，所以这几年我得好好混，工作创业就在家附近吧，混不好再看。</p>
 <p>我想，等我哪一天回头来看这篇文章的时候，肯定会觉得很幼稚，没错，21岁，我还是很幼稚。没有故事，只有酒。现在出了社会，跟别人比就是个小白，永远抵不过别人的城府，再怎么故作老成，也还是撑不起这局。</p>
 <p>说到酒，我下班后常去出租屋楼下的胖阿姨那拿酒，每次拿两瓶都有中奖再来一瓶，通常是提酒到屋里后，再拿钱跟上次中奖的瓶盖儿一并给胖阿姨，常次反复，都是如此，到现在屋里还有三中奖的瓶盖儿。胖阿姨人也很好，这么高频率的中奖她也没说啥，也不会说啥，因为酒是她选的，我只是接手提上屋。之所以管她叫胖阿姨，这我也不知道，只是附近的人都这么叫她，我也就这样跟着叫了。这算是在厦门呆了这么久一来最幸运的事了</p>
@@ -35,10 +541,9 @@
     <entry>
       <title><![CDATA[Spring中的jdbcTemplate和FreeMarker的初步接触]]></title>
       <url>/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/</url>
-      <content type="html"><![CDATA[<p>这么晚还没下班，没毛病吧，人生就是这么刺激….<br>说说今天接触到的东西<br>项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口<br>BaseCRUDService是封装在base-daoTemplate这个jar包中<br>估计这个base-daoTemplate.jar这个jar包是公司自己写的</p>
+      <content type="html"><![CDATA[<p>这么晚还没下班，没毛病吧，人生就是这么刺激….<br>说说今天接触到的东西<br>项目中定义了一个PurchaseOrderService这个接口，继承自BaseCRUDService这个底层的数据库操作接口,BaseCRUDService是封装在base-daoTemplate这个jar包中,估计这个base-daoTemplate.jar这个jar包是公司自己写的</p>
 <a id="more"></a>
-<p>里头封装了一些基本的crud操作</p>
-<p>这是操作数据库的一种方式</p>
+<p>里头封装了一些基本的crud操作这是操作数据库的一种方式</p>
 <h3 id="BaseCRUDService-java"><a href="#BaseCRUDService-java" class="headerlink" title="BaseCRUDService.java"></a>BaseCRUDService.java</h3><p>BaseCRUDService.java代码如下</p>
 <pre><code>public interface BaseCRUDService&lt;T&gt; {
     T createEntity();
@@ -95,16 +600,7 @@ List&lt;PurchaseOrderListVo&gt; orderListVoList = jdbcTemplate.query(sql, Parame
     }
     return listMultimap;
 }
-</code></pre><p>感觉这个方法涉及到的工具代码真是牛逼<br>来解析下这个方法<br>只节解析对我有用的，其他的功能我不管</p>
-<p>首先代码第一行</p>
-<p><code>Map&lt;String, Object&gt; data = Maps.newHashMap()</code></p>
-<p>声明并实例化了一个Map类型的data对象，</p>
-<p>之后</p>
-<p><code>data.put(&quot;orderIds&quot;,  orderIds);</code></p>
-<p>这一行代码将数据存入到data对象中，</p>
-<p><code>key=orderIds,value=orderIds</code></p>
-<p>然后使用FreeMarkerHelper这个类中的getValueFormTpl()这个方法来解析一个sql文件，并实现将搜索需要的参数参合到其中</p>
-<p>其代码的实现就是将data对象作为参数传入，并且将sql文件中的参数变量使用data中的key匹配并用value替换</p>
+</code></pre><p>感觉这个方法涉及到的工具代码真是牛逼,来解析下这个方法<br>只节解析对我有用的，其他的功能我不管<br>首先代码第一行<br><code>Map&lt;String, Object&gt; data = Maps.newHashMap()</code><br>声明并实例化了一个Map类型的data对象<br>之后<br><code>data.put(&quot;orderIds&quot;,  orderIds);</code><br>这一行代码将数据存入到data对象中<br><code>key=orderIds,value=orderIds</code><br>然后使用FreeMarkerHelper这个类中的getValueFormTpl()这个方法来解析一个sql文件，并实现将搜索需要的参数参合到其中,其代码的实现就是将data对象作为参数传入，并且将sql文件中的参数变量使用data中的key匹配并用value替换</p>
 <h3 id="sql文件"><a href="#sql文件" class="headerlink" title="sql文件"></a>sql文件</h3><p>PurchaseOrderListList.sql文件的代码如下</p>
 <pre><code>SELECT
     group_concat(id) as id,
@@ -136,11 +632,7 @@ WHERE
     and is_valid = &apos;T&apos;
     and del_flag = &apos;F&apos;
 group by pur_goods_sku_id,order_id
-</code></pre><p>观察PurchaseOrderListList.sql中的代码，其中有个</p>
-<p><code>${orderIds}</code></p>
-<p>这个就是用来和data对象中的key相匹配，并将data对象中key值orderIds的value传入到PurchaseOrderListList.sql文件中，</p>
-<p>FreeMarkerHelper再读取PurchaseOrderListList.sql中的内容，之后返回一个String类型的操作数据库的字符串语句</p>
-<p>之后，调用jdbaTemplate中的query()方法来操作数据库，并返回一个list集合</p>
+</code></pre><p>观察PurchaseOrderListList.sql中的代码，其中有个<br><code>${orderIds}</code><br>这个就是用来和data对象中的key相匹配，并将data对象中key值orderIds的value传入到PurchaseOrderListList.sql文件中，FreeMarkerHelper再读取PurchaseOrderListList.sql中的内容，之后返回一个String类型的操作数据库的字符串语句<br>之后，调用jdbaTemplate中的query()方法来操作数据库，并返回一个list集合</p>
 <h3 id="FreeMarkerHelper-java"><a href="#FreeMarkerHelper-java" class="headerlink" title="FreeMarkerHelper.java"></a>FreeMarkerHelper.java</h3><p>其FreeMarkerHelper代码如下</p>
 <pre><code>public class FreeMarkerHelper {
 
@@ -179,10 +671,7 @@ group by pur_goods_sku_id,order_id
     }
 
 }
-</code></pre><p>这个FreeMarkerHelper类真是厉害，这类中的代码我根本看不懂</p>
-<p>只知道是调用了FreeMarker模板引擎</p>
-<p>只是我没接触过FreeMarker，问了前辈，前辈说也不知道，表示这个项目中使用FreeMarker只是用来组装sql语句的</p>
-<p>并让我不要去研究底层的东西，学会怎么用就行…..</p>
+</code></pre><p>这个FreeMarkerHelper类真是厉害，这类中的代码我根本看不懂,只知道是调用了FreeMarker模板引擎<br>只是我没接触过FreeMarker，问了前辈，前辈说也不知道，表示这个项目中使用FreeMarker只是用来组装sql语句的,并让我不要去研究底层的东西，学会怎么用就行…..</p>
 <p>ps:得找个机会总结下最近学到的东西了，不然就忘了</p>
 ]]></content>
       
@@ -220,18 +709,9 @@ group by pur_goods_sku_id,order_id
 <li><p>将放回的结果数据当做参数传入JQuery AJAX的异步请求方法中的success函数，根据结果情况做出相对应的响应</p>
 </li>
 </ol>
-<h4 id="关于success函数"><a href="#关于success函数" class="headerlink" title="关于success函数"></a>关于success函数</h4><p>jquery ajax的异步请求方法中，定义了一个success函数机制，如下面的实现代码</p>
-<p><code>success:function(result){}</code></p>
-<p>这样的</p>
-<p>我也不知道这个success功能该怎么叫，它的工作原理我也不大清楚，说是success函数机制，这也只是我按自己的理解命名的<br>控制器方法在执行完数据的处理后，return操作后的结果，这就当是服务器的返回，原先缓存在浏览器中的favorite_list.js中的jquery ajax还在运行等待服务器的返回，<br>当其检测到服务器发送回来的数据后，将数据当做参数传到success函数机制中</p>
-<p>就如下面代码</p>
-<p><code>success:function(返回数据){}</code></p>
-<p>后面success函数机制在根据返回的数据进行操作判断之前请求的数据是否处理成功<br>并做出对应的相应</p>
-<p>这是我现在的猜测，<br>另外<br>根据根据控制器方法的不同返回结果，可分为不同的跳转方式</p>
+<h4 id="关于success函数"><a href="#关于success函数" class="headerlink" title="关于success函数"></a>关于success函数</h4><p>jquery ajax的异步请求方法中，定义了一个success函数机制，如下面的实现代码<br><code>success:function(result){}</code><br>这样的<br>我也不知道这个success功能该怎么叫，它的工作原理我也不大清楚，说是success函数机制，这也只是我按自己的理解命名的,控制器方法在执行完数据的处理后，return操作后的结果，这就当是服务器的返回，原先缓存在浏览器中的favorite_list.js中的jquery ajax还在运行等待服务器的返回，当其检测到服务器发送回来的数据后，将数据当做参数传到success函数机制中<br>就如下面代码<br><code>success:function(返回数据){}</code><br>后面success函数机制在根据返回的数据进行操作判断之前请求的数据是否处理成功,并做出对应的相应,这是我现在的猜测<br>另外,根据根据控制器方法的不同返回结果，可分为不同的跳转方式</p>
 <h4 id="同步跳转"><a href="#同步跳转" class="headerlink" title="同步跳转"></a>同步跳转</h4><p>控制器方法内部有数据的处理及最后返回一个页面地址，这样的属于同步跳转<br>控制器方法内部要是没有数据的处理，最后确返回一个页面地址，这样也数据同步跳转</p>
-<h4 id="异步跳转"><a href="#异步跳转" class="headerlink" title="异步跳转"></a>异步跳转</h4><p>控制器方法内部只有数据的处理，最后也只返回数据，这样的数据异步跳转</p>
-<p>还有就是，每个ajax的请求都对应一个控制器，每次请求都会对应实例化一个新的Request对象，后面事件触发的ajax数据请求与初次访问页面请求的Request对象是不同的</p>
-<p>下面贴出相关文件的代码</p>
+<h4 id="异步跳转"><a href="#异步跳转" class="headerlink" title="异步跳转"></a>异步跳转</h4><p>控制器方法内部只有数据的处理，最后也只返回数据，这样的数据异步跳转,还有就是，每个ajax的请求都对应一个控制器，每次请求都会对应实例化一个新的Request对象，后面事件触发的ajax数据请求与初次访问页面请求的Request对象是不同的<br>下面贴出相关文件的代码</p>
 <h4 id="list-jsp"><a href="#list-jsp" class="headerlink" title="list.jsp"></a>list.jsp</h4><p>list.jsp页面的代码</p>
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
@@ -344,7 +824,7 @@ group by pur_goods_sku_id,order_id
   &lt;/div&gt;
 
 &lt;/script&gt;
-</code></pre><p>这个页面中对应的控制器方法使用了同步加载的方法，其返回值是一个list.jsp页面路径<br>在这个页面中，关键数据使用了arttemplate模板，如<script id="tpl-list-item" type="text/html"></script>标签块中的代码实现，配合ajax实现list.jsp页面数据的异步加载并渲染</p>
+</code></pre><p>这个页面中对应的控制器方法使用了同步加载的方法，其返回值是一个list.jsp页面路径,在这个页面中，关键数据使用了arttemplate模板，如<script id="tpl-list-item" type="text/html"></script>标签块中的代码实现，配合ajax实现list.jsp页面数据的异步加载并渲染</p>
 <h4 id="FavoriteController-java"><a href="#FavoriteController-java" class="headerlink" title="FavoriteController.java"></a>FavoriteController.java</h4><p>其控制器类FavoriteController的部分代码如下</p>
 <pre><code>@Controller
 @RequestMapping(&quot;/favorite&quot;)
@@ -390,9 +870,9 @@ public class FavoriteController {
     ....
 
 }
-</code></pre><p>观察上面的代码可以知道这是个基于注解实现的控制器，<br>使用@Controller来声明一个控制器类，<br>@RequestMapping来声明一个控制器方法，RequestMapping方法除了有value属性外，还有method属性</p>
+</code></pre><p>观察上面的代码可以知道这是个基于注解实现的控制器，使用@Controller来声明一个控制器类，<br>@RequestMapping来声明一个控制器方法，RequestMapping方法除了有value属性外，还有method属性</p>
 <h4 id="favorite-list-js"><a href="#favorite-list-js" class="headerlink" title="favorite_list.js"></a>favorite_list.js</h4><p>favorite_list.js中的部分代码</p>
-<pre><code>$(function() {
+<pre><code>$(function(){
     if (!$.checkLogin()) { //验证登录
         return;
     }
@@ -467,9 +947,7 @@ var Collect = {
     },
 
 }
-</code></pre><p>结合上面的favorite_list.js中的代码，来进一步了解异步加载数据的实现</p>
-<p>list.jsp页面中引用了favorite_list.js这个文件，在第一次访问list.jsp页面并完成文档加载后会自动调用favorite_list.js中的文档就绪函数$(function(){}),以此来初始化Collect对象，并且调用favorite_list.js中的getFavoriteList()方法，实话说，这个方法就是主要用来实现异步加载list.jsp页面所需要的数据的主要实现部分</p>
-<p>getFavoriteList()方法中定义了jquery ajax的异步数据请求，设置了url,使得具体的数据获取操作交给控制器类FavoriteController中相对应的控制器方法,且使用了success函数机制等待控制器方法返回的结果<br>并在方法内将结果处理遍历出来，遍历的方法里面使用了arttemplate中的template()方法，将数据对象都渲染到jsp页面<br>遍历出来的数据div块都在类名为collect-list-box的div块里，所以猜测arttemplate模板只能放到页面最后</p>
+</code></pre><p>结合上面的favorite_list.js中的代码，来进一步了解异步加载数据的实现<br>list.jsp页面中引用了favorite_list.js这个文件，在第一次访问list.jsp页面并完成文档加载后会自动调用favorite_list.js中的文档就绪函数$(function(){}),以此来初始化Collect对象，并且调用favorite_list.js中的getFavoriteList()方法，实话说，这个方法就是主要用来实现异步加载list.jsp页面所需要的数据的主要实现部分<br>getFavoriteList()方法中定义了jquery ajax的异步数据请求，设置了url,使得具体的数据获取操作交给控制器类FavoriteController中相对应的控制器方法,且使用了success函数机制等待控制器方法返回的结果<br>并在方法内将结果处理遍历出来，遍历的方法里面使用了arttemplate中的template()方法，将数据对象都渲染到jsp页面<br>遍历出来的数据div块都在类名为collect-list-box的div块里，所以猜测arttemplate模板只能放到页面最后</p>
 ]]></content>
       
         <categories>
@@ -1202,15 +1680,11 @@ mysql&gt;
     <entry>
       <title><![CDATA[git使用]]></title>
       <url>/2017/05/10/git/2017-05-10-git-gitUse/</url>
-      <content type="html"><![CDATA[<p>今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题</p>
-<p>于是就打算今天拿出一天时间来弄这个问题</p>
-<p>截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作</p>
+      <content type="html"><![CDATA[<p>今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作</p>
 <a id="more"></a>
 <p>折腾这么久,想想还是写在这里总结一下</p>
-<h3 id="操作概述"><a href="#操作概述" class="headerlink" title="操作概述"></a>操作概述</h3><h4 id="git连接gitosc"><a href="#git连接gitosc" class="headerlink" title="git连接gitosc"></a>git连接gitosc</h4><p>如果在本地已建立仓库,且本地也与gitosc建立ssh安全连接</p>
-<p><code>git remote add origin https://git.oschina.net/用户名/仓库名.git</code></p>
-<p>注意:本地仓库名和远程建立的仓库名要一样</p>
-<h4 id="第一步正常后"><a href="#第一步正常后" class="headerlink" title="第一步正常后"></a>第一步正常后</h4><p>输入<code>git pull origin master</code>,可提交并同步<br>git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并<br>注意:最后可以再输入<code>git push origin master</code>提交,这在github上可以一并完成</p>
+<h3 id="操作概述"><a href="#操作概述" class="headerlink" title="操作概述"></a>操作概述</h3><h4 id="git连接gitosc"><a href="#git连接gitosc" class="headerlink" title="git连接gitosc"></a>git连接gitosc</h4><p>如果在本地已建立仓库,且本地也与gitosc建立ssh安全连接<br><code>git remote add origin https://git.oschina.net/用户名/仓库名.git</code><br>注意:本地仓库名和远程建立的仓库名要一样</p>
+<h4 id="第一步正常后"><a href="#第一步正常后" class="headerlink" title="第一步正常后"></a>第一步正常后</h4><p>输入<code>git pull origin master</code>,可提交并同步.git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并<br>注意:最后可以再输入<br><code>git push origin master</code><br>提交,这在github上可以一并完成</p>
 <h4 id="本地更新后-同样"><a href="#本地更新后-同样" class="headerlink" title="本地更新后,同样"></a>本地更新后,同样</h4><p>命令:</p>
 <ul>
 <li>1.<code>git status</code>检查工作区是否有内容未被提交</li>
@@ -1225,17 +1699,15 @@ mysql&gt;
 <li>3.<code>git merge xxxx</code>合并xxxx分支到当前分支</li>
 <li>4.<code>git branch -d xxxx</code>删除xxxx分支</li>
 </ul>
-<p>注意:<br>第3步合并分支时,git一般使用”Fast forward”模式.<br>在这种模式下,删除分支后,也会丢掉分支信息<br>所以未避免丢掉分支信息,就可以添加参数来禁用”Fast forward”模式<br>例如:<br><code>git merge -no-ff -m &quot;注释&quot; xxxx</code></p>
-<p>如果使用xxxx分支提交到远程仓库,那么,提交完成之后,远程仓库同样会有两条分支选择,一条master,一条xxxx<br>那么,在还没合并前,master主分支上是看不到xxxx分支提交的内容的,这是合乎情理的</p>
-<h4 id="分支冲突描述"><a href="#分支冲突描述" class="headerlink" title="分支冲突描述:"></a>分支冲突描述:</h4><p>例如有两条分支,一条master主分支,一条xxxx分支,当前个分支上的内容都一样<br>此时,在master主分支上添加内容a后提交到远程仓库,xxxx分支上添加内容b后提交到远程仓库<br>当前都未合并,所以说双方都看不到各自提交的内容</p>
-<h4 id="主分支和次分支的提交过程"><a href="#主分支和次分支的提交过程" class="headerlink" title="主分支和次分支的提交过程:"></a>主分支和次分支的提交过程:</h4><p>(主分支与次分支在同一本地仓库)当次分支更新了内容a到暂存区后,切换到主分支后依然可以查看次分支更新的内容a,但当次分支更新了内容a到暂存区后,又将内容a提交到远程仓库中,此时主分支就不能status到是否有内容未被提交,<br>也就不能查看到内容a了<br>那在此前提下继续操作<br>在主分支下,更新内容b到暂存区并提交到远程仓库,那么<br>在远程仓库中,主分支和次分支所现实的内容是不一样的,本地也是如此</p>
+<p>注意:<br>第3步合并分支时,git一般使用”Fast forward”模式.在这种模式下,删除分支后,也会丢掉分支信息<br>所以未避免丢掉分支信息,就可以添加参数来禁用”Fast forward”模式<br>例如<br><code>git merge -no-ff -m &quot;注释&quot; xxxx</code><br>如果使用xxxx分支提交到远程仓库,那么,提交完成之后,远程仓库同样会有两条分支选择,一条master,一条xxxx<br>那么,在还没合并前,master主分支上是看不到xxxx分支提交的内容的,这是合乎情理的</p>
+<h4 id="分支冲突描述"><a href="#分支冲突描述" class="headerlink" title="分支冲突描述"></a>分支冲突描述</h4><p>例如有两条分支,一条master主分支,一条xxxx分支,当前个分支上的内容都一样<br>此时,在master主分支上添加内容a后提交到远程仓库,xxxx分支上添加内容b后提交到远程仓库<br>当前都未合并,所以说双方都看不到各自提交的内容</p>
+<h4 id="主分支和次分支的提交过程"><a href="#主分支和次分支的提交过程" class="headerlink" title="主分支和次分支的提交过程"></a>主分支和次分支的提交过程</h4><p>(主分支与次分支在同一本地仓库)当次分支更新了内容a到暂存区后,切换到主分支后依然可以查看次分支更新的内容a,但当次分支更新了内容a到暂存区后,又将内容a提交到远程仓库中,此时主分支就不能status到是否有内容未被提交,<br>也就不能查看到内容a了<br>那在此前提下继续操作<br>在主分支下,更新内容b到暂存区并提交到远程仓库,那么<br>在远程仓库中,主分支和次分支所现实的内容是不一样的,本地也是如此</p>
 <h4 id="解决冲突的方法"><a href="#解决冲突的方法" class="headerlink" title="解决冲突的方法"></a>解决冲突的方法</h4><ul>
 <li>1.<code>git reset --merge</code>:将主分支回退到merge前(首先一般都是在主分支合并次分支的)</li>
 <li>2.更改需要保留的内容,使两个分支更新的内容一致,如果需要保留分支上的内容,那么则切换到主分支上,更改内容使其与分支上的内容一致</li>
 <li>3.使内容一致后在将更改的分支提交到远程仓库</li>
 </ul>
-<p>另外说下,<br>1.本地创建分支后,是用新分支提交内容到远程仓库会同步创建分支,而本地删除分支后,status检查不到更改.打算提交更改内容,以此来尝试远程删除分支,依然没用<br>但远程仓库里提供了删除分支<br>所以,git新建分支时用分支push内容到远程仓库可以同步新建分支,git删除分支时就不会同步删除分支.可以手动在远程仓库进行删除操作<br>2.在分支合并的时候如果出现一些问题,导致下一步进行不下去,可以输入命令将其回退到合并前</p>
-<p>一些其他的命令:</p>
+<p>另外说下,<br>1.本地创建分支后,是用新分支提交内容到远程仓库会同步创建分支,而本地删除分支后,status检查不到更改.打算提交更改内容,以此来尝试远程删除分支,依然没用<br>但远程仓库里提供了删除分支<br>所以,git新建分支时用分支push内容到远程仓库可以同步新建分支,git删除分支时就不会同步删除分支.可以手动在远程仓库进行删除操作<br>2.在分支合并的时候如果出现一些问题,导致下一步进行不下去,可以输入命令将其回退到合并前<br>一些其他的命令:</p>
 <ul>
 <li>git branch:列出所有分支,输出的前面有*号表示是当前分支</li>
 <li>git log:查看所有日志</li>
@@ -2046,22 +2518,9 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
 </ul>
 <h4 id="apktool-2-2-1"><a href="#apktool-2-2-1" class="headerlink" title="apktool_2.2.1"></a>apktool_2.2.1</h4><p>下载解压后文件夹下原只包含两个文件</p>
 <p>apktool和apktool.jar<br>apktool为脚本,为运行apktool.jar</p>
-<p>作用: 获取apk安装包里的资源文件和xml布局文件</p>
-<p>使用方法: 运行命令<br><code>sudo ./apktool</code><br>可显示使用方法参数</p>
-<p>反编译方法: 命令<br><code>sudo ./apktool d xxx.apk</code><br>来反编译xxx.apk文件,以此来获得apk文件的xml布局文件和资源文件</p>
-<p>详细参数使用:<br><code>sudo ./apktool --help</code></p>
-<h4 id="dex2jar-2-0"><a href="#dex2jar-2-0" class="headerlink" title="dex2jar-2.0"></a>dex2jar-2.0</h4><p>作用:这个工具用于将项目里的dex文件转换成jar文件 </p>
-<p>示例</p>
-<p>这里测试反编译apk安装包</p>
-<p>此前测试<br>过程:<br>apk包名:baidutieba_v7.9.2.apk,将此安装包重命名为后缀为.zip(或其他)的压缩文件,之后解压,</p>
-<p>即得到baidutieba_v7.9.2文件夹及内容,其中就有 classes.dex文件</p>
-<p>将文件夹baidutieba_v7.9.2内的classes.dex文件复制到dex2jar-2.0文件夹中</p>
-<p>在dex2jar-2.0文件夹内运行命令</p>
-<p><code>sudo ./d2j-dex2jar.sh classes.dex</code></p>
-<p>后,即可在dex2jar-2.0中得到classes-dex2jar.jar文件</p>
-<p>如若运行不了,则为脚本添加权限<br>剩余的任务交给jd-gui来查看即可</p>
-<h4 id="jd-gui-0-3-5"><a href="#jd-gui-0-3-5" class="headerlink" title="jd-gui-0.3.5"></a>jd-gui-0.3.5</h4><p>作用: 用来查看.jar文件的源代码</p>
-<p>双击运行即可</p>
+<p>作用: 获取apk安装包里的资源文件和xml布局文件<br>使用方法: 运行命令<br><code>sudo ./apktool</code><br>可显示使用方法参数<br>反编译方法: 命令<br><code>sudo ./apktool d xxx.apk</code><br>来反编译xxx.apk文件,以此来获得apk文件的xml布局文件和资源文件<br>详细参数使用:<br><code>sudo ./apktool --help</code></p>
+<h4 id="dex2jar-2-0"><a href="#dex2jar-2-0" class="headerlink" title="dex2jar-2.0"></a>dex2jar-2.0</h4><p>作用:这个工具用于将项目里的dex文件转换成jar文件<br>示例<br>这里测试反编译apk安装包<br>此前测试<br>过程:<br>apk包名:baidutieba_v7.9.2.apk,将此安装包重命名为后缀为<code>.zip</code>(或其他)的压缩文件,之后解压,即得到baidutieba_v7.9.2文件夹及内容,其中就有 classes.dex文件<br>将文件夹baidutieba_v7.9.2内的classes.dex文件复制到dex2jar-2.0文件夹中在dex2jar-2.0文件夹内运行命令<br><code>sudo ./d2j-dex2jar.sh classes.dex</code><br>后,即可在dex2jar-2.0中得到classes-dex2jar.jar文件<br>如若运行不了,则为脚本添加权限<br>剩余的任务交给jd-gui来查看即可</p>
+<h4 id="jd-gui-0-3-5"><a href="#jd-gui-0-3-5" class="headerlink" title="jd-gui-0.3.5"></a>jd-gui-0.3.5</h4><p>作用: 用来查看.jar文件的源代码<br>双击运行即可</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>apktool_2.2.1用来获取.apk文件的资源文件</li>
 <li>dex2jar-2.0和jd-gui-0.3.5两个工具结合起来用来获取apk安装包的源代码</li>
@@ -2160,18 +2619,7 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
       <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我之前使用的是jekyll来创建博客,现在转用hexo了.其实在使用jekyll的时候就了解了hexo,那个时候也打算使用hexo来搭建博客,但苦于当时没能把hexo环境搭建好,急于求成就用已经搭建好环境的jekyll来创建博客了.<br>自己挺钟情hexo的,一直想用上她.恰好最近出差,利用空余的时间在宾馆把hexo环境搭建好了,把之前的博客也迁移到了hexo搭建的博客上面.做个总结,就写了这篇文章</p>
 <p>文章中的命令行代码都是在搭建环境时所另外复制保存的</p>
 <a id="more"></a>
-<h3 id="了解使用hexo"><a href="#了解使用hexo" class="headerlink" title="了解使用hexo"></a>了解使用hexo</h3><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo"></a>什么是Hexo</h4><p>在使用hexo之前,</p>
-<p>首先我们先要了解什么是hexo,hexo是静态博客生成工具,单纯的生成静态html页面,将页面组合起来,就成了博客.当然,你也可以自己写html页面,写多个html页面,在将html页面手动联系起来,放在同一个站点下,也可以是一个博客<br>,不过,使用hexo来创建博客将会更简单,更快捷方便</p>
-<p>所以,hexo就是一个使搭建博客操作变得简单的工具,跟jekyll一个作用,详情,可以参考<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">Hexo官方文档</a></p>
-<p>ok,在我们已经知道hexo是什么之后,我们还需要稍微了解一下hexo她大概是怎么运作的</p>
-<p>首先知道Hexo这个工具是由JavaScript编写的,那么我们在本地运行Hexo就需要JavaScript环境,即node.js</p>
-<p>所以,我们需要安装node.js,至于node.js是什么.这里就不做介绍.</p>
-<p>不过需要知道node.js中包括了npm,npm是node.js的一个模块管理工具,目前使用她所起到的作用就像是一个下载器</p>
-<p>跟命令apt-get命令差不多</p>
-<p>其实说到JavaScript,个人认为,JavaScript到以后将会发展成主流编程语言,取代java</p>
-<p>扯远了,,,,,,,,</p>
-<p>再来了解hexo的运作方式,先看hexo默认生成的目录结构</p>
-<p>如图:</p>
+<h3 id="了解使用hexo"><a href="#了解使用hexo" class="headerlink" title="了解使用hexo"></a>了解使用hexo</h3><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo"></a>什么是Hexo</h4><p>在使用hexo之前,首先我们先要了解什么是hexo,hexo是静态博客生成工具,单纯的生成静态html页面,将页面组合起来,就成了博客.当然,你也可以自己写html页面,写多个html页面,在将html页面手动联系起来,放在同一个站点下,也可以是一个博客,不过,使用hexo来创建博客将会更简单,更快捷方便。所以,hexo就是一个使搭建博客操作变得简单的工具,跟jekyll一个作用,详情,可以参考<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">Hexo官方文档</a><br>ok,在我们已经知道hexo是什么之后,我们还需要稍微了解一下hexo她大概是怎么运作的<br>首先知道Hexo这个工具是由JavaScript编写的,那么我们在本地运行Hexo就需要JavaScript环境,即node.js。所以,我们需要安装node.js,至于node.js是什么.这里就不做介绍.不过需要知道node.js中包括了npm,npm是node.js的一个模块管理工具,目前使用她所起到的作用就像是一个下载器。跟命令apt-get命令差不多，其实说到JavaScript,个人认为,JavaScript到以后将会发展成主流编程语言,取代java<br>扯远了,,,,,,,,<br>再来了解hexo的运作方式,先看hexo默认生成的目录结构<br>如图:</p>
 <p><img src="/images/hexo/hexo-blog-DefaultFile.png" alt="hexo-blog-defaultFile"></p>
 <p>各文件作用:</p>
 <ul>
@@ -2183,34 +2631,13 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
 <li>db.json-数据缓存文件</li>
 <li>package.json-应用程序的信息</li>
 </ul>
-<p>hexo有个专门存放主题的文件夹themes,存放这一个自带的主题landscape,更改主题则需要自己下载主题存放到该目录下,并在站点的配置文件_config.yml中进行配置</p>
-<p>hexo生成静态html页面的原则就是依据模板文件和主题文件来自动生成html页面</p>
-<p>所以,说到这,仔细想想,也可以说hexo是一个框架,工具和框架貌似都差不多</p>
-<p>跟jekyll不同的是,hexo运行时不会生成html页面,需要输入执行命令后,才会生存html页面</p>
-<p>生成的html页面将会在此时的hexo博客跟目录下新建一个public文件夹,所有的html页面和所需的资源都将存放到这个文件夹中,</p>
-<p>再说明一下,提交到github上面的文件也都只有public文件夹里的文件,其余的文件并不会提交到仓库中</p>
-<h4 id="搭建hexo环境"><a href="#搭建hexo环境" class="headerlink" title="搭建hexo环境"></a>搭建hexo环境</h4><p>前面说到,hexo是使用JavaScript语言编写的,那么就需要先搭建好JavaScript环境,即安装node.js</p>
-<p>这里个人建议到[node.js官网][]下载安装,并配置好环境变量</p>
-<p>我这是linux内核系统</p>
-<p>在linux下配置环境变量,运行命令</p>
-<p><code>sudo gedit /etc/profile</code></p>
-<p>在其中添加</p>
+<p>hexo有个专门存放主题的文件夹themes,存放这一个自带的主题landscape,更改主题则需要自己下载主题存放到该目录下,并在站点的配置文件_config.yml中进行配置,hexo生成静态html页面的原则就是依据模板文件和主题文件来自动生成html页面<br>所以,说到这,仔细想想,也可以说hexo是一个框架,工具和框架貌似都差不多.跟jekyll不同的是,hexo运行时不会生成html页面,需要输入执行命令后,才会生存html页面<br>生成的html页面将会在此时的hexo博客跟目录下新建一个public文件夹,所有的html页面和所需的资源都将存放到这个文件夹中.再说明一下,提交到github上面的文件也都只有public文件夹里的文件,其余的文件并不会提交到仓库中</p>
+<h4 id="搭建hexo环境"><a href="#搭建hexo环境" class="headerlink" title="搭建hexo环境"></a>搭建hexo环境</h4><p>前面说到,hexo是使用JavaScript语言编写的,那么就需要先搭建好JavaScript环境,即安装node.js，这里个人建议到[node.js官网][]下载安装,并配置好环境变量,我这是linux内核系统<br>在linux下配置环境变量,运行命令<br><code>sudo gedit /etc/profile</code><br>在其中添加</p>
 <pre><code>#set for nodejs-environment
 #NODE_HOME的路径填写自己的node的安装路径
 export NODE_HOME=/usr/local/src/node-v7.3.0
 export PATH=$NODE_HOME/bin:$PATH
-</code></pre><p>完后运行</p>
-<p><code>source /etc/profile</code></p>
-<p>来使配置立即生效</p>
-<p>之后可以输入</p>
-<p><code>node -v</code></p>
-<p>来查看node.js是否安装成功,输出版本号则表示安装成功</p>
-<p>完成node.js的安装,就可以使用npm命令来安装hexo了</p>
-<p>运行命令</p>
-<p><code>npm install -g hexo-cli</code></p>
-<p>完后测试安装是否成功,如果不成功,看输出是什么样的</p>
-<p>我是配置了hexo的环境变量</p>
-<p>这里贴下我之前的命令行记录:</p>
+</code></pre><p>完后运行<br><code>source /etc/profile</code><br>来使配置立即生效.之后可以输入<br><code>node -v</code><br>来查看node.js是否安装成功,输出版本号则表示安装成功.完成node.js的安装,就可以使用npm命令来安装hexo了<br>运行命令<br><code>npm install -g hexo-cli</code><br>完后测试安装是否成功,如果不成功,看输出是什么样的,我是配置了hexo的环境变量<br>这里贴下我之前的命令行记录:</p>
 <pre><code>cg@cg-ThinkPad-Edge-E540 ~ $ node -v
 v6.9.2
 cg@cg-ThinkPad-Edge-E540 ~ $ npm
@@ -3064,25 +3491,8 @@ npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules/ch
 npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.1.1: wanted {&quot;os&quot;:&quot;darwin&quot;,&quot;arch&quot;:&quot;any&quot;} (current: {&quot;os&quot;:&quot;linux&quot;,&quot;arch&quot;:&quot;x64&quot;})
 INFO  Start blogging with Hexo!
 cg@cg-ThinkPad-Edge-E540 ~/Work/HexoWork/blog $ 
-</code></pre><p>这样,就完成了hexo本地环境的搭建,也在创建了本地博客</p>
-<p>之后就可以在source目录下写文章了</p>
-<h4 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h4><p>文章写完后,在本地博客跟目录下运行命令</p>
-<p><code>hexo serve</code></p>
-<p>后,就可以在浏览器中访问本地博客,地址为</p>
-<p><code>http://localhost:4000/</code></p>
-<p>之后,运行命令</p>
-<p><code>hexo generate</code></p>
-<p>来生成html页面,存放到根目录的public文件夹内</p>
-<p>再运行</p>
-<p><code>hexo deploy</code></p>
-<p>命令,就可以将博客push到github中,需要注意的是,这里推送到github的只是public文件夹里的文件,其他的文件不会推送到github仓库中,</p>
-<p>还有,单纯的使用deploy命令来将内容推送到github仓库中时,自己并不能设置更性日志,她所设置的日志只是一些更性时间</p>
-<p>而在之前使用的jekyll创建博客时,是单纯的使用git命令来推送文章,里面每推送一次,都需要设置描述性的日志</p>
-<p>即命令</p>
-<p><code>git commit -m &quot;xxxxx&quot;</code></p>
-<p>而这里的</p>
-<p><code>hexo deploy</code></p>
-<p>则不是这样,她属于包装了git命令,使得推送更新变得更为简单,这点倒让我觉得不太好</p>
+</code></pre><p>这样,就完成了hexo本地环境的搭建,也在创建了本地博客，之后就可以在source目录下写文章了</p>
+<h4 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h4><p>文章写完后,在本地博客跟目录下运行命令<br><code>hexo serve</code><br>后,就可以在浏览器中访问本地博客,地址为<br><code>http://localhost:4000/</code><br>之后,运行命令<br><code>hexo generate</code><br>来生成html页面,存放到根目录的public文件夹内<br>再运行<br><code>hexo deploy</code><br>命令,就可以将博客push到github中,需要注意的是,这里推送到github的只是public文件夹里的文件,其他的文件不会推送到github仓库中,还有,单纯的使用deploy命令来将内容推送到github仓库中时,自己并不能设置更性日志,她所设置的日志只是一些更性时间。而在之前使用的jekyll创建博客时,是单纯的使用git命令来推送文章,里面每推送一次,都需要设置描述性的日志<br>即命令<br><code>git commit -m &quot;xxxxx&quot;</code><br>而这里的<br><code>hexo deploy</code><br>则不是这样,她属于包装了git命令,使得推送更新变得更为简单,这点倒让我觉得不太好</p>
 ]]></content>
       
         <categories>
@@ -3309,14 +3719,13 @@ class Hint{
     }
 
 }
-</code></pre><h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题:"></a>第二题:</h3><h4 id="简述题意-1"><a href="#简述题意-1" class="headerlink" title="简述题意:"></a>简述题意:</h4><p>写一个小程序,实现输入一段字符串(包括数字和字符)后,按规则排序后输出</p>
-<p>其规则是:</p>
+</code></pre><h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题:"></a>第二题:</h3><h4 id="简述题意-1"><a href="#简述题意-1" class="headerlink" title="简述题意:"></a>简述题意:</h4><p>写一个小程序,实现输入一段字符串(包括数字和字符)后,按规则排序后输出<br>其规则是</p>
 <ul>
 <li>数字与数字之间排序,单个字符串和字符串之间排序,</li>
 <li>原本放数字的位置就放数字,原本放字符串的位置还是放字符串.</li>
 <li>数字按大小排序,字符串依据首字母按26个字母表排序</li>
 </ul>
-<h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路:"></a>解题思路:</h4><p>首先用一个集合存放整个字符串,实现单个字符串里的字符不分离.再将该集合中的单个字符串元素和数字元素分离,并获取在原集合存放的排列位置(下标 + 1)分别存放到两个二维集合中(类似键值对的方式),再操作这两个集合,实现排序<br>然后将排序后的两个二维集合整合,再排序,此时的排序则是按照存放集合中的原集合存放的排列位置排序,并输出,就可以了</p>
+<h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路:"></a>解题思路:</h4><p>首先用一个集合存放整个字符串,实现单个字符串里的字符不分离.再将该集合中的单个字符串元素和数字元素分离,并获取在原集合存放的排列位置(下标 + 1)分别存放到两个二维集合中(类似键值对的方式),再操作这两个集合,实现排序,然后将排序后的两个二维集合整合,再排序,此时的排序则是按照存放集合中的原集合存放的排列位置排序,并输出,就可以了</p>
 <h4 id="答案代码-1"><a href="#答案代码-1" class="headerlink" title="答案代码:"></a>答案代码:</h4><pre><code>package com.cgtest.demo2;
 
 import java.util.ArrayList;
@@ -3524,13 +3933,7 @@ class Hint{
     }
 
 }
-</code></pre><p>在这里,提醒下自己,以后写完代码一定要测试完全!!</p>
-<p>多测试没错</p>
-<p>而我,就是没测试完全,就将我的代码发给了hr,不仅没按规定时间完成,还发了个错误的代码,,,,,,能过才怪</p>
-<p>而我的出错的地方就是没实现对负数的处理,要是输入的字符串中包含负数,</p>
-<p><code>isNum(String str)</code></p>
-<p>就不能识别负数,会将负数判定为字符串,,,,,</p>
-<p>原先的</p>
+</code></pre><p>在这里,提醒下自己,以后写完代码一定要测试完全!!多测试没错,而我,就是没测试完全,就将我的代码发给了hr,不仅没按规定时间完成,还发了个错误的代码,,,,,,能过才<br>而我的出错的地方就是没实现对负数的处理,要是输入的字符串中包含负数,<br><code>isNum(String str)</code><br>就不能识别负数,会将负数判定为字符串,,,,,<br>原先的</p>
 <p><code>isNum(String str)</code></p>
 <p>的代码如下:</p>
 <pre><code>public boolean isNum(String str){
@@ -3544,9 +3947,7 @@ class Hint{
   }  
  return true;  
 }
-</code></pre><p>我的答案代码太过臃肿,我也完全没想到笔试题是关于算法的</p>
-<p>我应聘的是java实习生啊,又不是C/C++语言,不过想想hr肯定是有他的目的的</p>
-<p>代码太臃肿,还得多学习</p>
+</code></pre><p>我的答案代码太过臃肿,我也完全没想到笔试题是关于算法的,我应聘的是java实习生啊,又不是C/C++语言,不过想想hr肯定是有他的目的的<br>代码太臃肿,还得多学习</p>
 ]]></content>
       
         <categories>
@@ -3908,16 +4309,9 @@ public class ShowFile {
       <title><![CDATA[JavaEE-Hibernate框架概况]]></title>
       <url>/2017/03/08/javaee/2017-3-08-javaEE-Hibernate-introduce/</url>
       <content type="html"><![CDATA[<p>复习Hibernaet框架.知识重温</p>
-<h3 id="Hibernate框架简述"><a href="#Hibernate框架简述" class="headerlink" title="Hibernate框架简述"></a>Hibernate框架简述</h3><p>总得来说,它就是用来操作数据库的.<br>在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作</p>
-<p>Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object Relation Mapping)对象关系映射</p>
-<p>通过ORM,使得系统在获取数据时可以直接从实体类中获取,而不需要一味的去操作数据库.ORM映射机制就相当于在实体类和数据库表中搭建了一座桥梁,数据库表中的数据通过桥梁,将数据赋值给实体类中的属性,根据面向对象系统只需要获取此时的实体类的对象就可以获取到其数据,并进行对数据的操作.反过来,数据在被系统操作之后,新的数据就被重新赋值给了实体类的属性,系统再通过Hibernate的ORM机制,将此时实体类的对象里的属性存储到数据库表中,完成数据的存储.</p>
+<h3 id="Hibernate框架简述"><a href="#Hibernate框架简述" class="headerlink" title="Hibernate框架简述"></a>Hibernate框架简述</h3><p>总得来说,它就是用来操作数据库的.在JavaEE开发方面来说,它这个框架所用在层面是数据访问层,在系统上来说算是底层的操作<br>Hibernate框架其主要是封装了JDBC的一系列操作.使用Hibernate框架可以使得系统在于数据库进行数据传递时不需要用到SQL语句,其实现的方法是实体类于数据库表之间的映射关系,也即是ORM(Object Relation Mapping)对象关系映射<br>通过ORM,使得系统在获取数据时可以直接从实体类中获取,而不需要一味的去操作数据库.ORM映射机制就相当于在实体类和数据库表中搭建了一座桥梁,数据库表中的数据通过桥梁,将数据赋值给实体类中的属性,根据面向对象系统只需要获取此时的实体类的对象就可以获取到其数据,并进行对数据的操作.反过来,数据在被系统操作之后,新的数据就被重新赋值给了实体类的属性,系统再通过Hibernate的ORM机制,将此时实体类的对象里的属性存储到数据库表中,完成数据的存储.</p>
 <a id="more"></a>
-<p>当中的读取和存储过程都不需要用到sql语句来对数据库表进行操作,这样使用Hibernate就简化了系统对数据库的访问操作</p>
-<p>所以,Hibernate框架就可以简单的理解为是为使系统能简单的只从实体类中就可以获得数据的一种工具</p>
-<p>为达到上面的目的,想想Hibernate要怎么做才能实现仅通过ORM而不是用sql语句就可以从数据库中获取数据呢</p>
-<p>这就是它的奥妙之处.</p>
-<p>Hibernate通过在实体类和数据库表中间建立一种映射机制,实现映射机制就需要用到映射文件,就是实体类和对应的数据库表之间的映射文件</p>
-<p>参照例子代码:</p>
+<p>当中的读取和存储过程都不需要用到sql语句来对数据库表进行操作,这样使用Hibernate就简化了系统对数据库的访问操作.所以,Hibernate框架就可以简单的理解为是为使系统能简单的只从实体类中就可以获得数据的一种工具,为达到上面的目的,想想Hibernate要怎么做才能实现仅通过ORM而不是用sql语句就可以从数据库中获取数据呢<br>这就是它的奥妙之处.<br>Hibernate通过在实体类和数据库表中间建立一种映射机制,实现映射机制就需要用到映射文件,就是实体类和对应的数据库表之间的映射文件<br>参照例子代码:</p>
 <ul>
 <li>实体类Student</li>
 <li>实体类映射配置文件Student.hbm.xml</li>
@@ -3972,7 +4366,7 @@ public class Student {
         this.stuTel = stuTel;
     }
 }
-</code></pre><p>实体类中的属性都是private的,属性就是用来临时存放相对应的数据的,这些数据就是从与实体类相对应相映射的数据库表中得来的<br>那么就必须会有一张表存放这个实体类对应的数据,就比如这个表中的数据都有6个字段与上面的实体类中的6个属性值相对应<br>那么再需要一个映射文件来将表和类连接起来<br>那么对应上面</p>
+</code></pre><p>实体类中的属性都是private的,属性就是用来临时存放相对应的数据的,这些数据就是从与实体类相对应相映射的数据库表中得来的,那么就必须会有一张表存放这个实体类对应的数据,就比如这个表中的数据都有6个字段与上面的实体类中的6个属性值相对应,那么再需要一个映射文件来将表和类连接起来<br>那么对应上面</p>
 <h4 id="Student-hbm-xml"><a href="#Student-hbm-xml" class="headerlink" title="Student.hbm.xml"></a>Student.hbm.xml</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;!DOCTYPE hibernate-mapping PUBLIC
     &quot;-//Hibernate/Hibernate Mapping DTD 3.0//EN&quot;
@@ -4011,9 +4405,7 @@ public class Student {
          &lt;property name=&quot;stuTel&quot; column=&quot;stuTel&quot;&gt;&lt;/property&gt;
     &lt;/class&gt;
 &lt;/hibernate-mapping&gt;
-</code></pre><p>代码块中已经有了注释,就不再解释代码的意思了,<br>总之,需要有专门的映射文件将实体类和数据库表相连接起来</p>
-<p>另外,Hibernate会自动在数据库中创建表,只是表,不会创建数据库.其创建表的依据就是根据实体类的属性以及映射文件的相关配置来创建表.例如上面映射文件中的class标签中的table属性值为”dt_t_stuMsg”,那么在系统运行后,将会在数据库中创建一个名为dt_t_stuMsg的表,这个表就是跟Student.java这个实体类相互映射的</p>
-<p>这里总结一下知识点,顺便用来承上启下:</p>
+</code></pre><p>代码块中已经有了注释,就不再解释代码的意思了,总之,需要有专门的映射文件将实体类和数据库表相连接起来.另外,Hibernate会自动在数据库中创建表,只是表,不会创建数据库.其创建表的依据就是根据实体类的属性以及映射文件的相关配置来创建表.例如上面映射文件中的class标签中的table属性值为”dt_t_stuMsg”,那么在系统运行后,将会在数据库中创建一个名为dt_t_stuMsg的表,这个表就是跟Student.java这个实体类相互映射的<br>这里总结一下知识点,顺便用来承上启下</p>
 <ul>
 <li>实体类和表的映射文件名格式:xxx.hbm.xml(xxx一般为实体类的名字)</li>
 <li>映射文件的存放位置一般在实体类所在的包下</li>
@@ -4089,17 +4481,14 @@ try{
     session.close();
 }
 </code></pre><p>其中,在创建SessionFactory对象的过程中,将会特别消耗资源</p>
-<h4 id="SessionFactory类"><a href="#SessionFactory类" class="headerlink" title="SessionFactory类"></a>SessionFactory类</h4><p>这里了解下SessionFactory这个类,它是一个接口</p>
-<p>一个SessionFactory实例对应一个数据存储源,应用从SessionFactory中获取Session实例.</p>
-<p>SessionFactory特点:</p>
+<h4 id="SessionFactory类"><a href="#SessionFactory类" class="headerlink" title="SessionFactory类"></a>SessionFactory类</h4><p>这里了解下SessionFactory这个类,它是一个接口,一个SessionFactory实例对应一个数据存储源,应用从SessionFactory中获取Session实例.<br>SessionFactory特点:</p>
 <ul>
 <li>线程是安全的,这意味着它的同一个实例可以被应用的多个线程共享</li>
 <li>它是重量级的,意味着不能随意创建或销毁它的实例</li>
 <li>如果应用只访问一个数据库,则只需要创建一个SessionFactory实例,在应用初始化时创建该实例</li>
 <li>如果同时访问多个数据库,则需要对每个数据库单独创建一个SessionFactory实例</li>
 </ul>
-<p>所以,考虑资源损耗方面,一般一个项目中就只创建一个SessionFactory对象</p>
-<p>所以这里的解决方法是为SessionFactory专门创建一个工具类,放在系统中,给系统其他需要用到的SessionFactory使用<br>如代码:</p>
+<p>所以,考虑资源损耗方面,一般一个项目中就只创建一个SessionFactory对象,所以这里的解决方法是为SessionFactory专门创建一个工具类,放在系统中,给系统其他需要用到的SessionFactory使用<br>如代码:</p>
 <pre><code>public class HibernateUtils{
     private static Configuration configuration = null;
     private static SessionFactory sessionFactory = null;
@@ -4113,56 +4502,45 @@ try{
     }
 }
 </code></pre><p>这样的话,得到的sessionFactory对象就不用关闭了</p>
-<h4 id="Session类"><a href="#Session类" class="headerlink" title="Session类"></a>Session类</h4><p>其中的Session类也是一个接口</p>
-<p>Session接口是Hibernate应用里使用最广泛的接口<br>Session也被称为持久化管理器,它提供了和持久化相关的操作,如添加,更新,删除,加载和查询对象</p>
-<p>特点:<br>不是线程安全的,因此在设计软件架构时,应该避免多个线程共享一个Session实例<br>轻量级的.它的创建和销毁不需要消耗太多的资源</p>
-<p>Session类似jdbc中的connection<br>Session对象是单线程对象,不能共用</p>
-<p>session操作数据常用的方法</p>
+<h4 id="Session类"><a href="#Session类" class="headerlink" title="Session类"></a>Session类</h4><p>其中的Session类也是一个接口<br>Session接口是Hibernate应用里使用最广泛的接口<br>Session也被称为持久化管理器,它提供了和持久化相关的操作,如添加,更新,删除,加载和查询对象<br>特点<br>不是线程安全的,因此在设计软件架构时,应该避免多个线程共享一个Session实例<br>轻量级的.它的创建和销毁不需要消耗太多的资源<br>Session类似jdbc中的connection<br>Session对象是单线程对象,不能共用<br>session操作数据常用的方法</p>
 <ul>
 <li>添加:save()方法</li>
 <li>修改:update()方法</li>
 <li>删除:delete()方法</li>
 <li>根据主键查询:get()方法,load()方法</li>
 </ul>
-<p>在而,代码:</p>
-<p><code>transcation.rollback()</code></p>
-<p>实现了事务的回滚,那么也就是说Hibernate类似与git命令一样,有缓存机制</p>
-<p>即Hibernate的一级缓存</p>
-<p>它的缓存就是把数据存放到内存中,省去了Hibernate重复读取数据库数据的步骤<br>但系统出现异常,可以将内存中的原始的缓存数据重新存放到数据库中,避免了数据的丢失</p>
-<h3 id="Hibernate里可以实现查询的对象"><a href="#Hibernate里可以实现查询的对象" class="headerlink" title="Hibernate里可以实现查询的对象"></a>Hibernate里可以实现查询的对象</h3><h4 id="Query对象"><a href="#Query对象" class="headerlink" title="Query对象"></a>Query对象</h4><p>需要用到hql(Hibernate Query Language)语句,它跟sql相似<br>hql和sql的区别:</p>
+<p>在而,代码<br><code>transcation.rollback()</code><br>实现了事务的回滚,那么也就是说Hibernate类似与git命令一样,有缓存机制,即Hibernate的一级缓存.它的缓存就是把数据存放到内存中,省去了Hibernate重复读取数据库数据的步骤,但系统出现异常,可以将内存中的原始的缓存数据重新存放到数据库中,避免了数据的丢失</p>
+<h3 id="Hibernate里可以实现查询的对象"><a href="#Hibernate里可以实现查询的对象" class="headerlink" title="Hibernate里可以实现查询的对象"></a>Hibernate里可以实现查询的对象</h3><h4 id="Query对象"><a href="#Query对象" class="headerlink" title="Query对象"></a>Query对象</h4><p>需要用到hql(Hibernate Query Language)语句,它跟sql相似<br>hql和sql的区别</p>
 <ul>
 <li>sql操作的是表和表字段</li>
 <li>hql操作的是实体类和属性</li>
 </ul>
-<p>查询所有数据的hql语句:from 实体类名称<br>例:</p>
+<p>查询所有数据的hql语句:from 实体类名称<br>例</p>
 <pre><code>Query query = session.createQuery(&quot;from Student&quot;);
 List&lt;Student&gt; list = query.list();
 for(Student student : list){
     System.out.println(student);
 }
-</code></pre><h4 id="Criteria对象"><a href="#Criteria对象" class="headerlink" title="Criteria对象"></a>Criteria对象</h4><p>其不需要用到任何语句，<br>查询所有数据的代码:</p>
+</code></pre><h4 id="Criteria对象"><a href="#Criteria对象" class="headerlink" title="Criteria对象"></a>Criteria对象</h4><p>其不需要用到任何语句，查询所有数据的代码</p>
 <pre><code>Criteria criteria = session.createCriteria(Student.class);
 List&lt;Student&gt; list = criteria.list();
 for(Student student : list){
         System.out.println(student);
 }
-</code></pre><h4 id="SQLQuery对象"><a href="#SQLQuery对象" class="headerlink" title="SQLQuery对象"></a>SQLQuery对象</h4><p>可以使用SQL语句来操作,</p>
+</code></pre><h4 id="SQLQuery对象"><a href="#SQLQuery对象" class="headerlink" title="SQLQuery对象"></a>SQLQuery对象</h4><p>可以使用SQL语句来操作</p>
 <pre><code>SQLQuery sqlQuery = session.createSQLQuery(&quot;SELECT * FROM td_t_stuMsg&quot;);
 List&lt;Object[]&gt; list = sqlQuery.list();
 for(Object[] object : list){
     System.out.println(Arrays.toString(object));
 }
-</code></pre><p>其中，这里获取到的list集合是二维的集合</p>
-<p>如果需要得到和上面两个Query和Criteria对象获取的Student的所有对象信息,那么</p>
-<p>代码如下:</p>
+</code></pre><p>其中，这里获取到的list集合是二维的集合,如果需要得到和上面两个Query和Criteria对象获取的Student的所有对象信息,那么<br>代码如下</p>
 <pre><code>SQLQuery sqlQuery = session.createSQLQuery(&quot;SELECT * FROM td_t_stuMsg&quot;);
 sqlQuery.addEntity(Student.class);
 List&lt;Student&gt; list = sqlQuery.list();
 for(Student student : list){
     System.out.println(student);
 }
-</code></pre><p>Query,Criteria,SQLQuery这三个对象,通常会使用前两个,第三个使用的比较少</p>
-<p>Hibernate的基本内容先写到这,当然还有许多内容并未总结,例如表的关系的配置等.到后面再慢慢总结</p>
+</code></pre><p>Query,Criteria,SQLQuery这三个对象,通常会使用前两个,第三个使用的比较少,Hibernate的基本内容先写到这,当然还有许多内容并未总结,例如表的关系的配置等.到后面再慢慢总结</p>
 <p>谢谢</p>
 ]]></content>
       
@@ -4247,8 +4625,7 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
     <entry>
       <title><![CDATA[Java中Scanner类扫描文件]]></title>
       <url>/2017/02/23/java/2017-2-24-java-ScannerJiexiFile/</url>
-      <content type="html"><![CDATA[<p>Java中的Scanner类除了可以用来读取扫描从键盘输入,还可以扫描文件</p>
-<p>Scanner类很基本,通过读取用户从键盘输入字符来实现交互.主要是通过Scanner类中的nextLine()方法来获取输入的所有内容,也可以使用next()方法,<br>但next()方法不会获取空格,但一般使用nextLine()方法</p>
+      <content type="html"><![CDATA[<p>Java中的Scanner类除了可以用来读取扫描从键盘输入,还可以扫描文件<br>Scanner类很基本,通过读取用户从键盘输入字符来实现交互.主要是通过Scanner类中的nextLine()方法来获取输入的所有内容,也可以使用next()方法,<br>但next()方法不会获取空格,但一般使用nextLine()方法</p>
 <a id="more"></a>
 <p>nextInt()则是获取键盘输入的数字.Scanner同IO输入输出流一样需要关闭,所以在程序退出时,需要调用close()方法将扫描器</p>
 <p>例如代码:</p>
@@ -4344,8 +4721,7 @@ while(scanner.hasNextLine()){
     <entry>
       <title><![CDATA[Java遍历显示文件]]></title>
       <url>/2017/02/20/java/2017-2-20-java-ShowFile/</url>
-      <content type="html"><![CDATA[<p>用来遍历文件夹内容的后树形显示内容的一段小代码</p>
-<p>如下代码:</p>
+      <content type="html"><![CDATA[<p>用来遍历文件夹内容的后树形显示内容的一段小代码<br>如下代码:</p>
 <a id="more"></a>
 <pre><code>import java.io.File;
 
@@ -4369,8 +4745,7 @@ public class ShowFile {
         }
     }
 }
-</code></pre><p>这段代码将保存在上面的路径/home/cg/Work/Testnew/Java文件夹下,名字为ShowFile.java</p>
-<p>之后在终端中编译运行,如下图:</p>
+</code></pre><p>这段代码将保存在上面的路径/home/cg/Work/Testnew/Java文件夹下,名字为ShowFile.java<br>之后在终端中编译运行,如下图:</p>
 <p><img src="/images/java/java-ShowFile.png" alt="java-bookContorlSystem"></p>
 ]]></content>
       
@@ -4403,10 +4778,7 @@ public class ShowFile {
 <h4 id="登录界面"><a href="#登录界面" class="headerlink" title="登录界面"></a>登录界面</h4><p><img src="/images/java/java-bookControlSystem-login.png" alt="java-bookControlSystem"></p>
 <p>输出学号和密码后点击登录,就会在新的面板中出现此学号在图书馆的借阅信息,例如我输入学号为V201441122,登录后如下图</p>
 <h4 id="操作界面"><a href="#操作界面" class="headerlink" title="操作界面"></a>操作界面</h4><p><img src="/images/java/java-bookControlSystem-ui.png" alt="java-bookControlSystem"></p>
-<p>之后就可以在这个面板中进行相关的借书还书操作</p>
-<p>代码实现的大致就这样,这里需要用到的开发工具是xampp软件包(Apache + MariaDB + PHP + Perl)作为服务器,当然里面也集成了MySQL数据库,主要的编码工具是Eclipse</p>
-<p>知道了这些,就可以进行开发工作了</p>
-<p>在进行开发工作时,需要对所做的系统进行规划,编写需求分析计划书和系统概要设计等等.由于这里我只是用来打发时间,所以没详细进行这编写,只是大概的绘制了系统界面功能图及流程图</p>
+<p>之后就可以在这个面板中进行相关的借书还书操作<br>代码实现的大致就这样,这里需要用到的开发工具是xampp软件包(Apache + MariaDB + PHP + Perl)作为服务器,当然里面也集成了MySQL数据库,主要的编码工具是Eclipse<br>知道了这些,就可以进行开发工作了<br>在进行开发工作时,需要对所做的系统进行规划,编写需求分析计划书和系统概要设计等等.由于这里我只是用来打发时间,所以没详细进行这编写,只是大概的绘制了系统界面功能图及流程图</p>
 <h4 id="系统流程图"><a href="#系统流程图" class="headerlink" title="系统流程图"></a>系统流程图</h4><p>如下:</p>
 <p><img src="/images/java/java-bookControlSystem-liuchengtu.png" alt="java-bookControlSystem"></p>
 <h4 id="界面设计图"><a href="#界面设计图" class="headerlink" title="界面设计图"></a>界面设计图</h4><p>为编码前绘制的系统登录界面图</p>
@@ -4463,11 +4835,7 @@ public class ConnectionDatabase {
         return connection;
     }
 }
-</code></pre><p>连接数据库需要加载驱动,所以提前在项目的根目录下建立一个lib文件夹,将数据库驱动放置文件夹内,这里的<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">驱动下载页面</a>,下载后将解压得到的jar文件就是驱动</p>
-<p>代码中的<code>databaseUrl</code>,<code>databaseUser</code>和<code>databasePasswd</code>是自己本地利用lampp搭建的数据库服务器地址与自己配置的用户名和登录密码</p>
-<p>这个类ConnectionDatabase在连接数据库后会返回一条连接,也就是一个Connection对象</p>
-<p>当登录窗口运行后,当用户在该面板中产生点击操作后,程序将会连接数据库,也就是调用ConnectionDatabase类,获取一条数据库连接</p>
-<p>如下代码登录窗口代码,文件名为</p>
+</code></pre><p>连接数据库需要加载驱动,所以提前在项目的根目录下建立一个lib文件夹,将数据库驱动放置文件夹内,这里的<a href="https://dev.mysql.com/downloads/connector/j/" target="_blank" rel="external">驱动下载页面</a>,下载后将解压得到的jar文件就是驱动.代码中的<code>databaseUrl</code>,<code>databaseUser</code>和<code>databasePasswd</code>是自己本地利用lampp搭建的数据库服务器地址与自己配置的用户名和登录密码,这个类ConnectionDatabase在连接数据库后会返回一条连接,也就是一个Connection对象<br>当登录窗口运行后,当用户在该面板中产生点击操作后,程序将会连接数据库,也就是调用ConnectionDatabase类,获取一条数据库连接<br>如下代码登录窗口代码,文件名为</p>
 <h4 id="LoginWin-java"><a href="#LoginWin-java" class="headerlink" title="LoginWin.java"></a>LoginWin.java</h4><pre><code>package com.cgtest.ui;
 
 import java.awt.Dimension;
@@ -4560,17 +4928,7 @@ public class LoginWin extends JFrame{
         this.setVisible(true);
     }
 }
-</code></pre><p>上面的代码主要作用是担当登录窗口的布局设置,<br>其中代码:</p>
-<p><code>new LoginAction(this,inputName, inputPasswd, btCancel, btLogin);</code></p>
-<p>是将使LoginWin.java和LoginAction.java连接起来,</p>
-<p>使得登录窗口中的所有响应事件都由LoginAction.java文件来处理</p>
-<p>构造方法中的:</p>
-<p><code>SwingUtilities.invokeLater(new Runnable())</code></p>
-<p>方法是用来获取系统主题样式,并将登录窗口的样式主题设置为于系统主题一样</p>
-<p>方法中的参数代码:</p>
-<p><code>UIManager.getSystemLookAndFeelClassName();</code></p>
-<p>就是获取系统的主题样式</p>
-<p>与之相对应的相应事件操作的代码如下,文件名为</p>
+</code></pre><p>上面的代码主要作用是担当登录窗口的布局设置,<br>其中代码<br><code>new LoginAction(this,inputName, inputPasswd, btCancel, btLogin);</code><br>是将使LoginWin.java和LoginAction.java连接起来,使得登录窗口中的所有响应事件都由LoginAction.java文件来处理<br>构造方法中的<br><code>SwingUtilities.invokeLater(new Runnable())</code><br>方法是用来获取系统主题样式,并将登录窗口的样式主题设置为于系统主题一样<br>方法中的参数代码:<br><code>UIManager.getSystemLookAndFeelClassName();</code><br>就是获取系统的主题样式,与之相对应的相应事件操作的代码如下,文件名为</p>
 <h4 id="LoginAction-java"><a href="#LoginAction-java" class="headerlink" title="LoginAction.java:"></a>LoginAction.java:</h4><pre><code>package com.cgtest.action;
 
 import java.awt.event.ActionEvent;
@@ -4676,17 +5034,7 @@ public class LoginAction implements ActionListener,MouseListener{
         }
     }
 }
-</code></pre><p>上面代码中actionPerformed(ActionEvent e)方法中,</p>
-<p>代码:</p>
-<p><code>CheckAccount checkAccount = new CheckAccount();</code></p>
-<p>将产生一个数据库连接</p>
-<p>代码:</p>
-<p><code>int checkConnect = checkAccount.checkConnectDatabase();</code></p>
-<p>中的checkConnectDatabase()方法将是用来检查数据库服务器是否开启,如果是,则进行下一步:验证用户输入的用户名是否存在.就如下代码</p>
-<p>代码:</p>
-<p><code>int n = checkAccount.checkNamePasswd(strInputName, strInputPasswd);</code></p>
-<p>方法chexkNamePasswd(strInputName, strInputPasswd)将用户输入的用户名和密码作为参数,用来验证是否存在或正确</p>
-<p>因此,来看对象checkAccount的如下代码,文件名为</p>
+</code></pre><p>上面代码中actionPerformed(ActionEvent e)方法中,代码<br><code>CheckAccount checkAccount = new CheckAccount();</code><br>将产生一个数据库连接<br>代码<br><code>int checkConnect = checkAccount.checkConnectDatabase();</code><br>中的checkConnectDatabase()方法将是用来检查数据库服务器是否开启,如果是,则进行下一步:验证用户输入的用户名是否存在.就如下代码<br>代码:<br><code>int n = checkAccount.checkNamePasswd(strInputName, strInputPasswd);</code><br>方法chexkNamePasswd(strInputName, strInputPasswd)将用户输入的用户名和密码作为参数,用来验证是否存在或正确,因此,来看对象checkAccount的如下代码,文件名为</p>
 <h4 id="CheckAccount-java"><a href="#CheckAccount-java" class="headerlink" title="CheckAccount.java:"></a>CheckAccount.java:</h4><pre><code>package com.cgtest.data;
 
 import java.sql.Connection;
@@ -4817,11 +5165,7 @@ public class CheckAccount {
         return n;
     }
 }
-</code></pre><p>看上面的代码,这里主要说方法checkNamePasswd(String strInputName, String strInputPasswd)的工作方式</p>
-<p>首相checkNamePasswd()方法将调用自身类的一个getAllNamePasswd()无参数方法,用来获取数据库中所有已注册的用户账户名和密码,getAllNamePasswd()的返回值为<code>Vector&lt;Vector&lt;Object&gt;&gt;</code>双层的Vector集合,所以会返回一条双层的<br>Vector集合,返回的集合将用在checkNamePasswd方法中作为局部变量<br>方法checkNamePasswd()将先根据用户输入的用户名来和数据库中所有存在的用户名来对比,如果为对比到,那么将返回-2,意味着用户不存在</p>
-<p>方法checkNamePasswd()将会有多中int类型的返回值,其返回值将用在LoginAction类中的actionPerformed(ActionEvent e)中,将根据其返回值来判断是否存在/正确,如果返回值为1,那么证明用户输入的用户名和密码都正确,则将打开下一个信息面板,而关闭登录窗口.再将登录的账户名和密码封装进一个专有的Vector集合,并返回</p>
-<p>返回的Vector集合将会通过LoginAction类利用代码<code>new MsgShowWin(checkAccount);</code>来传递给MsgShowWin这个类,使得在打开这个面板的时候就可以直接通过账户名来获取借阅信息并显示在信息面板上</p>
-<p>如下信息窗口代码,文件名为</p>
+</code></pre><p>看上面的代码,这里主要说方法checkNamePasswd(String strInputName, String strInputPasswd)的工作方式.首相checkNamePasswd()方法将调用自身类的一个getAllNamePasswd()无参数方法,用来获取数据库中所有已注册的用户账户名和密码,getAllNamePasswd()的返回值为<code>Vector&lt;Vector&lt;Object&gt;&gt;</code>双层的Vector集合,所以会返回一条双层的Vector集合,返回的集合将用在checkNamePasswd方法中作为局部变量,方法checkNamePasswd()将先根据用户输入的用户名来和数据库中所有存在的用户名来对比,如果为对比到,那么将返回-2,意味着用户不存在<br>方法checkNamePasswd()将会有多中int类型的返回值,其返回值将用在LoginAction类中的actionPerformed(ActionEvent e)中,将根据其返回值来判断是否存在/正确,如果返回值为1,那么证明用户输入的用户名和密码都正确,则将打开下一个信息面板,而关闭登录窗口.再将登录的账户名和密码封装进一个专有的Vector集合,并返回的Vector集合将会通过LoginAction类利用代码<code>new MsgShowWin(checkAccount);</code>来传递给MsgShowWin这个类,使得在打开这个面板的时候就可以直接通过账户名来获取借阅信息并显示在信息面板上<br>如下信息窗口代码,文件名为</p>
 <h4 id="MsgShowWin-java"><a href="#MsgShowWin-java" class="headerlink" title="MsgShowWin.java:"></a>MsgShowWin.java:</h4><pre><code>package com.cgtest.ui;
 
 import java.awt.Color;
@@ -5092,12 +5436,7 @@ public class MsgShowWin extends JFrame{
     }
 }
 </code></pre><p>同登录窗口的LoginWin.java文件一样,上面代码的大体作用一样是面板的布局</p>
-<p>面板第一时间显示的信息都在该类的构造方法中完成</p>
-<p>例如代码:</p>
-<p><code>strShowDBMsg = new OperateDatabase().checkConnectDatabase();</code></p>
-<p>将调用一个OperateDatabase类中的checkConnectDatabase()方法来检测是否与数据库进行连接,其返回值为String类型的数据,用来在该面板底部显示数据库连接情况.起初并未打算在此处检测是否连接,但貌似那会儿没想到如何用来传递这种信息,所以就在这进行检测了</p>
-<p>后面的几行代码依然如此</p>
-<p>下面贴下于MsgShowWin类对应的action时间处理类的代码,文件名</p>
+<p>面板第一时间显示的信息都在该类的构造方法中完成<br>例如代码<br><code>strShowDBMsg = new OperateDatabase().checkConnectDatabase();</code><br>将调用一个OperateDatabase类中的checkConnectDatabase()方法来检测是否与数据库进行连接,其返回值为String类型的数据,用来在该面板底部显示数据库连接情况.起初并未打算在此处检测是否连接,但貌似那会儿没想到如何用来传递这种信息,所以就在这进行检测了,后面的几行代码依然如此<br>下面贴下于MsgShowWin类对应的action时间处理类的代码,文件名</p>
 <h4 id="MsgShowWinAction-java"><a href="#MsgShowWinAction-java" class="headerlink" title="MsgShowWinAction.java:"></a>MsgShowWinAction.java:</h4><pre><code>package com.cgtest.action;
 
 import java.awt.event.ActionEvent;
@@ -5319,23 +5658,7 @@ public class MsgShowWinAction implements ActionListener, MouseListener, FocusLis
     }
 
 }
-</code></pre><p>上面的代码中,在actionPerformed(ActionEvent e)方法中就是执行借书/还书/查询的操作</p>
-<p>这里就直接看下实现借书操作的代码片段</p>
-<p>借书分为两步,先是查找书籍,再是借书</p>
-<p>先看查书,实现搜索图书的关键方法代码:</p>
-<p><code>searchBook(strjtfInputIndexBorrow);</code></p>
-<p>这里将用户输入的图书索引用作OperateDatabase类中的searchBook(strjtfInputIndexBorrow)的参数,</p>
-<p>其searchBook(strjtfInputIndexBorrow)的返回值为String类型的,且只有两种返回值,</p>
-<p>其返回值赋值给strMsgorName</p>
-<p>从此行的下一行代码<code>if(strMsgorName.equals(&quot;未找到此书&quot;)){</code>就可以看出</p>
-<p>再看借书,代码是调用OperateDataBase中的borrowBook(strjtfInputIndexBorrow, strjtfShowBookBorrow, accountName)方法</p>
-<p>类OperateDataBase中的borrowBook()方法有3个参数,</p>
-<p><code>strjtfInputIndexBorrow</code>即为查找图书用的索引,查书不到就无法进行借书,所以查找图书所用的索引是正确的</p>
-<p><code>strjtfShowBookBorrow</code>即图书名字</p>
-<p><code>accountName</code>及账户名</p>
-<p>方法borrowBook()的返回值也为String类型,且只有两种情况</p>
-<p>同样根据下面一行代码<code>if(str.equals(&quot;借书成功&quot;)){</code>就可以确认,其跟searchBook(strjtfInputIndexBorrow)类似</p>
-<p>再来看类OperateDatabase的代码,文件名为</p>
+</code></pre><p>上面的代码中,在actionPerformed(ActionEvent e)方法中就是执行借书/还书/查询的操作,这里就直接看下实现借书操作的代码片段.借书分为两步,先是查找书籍,再是借书,先看查书,实现搜索图书的关键方法代码:<br><code>searchBook(strjtfInputIndexBorrow);</code><br>这里将用户输入的图书索引用作OperateDatabase类中的searchBook(strjtfInputIndexBorrow)的参数,其searchBook(strjtfInputIndexBorrow)的返回值为String类型的,且只有两种返回值,其返回值赋值给strMsgorName<br>从此行的下一行代码<code>if(strMsgorName.equals(&quot;未找到此书&quot;)){</code>就可以看出<br>再看借书,代码是调用OperateDataBase中的borrowBook(strjtfInputIndexBorrow, strjtfShowBookBorrow, accountName)方法,类OperateDataBase中的borrowBook()方法有3个参数,<br><code>strjtfInputIndexBorrow</code>即为查找图书用的索引,查书不到就无法进行借书,所以查找图书所用的索引是正确的<br><code>strjtfShowBookBorrow</code>即图书名字<br><code>accountName</code>及账户名<br>方法borrowBook()的返回值也为String类型,且只有两种情况,同样根据下面一行代码<code>if(str.equals(&quot;借书成功&quot;)){</code>就可以确认,其跟searchBook(strjtfInputIndexBorrow)类似<br>再来看类OperateDatabase的代码,文件名为</p>
 <h4 id="OperateDatabase-java"><a href="#OperateDatabase-java" class="headerlink" title="OperateDatabase.java:"></a>OperateDatabase.java:</h4><pre><code>package com.cgtest.data;
 
 import java.sql.Connection;
@@ -5652,11 +5975,7 @@ public class OperateDatabase {
     }
 
 }
-</code></pre><p>其中的方法borrowBook()显示通过书名,来与已经借出去的书的信息库中进行对比,也就是有一张表专门用来存放记录所有已经借出去的书籍</p>
-<p>这样一来,如果对比到了的话说明这本书已经借出去,然而借出去的话有两种情况,一种是被自己借了,另一种就是被别人借走了,所以如果表中有该书名,那么还要根据表来对比账号名</p>
-<p>所以这样做,使得借书和还书都更简单了,所以借书的道理也差不多</p>
-<p>当然,这里我也自定义了一个对话框,</p>
-<p>如下对话框代码,文加名字为</p>
+</code></pre><p>其中的方法borrowBook()显示通过书名,来与已经借出去的书的信息库中进行对比,也就是有一张表专门用来存放记录所有已经借出去的书籍,这样一来,如果对比到了的话说明这本书已经借出去,然而借出去的话有两种情况,一种是被自己借了,另一种就是被别人借走了,所以如果表中有该书名,那么还要根据表来对比账号名.所以这样做,使得借书和还书都更简单了,所以借书的道理也差不多.当然,这里我也自定义了一个对话框,<br>如下对话框代码,文加名字为</p>
 <h4 id="MyJDialog-java"><a href="#MyJDialog-java" class="headerlink" title="MyJDialog.java:"></a>MyJDialog.java:</h4><pre><code>package com.cgtest.ui;
 
 import java.awt.BorderLayout;
@@ -5864,9 +6183,7 @@ public class MyJDialog{
 //    }
 
 }
-</code></pre><p>上面的代码只是自定义对话框,代码有点臃肿,</p>
-<p>然后就是main函数了</p>
-<p>如下代码,文件名为</p>
+</code></pre><p>上面的代码只是自定义对话框,代码有点臃肿,然后就是main函数了<br>如下代码,文件名为</p>
 <h4 id="BookControlSystem-java"><a href="#BookControlSystem-java" class="headerlink" title="BookControlSystem.java:"></a>BookControlSystem.java:</h4><pre><code>package com.cgtest.main;
 
 import com.cgtest.ui.LoginWin;
@@ -5940,8 +6257,7 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
     <entry>
       <title><![CDATA[Java读取自己文件内容]]></title>
       <url>/2017/02/13/java/2017-2-13-java-BufferedInputFile/</url>
-      <content type="html"><![CDATA[<p>这里使用对文件进行缓冲,将得到的引用传给BufferedReader构造器,从而实现对文件的读取</p>
-<p>代码如下:</p>
+      <content type="html"><![CDATA[<p>这里使用对文件进行缓冲,将得到的引用传给BufferedReader构造器,从而实现对文件的读取<br>代码如下</p>
 <a id="more"></a>
 <pre><code>public class BufferedInputFile {
     public static String read(String fileName) throws IOException{
@@ -5962,10 +6278,7 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
         System.out.println(read(&quot;BufferedInputFile.java&quot;));
     }
 }
-</code></pre><p>程序的输出则为该程序的源代码,此段程序的文件名为BufferedInputFile.java.</p>
-<p>文件的运行需要在终端中使用命令运行,如若在Eclipse中运行,则会抛出FileNotFound异常</p>
-<p>其中,BufferedReader中的readLine()方法会将换行符删掉,所以append方法内需要添加”\n”</p>
-<p>运行如下图:</p>
+</code></pre><p>程序的输出则为该程序的源代码,此段程序的文件名为BufferedInputFile.java.文件的运行需要在终端中使用命令运行,如若在Eclipse中运行,则会抛出FileNotFound异常<br>其中,BufferedReader中的readLine()方法会将换行符删掉,所以append方法内需要添加”\n”<br>运行如下图:</p>
 <p><img src="/images/java/java-BufferedInputFile.png" alt="java-BufferedInputFile"></p>
 ]]></content>
       
@@ -6347,11 +6660,9 @@ i == 7,执行break,结束整个for循环
       <url>/2017/01/19/java/2017-1-19-java-DiamonDemo/</url>
       <content type="html"><![CDATA[<p>Java打印菱形和空心菱形，如图：</p>
 <p><img src="/images/java/java-diamonDemo.png" alt="java-diamon"></p>
-<p>首先理一下思路，</p>
-<p>先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，<br>那么也就是我们可以分开来打印。</p>
+<p>首先理一下思路，先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，<br>那么也就是我们可以分开来打印。</p>
 <a id="more"></a>
-<p>先打印上部分，第一行3个空格，1个*号，第二行2个空格，3个*号，第三行1个空格，5个*号，，先打印第一行，利用for循环打印，先打印空格，再打印*号</p>
-<p>ok,再找规律</p>
+<p>先打印上部分，第一行3个空格，1个*号，第二行2个空格，3个*号，第三行1个空格，5个*号，，先打印第一行，利用for循环打印，先打印空格，再打印*号<br>ok,再找规律</p>
 <table>
 <thead>
 <tr>
@@ -6388,8 +6699,7 @@ i == 7,执行break,结束整个for循环
 </tr>
 </tbody>
 </table>
-<p>下部分则和上部分反过来看,道理是一样的</p>
-<p>空心菱形则是则需要添加些if的判断语句，当在打印*号时，当此时位置属于边界时，打印*号，否则打印空格<br>代码如下:</p>
+<p>下部分则和上部分反过来看,道理是一样的<br>空心菱形则是则需要添加些if的判断语句，当在打印*号时，当此时位置属于边界时，打印*号，否则打印空格<br>代码如下:</p>
 <pre><code>package com.cgtext.diamon;
 
 import java.util.Scanner;
@@ -6719,8 +7029,7 @@ public class SpringHelloWorld {
 <ul>
 <li>JDBC抽象层提供了有针对性的异常等级(不再从SQL异常中提取原始代码),简化了错误处理,极大程度的减少了程序员的编码量</li>
 </ul>
-<p>Spring框架是一个轻量级的Java开发框架.框架的主要优势之一就是其灵活的分层架构,同事为J2EE应用程序开发提供集成的框架.Spring使用基本的JavaBean来完成以前只可能由EJB完成的事情.然而,Spring的用途不仅局限于服务器端的开发,任何Java应用都可以从Spring的简单,可测试和松耦合等特征中受益.</p>
-<p>目的:是为了解决JavaEE在企业应用开发中的复杂性<br>功能:使用基本的JavaBean代替EJB<br>范围:任何Java应用</p>
+<p>Spring框架是一个轻量级的Java开发框架.框架的主要优势之一就是其灵活的分层架构,同事为J2EE应用程序开发提供集成的框架.Spring使用基本的JavaBean来完成以前只可能由EJB完成的事情.然而,Spring的用途不仅局限于服务器端的开发,任何Java应用都可以从Spring的简单,可测试和松耦合等特征中受益.<br>目的:是为了解决JavaEE在企业应用开发中的复杂性<br>功能:使用基本的JavaBean代替EJB<br>范围:任何Java应用</p>
 <h5 id="Spring特点"><a href="#Spring特点" class="headerlink" title="Spring特点:"></a>Spring特点:</h5><ul>
 <li>轻量:Spring的开销是非常小的,而且是非侵入式的,也就是说基于Spring开发的系统中的对象一般不依赖于Spring</li>
 <li>控制反转:Spring提倡使用控制反转(IOC)来实现耦合.当需要某个类的对象时,被动地从Spring的容器中得到,而不是通过new来实例化对象</li>
@@ -6733,8 +7042,7 @@ public class SpringHelloWorld {
 <p>从整体上看,这7个模块提供了企业级开发应用系统所需要的一切,但是不一定所有模块都必须使用,开发者可以自由选择所需要的模块</p>
 <font color="#242424">Spring之IOC:</font>
 
-<p>IOC(Inversion of Control,控制反转)是spring的核心,贯穿始终.所谓IOC,对于spring框架来说,就是有spring来负责控制对象的生命周期和对象间的关系.在IOC开发模式中,IOC容器来安排对象之前的依赖,而在传统的开发模式中,类的对象之间都是属于相互依赖的</p>
-<p>IOC的另外的名字叫做依赖注入(Dependency Injection),所谓的依赖注入,就是由IOC容器在运行期间,动态的将某种依赖关系注入到对象之中.所以,依赖注入(DI)和控制反转(IOC)是从不同的角度来描述同一件事情,就是指通过引入IOC容器,利用依赖关系注入的方式,实现对象之间的解耦.</p>
+<p>IOC(Inversion of Control,控制反转)是spring的核心,贯穿始终.所谓IOC,对于spring框架来说,就是有spring来负责控制对象的生命周期和对象间的关系.在IOC开发模式中,IOC容器来安排对象之前的依赖,而在传统的开发模式中,类的对象之间都是属于相互依赖的<br>IOC的另外的名字叫做依赖注入(Dependency Injection),所谓的依赖注入,就是由IOC容器在运行期间,动态的将某种依赖关系注入到对象之中.所以,依赖注入(DI)和控制反转(IOC)是从不同的角度来描述同一件事情,就是指通过引入IOC容器,利用依赖关系注入的方式,实现对象之间的解耦.</p>
 <h5 id="IOC的好处"><a href="#IOC的好处" class="headerlink" title="IOC的好处:"></a>IOC的好处:</h5><ul>
 <li>IOC在编程过程中不会对业务对象构成很强的侵入性,使用IOC之后,对象具有更好的可实行性,可重用性和可扩展性</li>
 <li>降低组件之间的耦合度</li>
@@ -6753,13 +7061,8 @@ public class SpringHelloWorld {
 </ol>
 <font color="#242424">Spring之AOP</font>
 
-<h5 id="AOP的基本概念"><a href="#AOP的基本概念" class="headerlink" title="AOP的基本概念:"></a>AOP的基本概念:</h5><p>是一种面向切面的编程思想<br>AOP专门用于处理系统中分布于各个模块中的交叉关注点的问题,在Java EE应用中,常常通过AOP来处理一些具有横切性质的系统级服务,如事务管理,安全检查,缓存,对象池管理等,AOP已经成为一种非常常用的解决方案</p>
-<p>AOP是对OOP(面向对象)的一种有益的补充,同事AOP是OOP的延续</p>
-<p>OOP面向静态的领域<br>AOP面向动态的领域</p>
-<p>那么为什么要用到AOP呢,—–因为由于系统会有很多不同的组件,每一个组件负责一块特定的功能,然而,我们需要每一个组件只关心它的自身核心功能,但在系统中,会有一些组件比如日志模块,事务管理模块和安全模块等等这些组件,会比较频繁的融入到其他的核心业务逻辑组件当中去,这些常用组件会分散到其他多个组件当中,这样会带来的麻烦是,如果这些常用的服务组件经常发生变化,那么我们需要在多个组件中去修改,这些组件因为插入了于自身业务无关的代码而变得很混乱</p>
-<p>AOP代理其实是有AOP框架动态生成的一个对象,该对象可作为目标对象使用</p>
-<h5 id="AOP通俗的理解"><a href="#AOP通俗的理解" class="headerlink" title="AOP通俗的理解:"></a>AOP通俗的理解:</h5><p>一个组件A,不关心其他常用的服务组件B,但是这个组件A使用组件B的时候,不是组件A自身去调用,而是通过配置等其他方式,比如Spring中可以通过xml配置文件.这样就使得A压根就不需要知道服务组件B是怎样的,爱存在不存在,爱怎么存在都于A无关,A只关心自己的业务逻辑,具体A使用B的时候,配置文件去做,于具体的A组件无关</p>
-<p>在了解理论之后,还是需要赶紧去实践下,例如:<a href="https://cgstudios.github.io/javaee/2017/01/02/javaEE-helloworld.html" target="_blank" rel="external">基于Spring的HelloWorld</a>毕竟高手们的技能永远是强大的学习能力+饱满的热情与积极性+没有拖延的实践精神+拓展的知识面与技能树+解决问的方法论</p>
+<h5 id="AOP的基本概念"><a href="#AOP的基本概念" class="headerlink" title="AOP的基本概念:"></a>AOP的基本概念:</h5><p>是一种面向切面的编程思想<br>AOP专门用于处理系统中分布于各个模块中的交叉关注点的问题,在Java EE应用中,常常通过AOP来处理一些具有横切性质的系统级服务,如事务管理,安全检查,缓存,对象池管理等,AOP已经成为一种非常常用的解决方案<br>AOP是对OOP(面向对象)的一种有益的补充,同事AOP是OOP的延续<br>OOP面向静态的领域<br>AOP面向动态的领域<br>那么为什么要用到AOP呢,—–因为由于系统会有很多不同的组件,每一个组件负责一块特定的功能,然而,我们需要每一个组件只关心它的自身核心功能,但在系统中,会有一些组件比如日志模块,事务管理模块和安全模块等等这些组件,会比较频繁的融入到其他的核心业务逻辑组件当中去,这些常用组件会分散到其他多个组件当中,这样会带来的麻烦是,如果这些常用的服务组件经常发生变化,那么我们需要在多个组件中去修改,这些组件因为插入了于自身业务无关的代码而变得很混乱<br>AOP代理其实是有AOP框架动态生成的一个对象,该对象可作为目标对象使用</p>
+<h5 id="AOP通俗的理解"><a href="#AOP通俗的理解" class="headerlink" title="AOP通俗的理解:"></a>AOP通俗的理解:</h5><p>一个组件A,不关心其他常用的服务组件B,但是这个组件A使用组件B的时候,不是组件A自身去调用,而是通过配置等其他方式,比如Spring中可以通过xml配置文件.这样就使得A压根就不需要知道服务组件B是怎样的,爱存在不存在,爱怎么存在都于A无关,A只关心自己的业务逻辑,具体A使用B的时候,配置文件去做,于具体的A组件无关<br>在了解理论之后,还是需要赶紧去实践下,例如:<a href="https://cgstudios.github.io/javaee/2017/01/02/javaEE-helloworld.html" target="_blank" rel="external">基于Spring的HelloWorld</a>毕竟高手们的技能永远是强大的学习能力+饱满的热情与积极性+没有拖延的实践精神+拓展的知识面与技能树+解决问的方法论</p>
 ]]></content>
       
         <categories>
@@ -6896,39 +7199,20 @@ if __name__ == &apos;__main__&apos;:
 <a id="more"></a>
 <p>我现在是用Jekyll配合Github来实现本站的,所以这里所写的都是个人对Jekyll+Github配合使用时它们的运作过程的了解.不用Hexo的原因很简单,Hexo在我电脑上没搭建好,系统是linux mint17.3.没成功我也不知道原因.不过现在感觉Jekyll挺好的,维护博客也很方便,所以先用着</p>
 <p>先了解一下Jekyll具体是干嘛用的,一开始我根本不知道这东西有什么作用.Github大家都知道是用来存放代码文件的,刚开始我在网上搜文章只知道用它配合gihub来搭建个人主页很方便,我也不知道方便在哪里,它怎么方便了,它怎么运作的,它的原理是什么,这些我都不知道.这就让人很迷了</p>
-<p>所以我想阐述下我个人对Jekyll的理解:</p>
+<p>所以我想阐述下我个人对Jekyll的理解</p>
 <h3 id="概述"><a href="#概述" class="headerlink" title="概述:"></a>概述:</h3><p>Jekyll的作用就是读取用户对网页所提前做的自定义样式及用户所写的博文内容后,综合起来并编译成html文件的插件</p>
-<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢——我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分</p>
-<p>:头,身体和脚.</p>
-<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态.</p>
-<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来</p>
-<p>所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的,<br>要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了</p>
-<p>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,</p>
-<p>所以说,革命尚未结束,同志们仍需努力</p>
-<p>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
-<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大</p>
-<p>网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了</p>
-<p>所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件</p>
-<p>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
+<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢。<br>我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分:头,身体和脚.</p>
+<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态</p>
+<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来，所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的。要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了<br>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,<br>所以说,革命尚未结束,同志们仍需努力<br>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
+<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大。网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了。所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件<br>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
 <p>搭建好Jekyll+Github环境之后</p>
-<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客,</p>
-<p>然后在该文件夹下运行命令:<code>jekyll new xxx</code> —-‘xxx’填写自己站点的名字,作为测试,随意填写</p>
-<p>之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图:</p>
+<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客，然后在该文件夹下运行命令<br><code>jekyll new xxx</code><br>其中xxx填写自己站点的名字,作为测试,随意填写,之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图</p>
 <p><img src="/images/jekyll/jekyll-1.png" alt="jekyll生成文件"></p>
-<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.</p>
-<p>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:</p>
-<p><code>jekyll serve</code></p>
-<p>完成之后,在浏览器中输入<code>http://127.0.0.1:4000</code>,便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了</p>
-<p>本地博客网页如图:</p>
+<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.<br>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:<br><code>jekyll serve</code><br>完成之后,在浏览器地址栏中输入<br><code>http://127.0.0.1:4000</code><br>便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了<br>本地博客网页如图</p>
 <p><img src="/images/jekyll/jekyll-2.png" alt="jekyll建站页面"></p>
-<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨</p>
-<p>之后,我们再查看下xxx文件夹下的文件信息</p>
-<p>如图:</p>
+<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨.之后,我们再查看下xxx文件夹下的文件信息<br>如图</p>
 <p><img src="/images/jekyll/jekyll-3.png" alt="jekyll建站后生成文件"></p>
-<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件</p>
-<p>看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系,</p>
-<p>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的</p>
-<p>例如我们下载一个主题,解压后进入目录,就比如下面图片中的:</p>
+<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系<br>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的<br>例如我们下载一个主题,解压后进入目录,就比如下面图片中的</p>
 <p><img src="/images/jekyll/jekyll-file-4.png" alt="jekyll主题文件"></p>
 <h4 id="文件简述"><a href="#文件简述" class="headerlink" title="文件简述"></a>文件简述</h4><ul>
 <li>css文件夹: 存放css样式</li>
@@ -6947,17 +7231,15 @@ if __name__ == &apos;__main__&apos;:
 <li>index.md: 站点首页,html布局页面</li>
 <li>README.md: 介绍此主题,存放至github后会被读取先死在仓库下方</li>
 </ul>
-<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件:</p>
+<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件</p>
 <ul>
 <li>head.html</li>
 <li>header.html</li>
 <li>footer.html</li>
 </ul>
-<p>打开head.html,如下图:</p>
+<p>打开head.html,如下图</p>
 <p><img src="/images/jekyll/jekyll-head-5.png" alt="head.html"></p>
-<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现:</p>
-<p><code>if page.title.....</code></p>
-<p>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
+<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现<br><code>if page.title..</code><br>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
 <table>
 <thead>
 <tr>
@@ -6980,750 +7262,31 @@ if __name__ == &apos;__main__&apos;:
 <tr>
 <td>content</td>
 <td style="text-align:left">页面的主要部分的内容</td>
-<td style="text-align:center"><p>最近两天都在折腾博客,网上了解到有Jekyll配合Github搭建博客,也有Hexo配合Gihub来搭建博客的,当然也有其他的,我也没有去了解.此前一直单独用Github来放置个人主页,这很做法简单,但是很古板单一,工作量也大,库里面只能存放已做好的html静态页面,导致每次写博文都得重新写一张网页,填写url然后上传,这就使得过程很繁琐,而且如果没使用第三方框架来写的话,实现的效果也不大理想,交互性不强.</p>
-<p>这里放个我以前那个单用github来存放的个人主页链接:<a href="https://cgwh.github.io" target="_blank" rel="external">https://cgwh.github.io</a>,网页实现很简单,没有使用任何第三方框架.个人水平也不高,导致体验性很差.所以现在不打算再更新那个主页了,着手将博文写在这</p>
-<!-- more -->
-<p>我现在是用Jekyll配合Github来实现本站的,所以这里所写的都是个人对Jekyll+Github配合使用时它们的运作过程的了解.不用Hexo的原因很简单,Hexo在我电脑上没搭建好,系统是linux mint17.3.没成功我也不知道原因.不过现在感觉Jekyll挺好的,维护博客也很方便,所以先用着</p>
-<p>先了解一下Jekyll具体是干嘛用的,一开始我根本不知道这东西有什么作用.Github大家都知道是用来存放代码文件的,刚开始我在网上搜文章只知道用它配合gihub来搭建个人主页很方便,我也不知道方便在哪里,它怎么方便了,它怎么运作的,它的原理是什么,这些我都不知道.这就让人很迷了</p>
-<p>所以我想阐述下我个人对Jekyll的理解:</p>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述:"></a>概述:</h3><p>Jekyll的作用就是读取用户对网页所提前做的自定义样式及用户所写的博文内容后,综合起来并编译成html文件的插件</p>
-<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢——我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分</p>
-<p>:头,身体和脚.</p>
-<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态.</p>
-<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来</p>
-<p>所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的,<br>要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了</p>
-<p>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,</p>
-<p>所以说,革命尚未结束,同志们仍需努力</p>
-<p>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
-<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大</p>
-<p>网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了</p>
-<p>所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件</p>
-<p>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
-<p>搭建好Jekyll+Github环境之后</p>
-<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客,</p>
-<p>然后在该文件夹下运行命令:<code>jekyll new xxx</code> —-‘xxx’填写自己站点的名字,作为测试,随意填写</p>
-<p>之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图:</p>
-<p><img src="/images/jekyll/jekyll-1.png" alt="jekyll生成文件"></p>
-<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.</p>
-<p>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:</p>
-<p><code>jekyll serve</code></p>
-<p>完成之后,在浏览器中输入<code>http://127.0.0.1:4000</code>,便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了</p>
-<p>本地博客网页如图:</p>
-<p><img src="/images/jekyll/jekyll-2.png" alt="jekyll建站页面"></p>
-<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨</p>
-<p>之后,我们再查看下xxx文件夹下的文件信息</p>
-<p>如图:</p>
-<p><img src="/images/jekyll/jekyll-3.png" alt="jekyll建站后生成文件"></p>
-<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件</p>
-<p>看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系,</p>
-<p>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的</p>
-<p>例如我们下载一个主题,解压后进入目录,就比如下面图片中的:</p>
-<p><img src="/images/jekyll/jekyll-file-4.png" alt="jekyll主题文件"></p>
-<h4 id="文件简述"><a href="#文件简述" class="headerlink" title="文件简述"></a>文件简述</h4><ul>
-<li>css文件夹: 存放css样式</li>
-<li>images: 存放站点所需要用到的图片</li>
-<li>_includes: 存放网页组成部分,例如头部分—head.html</li>
-<li>_layouts: 存放网页html布局文件</li>
-<li>_posts: 用户存放博文</li>
-<li>_sass: 存放scss样式</li>
-<li>scripts: 存放javascript脚本</li>
-<li>_site: 存放网站编译后的文件,以上文件编译后都将存放此文件夹中</li>
-<li>about.md: about页面</li>
-<li>archive.html: 看文件名字,估计是用来显示全部博文的html布局页面</li>
-<li>catgory.html: 看文件名字,估计是用来分类显示全部博文的html布局页面</li>
-<li>_config.yml: jekyll的配置文件</li>
-<li>feed.xml: jekyll的配置文件</li>
-<li>index.md: 站点首页,html布局页面</li>
-<li>README.md: 介绍此主题,存放至github后会被读取先死在仓库下方</li>
-</ul>
-<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件:</p>
-<ul>
-<li>head.html</li>
-<li>header.html</li>
-<li>footer.html</li>
-</ul>
-<p>打开head.html,如下图:</p>
-<p><img src="/images/jekyll/jekyll-head-5.png" alt="head.html"></p>
-<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现:</p>
-<p><code>if page.title.....</code></p>
-<p>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th style="text-align:left">描述</th>
-<th style="text-align:center">例如</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>site</td>
-<td style="text-align:left">类似全局变量,获取全局方位的信息</td>
-<td style="text-align:center">site.pages:获取该站点所有被page.html所承载的页面</td>
-</tr>
-<tr>
-<td>page</td>
-<td style="text-align:left">只能获取当前页面的信息</td>
-<td style="text-align:center">page.title:博文的日期</td>
-</tr>
-<tr>
-<td>content</td>
-<td style="text-align:left">页面的主要部分的内容</td>
-<td style="text-align:center">{{content}}:博文的内容</td>
+<td style="text-align:center">content:博文的内容</td>
 </tr>
 <tr>
 <td>paginator</td>
 <td style="text-align:left">用来执行分页操作</td>
-<td style="text-align:center">paginate: 5 :每页达到5栏变自动分页</td>
+<td style="text-align:center">paginate=5:每页达到5栏变自动分页</td>
 </tr>
 </tbody>
 </table>
-<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.</p>
-<p>所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签</p>
-<p>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
+<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签<br>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
 <p><img src="/images/jekyll/jekyll-footer-6.png" alt="footer.html"></p>
-<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件:</p>
+<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件</p>
 <ul>
 <li>default.html</li>
 <li>page.html</li>
-<li>post.html</li>
+<li>post.html<br>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局<br>而post.html一般用来承载博文<br>了解了这个,我们再来依次查看这些文件</li>
 </ul>
-<p>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局</p>
-<p>post.html一般用来承载博文</p>
-<p>了解了这个,我们再来依次查看这些文件</p>
 <h5 id="default-html"><a href="#default-html" class="headerlink" title="default.html"></a>default.html</h5><p><img src="/images/jekyll/jekyll-default-7.png" alt="default.html"></p>
-<p>可以看到,default.html这个文件包含有html5网页的声明:</p>
-<p><code>&lt;!DOCTYPE html&gt;</code></p>
-<p>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式</p>
-<p>,其所谓的遵循,就是将自身嵌套进入default.html页面中</p>
-<p>其嵌套的位置就是在default.html的</p>
-<p><code>{{content}}</code></p>
-<p>里,结合上面的表,<code>{{content}}</code>所代表的</p>
-<p>就是被嵌套进default.html页面的其他页面的内容</p>
+<p>可以看到,default.html这个文件包含有html5网页的声明<br><code>&lt;!DOCTYPE html&gt;</code><br>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式,其所谓的遵循,就是将自身嵌套进入default.html页面中<br>其嵌套的位置就是在default.html的<br><code>content</code><br>里,并结合上面的表,<code>content</code>所代表的就是被嵌套进default.html页面的其他页面的内容</p>
 <h5 id="page-html"><a href="#page-html" class="headerlink" title="page.html"></a>page.html</h5><p><img src="/images/jekyll/jekyll-page-8.png" alt="page.html"></p>
-<p>page.html在代码的开头,定义了</p>
-<p><code>layout: default</code></p>
-<p>那么,整个page.html就将被赋值给default.html页面中的</p>
-<p><code>{{content}}</code>将被赋值给default.html</p>
-<p>以此来完成嵌套.</p>
-<p>这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明:</p>
-<p>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
+<p>page.html在代码的开头,定义了<br><code>layout: default</code><br>那么,整个page.html就将被赋值给default.html页面中的<code>content</code>将被赋值给default.html，以此来完成嵌套。这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明<br>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
 <p><img src="/images/jekyll/jekyll-index-9.png" alt="index.html"></p>
-<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的</p>
-<p><code>{{content}}</code></p>
-<p>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.</p>
-<p>那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图:</p>
+<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的<br><code>content</code><br>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图</p>
 <p><img src="/images/jekyll/jekyll-10.png" alt="test-index.html"></p>
-<p>很显然,这样的嵌套是对的</p>
-<p>所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息</p>
-<p>想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.</p>
-<p>甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
-<p>好了,大概先就这样了,剩下的时间交给你,请多多指教.</p>
-:博文的内容</td>
-</tr>
-<tr>
-<td>paginator</td>
-<td style="text-align:left">用来执行分页操作</td>
-<td style="text-align:center">paginate: 5 :每页达到5栏变自动分页</td>
-</tr>
-</tbody>
-</table>
-<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.</p>
-<p>所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签</p>
-<p>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
-<p><img src="/images/jekyll/jekyll-footer-6.png" alt="footer.html"></p>
-<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件:</p>
-<ul>
-<li>default.html</li>
-<li>page.html</li>
-<li>post.html</li>
-</ul>
-<p>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局</p>
-<p>post.html一般用来承载博文</p>
-<p>了解了这个,我们再来依次查看这些文件</p>
-<h5 id="default-html"><a href="#default-html" class="headerlink" title="default.html"></a>default.html</h5><p><img src="/images/jekyll/jekyll-default-7.png" alt="default.html"></p>
-<p>可以看到,default.html这个文件包含有html5网页的声明:</p>
-<p><code>&lt;!DOCTYPE html&gt;</code></p>
-<p>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式</p>
-<p>,其所谓的遵循,就是将自身嵌套进入default.html页面中</p>
-<p>其嵌套的位置就是在default.html的</p>
-<p><code><p>最近两天都在折腾博客,网上了解到有Jekyll配合Github搭建博客,也有Hexo配合Gihub来搭建博客的,当然也有其他的,我也没有去了解.此前一直单独用Github来放置个人主页,这很做法简单,但是很古板单一,工作量也大,库里面只能存放已做好的html静态页面,导致每次写博文都得重新写一张网页,填写url然后上传,这就使得过程很繁琐,而且如果没使用第三方框架来写的话,实现的效果也不大理想,交互性不强.</p>
-<p>这里放个我以前那个单用github来存放的个人主页链接:<a href="https://cgwh.github.io" target="_blank" rel="external">https://cgwh.github.io</a>,网页实现很简单,没有使用任何第三方框架.个人水平也不高,导致体验性很差.所以现在不打算再更新那个主页了,着手将博文写在这</p>
-<!-- more -->
-<p>我现在是用Jekyll配合Github来实现本站的,所以这里所写的都是个人对Jekyll+Github配合使用时它们的运作过程的了解.不用Hexo的原因很简单,Hexo在我电脑上没搭建好,系统是linux mint17.3.没成功我也不知道原因.不过现在感觉Jekyll挺好的,维护博客也很方便,所以先用着</p>
-<p>先了解一下Jekyll具体是干嘛用的,一开始我根本不知道这东西有什么作用.Github大家都知道是用来存放代码文件的,刚开始我在网上搜文章只知道用它配合gihub来搭建个人主页很方便,我也不知道方便在哪里,它怎么方便了,它怎么运作的,它的原理是什么,这些我都不知道.这就让人很迷了</p>
-<p>所以我想阐述下我个人对Jekyll的理解:</p>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述:"></a>概述:</h3><p>Jekyll的作用就是读取用户对网页所提前做的自定义样式及用户所写的博文内容后,综合起来并编译成html文件的插件</p>
-<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢——我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分</p>
-<p>:头,身体和脚.</p>
-<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态.</p>
-<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来</p>
-<p>所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的,<br>要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了</p>
-<p>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,</p>
-<p>所以说,革命尚未结束,同志们仍需努力</p>
-<p>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
-<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大</p>
-<p>网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了</p>
-<p>所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件</p>
-<p>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
-<p>搭建好Jekyll+Github环境之后</p>
-<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客,</p>
-<p>然后在该文件夹下运行命令:<code>jekyll new xxx</code> —-‘xxx’填写自己站点的名字,作为测试,随意填写</p>
-<p>之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图:</p>
-<p><img src="/images/jekyll/jekyll-1.png" alt="jekyll生成文件"></p>
-<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.</p>
-<p>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:</p>
-<p><code>jekyll serve</code></p>
-<p>完成之后,在浏览器中输入<code>http://127.0.0.1:4000</code>,便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了</p>
-<p>本地博客网页如图:</p>
-<p><img src="/images/jekyll/jekyll-2.png" alt="jekyll建站页面"></p>
-<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨</p>
-<p>之后,我们再查看下xxx文件夹下的文件信息</p>
-<p>如图:</p>
-<p><img src="/images/jekyll/jekyll-3.png" alt="jekyll建站后生成文件"></p>
-<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件</p>
-<p>看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系,</p>
-<p>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的</p>
-<p>例如我们下载一个主题,解压后进入目录,就比如下面图片中的:</p>
-<p><img src="/images/jekyll/jekyll-file-4.png" alt="jekyll主题文件"></p>
-<h4 id="文件简述"><a href="#文件简述" class="headerlink" title="文件简述"></a>文件简述</h4><ul>
-<li>css文件夹: 存放css样式</li>
-<li>images: 存放站点所需要用到的图片</li>
-<li>_includes: 存放网页组成部分,例如头部分—head.html</li>
-<li>_layouts: 存放网页html布局文件</li>
-<li>_posts: 用户存放博文</li>
-<li>_sass: 存放scss样式</li>
-<li>scripts: 存放javascript脚本</li>
-<li>_site: 存放网站编译后的文件,以上文件编译后都将存放此文件夹中</li>
-<li>about.md: about页面</li>
-<li>archive.html: 看文件名字,估计是用来显示全部博文的html布局页面</li>
-<li>catgory.html: 看文件名字,估计是用来分类显示全部博文的html布局页面</li>
-<li>_config.yml: jekyll的配置文件</li>
-<li>feed.xml: jekyll的配置文件</li>
-<li>index.md: 站点首页,html布局页面</li>
-<li>README.md: 介绍此主题,存放至github后会被读取先死在仓库下方</li>
-</ul>
-<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件:</p>
-<ul>
-<li>head.html</li>
-<li>header.html</li>
-<li>footer.html</li>
-</ul>
-<p>打开head.html,如下图:</p>
-<p><img src="/images/jekyll/jekyll-head-5.png" alt="head.html"></p>
-<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现:</p>
-<p><code>if page.title.....</code></p>
-<p>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th style="text-align:left">描述</th>
-<th style="text-align:center">例如</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>site</td>
-<td style="text-align:left">类似全局变量,获取全局方位的信息</td>
-<td style="text-align:center">site.pages:获取该站点所有被page.html所承载的页面</td>
-</tr>
-<tr>
-<td>page</td>
-<td style="text-align:left">只能获取当前页面的信息</td>
-<td style="text-align:center">page.title:博文的日期</td>
-</tr>
-<tr>
-<td>content</td>
-<td style="text-align:left">页面的主要部分的内容</td>
-<td style="text-align:center">{{content}}:博文的内容</td>
-</tr>
-<tr>
-<td>paginator</td>
-<td style="text-align:left">用来执行分页操作</td>
-<td style="text-align:center">paginate: 5 :每页达到5栏变自动分页</td>
-</tr>
-</tbody>
-</table>
-<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.</p>
-<p>所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签</p>
-<p>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
-<p><img src="/images/jekyll/jekyll-footer-6.png" alt="footer.html"></p>
-<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件:</p>
-<ul>
-<li>default.html</li>
-<li>page.html</li>
-<li>post.html</li>
-</ul>
-<p>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局</p>
-<p>post.html一般用来承载博文</p>
-<p>了解了这个,我们再来依次查看这些文件</p>
-<h5 id="default-html"><a href="#default-html" class="headerlink" title="default.html"></a>default.html</h5><p><img src="/images/jekyll/jekyll-default-7.png" alt="default.html"></p>
-<p>可以看到,default.html这个文件包含有html5网页的声明:</p>
-<p><code>&lt;!DOCTYPE html&gt;</code></p>
-<p>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式</p>
-<p>,其所谓的遵循,就是将自身嵌套进入default.html页面中</p>
-<p>其嵌套的位置就是在default.html的</p>
-<p><code>{{content}}</code></p>
-<p>里,结合上面的表,<code>{{content}}</code>所代表的</p>
-<p>就是被嵌套进default.html页面的其他页面的内容</p>
-<h5 id="page-html"><a href="#page-html" class="headerlink" title="page.html"></a>page.html</h5><p><img src="/images/jekyll/jekyll-page-8.png" alt="page.html"></p>
-<p>page.html在代码的开头,定义了</p>
-<p><code>layout: default</code></p>
-<p>那么,整个page.html就将被赋值给default.html页面中的</p>
-<p><code>{{content}}</code>将被赋值给default.html</p>
-<p>以此来完成嵌套.</p>
-<p>这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明:</p>
-<p>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
-<p><img src="/images/jekyll/jekyll-index-9.png" alt="index.html"></p>
-<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的</p>
-<p><code>{{content}}</code></p>
-<p>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.</p>
-<p>那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图:</p>
-<p><img src="/images/jekyll/jekyll-10.png" alt="test-index.html"></p>
-<p>很显然,这样的嵌套是对的</p>
-<p>所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息</p>
-<p>想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.</p>
-<p>甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
-<p>好了,大概先就这样了,剩下的时间交给你,请多多指教.</p>
-</code></p>
-<p>里,结合上面的表,<code><p>最近两天都在折腾博客,网上了解到有Jekyll配合Github搭建博客,也有Hexo配合Gihub来搭建博客的,当然也有其他的,我也没有去了解.此前一直单独用Github来放置个人主页,这很做法简单,但是很古板单一,工作量也大,库里面只能存放已做好的html静态页面,导致每次写博文都得重新写一张网页,填写url然后上传,这就使得过程很繁琐,而且如果没使用第三方框架来写的话,实现的效果也不大理想,交互性不强.</p>
-<p>这里放个我以前那个单用github来存放的个人主页链接:<a href="https://cgwh.github.io" target="_blank" rel="external">https://cgwh.github.io</a>,网页实现很简单,没有使用任何第三方框架.个人水平也不高,导致体验性很差.所以现在不打算再更新那个主页了,着手将博文写在这</p>
-<!-- more -->
-<p>我现在是用Jekyll配合Github来实现本站的,所以这里所写的都是个人对Jekyll+Github配合使用时它们的运作过程的了解.不用Hexo的原因很简单,Hexo在我电脑上没搭建好,系统是linux mint17.3.没成功我也不知道原因.不过现在感觉Jekyll挺好的,维护博客也很方便,所以先用着</p>
-<p>先了解一下Jekyll具体是干嘛用的,一开始我根本不知道这东西有什么作用.Github大家都知道是用来存放代码文件的,刚开始我在网上搜文章只知道用它配合gihub来搭建个人主页很方便,我也不知道方便在哪里,它怎么方便了,它怎么运作的,它的原理是什么,这些我都不知道.这就让人很迷了</p>
-<p>所以我想阐述下我个人对Jekyll的理解:</p>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述:"></a>概述:</h3><p>Jekyll的作用就是读取用户对网页所提前做的自定义样式及用户所写的博文内容后,综合起来并编译成html文件的插件</p>
-<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢——我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分</p>
-<p>:头,身体和脚.</p>
-<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态.</p>
-<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来</p>
-<p>所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的,<br>要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了</p>
-<p>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,</p>
-<p>所以说,革命尚未结束,同志们仍需努力</p>
-<p>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
-<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大</p>
-<p>网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了</p>
-<p>所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件</p>
-<p>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
-<p>搭建好Jekyll+Github环境之后</p>
-<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客,</p>
-<p>然后在该文件夹下运行命令:<code>jekyll new xxx</code> —-‘xxx’填写自己站点的名字,作为测试,随意填写</p>
-<p>之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图:</p>
-<p><img src="/images/jekyll/jekyll-1.png" alt="jekyll生成文件"></p>
-<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.</p>
-<p>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:</p>
-<p><code>jekyll serve</code></p>
-<p>完成之后,在浏览器中输入<code>http://127.0.0.1:4000</code>,便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了</p>
-<p>本地博客网页如图:</p>
-<p><img src="/images/jekyll/jekyll-2.png" alt="jekyll建站页面"></p>
-<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨</p>
-<p>之后,我们再查看下xxx文件夹下的文件信息</p>
-<p>如图:</p>
-<p><img src="/images/jekyll/jekyll-3.png" alt="jekyll建站后生成文件"></p>
-<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件</p>
-<p>看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系,</p>
-<p>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的</p>
-<p>例如我们下载一个主题,解压后进入目录,就比如下面图片中的:</p>
-<p><img src="/images/jekyll/jekyll-file-4.png" alt="jekyll主题文件"></p>
-<h4 id="文件简述"><a href="#文件简述" class="headerlink" title="文件简述"></a>文件简述</h4><ul>
-<li>css文件夹: 存放css样式</li>
-<li>images: 存放站点所需要用到的图片</li>
-<li>_includes: 存放网页组成部分,例如头部分—head.html</li>
-<li>_layouts: 存放网页html布局文件</li>
-<li>_posts: 用户存放博文</li>
-<li>_sass: 存放scss样式</li>
-<li>scripts: 存放javascript脚本</li>
-<li>_site: 存放网站编译后的文件,以上文件编译后都将存放此文件夹中</li>
-<li>about.md: about页面</li>
-<li>archive.html: 看文件名字,估计是用来显示全部博文的html布局页面</li>
-<li>catgory.html: 看文件名字,估计是用来分类显示全部博文的html布局页面</li>
-<li>_config.yml: jekyll的配置文件</li>
-<li>feed.xml: jekyll的配置文件</li>
-<li>index.md: 站点首页,html布局页面</li>
-<li>README.md: 介绍此主题,存放至github后会被读取先死在仓库下方</li>
-</ul>
-<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件:</p>
-<ul>
-<li>head.html</li>
-<li>header.html</li>
-<li>footer.html</li>
-</ul>
-<p>打开head.html,如下图:</p>
-<p><img src="/images/jekyll/jekyll-head-5.png" alt="head.html"></p>
-<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现:</p>
-<p><code>if page.title.....</code></p>
-<p>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th style="text-align:left">描述</th>
-<th style="text-align:center">例如</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>site</td>
-<td style="text-align:left">类似全局变量,获取全局方位的信息</td>
-<td style="text-align:center">site.pages:获取该站点所有被page.html所承载的页面</td>
-</tr>
-<tr>
-<td>page</td>
-<td style="text-align:left">只能获取当前页面的信息</td>
-<td style="text-align:center">page.title:博文的日期</td>
-</tr>
-<tr>
-<td>content</td>
-<td style="text-align:left">页面的主要部分的内容</td>
-<td style="text-align:center">{{content}}:博文的内容</td>
-</tr>
-<tr>
-<td>paginator</td>
-<td style="text-align:left">用来执行分页操作</td>
-<td style="text-align:center">paginate: 5 :每页达到5栏变自动分页</td>
-</tr>
-</tbody>
-</table>
-<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.</p>
-<p>所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签</p>
-<p>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
-<p><img src="/images/jekyll/jekyll-footer-6.png" alt="footer.html"></p>
-<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件:</p>
-<ul>
-<li>default.html</li>
-<li>page.html</li>
-<li>post.html</li>
-</ul>
-<p>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局</p>
-<p>post.html一般用来承载博文</p>
-<p>了解了这个,我们再来依次查看这些文件</p>
-<h5 id="default-html"><a href="#default-html" class="headerlink" title="default.html"></a>default.html</h5><p><img src="/images/jekyll/jekyll-default-7.png" alt="default.html"></p>
-<p>可以看到,default.html这个文件包含有html5网页的声明:</p>
-<p><code>&lt;!DOCTYPE html&gt;</code></p>
-<p>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式</p>
-<p>,其所谓的遵循,就是将自身嵌套进入default.html页面中</p>
-<p>其嵌套的位置就是在default.html的</p>
-<p><code>{{content}}</code></p>
-<p>里,结合上面的表,<code>{{content}}</code>所代表的</p>
-<p>就是被嵌套进default.html页面的其他页面的内容</p>
-<h5 id="page-html"><a href="#page-html" class="headerlink" title="page.html"></a>page.html</h5><p><img src="/images/jekyll/jekyll-page-8.png" alt="page.html"></p>
-<p>page.html在代码的开头,定义了</p>
-<p><code>layout: default</code></p>
-<p>那么,整个page.html就将被赋值给default.html页面中的</p>
-<p><code>{{content}}</code>将被赋值给default.html</p>
-<p>以此来完成嵌套.</p>
-<p>这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明:</p>
-<p>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
-<p><img src="/images/jekyll/jekyll-index-9.png" alt="index.html"></p>
-<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的</p>
-<p><code>{{content}}</code></p>
-<p>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.</p>
-<p>那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图:</p>
-<p><img src="/images/jekyll/jekyll-10.png" alt="test-index.html"></p>
-<p>很显然,这样的嵌套是对的</p>
-<p>所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息</p>
-<p>想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.</p>
-<p>甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
-<p>好了,大概先就这样了,剩下的时间交给你,请多多指教.</p>
-</code>所代表的</p>
-<p>就是被嵌套进default.html页面的其他页面的内容</p>
-<h5 id="page-html"><a href="#page-html" class="headerlink" title="page.html"></a>page.html</h5><p><img src="/images/jekyll/jekyll-page-8.png" alt="page.html"></p>
-<p>page.html在代码的开头,定义了</p>
-<p><code>layout: default</code></p>
-<p>那么,整个page.html就将被赋值给default.html页面中的</p>
-<p><code><p>最近两天都在折腾博客,网上了解到有Jekyll配合Github搭建博客,也有Hexo配合Gihub来搭建博客的,当然也有其他的,我也没有去了解.此前一直单独用Github来放置个人主页,这很做法简单,但是很古板单一,工作量也大,库里面只能存放已做好的html静态页面,导致每次写博文都得重新写一张网页,填写url然后上传,这就使得过程很繁琐,而且如果没使用第三方框架来写的话,实现的效果也不大理想,交互性不强.</p>
-<p>这里放个我以前那个单用github来存放的个人主页链接:<a href="https://cgwh.github.io" target="_blank" rel="external">https://cgwh.github.io</a>,网页实现很简单,没有使用任何第三方框架.个人水平也不高,导致体验性很差.所以现在不打算再更新那个主页了,着手将博文写在这</p>
-<!-- more -->
-<p>我现在是用Jekyll配合Github来实现本站的,所以这里所写的都是个人对Jekyll+Github配合使用时它们的运作过程的了解.不用Hexo的原因很简单,Hexo在我电脑上没搭建好,系统是linux mint17.3.没成功我也不知道原因.不过现在感觉Jekyll挺好的,维护博客也很方便,所以先用着</p>
-<p>先了解一下Jekyll具体是干嘛用的,一开始我根本不知道这东西有什么作用.Github大家都知道是用来存放代码文件的,刚开始我在网上搜文章只知道用它配合gihub来搭建个人主页很方便,我也不知道方便在哪里,它怎么方便了,它怎么运作的,它的原理是什么,这些我都不知道.这就让人很迷了</p>
-<p>所以我想阐述下我个人对Jekyll的理解:</p>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述:"></a>概述:</h3><p>Jekyll的作用就是读取用户对网页所提前做的自定义样式及用户所写的博文内容后,综合起来并编译成html文件的插件</p>
-<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢——我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分</p>
-<p>:头,身体和脚.</p>
-<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态.</p>
-<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来</p>
-<p>所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的,<br>要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了</p>
-<p>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,</p>
-<p>所以说,革命尚未结束,同志们仍需努力</p>
-<p>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
-<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大</p>
-<p>网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了</p>
-<p>所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件</p>
-<p>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
-<p>搭建好Jekyll+Github环境之后</p>
-<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客,</p>
-<p>然后在该文件夹下运行命令:<code>jekyll new xxx</code> —-‘xxx’填写自己站点的名字,作为测试,随意填写</p>
-<p>之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图:</p>
-<p><img src="/images/jekyll/jekyll-1.png" alt="jekyll生成文件"></p>
-<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.</p>
-<p>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:</p>
-<p><code>jekyll serve</code></p>
-<p>完成之后,在浏览器中输入<code>http://127.0.0.1:4000</code>,便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了</p>
-<p>本地博客网页如图:</p>
-<p><img src="/images/jekyll/jekyll-2.png" alt="jekyll建站页面"></p>
-<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨</p>
-<p>之后,我们再查看下xxx文件夹下的文件信息</p>
-<p>如图:</p>
-<p><img src="/images/jekyll/jekyll-3.png" alt="jekyll建站后生成文件"></p>
-<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件</p>
-<p>看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系,</p>
-<p>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的</p>
-<p>例如我们下载一个主题,解压后进入目录,就比如下面图片中的:</p>
-<p><img src="/images/jekyll/jekyll-file-4.png" alt="jekyll主题文件"></p>
-<h4 id="文件简述"><a href="#文件简述" class="headerlink" title="文件简述"></a>文件简述</h4><ul>
-<li>css文件夹: 存放css样式</li>
-<li>images: 存放站点所需要用到的图片</li>
-<li>_includes: 存放网页组成部分,例如头部分—head.html</li>
-<li>_layouts: 存放网页html布局文件</li>
-<li>_posts: 用户存放博文</li>
-<li>_sass: 存放scss样式</li>
-<li>scripts: 存放javascript脚本</li>
-<li>_site: 存放网站编译后的文件,以上文件编译后都将存放此文件夹中</li>
-<li>about.md: about页面</li>
-<li>archive.html: 看文件名字,估计是用来显示全部博文的html布局页面</li>
-<li>catgory.html: 看文件名字,估计是用来分类显示全部博文的html布局页面</li>
-<li>_config.yml: jekyll的配置文件</li>
-<li>feed.xml: jekyll的配置文件</li>
-<li>index.md: 站点首页,html布局页面</li>
-<li>README.md: 介绍此主题,存放至github后会被读取先死在仓库下方</li>
-</ul>
-<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件:</p>
-<ul>
-<li>head.html</li>
-<li>header.html</li>
-<li>footer.html</li>
-</ul>
-<p>打开head.html,如下图:</p>
-<p><img src="/images/jekyll/jekyll-head-5.png" alt="head.html"></p>
-<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现:</p>
-<p><code>if page.title.....</code></p>
-<p>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th style="text-align:left">描述</th>
-<th style="text-align:center">例如</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>site</td>
-<td style="text-align:left">类似全局变量,获取全局方位的信息</td>
-<td style="text-align:center">site.pages:获取该站点所有被page.html所承载的页面</td>
-</tr>
-<tr>
-<td>page</td>
-<td style="text-align:left">只能获取当前页面的信息</td>
-<td style="text-align:center">page.title:博文的日期</td>
-</tr>
-<tr>
-<td>content</td>
-<td style="text-align:left">页面的主要部分的内容</td>
-<td style="text-align:center">{{content}}:博文的内容</td>
-</tr>
-<tr>
-<td>paginator</td>
-<td style="text-align:left">用来执行分页操作</td>
-<td style="text-align:center">paginate: 5 :每页达到5栏变自动分页</td>
-</tr>
-</tbody>
-</table>
-<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.</p>
-<p>所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签</p>
-<p>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
-<p><img src="/images/jekyll/jekyll-footer-6.png" alt="footer.html"></p>
-<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件:</p>
-<ul>
-<li>default.html</li>
-<li>page.html</li>
-<li>post.html</li>
-</ul>
-<p>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局</p>
-<p>post.html一般用来承载博文</p>
-<p>了解了这个,我们再来依次查看这些文件</p>
-<h5 id="default-html"><a href="#default-html" class="headerlink" title="default.html"></a>default.html</h5><p><img src="/images/jekyll/jekyll-default-7.png" alt="default.html"></p>
-<p>可以看到,default.html这个文件包含有html5网页的声明:</p>
-<p><code>&lt;!DOCTYPE html&gt;</code></p>
-<p>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式</p>
-<p>,其所谓的遵循,就是将自身嵌套进入default.html页面中</p>
-<p>其嵌套的位置就是在default.html的</p>
-<p><code>{{content}}</code></p>
-<p>里,结合上面的表,<code>{{content}}</code>所代表的</p>
-<p>就是被嵌套进default.html页面的其他页面的内容</p>
-<h5 id="page-html"><a href="#page-html" class="headerlink" title="page.html"></a>page.html</h5><p><img src="/images/jekyll/jekyll-page-8.png" alt="page.html"></p>
-<p>page.html在代码的开头,定义了</p>
-<p><code>layout: default</code></p>
-<p>那么,整个page.html就将被赋值给default.html页面中的</p>
-<p><code>{{content}}</code>将被赋值给default.html</p>
-<p>以此来完成嵌套.</p>
-<p>这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明:</p>
-<p>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
-<p><img src="/images/jekyll/jekyll-index-9.png" alt="index.html"></p>
-<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的</p>
-<p><code>{{content}}</code></p>
-<p>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.</p>
-<p>那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图:</p>
-<p><img src="/images/jekyll/jekyll-10.png" alt="test-index.html"></p>
-<p>很显然,这样的嵌套是对的</p>
-<p>所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息</p>
-<p>想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.</p>
-<p>甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
-<p>好了,大概先就这样了,剩下的时间交给你,请多多指教.</p>
-</code>将被赋值给default.html</p>
-<p>以此来完成嵌套.</p>
-<p>这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明:</p>
-<p>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
-<p><img src="/images/jekyll/jekyll-index-9.png" alt="index.html"></p>
-<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的</p>
-<p><code><p>最近两天都在折腾博客,网上了解到有Jekyll配合Github搭建博客,也有Hexo配合Gihub来搭建博客的,当然也有其他的,我也没有去了解.此前一直单独用Github来放置个人主页,这很做法简单,但是很古板单一,工作量也大,库里面只能存放已做好的html静态页面,导致每次写博文都得重新写一张网页,填写url然后上传,这就使得过程很繁琐,而且如果没使用第三方框架来写的话,实现的效果也不大理想,交互性不强.</p>
-<p>这里放个我以前那个单用github来存放的个人主页链接:<a href="https://cgwh.github.io" target="_blank" rel="external">https://cgwh.github.io</a>,网页实现很简单,没有使用任何第三方框架.个人水平也不高,导致体验性很差.所以现在不打算再更新那个主页了,着手将博文写在这</p>
-<!-- more -->
-<p>我现在是用Jekyll配合Github来实现本站的,所以这里所写的都是个人对Jekyll+Github配合使用时它们的运作过程的了解.不用Hexo的原因很简单,Hexo在我电脑上没搭建好,系统是linux mint17.3.没成功我也不知道原因.不过现在感觉Jekyll挺好的,维护博客也很方便,所以先用着</p>
-<p>先了解一下Jekyll具体是干嘛用的,一开始我根本不知道这东西有什么作用.Github大家都知道是用来存放代码文件的,刚开始我在网上搜文章只知道用它配合gihub来搭建个人主页很方便,我也不知道方便在哪里,它怎么方便了,它怎么运作的,它的原理是什么,这些我都不知道.这就让人很迷了</p>
-<p>所以我想阐述下我个人对Jekyll的理解:</p>
-<h3 id="概述"><a href="#概述" class="headerlink" title="概述:"></a>概述:</h3><p>Jekyll的作用就是读取用户对网页所提前做的自定义样式及用户所写的博文内容后,综合起来并编译成html文件的插件</p>
-<h4 id="详述"><a href="#详述" class="headerlink" title="详述:"></a>详述:</h4><p>首先,它是用来生成html文件的,只有生成了html文件后放在github上用浏览器浏览才能显示博客.那么,它是怎么生成html文件的呢——我们都知道,一张网页被解析后显示的页面可以分为一个部分,两个部分或者三部分甚至更多,但可以通常的来说,就是三部分</p>
-<p>:头,身体和脚.</p>
-<p>想想我们人不也可以看成这三部分么,当然,你也可以看成说是一部分,就是一个人.每个人的看法都不一样.但在这里,如果将网页分为三部分,那么有个好处就是可以增强代码的复用性,使得代码不会显得那么沉余.这就让我想到了Java中三大特性:封装,集成和多态.</p>
-<p>同样,若将网页分为三部分:头部,脚部和中间部分,那么我们就可以将这三部分的代码分别封装起来,并定义其中的样式.这样的话,如果以后需要创建一个新的html网页,那么就可以引用其封装起来的头部,脚部,,,我们只需要更改其中间部分即可,这样就很方便了.当然,这里的引用过程是不需要我们手动操作的,这都交给Jekll来操作,我们要做的只是去定义网页的头部,脚部以及中间部分,并封装起来</p>
-<p>所以现在来说,我们只需要做这些,就可以完成博客的建立么,答案是否定的,<br>要是真这样的话,那我们所搭建的博客样式不都差不多么,这样就毫无个性可言了</p>
-<p>要避免这个问题,我们还需要对自己的网页进行自定义.自定义包括css样式的自定义及html组件布局的自定义.想想,要是我们的博客的每一个页面的中间部分都一样,这就没什么新鲜了.就拿比方说,博客的首页和博客的about页面,以及博文的阅读页面,它们的布局是一样好,还是不一样好,,,,</p>
-<p>所以说,革命尚未结束,同志们仍需努力</p>
-<p>我们下一步就是要制作网页的布局,说明白一点,就是获取缩写的博文内容及信息后,该怎么放在网页中,在网页中怎么显示,,,等</p>
-<p>完成网页的制作,若实现网页的浏览(针对url来说),这个问题并不大</p>
-<p>网页的url地址是html的存放位置来定的,而jekyll编译得到的html文件的存放地址则是根据用户自己编写的markdown格式的博文来定的,也就是说,markdown格式的文件可以用来制定jekyll所编译生成的html文件的存放地址,在jekyll中,markdown格式的文件的书写和命名都有规定,jekyll就是获取markdown的信息来生成在制定目录,这样也就实现了网页url的定义了</p>
-<p>所以,总的来说,要实现一个博客站点,需要我们自己定义博客的页面信息,样式,以及编写出配合博客信息的markdown文件,然后在交给jekyll让它来帮我们编译出一组完整的博客组成文件</p>
-<p>关于搭建Jekyll+Github的教程这里就先不写,过程很简单,网上找几篇文章再配合Jekyll官方文档来,很快就可以实现</p>
-<p>搭建好Jekyll+Github环境之后</p>
-<h3 id="本地建博"><a href="#本地建博" class="headerlink" title="本地建博"></a>本地建博</h3><p>在本地新建一个文件夹,用来存放自己本地的博客,</p>
-<p>然后在该文件夹下运行命令:<code>jekyll new xxx</code> —-‘xxx’填写自己站点的名字,作为测试,随意填写</p>
-<p>之后进入xxx文件夹,在该文件夹下我们可以看到jekyll在运行上面这条命令后为我们生成的文件及文件夹<br>如图:</p>
-<p><img src="/images/jekyll/jekyll-1.png" alt="jekyll生成文件"></p>
-<p>看到图片中显示的文件夹及文件信息,可以说是很悲哀,但也在情理之中.jekyll只为我们生成了这么些文件.</p>
-<p>为完成本地博客的建立,我们在xxx目录文件夹下再运行命令:</p>
-<p><code>jekyll serve</code></p>
-<p>完成之后,在浏览器中输入<code>http://127.0.0.1:4000</code>,便可查看到我们在本地搭建的博客网页了,如果输入url后不显示网页,那么就说明jekyll环境搭建好,那就需要重新搭建了</p>
-<p>本地博客网页如图:</p>
-<p><img src="/images/jekyll/jekyll-2.png" alt="jekyll建站页面"></p>
-<p>会发现图片中显示的站点图标跟我现在博客站点的图标一样,,,,,,这我也不懂了,估计这是被我这是我此博客在电脑上的备份文件影响的,也或许这是全局设置,这个到时候再琢磨琢磨</p>
-<p>之后,我们再查看下xxx文件夹下的文件信息</p>
-<p>如图:</p>
-<p><img src="/images/jekyll/jekyll-3.png" alt="jekyll建站后生成文件"></p>
-<p>比较前面的图,会发现多了个_site文件夹,所以也就是说,_site文件夹是jekyll编译后生成的文件夹,接触官方文档后就会知道,这个文件夹就是存放jekyll编译整个站点文件后得到的文件</p>
-<p>看着jekyll自动生成的文件,一开始的我根本看不懂,根本不知道这写文件的作用,甚至看来官方给的目录结构说明后也不是很明白.后来就去查看别人的主题文件,读里面的代码,才知道一个博客的文件关系,</p>
-<p>所以,要是你一开始就对jekyll默认生成的文件表示疑惑时,建议去下载别人的主题,并阅读它,多读代码,很容易就会明白的</p>
-<p>例如我们下载一个主题,解压后进入目录,就比如下面图片中的:</p>
-<p><img src="/images/jekyll/jekyll-file-4.png" alt="jekyll主题文件"></p>
-<h4 id="文件简述"><a href="#文件简述" class="headerlink" title="文件简述"></a>文件简述</h4><ul>
-<li>css文件夹: 存放css样式</li>
-<li>images: 存放站点所需要用到的图片</li>
-<li>_includes: 存放网页组成部分,例如头部分—head.html</li>
-<li>_layouts: 存放网页html布局文件</li>
-<li>_posts: 用户存放博文</li>
-<li>_sass: 存放scss样式</li>
-<li>scripts: 存放javascript脚本</li>
-<li>_site: 存放网站编译后的文件,以上文件编译后都将存放此文件夹中</li>
-<li>about.md: about页面</li>
-<li>archive.html: 看文件名字,估计是用来显示全部博文的html布局页面</li>
-<li>catgory.html: 看文件名字,估计是用来分类显示全部博文的html布局页面</li>
-<li>_config.yml: jekyll的配置文件</li>
-<li>feed.xml: jekyll的配置文件</li>
-<li>index.md: 站点首页,html布局页面</li>
-<li>README.md: 介绍此主题,存放至github后会被读取先死在仓库下方</li>
-</ul>
-<h3 id="文件组成"><a href="#文件组成" class="headerlink" title="文件组成"></a>文件组成</h3><h4 id="includes文件夹下"><a href="#includes文件夹下" class="headerlink" title="_includes文件夹下"></a>_includes文件夹下</h4><p>先看_includes文件夹内的文件,该文件夹下有三个组成文件:</p>
-<ul>
-<li>head.html</li>
-<li>header.html</li>
-<li>footer.html</li>
-</ul>
-<p>打开head.html,如下图:</p>
-<p><img src="/images/jekyll/jekyll-head-5.png" alt="head.html"></p>
-<p>看到图中,代码很简单,html标签这里就不解释了,简单都懂<br>看到title标签中出现:</p>
-<p><code>if page.title.....</code></p>
-<p>这行代码(有些字符打出来会出错,所以没打全),其中,<code>page.title</code>是用来获取当前页面的title信息的,这里的当前页面是指每个页面中的title属性,毕竟每个页面都得有head标签,<code>site.title</code>则为获取站点的title属性,也可理解为index.html首页面的title属性,下面一张表列出了jekyll的变量信息.</p>
-<table>
-<thead>
-<tr>
-<th>变量</th>
-<th style="text-align:left">描述</th>
-<th style="text-align:center">例如</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>site</td>
-<td style="text-align:left">类似全局变量,获取全局方位的信息</td>
-<td style="text-align:center">site.pages:获取该站点所有被page.html所承载的页面</td>
-</tr>
-<tr>
-<td>page</td>
-<td style="text-align:left">只能获取当前页面的信息</td>
-<td style="text-align:center">page.title:博文的日期</td>
-</tr>
-<tr>
-<td>content</td>
-<td style="text-align:left">页面的主要部分的内容</td>
-<td style="text-align:center">{{content}}:博文的内容</td>
-</tr>
-<tr>
-<td>paginator</td>
-<td style="text-align:left">用来执行分页操作</td>
-<td style="text-align:center">paginate: 5 :每页达到5栏变自动分页</td>
-</tr>
-</tbody>
-</table>
-<p>那么,回到上面那行代码,可以知道,这是一条if的条件循环语句,大概的意思是,如果这个head标签加载到的是普通页面则显示该普通页面的标题,反之,则显示站点的标题.</p>
-<p>所以,head.html这个组成页面可以看成是一张完整网页中的一个head标签</p>
-<p>其他的页面也是如此,header.html页面就是完整网页的一个导航栏,footer.html则是完整网页的根部,所以其内容也很简单</p>
-<p><img src="/images/jekyll/jekyll-footer-6.png" alt="footer.html"></p>
-<h4 id="layouts文件夹"><a href="#layouts文件夹" class="headerlink" title="_layouts文件夹"></a>_layouts文件夹</h4><p>之后再来看_layouts文件夹下的html布局文件:</p>
-<ul>
-<li>default.html</li>
-<li>page.html</li>
-<li>post.html</li>
-</ul>
-<p>按照经验,default.html是最基础的布局文件,page.html和post都将集成于default.html<br>page.html一般是用来承载站点主页和about页面,按照这个主题,about.md,archive.html和catgory.html以及index.html都将使用此布局</p>
-<p>post.html一般用来承载博文</p>
-<p>了解了这个,我们再来依次查看这些文件</p>
-<h5 id="default-html"><a href="#default-html" class="headerlink" title="default.html"></a>default.html</h5><p><img src="/images/jekyll/jekyll-default-7.png" alt="default.html"></p>
-<p>可以看到,default.html这个文件包含有html5网页的声明:</p>
-<p><code>&lt;!DOCTYPE html&gt;</code></p>
-<p>所以,这个页面的作用就是给post.html和page.html这两个布局文件一个框架,这样一来,post.html和page.html将遵循default.html的布局格式</p>
-<p>,其所谓的遵循,就是将自身嵌套进入default.html页面中</p>
-<p>其嵌套的位置就是在default.html的</p>
-<p><code>{{content}}</code></p>
-<p>里,结合上面的表,<code>{{content}}</code>所代表的</p>
-<p>就是被嵌套进default.html页面的其他页面的内容</p>
-<h5 id="page-html"><a href="#page-html" class="headerlink" title="page.html"></a>page.html</h5><p><img src="/images/jekyll/jekyll-page-8.png" alt="page.html"></p>
-<p>page.html在代码的开头,定义了</p>
-<p><code>layout: default</code></p>
-<p>那么,整个page.html就将被赋值给default.html页面中的</p>
-<p><code>{{content}}</code>将被赋值给default.html</p>
-<p>以此来完成嵌套.</p>
-<p>这以上所说的都是我个人对jekyll的运作过程的琢磨,为验证这个嵌套这一点,我们可以查看已编译好的网页的源代码来证明:</p>
-<p>同样是此主题,在本地运行起来,首先,我们知道该站点的主页index.html是承载于default.html这个布局文件的,如下图:</p>
-<p><img src="/images/jekyll/jekyll-index-9.png" alt="index.html"></p>
-<p>既然index.html承载在default.html中,那么index.html的内容将被赋值给default.html中的</p>
-<p><code>{{content}}</code></p>
-<p>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.</p>
-<p>那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图:</p>
-<p><img src="/images/jekyll/jekyll-10.png" alt="test-index.html"></p>
-<p>很显然,这样的嵌套是对的</p>
-<p>所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息</p>
-<p>想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.</p>
-<p>甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
-<p>好了,大概先就这样了,剩下的时间交给你,请多多指教.</p>
-</code></p>
-<p>所以也就是说,网页在编译成_site文件夹中的一张index.html的完整网页后,上面图片中类名为’home’的div将出现在default.html中类名为’wrapper’的下面,或者说是里面.</p>
-<p>那么我们打开浏览器,打开本地博客的站点,查看首页index.html的源代码,查找后,如下图:</p>
-<p><img src="/images/jekyll/jekyll-10.png" alt="test-index.html"></p>
-<p>很显然,这样的嵌套是对的</p>
-<p>所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息</p>
-<p>想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.</p>
-<p>甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
+<p>很显然,这样的嵌套是对的。所以,总的来说,jekyll生成的博客就是利用不同的嵌套,以及组成网页,将其整合起来生成网页,根据头信息(官方文档称为YAML信息)来生成url信息。想想一开始我对jekyll丝毫不了解,不懂它是干什么的,不懂它是怎么运作的.不懂为什么这么多人使用它,而不是自己老老实实的写自己的代码,实现自己想要达到的目标.甚至比如那些框架,起初我是很反对接触那些框架的.不懂为什么作为一个常跟代码打交道的程序员,为什么要使用别人的代码,就不能自己做自己实现么,现在想想也很可笑.编程是一个会跟随时代的,现在的编程不同于过去的编程,以后的编程也必定不同于现在的编程.使用前人的代码来更便捷的实现自己的目的没有错,错就错在你不去学习使用别人的代码,学习别人的编码思路,一味的做自己代码而不吸收前辈的经验,是很难成长的,也必将被淘汰</p>
 <p>好了,大概先就这样了,剩下的时间交给你,请多多指教.</p>
 ]]></content>
       
@@ -7745,10 +7308,7 @@ if __name__ == &apos;__main__&apos;:
     <entry>
       <title><![CDATA[Java三元操作符]]></title>
       <url>/2016/12/28/java/2016-12-28-java-TernaryOperator/</url>
-      <content type="html"><![CDATA[<p>三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下:</p>
-<p><code>boolean-exp ? value1 : value2</code></p>
-<p>如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,</p>
-<p>如果boolean-exp的结果为false,值就计算为value2.<br>当然,如果需要达成这中需求这也可以用普通的if-else语句,但if-else语句相对于三元操作符来说,if-else显得相对复杂,三元操作符则更为简洁.</p>
+      <content type="html"><![CDATA[<p>三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下<br><code>boolean-exp ? value1 : value2</code><br>如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,如果boolean-exp的结果为false,值就计算为value2. 当然,如果需要达成这中需求这也可以用普通的if-else语句,但if-else语句相对于三元操作符来说,if-else显得相对复杂,三元操作符则更为简洁.</p>
 <a id="more"></a>
 <p>C语言中也有三元操作符,作为古老的编程语言,三元操作符就是C发明出来的,C引以为傲的就是它是一种简练的语言,而且三元操作符的引入多半就是为了体现这种高效的编程,但假如你打算频繁的使用它,那还得三思而后行,因为三元操作符使用多了很容易产生可读性极差的代码.</p>
 <p>如下代码:</p>
@@ -7788,8 +7348,7 @@ if __name__ == &apos;__main__&apos;:
 <p>900</p>
 <p>100</p>
 <p>900</p>
-<p>通过上面的代码,可以看出,使用了三元操作符的方法ternarMethod()显得更紧凑,<br>方法块更简练.</p>
-<p>而使用了普通if-else语句的方法standardMethod()则更容易理解,而且不需要太多的录入.所以在选择使用三元操作符时,需要仔细考虑</p>
+<p>通过上面的代码,可以看出,使用了三元操作符的方法ternarMethod()显得更紧凑,<br>方法块更简练<br>而使用了普通if-else语句的方法standardMethod()则更容易理解,而且不需要太多的录入.所以在选择使用三元操作符时,需要仔细考虑</p>
 ]]></content>
       
         <categories>

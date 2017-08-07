@@ -65,17 +65,17 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下: boolean-exp ? value1 : value2 如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1, 如果boolean-exp的结果为false,值就计算为value2.当然,如果需要达成这中需求这也可">
+<meta name="description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下boolean-exp ? value1 : value2如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,如果boolean-exp的结果为false,值就计算为value2. 当然,如果需要达成这中需求这也可以用普">
 <meta name="keywords" content="codeing,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java三元操作符">
 <meta property="og:url" content="http://www.cgspace.date/2016/12/28/java/2016-12-28-java-TernaryOperator/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下: boolean-exp ? value1 : value2 如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1, 如果boolean-exp的结果为false,值就计算为value2.当然,如果需要达成这中需求这也可">
-<meta property="og:updated_time" content="2017-04-30T15:20:42.000Z">
+<meta property="og:description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下boolean-exp ? value1 : value2如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,如果boolean-exp的结果为false,值就计算为value2. 当然,如果需要达成这中需求这也可以用普">
+<meta property="og:updated_time" content="2017-08-07T13:40:49.860Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java三元操作符">
-<meta name="twitter:description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下: boolean-exp ? value1 : value2 如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1, 如果boolean-exp的结果为false,值就计算为value2.当然,如果需要达成这中需求这也可">
+<meta name="twitter:description" content="三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下boolean-exp ? value1 : value2如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,如果boolean-exp的结果为false,值就计算为value2. 当然,如果需要达成这中需求这也可以用普">
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
@@ -98,6 +98,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -356,10 +358,7 @@
       
 
       
-        <p>三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下:</p>
-<p><code>boolean-exp ? value1 : value2</code></p>
-<p>如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,</p>
-<p>如果boolean-exp的结果为false,值就计算为value2.<br>当然,如果需要达成这中需求这也可以用普通的if-else语句,但if-else语句相对于三元操作符来说,if-else显得相对复杂,三元操作符则更为简洁.</p>
+        <p>三元操作符也称为条件操作符,它显得比较独特,因为它有三个操作数;但它确实属于操作符的一种,因为它最终也会生成一个值.其表达式采取的形式如下<br><code>boolean-exp ? value1 : value2</code><br>如果boolean-exp(布尔表达式)的结果为true,则表达式所产生的值就为value1,如果boolean-exp的结果为false,值就计算为value2. 当然,如果需要达成这中需求这也可以用普通的if-else语句,但if-else语句相对于三元操作符来说,if-else显得相对复杂,三元操作符则更为简洁.</p>
 <a id="more"></a>
 <p>C语言中也有三元操作符,作为古老的编程语言,三元操作符就是C发明出来的,C引以为傲的就是它是一种简练的语言,而且三元操作符的引入多半就是为了体现这种高效的编程,但假如你打算频繁的使用它,那还得三思而后行,因为三元操作符使用多了很容易产生可读性极差的代码.</p>
 <p>如下代码:</p>
@@ -399,8 +398,7 @@
 <p>900</p>
 <p>100</p>
 <p>900</p>
-<p>通过上面的代码,可以看出,使用了三元操作符的方法ternarMethod()显得更紧凑,<br>方法块更简练.</p>
-<p>而使用了普通if-else语句的方法standardMethod()则更容易理解,而且不需要太多的录入.所以在选择使用三元操作符时,需要仔细考虑</p>
+<p>通过上面的代码,可以看出,使用了三元操作符的方法ternarMethod()显得更紧凑,<br>方法块更简练<br>而使用了普通if-else语句的方法standardMethod()则更容易理解,而且不需要太多的录入.所以在选择使用三元操作符时,需要仔细考虑</p>
 
       
     </div>
@@ -542,6 +540,29 @@
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -588,7 +609,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -610,7 +631,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

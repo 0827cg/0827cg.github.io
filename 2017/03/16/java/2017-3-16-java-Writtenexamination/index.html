@@ -72,7 +72,7 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/03/16/java/2017-3-16-java-Writtenexamination/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="昨天邮件收到一份笔试题目,全英文.答题时间是一个小时,本来信心满满,但自己翻译弄懂题目就花了半个多小时,哎 英语是硬伤. ok,上题目:题目（共两题，考核基础代码能力而不是算法好坏）： Problem Statement # 1 Given a set of N (&amp;gt; 1) positive integers, you are supposed to partition them into">
-<meta property="og:updated_time" content="2017-05-02T16:13:48.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:42:47.573Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java笔试">
 <meta name="twitter:description" content="昨天邮件收到一份笔试题目,全英文.答题时间是一个小时,本来信心满满,但自己翻译弄懂题目就花了半个多小时,哎 英语是硬伤. ok,上题目:题目（共两题，考核基础代码能力而不是算法好坏）： Problem Statement # 1 Given a set of N (&amp;gt; 1) positive integers, you are supposed to partition them into">
@@ -98,6 +98,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -523,14 +525,13 @@ class Hint{
     }
 
 }
-</code></pre><h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题:"></a>第二题:</h3><h4 id="简述题意-1"><a href="#简述题意-1" class="headerlink" title="简述题意:"></a>简述题意:</h4><p>写一个小程序,实现输入一段字符串(包括数字和字符)后,按规则排序后输出</p>
-<p>其规则是:</p>
+</code></pre><h3 id="第二题"><a href="#第二题" class="headerlink" title="第二题:"></a>第二题:</h3><h4 id="简述题意-1"><a href="#简述题意-1" class="headerlink" title="简述题意:"></a>简述题意:</h4><p>写一个小程序,实现输入一段字符串(包括数字和字符)后,按规则排序后输出<br>其规则是</p>
 <ul>
 <li>数字与数字之间排序,单个字符串和字符串之间排序,</li>
 <li>原本放数字的位置就放数字,原本放字符串的位置还是放字符串.</li>
 <li>数字按大小排序,字符串依据首字母按26个字母表排序</li>
 </ul>
-<h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路:"></a>解题思路:</h4><p>首先用一个集合存放整个字符串,实现单个字符串里的字符不分离.再将该集合中的单个字符串元素和数字元素分离,并获取在原集合存放的排列位置(下标 + 1)分别存放到两个二维集合中(类似键值对的方式),再操作这两个集合,实现排序<br>然后将排序后的两个二维集合整合,再排序,此时的排序则是按照存放集合中的原集合存放的排列位置排序,并输出,就可以了</p>
+<h4 id="解题思路-1"><a href="#解题思路-1" class="headerlink" title="解题思路:"></a>解题思路:</h4><p>首先用一个集合存放整个字符串,实现单个字符串里的字符不分离.再将该集合中的单个字符串元素和数字元素分离,并获取在原集合存放的排列位置(下标 + 1)分别存放到两个二维集合中(类似键值对的方式),再操作这两个集合,实现排序,然后将排序后的两个二维集合整合,再排序,此时的排序则是按照存放集合中的原集合存放的排列位置排序,并输出,就可以了</p>
 <h4 id="答案代码-1"><a href="#答案代码-1" class="headerlink" title="答案代码:"></a>答案代码:</h4><pre><code>package com.cgtest.demo2;
 
 import java.util.ArrayList;
@@ -738,13 +739,7 @@ class Hint{
     }
 
 }
-</code></pre><p>在这里,提醒下自己,以后写完代码一定要测试完全!!</p>
-<p>多测试没错</p>
-<p>而我,就是没测试完全,就将我的代码发给了hr,不仅没按规定时间完成,还发了个错误的代码,,,,,,能过才怪</p>
-<p>而我的出错的地方就是没实现对负数的处理,要是输入的字符串中包含负数,</p>
-<p><code>isNum(String str)</code></p>
-<p>就不能识别负数,会将负数判定为字符串,,,,,</p>
-<p>原先的</p>
+</code></pre><p>在这里,提醒下自己,以后写完代码一定要测试完全!!多测试没错,而我,就是没测试完全,就将我的代码发给了hr,不仅没按规定时间完成,还发了个错误的代码,,,,,,能过才<br>而我的出错的地方就是没实现对负数的处理,要是输入的字符串中包含负数,<br><code>isNum(String str)</code><br>就不能识别负数,会将负数判定为字符串,,,,,<br>原先的</p>
 <p><code>isNum(String str)</code></p>
 <p>的代码如下:</p>
 <pre><code>public boolean isNum(String str){
@@ -758,9 +753,7 @@ class Hint{
   }  
  return true;  
 }
-</code></pre><p>我的答案代码太过臃肿,我也完全没想到笔试题是关于算法的</p>
-<p>我应聘的是java实习生啊,又不是C/C++语言,不过想想hr肯定是有他的目的的</p>
-<p>代码太臃肿,还得多学习</p>
+</code></pre><p>我的答案代码太过臃肿,我也完全没想到笔试题是关于算法的,我应聘的是java实习生啊,又不是C/C++语言,不过想想hr肯定是有他的目的的<br>代码太臃肿,还得多学习</p>
 
       
     </div>
@@ -904,6 +897,29 @@ class Hint{
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -959,7 +975,7 @@ class Hint{
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -981,7 +997,7 @@ class Hint{
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

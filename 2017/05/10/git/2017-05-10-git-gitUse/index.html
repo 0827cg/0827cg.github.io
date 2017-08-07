@@ -65,18 +65,18 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题 于是就打算今天拿出一天时间来弄这个问题 截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作">
+<meta name="description" content="今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作">
 <meta name="keywords" content="git,codeing">
 <meta property="og:type" content="article">
 <meta property="og:title" content="git使用">
 <meta property="og:url" content="http://www.cgspace.date/2017/05/10/git/2017-05-10-git-gitUse/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题 于是就打算今天拿出一天时间来弄这个问题 截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作">
+<meta property="og:description" content="今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作">
 <meta property="og:image" content="http://www.cgspace.date/images/git/git-gitUse.png">
-<meta property="og:updated_time" content="2017-05-10T17:31:54.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:32:27.471Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git使用">
-<meta name="twitter:description" content="今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题 于是就打算今天拿出一天时间来弄这个问题 截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作">
+<meta name="twitter:description" content="今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作">
 <meta name="twitter:image" content="http://www.cgspace.date/images/git/git-gitUse.png">
 
 <script type="text/javascript" id="hexo.configurations">
@@ -100,6 +100,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -358,15 +360,11 @@
       
 
       
-        <p>今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题</p>
-<p>于是就打算今天拿出一天时间来弄这个问题</p>
-<p>截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作</p>
+        <p>今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作</p>
 <a id="more"></a>
 <p>折腾这么久,想想还是写在这里总结一下</p>
-<h3 id="操作概述"><a href="#操作概述" class="headerlink" title="操作概述"></a>操作概述</h3><h4 id="git连接gitosc"><a href="#git连接gitosc" class="headerlink" title="git连接gitosc"></a>git连接gitosc</h4><p>如果在本地已建立仓库,且本地也与gitosc建立ssh安全连接</p>
-<p><code>git remote add origin https://git.oschina.net/用户名/仓库名.git</code></p>
-<p>注意:本地仓库名和远程建立的仓库名要一样</p>
-<h4 id="第一步正常后"><a href="#第一步正常后" class="headerlink" title="第一步正常后"></a>第一步正常后</h4><p>输入<code>git pull origin master</code>,可提交并同步<br>git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并<br>注意:最后可以再输入<code>git push origin master</code>提交,这在github上可以一并完成</p>
+<h3 id="操作概述"><a href="#操作概述" class="headerlink" title="操作概述"></a>操作概述</h3><h4 id="git连接gitosc"><a href="#git连接gitosc" class="headerlink" title="git连接gitosc"></a>git连接gitosc</h4><p>如果在本地已建立仓库,且本地也与gitosc建立ssh安全连接<br><code>git remote add origin https://git.oschina.net/用户名/仓库名.git</code><br>注意:本地仓库名和远程建立的仓库名要一样</p>
+<h4 id="第一步正常后"><a href="#第一步正常后" class="headerlink" title="第一步正常后"></a>第一步正常后</h4><p>输入<code>git pull origin master</code>,可提交并同步.git pull命令的作用是，取回远程主机某个分支的更新，再与本地的指定分支合并<br>注意:最后可以再输入<br><code>git push origin master</code><br>提交,这在github上可以一并完成</p>
 <h4 id="本地更新后-同样"><a href="#本地更新后-同样" class="headerlink" title="本地更新后,同样"></a>本地更新后,同样</h4><p>命令:</p>
 <ul>
 <li>1.<code>git status</code>检查工作区是否有内容未被提交</li>
@@ -381,17 +379,15 @@
 <li>3.<code>git merge xxxx</code>合并xxxx分支到当前分支</li>
 <li>4.<code>git branch -d xxxx</code>删除xxxx分支</li>
 </ul>
-<p>注意:<br>第3步合并分支时,git一般使用”Fast forward”模式.<br>在这种模式下,删除分支后,也会丢掉分支信息<br>所以未避免丢掉分支信息,就可以添加参数来禁用”Fast forward”模式<br>例如:<br><code>git merge -no-ff -m &quot;注释&quot; xxxx</code></p>
-<p>如果使用xxxx分支提交到远程仓库,那么,提交完成之后,远程仓库同样会有两条分支选择,一条master,一条xxxx<br>那么,在还没合并前,master主分支上是看不到xxxx分支提交的内容的,这是合乎情理的</p>
-<h4 id="分支冲突描述"><a href="#分支冲突描述" class="headerlink" title="分支冲突描述:"></a>分支冲突描述:</h4><p>例如有两条分支,一条master主分支,一条xxxx分支,当前个分支上的内容都一样<br>此时,在master主分支上添加内容a后提交到远程仓库,xxxx分支上添加内容b后提交到远程仓库<br>当前都未合并,所以说双方都看不到各自提交的内容</p>
-<h4 id="主分支和次分支的提交过程"><a href="#主分支和次分支的提交过程" class="headerlink" title="主分支和次分支的提交过程:"></a>主分支和次分支的提交过程:</h4><p>(主分支与次分支在同一本地仓库)当次分支更新了内容a到暂存区后,切换到主分支后依然可以查看次分支更新的内容a,但当次分支更新了内容a到暂存区后,又将内容a提交到远程仓库中,此时主分支就不能status到是否有内容未被提交,<br>也就不能查看到内容a了<br>那在此前提下继续操作<br>在主分支下,更新内容b到暂存区并提交到远程仓库,那么<br>在远程仓库中,主分支和次分支所现实的内容是不一样的,本地也是如此</p>
+<p>注意:<br>第3步合并分支时,git一般使用”Fast forward”模式.在这种模式下,删除分支后,也会丢掉分支信息<br>所以未避免丢掉分支信息,就可以添加参数来禁用”Fast forward”模式<br>例如<br><code>git merge -no-ff -m &quot;注释&quot; xxxx</code><br>如果使用xxxx分支提交到远程仓库,那么,提交完成之后,远程仓库同样会有两条分支选择,一条master,一条xxxx<br>那么,在还没合并前,master主分支上是看不到xxxx分支提交的内容的,这是合乎情理的</p>
+<h4 id="分支冲突描述"><a href="#分支冲突描述" class="headerlink" title="分支冲突描述"></a>分支冲突描述</h4><p>例如有两条分支,一条master主分支,一条xxxx分支,当前个分支上的内容都一样<br>此时,在master主分支上添加内容a后提交到远程仓库,xxxx分支上添加内容b后提交到远程仓库<br>当前都未合并,所以说双方都看不到各自提交的内容</p>
+<h4 id="主分支和次分支的提交过程"><a href="#主分支和次分支的提交过程" class="headerlink" title="主分支和次分支的提交过程"></a>主分支和次分支的提交过程</h4><p>(主分支与次分支在同一本地仓库)当次分支更新了内容a到暂存区后,切换到主分支后依然可以查看次分支更新的内容a,但当次分支更新了内容a到暂存区后,又将内容a提交到远程仓库中,此时主分支就不能status到是否有内容未被提交,<br>也就不能查看到内容a了<br>那在此前提下继续操作<br>在主分支下,更新内容b到暂存区并提交到远程仓库,那么<br>在远程仓库中,主分支和次分支所现实的内容是不一样的,本地也是如此</p>
 <h4 id="解决冲突的方法"><a href="#解决冲突的方法" class="headerlink" title="解决冲突的方法"></a>解决冲突的方法</h4><ul>
 <li>1.<code>git reset --merge</code>:将主分支回退到merge前(首先一般都是在主分支合并次分支的)</li>
 <li>2.更改需要保留的内容,使两个分支更新的内容一致,如果需要保留分支上的内容,那么则切换到主分支上,更改内容使其与分支上的内容一致</li>
 <li>3.使内容一致后在将更改的分支提交到远程仓库</li>
 </ul>
-<p>另外说下,<br>1.本地创建分支后,是用新分支提交内容到远程仓库会同步创建分支,而本地删除分支后,status检查不到更改.打算提交更改内容,以此来尝试远程删除分支,依然没用<br>但远程仓库里提供了删除分支<br>所以,git新建分支时用分支push内容到远程仓库可以同步新建分支,git删除分支时就不会同步删除分支.可以手动在远程仓库进行删除操作<br>2.在分支合并的时候如果出现一些问题,导致下一步进行不下去,可以输入命令将其回退到合并前</p>
-<p>一些其他的命令:</p>
+<p>另外说下,<br>1.本地创建分支后,是用新分支提交内容到远程仓库会同步创建分支,而本地删除分支后,status检查不到更改.打算提交更改内容,以此来尝试远程删除分支,依然没用<br>但远程仓库里提供了删除分支<br>所以,git新建分支时用分支push内容到远程仓库可以同步新建分支,git删除分支时就不会同步删除分支.可以手动在远程仓库进行删除操作<br>2.在分支合并的时候如果出现一些问题,导致下一步进行不下去,可以输入命令将其回退到合并前<br>一些其他的命令:</p>
 <ul>
 <li>git branch:列出所有分支,输出的前面有*号表示是当前分支</li>
 <li>git log:查看所有日志</li>
@@ -1311,6 +1307,29 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -1366,7 +1385,7 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1388,7 +1407,7 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1443,7 +1462,7 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作概述"><span class="nav-number">1.</span> <span class="nav-text">操作概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git连接gitosc"><span class="nav-number">1.1.</span> <span class="nav-text">git连接gitosc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步正常后"><span class="nav-number">1.2.</span> <span class="nav-text">第一步正常后</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地更新后-同样"><span class="nav-number">1.3.</span> <span class="nav-text">本地更新后,同样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建合并分支"><span class="nav-number">1.4.</span> <span class="nav-text">创建合并分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支冲突描述"><span class="nav-number">1.5.</span> <span class="nav-text">分支冲突描述:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主分支和次分支的提交过程"><span class="nav-number">1.6.</span> <span class="nav-text">主分支和次分支的提交过程:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决冲突的方法"><span class="nav-number">1.7.</span> <span class="nav-text">解决冲突的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作实例"><span class="nav-number">2.</span> <span class="nav-text">操作实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git连接gitosc-1"><span class="nav-number">2.1.</span> <span class="nav-text">git连接gitosc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交更新"><span class="nav-number">2.2.</span> <span class="nav-text">提交更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建合并分支-1"><span class="nav-number">2.3.</span> <span class="nav-text">创建合并分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冲突情况一"><span class="nav-number">2.4.</span> <span class="nav-text">冲突情况一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支冲突合并"><span class="nav-number">2.5.</span> <span class="nav-text">分支冲突合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支合并解决方法"><span class="nav-number">2.6.</span> <span class="nav-text">分支合并解决方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作概述"><span class="nav-number">1.</span> <span class="nav-text">操作概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git连接gitosc"><span class="nav-number">1.1.</span> <span class="nav-text">git连接gitosc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步正常后"><span class="nav-number">1.2.</span> <span class="nav-text">第一步正常后</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#本地更新后-同样"><span class="nav-number">1.3.</span> <span class="nav-text">本地更新后,同样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建合并分支"><span class="nav-number">1.4.</span> <span class="nav-text">创建合并分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支冲突描述"><span class="nav-number">1.5.</span> <span class="nav-text">分支冲突描述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#主分支和次分支的提交过程"><span class="nav-number">1.6.</span> <span class="nav-text">主分支和次分支的提交过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#解决冲突的方法"><span class="nav-number">1.7.</span> <span class="nav-text">解决冲突的方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作实例"><span class="nav-number">2.</span> <span class="nav-text">操作实例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git连接gitosc-1"><span class="nav-number">2.1.</span> <span class="nav-text">git连接gitosc</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交更新"><span class="nav-number">2.2.</span> <span class="nav-text">提交更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建合并分支-1"><span class="nav-number">2.3.</span> <span class="nav-text">创建合并分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#冲突情况一"><span class="nav-number">2.4.</span> <span class="nav-text">冲突情况一</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支冲突合并"><span class="nav-number">2.5.</span> <span class="nav-text">分支冲突合并</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分支合并解决方法"><span class="nav-number">2.6.</span> <span class="nav-text">分支合并解决方法</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -65,18 +65,18 @@
   <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
 
 
-<meta name="description" content="Java打印菱形和空心菱形，如图：  首先理一下思路， 先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
+<meta name="description" content="Java打印菱形和空心菱形，如图：  首先理一下思路，先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
 <meta name="keywords" content="codeing,java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java打印菱形  ">
 <meta property="og:url" content="http://www.cgspace.date/2017/01/19/java/2017-1-19-java-DiamonDemo/index.html">
 <meta property="og:site_name" content="cgspace">
-<meta property="og:description" content="Java打印菱形和空心菱形，如图：  首先理一下思路， 先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
+<meta property="og:description" content="Java打印菱形和空心菱形，如图：  首先理一下思路，先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
 <meta property="og:image" content="http://www.cgspace.date/images/java/java-diamonDemo.png">
-<meta property="og:updated_time" content="2017-04-30T15:41:40.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:41:17.169Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java打印菱形  ">
-<meta name="twitter:description" content="Java打印菱形和空心菱形，如图：  首先理一下思路， 先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
+<meta name="twitter:description" content="Java打印菱形和空心菱形，如图：  首先理一下思路，先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，那么也就是我们可以分开来打印。">
 <meta name="twitter:image" content="http://www.cgspace.date/images/java/java-diamonDemo.png">
 
 <script type="text/javascript" id="hexo.configurations">
@@ -100,6 +100,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -360,11 +362,9 @@
       
         <p>Java打印菱形和空心菱形，如图：</p>
 <p><img src="/images/java/java-diamonDemo.png" alt="java-diamon"></p>
-<p>首先理一下思路，</p>
-<p>先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，<br>那么也就是我们可以分开来打印。</p>
+<p>首先理一下思路，先看打印实心菱形，菱形可以看成是两个大小小正三角形，已中间的对角线为分割线来看，实例来说加入一个菱形总共有7行，那么可以看成是上部分是4行的正三角形，下部分是3行的正三角形，<br>那么也就是我们可以分开来打印。</p>
 <a id="more"></a>
-<p>先打印上部分，第一行3个空格，1个*号，第二行2个空格，3个*号，第三行1个空格，5个*号，，先打印第一行，利用for循环打印，先打印空格，再打印*号</p>
-<p>ok,再找规律</p>
+<p>先打印上部分，第一行3个空格，1个*号，第二行2个空格，3个*号，第三行1个空格，5个*号，，先打印第一行，利用for循环打印，先打印空格，再打印*号<br>ok,再找规律</p>
 <table>
 <thead>
 <tr>
@@ -401,8 +401,7 @@
 </tr>
 </tbody>
 </table>
-<p>下部分则和上部分反过来看,道理是一样的</p>
-<p>空心菱形则是则需要添加些if的判断语句，当在打印*号时，当此时位置属于边界时，打印*号，否则打印空格<br>代码如下:</p>
+<p>下部分则和上部分反过来看,道理是一样的<br>空心菱形则是则需要添加些if的判断语句，当在打印*号时，当此时位置属于边界时，打印*号，否则打印空格<br>代码如下:</p>
 <pre><code>package com.cgtext.diamon;
 
 import java.util.Scanner;
@@ -643,6 +642,29 @@ class DrawShape{
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -689,7 +711,7 @@ class DrawShape{
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -711,7 +733,7 @@ class DrawShape{
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

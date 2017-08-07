@@ -72,7 +72,7 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/05/09/java/2017-05-09-java-Decompile-Tool/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="今天在读公司之前开发的一个项目的代码,对其中的一段代码挺感兴趣,就尝试着自己敲,下载需要导入的jar包.自己单独运行看看效果.不过其中一段小插曲,就是下载的包导入项目中后一直提示不出来,就是代码import不到,于是就想着去看看jar包里的代码是什么样的,心里怀疑这难不成是包里的类名换了,,,,?于是就想到了我之前弄的android反编译.时隔太久,担心忘了,就总结在此">
-<meta property="og:updated_time" content="2017-05-09T13:43:46.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:40:15.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java-android反编译">
 <meta name="twitter:description" content="今天在读公司之前开发的一个项目的代码,对其中的一段代码挺感兴趣,就尝试着自己敲,下载需要导入的jar包.自己单独运行看看效果.不过其中一段小插曲,就是下载的包导入项目中后一直提示不出来,就是代码import不到,于是就想着去看看jar包里的代码是什么样的,心里怀疑这难不成是包里的类名换了,,,,?于是就想到了我之前弄的android反编译.时隔太久,担心忘了,就总结在此">
@@ -98,6 +98,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -366,22 +368,9 @@
 </ul>
 <h4 id="apktool-2-2-1"><a href="#apktool-2-2-1" class="headerlink" title="apktool_2.2.1"></a>apktool_2.2.1</h4><p>下载解压后文件夹下原只包含两个文件</p>
 <p>apktool和apktool.jar<br>apktool为脚本,为运行apktool.jar</p>
-<p>作用: 获取apk安装包里的资源文件和xml布局文件</p>
-<p>使用方法: 运行命令<br><code>sudo ./apktool</code><br>可显示使用方法参数</p>
-<p>反编译方法: 命令<br><code>sudo ./apktool d xxx.apk</code><br>来反编译xxx.apk文件,以此来获得apk文件的xml布局文件和资源文件</p>
-<p>详细参数使用:<br><code>sudo ./apktool --help</code></p>
-<h4 id="dex2jar-2-0"><a href="#dex2jar-2-0" class="headerlink" title="dex2jar-2.0"></a>dex2jar-2.0</h4><p>作用:这个工具用于将项目里的dex文件转换成jar文件 </p>
-<p>示例</p>
-<p>这里测试反编译apk安装包</p>
-<p>此前测试<br>过程:<br>apk包名:baidutieba_v7.9.2.apk,将此安装包重命名为后缀为.zip(或其他)的压缩文件,之后解压,</p>
-<p>即得到baidutieba_v7.9.2文件夹及内容,其中就有 classes.dex文件</p>
-<p>将文件夹baidutieba_v7.9.2内的classes.dex文件复制到dex2jar-2.0文件夹中</p>
-<p>在dex2jar-2.0文件夹内运行命令</p>
-<p><code>sudo ./d2j-dex2jar.sh classes.dex</code></p>
-<p>后,即可在dex2jar-2.0中得到classes-dex2jar.jar文件</p>
-<p>如若运行不了,则为脚本添加权限<br>剩余的任务交给jd-gui来查看即可</p>
-<h4 id="jd-gui-0-3-5"><a href="#jd-gui-0-3-5" class="headerlink" title="jd-gui-0.3.5"></a>jd-gui-0.3.5</h4><p>作用: 用来查看.jar文件的源代码</p>
-<p>双击运行即可</p>
+<p>作用: 获取apk安装包里的资源文件和xml布局文件<br>使用方法: 运行命令<br><code>sudo ./apktool</code><br>可显示使用方法参数<br>反编译方法: 命令<br><code>sudo ./apktool d xxx.apk</code><br>来反编译xxx.apk文件,以此来获得apk文件的xml布局文件和资源文件<br>详细参数使用:<br><code>sudo ./apktool --help</code></p>
+<h4 id="dex2jar-2-0"><a href="#dex2jar-2-0" class="headerlink" title="dex2jar-2.0"></a>dex2jar-2.0</h4><p>作用:这个工具用于将项目里的dex文件转换成jar文件<br>示例<br>这里测试反编译apk安装包<br>此前测试<br>过程:<br>apk包名:baidutieba_v7.9.2.apk,将此安装包重命名为后缀为<code>.zip</code>(或其他)的压缩文件,之后解压,即得到baidutieba_v7.9.2文件夹及内容,其中就有 classes.dex文件<br>将文件夹baidutieba_v7.9.2内的classes.dex文件复制到dex2jar-2.0文件夹中在dex2jar-2.0文件夹内运行命令<br><code>sudo ./d2j-dex2jar.sh classes.dex</code><br>后,即可在dex2jar-2.0中得到classes-dex2jar.jar文件<br>如若运行不了,则为脚本添加权限<br>剩余的任务交给jd-gui来查看即可</p>
+<h4 id="jd-gui-0-3-5"><a href="#jd-gui-0-3-5" class="headerlink" title="jd-gui-0.3.5"></a>jd-gui-0.3.5</h4><p>作用: 用来查看.jar文件的源代码<br>双击运行即可</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
 <li>apktool_2.2.1用来获取.apk文件的资源文件</li>
 <li>dex2jar-2.0和jd-gui-0.3.5两个工具结合起来用来获取apk安装包的源代码</li>
@@ -533,6 +522,29 @@
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -588,7 +600,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -610,7 +622,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

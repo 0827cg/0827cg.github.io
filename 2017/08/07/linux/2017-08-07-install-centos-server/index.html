@@ -1,0 +1,1648 @@
+<!doctype html>
+
+
+  
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="theme-color" content="#2e2e2e"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux,centos,redis,tomcat," />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+<meta name="description" content="7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录 安装Centos7系统原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题">
+<meta name="keywords" content="linux,centos,redis,tomcat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建centos服务器">
+<meta property="og:url" content="http://www.cgspace.date/2017/08/07/linux/2017-08-07-install-centos-server/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录 安装Centos7系统原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题">
+<meta property="og:updated_time" content="2017-08-07T13:56:18.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建centos服务器">
+<meta name="twitter:description" content="7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录 安装Centos7系统原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题">
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/08/07/linux/2017-08-07-install-centos-server/"/>
+
+
+
+
+
+  <title>搭建centos服务器 | cgspace</title>
+</head>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">精致地生活</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+ </div>
+    </header>
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <div id="posts" class="posts-expand">
+    
+  
+  
+  
+  
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/08/07/linux/2017-08-07-install-centos-server/">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+    
+      <header class="post-header">
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                搭建centos服务器
+              
+            
+          </h1>
+        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-07T20:46:22+08:00">
+                2017-08-07
+              </time>
+            
+            
+            
+          </span>
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+                
+                
+              
+            </span>
+          
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/08/07/linux/2017-08-07-install-centos-server/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录</p>
+<h3 id="安装Centos7系统"><a href="#安装Centos7系统" class="headerlink" title="安装Centos7系统"></a>安装Centos7系统</h3><p>原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题及是否需要图形化界面，当然也需要创建账户名和密码及root密码，这里我使用了图形化界面，安装了gnome桌面环境，要安装图形化界面在安装过程中取消最小安装，选择自己所需要的即可。</p>
+<a id="more"></a>
+<p>按需求，在安装完系统后需要将主机ip设为静态ip，将ip固定。</p>
+<h4 id="设置静态ip"><a href="#设置静态ip" class="headerlink" title="设置静态ip"></a>设置静态ip</h4><p>可以使用命令ifconfig查看ip信息，但现在需要进行更改，就需要修改网卡的配置文件，该配置文件存放在/etc/sysconfig/network-scripts目录下，其名字为”ifcfg-“加上网卡名，首先先来到network-scripts目录下，如下输出</p>
+<pre><code>[xm6f@localhost ~]$ cd /etc/sysconfig/network-scripts/
+[xm6f@localhost network-scripts]$ ls
+ifcfg-enp2s0  ifdown-ppp       ifup-ib      ifup-Team
+ifcfg-lo      ifdown-routes    ifup-ippp    ifup-TeamPort
+ifdown        ifdown-sit       ifup-ipv6    ifup-tunnel
+ifdown-bnep   ifdown-Team      ifup-isdn    ifup-wireless
+ifdown-eth    ifdown-TeamPort  ifup-plip    init.ipv6-global
+ifdown-ib     ifdown-tunnel    ifup-plusb   network-functions
+ifdown-ippp   ifup             ifup-post    network-functions-ipv6
+ifdown-ipv6   ifup-aliases     ifup-ppp
+ifdown-isdn   ifup-bnep        ifup-routes
+ifdown-post   ifup-eth         ifup-sit
+[xm6f@localhost network-scripts]$ sudo gedit ifcfg-enp2s0
+...
+</code></pre><p>其中上面的ifcfg-enp2s0就是本centos7服务器主机的网卡配置文件，我们需要修改的就是这个配置文件，起初这个配置文件的内容如下</p>
+<pre><code>TYPE=Ethernet
+BOOTPROTO=dhcp
+DEFROUTE=yes
+PEERDNS=yes
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+IPV6_ADDR_GEN_MODE=stable-privacy
+NAME=enp2s0
+UUID=e65481a0-7c13-426d-99cb-b8b281294cb8
+DEVICE=enp2s0
+ONBOOT=no
+</code></pre><p>这里我们需要将其更改，首先修改如下两项</p>
+<pre><code>BOOTPROTO=static
+ONBOOT=yes
+</code></pre><p>之后，再在末尾添加下面几项</p>
+<pre><code>IPADDR=192.168.1.149    #最后要的ip地址
+GATEWAY=192.168.1.1    #网关
+DNS1=192.168.1.1
+</code></pre><p>之后运行命令<br><code>sudo systemctl restart network.service</code><br>或<br><code>sudo service network restart</code><br>重启网卡服务,之后查看ip信息则用命令<br><code>ip add</code><br>用此命令来查看ip信息，ip更改过来并且能上网，才算成功，之后就是为这台centos7服务器主机搭建环境安装tomcat等</p>
+<h3 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h3><p>在安装Tomcat之前，因为Tomcat是需要java环境，所以先要安装为centos服务器安装jdk。然而需要在自己电脑上操作服务器，公司给我配置的电脑是windows笔记本，那么就需要在电脑上安装xshell这个软件，用它来连接操作centos服务器，下载安装xshell后，打开xshell，利用ip和账户名和密码连接到centos7这台电脑，并了解centos7这台电脑上是否安装lrzsz这个文件传输工具，无则命令安装<br><code>sudo yum install -y lrzsz</code><br>之后再输入命令’rz’用来上传文件，这里需要注意到，上传之前可能需要切换到/tmp文件夹下来进行上传，貌似是权限的问题<br>上传完成之后，使用tar命令来解压文件，如命令<br><code>sudo tar -zvxf jdk-8u144-linux-x64.tar.gz</code><br>通常解压到/usr/local目录…解压完后直接在安装目录尝试启动tomcat看看，因为这里需要配置多个tomcat，那么就不能为单一的tomcat配置环境变量，这样会导致在哪都只能启动配置了环境变量的tomcat，而不能启动其他的tomcat。所以现在便捷的方式是不为任何一个tomcat配置环境变量，那么这样的话，启动tomcat需要到相应的tomcat文件目录中的bin目录下运行命令<code>./catalina.sh start</code> 或<code>./startup.sh</code>来启动，关闭则为<code>./catalina.sh stop</code>或<code>./shutdown.sh</code></p>
+<h4 id="启动tomcat并开放8080端口"><a href="#启动tomcat并开放8080端口" class="headerlink" title="启动tomcat并开放8080端口"></a>启动tomcat并开放8080端口</h4><p>有可能cd不能进入tomcat里的/bin文件夹，会提示权限不够，或者在启动Tomcat的时候提示权限不够，可以先用命令<br><code>ls -l</code><br>来查看下文件或文件夹的运行权限和所属用户组，如果运行权限不足则增加相应的权限，或者更改文件的拥有者，例如命令<br><code>sudo chown -R xm6f bin</code><br>即将bin目录文件的拥有者更改成xm6f普通用户，这样就可以进入bin目录了，进入bin目录后，就可以运行命令来启动tomcat了<br>命令<br><code>./catalina.sh start</code>或者<code>./startup.sh</code><br>因为使用的是8080端口，大于1024端口，而且文件所有者已经更改成了xm6f普通用户，所以不需要使用root来进行启动，启动之后再centos服务器电脑上就使用<a href="http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了" target="_blank" rel="external">http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了</a><br>其开启对外开发8080端口命令如下<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>运行上面这条命令后，如果运行正常返回success那么再运行下面这条命令<br><code>sudo firewall-cmd --reload</code><br>若同样正常返回success那么就成功的对外开发了8080端口，另外提一点，因为现在操作的是centos7系统，centos7是使用firewall，在centos7之前的系统都是使用iptables，所以如果是centos7之前的系统，那么上面这两天命令就不能使用了，而需要操作iptables了。</p>
+<h4 id="配置三台tomcat"><a href="#配置三台tomcat" class="headerlink" title="配置三台tomcat"></a>配置三台tomcat</h4><p>而需要配置三台tomcat，那就需要有三个tomcat安装文件，如下</p>
+<pre><code>[xm6f@localhost tomcat]$ ls
+apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
+</code></pre><p>依照上面的输出顺序，我配置的端口依次是8080,8081,8082,具体的配置中，apache-tomcat-7.0.79配置文件可以不变，只需要更改后面两个tomcat的配置文件，避免同时启动三台tomcat时出现端口占用的情况。其tomcat配置文件即安装目录的/conf/server.xml，其原始内容为</p>
+<pre><code>&lt;?xml version=&apos;1.0&apos; encoding=&apos;utf-8&apos;?&gt;
+&lt;!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the &quot;License&quot;); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+--&gt;
+&lt;!-- Note:  A &quot;Server&quot; is not itself a &quot;Container&quot;, so you may not
+     define subcomponents such as &quot;Valves&quot; at this level.
+     Documentation at /docs/config/server.html
+ --&gt;
+&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+  &lt;Listener className=&quot;org.apache.catalina.startup.VersionLoggerListener&quot; /&gt;
+  &lt;!-- Security listener. Documentation at /docs/config/listeners.html
+  &lt;Listener className=&quot;org.apache.catalina.security.SecurityListener&quot; /&gt;
+  --&gt;
+  &lt;!--APR library loader. Documentation at /docs/apr.html --&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.AprLifecycleListener&quot; SSLEngine=&quot;on&quot; /&gt;
+  &lt;!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html --&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.JasperListener&quot; /&gt;
+  &lt;!-- Prevent memory leaks due to use of particular java/javax APIs--&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.JreMemoryLeakPreventionListener&quot; /&gt;
+  &lt;Listener className=&quot;org.apache.catalina.mbeans.GlobalResourcesLifecycleListener&quot; /&gt;
+  &lt;Listener className=&quot;org.apache.catalina.core.ThreadLocalLeakPreventionListener&quot; /&gt;
+
+  &lt;!-- Global JNDI resources
+       Documentation at /docs/jndi-resources-howto.html
+  --&gt;
+  &lt;GlobalNamingResources&gt;
+    &lt;!-- Editable user database that can also be used by
+         UserDatabaseRealm to authenticate users
+    --&gt;
+    &lt;Resource name=&quot;UserDatabase&quot; auth=&quot;Container&quot;
+              type=&quot;org.apache.catalina.UserDatabase&quot;
+              description=&quot;User database that can be updated and saved&quot;
+              factory=&quot;org.apache.catalina.users.MemoryUserDatabaseFactory&quot;
+              pathname=&quot;conf/tomcat-users.xml&quot; /&gt;
+  &lt;/GlobalNamingResources&gt;
+
+  &lt;!-- A &quot;Service&quot; is a collection of one or more &quot;Connectors&quot; that share
+       a single &quot;Container&quot; Note:  A &quot;Service&quot; is not itself a &quot;Container&quot;,
+       so you may not define subcomponents such as &quot;Valves&quot; at this level.
+       Documentation at /docs/config/service.html
+   --&gt;
+  &lt;Service name=&quot;Catalina&quot;&gt;
+
+    &lt;!--The connectors can use a shared executor, you can define one or more named thread pools--&gt;
+    &lt;!--
+    &lt;Executor name=&quot;tomcatThreadPool&quot; namePrefix=&quot;catalina-exec-&quot;
+        maxThreads=&quot;150&quot; minSpareThreads=&quot;4&quot;/&gt;
+    --&gt;
+
+
+    &lt;!-- A &quot;Connector&quot; represents an endpoint by which requests are received
+         and responses are returned. Documentation at :
+         Java HTTP Connector: /docs/config/http.html (blocking &amp; non-blocking)
+         Java AJP  Connector: /docs/config/ajp.html
+         APR (HTTP/AJP) Connector: /docs/apr.html
+         Define a non-SSL HTTP/1.1 Connector on port 8080
+    --&gt;
+    &lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+    &lt;!-- A &quot;Connector&quot; using the shared thread pool--&gt;
+    &lt;!--
+    &lt;Connector executor=&quot;tomcatThreadPool&quot;
+               port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+               connectionTimeout=&quot;20000&quot;
+               redirectPort=&quot;8443&quot; /&gt;
+    --&gt;
+    &lt;!-- Define a SSL HTTP/1.1 Connector on port 8443
+         This connector uses the BIO implementation that requires the JSSE
+         style configuration. When using the APR/native implementation, the
+         OpenSSL style configuration is required as described in the APR/native
+         documentation --&gt;
+    &lt;!--
+    &lt;Connector port=&quot;8443&quot; protocol=&quot;org.apache.coyote.http11.Http11Protocol&quot;
+               maxThreads=&quot;150&quot; SSLEnabled=&quot;true&quot; scheme=&quot;https&quot; secure=&quot;true&quot;
+               clientAuth=&quot;false&quot; sslProtocol=&quot;TLS&quot; /&gt;
+    --&gt;
+
+    &lt;!-- Define an AJP 1.3 Connector on port 8009 --&gt;
+    &lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
+
+
+    &lt;!-- An Engine represents the entry point (within Catalina) that processes
+         every request.  The Engine implementation for Tomcat stand alone
+         analyzes the HTTP headers included with the request, and passes them
+         on to the appropriate Host (virtual host).
+         Documentation at /docs/config/engine.html --&gt;
+
+    &lt;!-- You should set jvmRoute to support load-balancing via AJP ie :
+    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot; jvmRoute=&quot;jvm1&quot;&gt;
+    --&gt;
+    &lt;Engine name=&quot;Catalina&quot; defaultHost=&quot;localhost&quot;&gt;
+
+      &lt;!--For clustering, please take a look at documentation at:
+          /docs/cluster-howto.html  (simple how to)
+          /docs/config/cluster.html (reference documentation) --&gt;
+      &lt;!--
+      &lt;Cluster className=&quot;org.apache.catalina.ha.tcp.SimpleTcpCluster&quot;/&gt;
+      --&gt;
+
+      &lt;!-- Use the LockOutRealm to prevent attempts to guess user passwords
+           via a brute-force attack --&gt;
+      &lt;Realm className=&quot;org.apache.catalina.realm.LockOutRealm&quot;&gt;
+        &lt;!-- This Realm uses the UserDatabase configured in the global JNDI
+             resources under the key &quot;UserDatabase&quot;.  Any edits
+             that are performed against this UserDatabase are immediately
+             available for use by the Realm.  --&gt;
+        &lt;Realm className=&quot;org.apache.catalina.realm.UserDatabaseRealm&quot;
+               resourceName=&quot;UserDatabase&quot;/&gt;
+      &lt;/Realm&gt;
+
+      &lt;Host name=&quot;localhost&quot;  appBase=&quot;webapps&quot;
+            unpackWARs=&quot;true&quot; autoDeploy=&quot;true&quot;&gt;
+
+        &lt;!-- SingleSignOn valve, share authentication between web applications
+             Documentation at: /docs/config/valve.html --&gt;
+        &lt;!--
+        &lt;Valve className=&quot;org.apache.catalina.authenticator.SingleSignOn&quot; /&gt;
+        --&gt;
+
+        &lt;!-- Access log processes all example.
+             Documentation at: /docs/config/valve.html
+             Note: The pattern used is equivalent to using pattern=&quot;common&quot; --&gt;
+        &lt;Valve className=&quot;org.apache.catalina.valves.AccessLogValve&quot; directory=&quot;logs&quot;
+               prefix=&quot;localhost_access_log.&quot; suffix=&quot;.txt&quot;
+               pattern=&quot;%h %l %u %t &amp;quot;%r&amp;quot; %s %b&quot; /&gt;
+
+      &lt;/Host&gt;
+    &lt;/Engine&gt;
+  &lt;/Service&gt;
+&lt;/Server&gt;
+</code></pre><p>其需要更改的地方只有三处<br>第一处如下</p>
+<pre><code>&lt;Server port=&quot;8005&quot; shutdown=&quot;SHUTDOWN&quot;&gt;
+</code></pre><p>第二台更改成9005,第三台更改成7005<br>第二处如下</p>
+<pre><code>&lt;Connector port=&quot;8080&quot; protocol=&quot;HTTP/1.1&quot;
+    connectionTimeout=&quot;20000&quot;
+    redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>第二台更改成8081,9443，第三台更改成8082,7443<br>第三处如下</p>
+<pre><code>&lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
+</code></pre><p>第二胎更改成9009,9443，第三台更改成7009,7443<br>并且将8081和8082这两个端口都进行对外开放，这样就可以了，要测试的话，分别到各个tomcat目录中将其都启动，浏览器输入ip地址和对应的端口号即可。</p>
+<p>至此，就完成了tomcat的安装</p>
+<h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><p>centos7服务器电脑还需要安装redis<br>还没接触过redis，后面跟同事了解到，redis是使用c编写的，redis一般在系统开发中只用作缓存，因为如果要使用的数据量太大的话，而且需要多次使用，如果不使用缓存，那么在每一次请求数据的时候都需要从数据库中进行查找，这样不仅耗时也好资源，所以如果使用redis缓存机制，用户请求数据的时候，如果数据量过大，就会使用redis将该数据暂时放入内存中，以键值对的方式存放着，并于该请求用户的临时id进行关联，使得再次使用到该数据的时候可以直接使用get方式从内存中读取，而不需要从数据库中查…..ok<br>那么下载安装,下载redis-2.8.4.tar压缩包后，将压缩包上传到centos7服务器中<br>因为需要gcc编译，查看了后知道未安装gcc，那么先安装gcc,其命令<br><code>sudo yum install gcc make</code><br>之后解压redis-2.8.4.tar,并编译<br>解压命令<br><code>sudo tar -zvxf redis-2.8.4.tar</code><br>解压之后cd到解压得到的目录中，运行命令sudo make来编译，出了个错误</p>
+<pre><code>zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目录
+</code></pre><p>网上查了之后才知道命令中需要添加一个参数变量,运行命令sudo make MALLOC=libc,就不会出现这个问题，然后测试redis是否安装成功，运行命令<br><code>make test</code><br>时，出现个问题</p>
+<pre><code>You need tcl 8.5 or newer in order to run the Redis test
+</code></pre><p>看着抛出的错误，提示这需要下载tcl8.5并编译安装</p>
+<pre><code>cd  /usr/local/tcl8.6.1/unix/  
+sudo ./configure  
+sudo make  
+sudo make install 
+</code></pre><p>之后，再<code>make test</code>，这里我的还是不行，不知道为什么,我选择的是先不管它，直接将redis的服务器和客户端等复制到/usr/local/bin/目录下<br><code>sudo cp redis-server redis-cli /usr/local/bin/</code><br>及其他一些可运行程序<br><code>sudo cp redis-sentinel redis-benchmark redis-check-aof redis-check-dump /usr/local/bin/</code><br>之后新开一个终端连接，直接命令redis-server和redis-cli发现都可以运行,并且在redis-cli下测试都正常，如下</p>
+<pre><code>[xm6f@localhost redis-2.8.4]$ ./src/redis-cli 
+127.0.0.1:6379&gt; set name aa
+OK
+127.0.0.1:6379&gt; get name
+&quot;aa&quot;
+127.0.0.1:6379&gt; 
+</code></pre><p>只要这样测试结果正常，那就意味着redis安装成功，不过，redis需要配置开机启动</p>
+<h4 id="配置redis开机启动"><a href="#配置redis开机启动" class="headerlink" title="配置redis开机启动"></a>配置redis开机启动</h4><p>所以为了方便启动和管理，我在/usr/local/下新建了个redis文件夹，并将redis-server，redis-cli，redis-sentinel，redis-benchmark，redis-check-aof，redis-check-dump及redis.conf复制到该redis文件夹下，配置开机启动的方式就是在/etc/rc.d/init.d目录下创建一个启动脚本，命令如下<br><code>sudo vim redis</code><br>脚本是从网上找的，只是进行了修改，其内容如下</p>
+<pre><code>#!/bin/sh
+#chkconfig: 345 86 14
+#description: Startup and shutdown script for Redis
+
+PROGDIR=/usr/local/redis
+PROGNAME=redis-server
+DAEMON=$PROGDIR/$PROGNAME
+CONFIG=/usr/local/redis/redis.conf
+PIDFILE=/var/run/redis.pid
+DESC=&quot;redis daemon&quot;
+SCRIPTNAME=/etc/rc.d/init.d/redis
+
+start()
+{
+    if test -x $DAEMON
+        then
+        echo -e &quot;Starting $DESC: $PROGNAME&quot;
+                  if $DAEMON $CONFIG
+                  then
+                            echo -e &quot;OK&quot;
+                  else
+                            echo -e &quot;failed&quot;
+                  fi
+        else
+                  echo -e &quot;Couldn&apos;t find Redis Server ($DAEMON)&quot;
+        fi
+}
+
+stop()
+{
+        if test -e $PIDFILE
+        then
+                  echo -e &quot;Stopping $DESC: $PROGNAME&quot;
+                  if kill `cat $PIDFILE`
+                  then
+                            echo -e &quot;OK&quot;
+                  else
+                            echo -e &quot;failed&quot;
+                  fi
+        else
+                  echo -e &quot;No Redis Server ($DAEMON) running&quot;
+        fi
+}
+
+restart()
+{
+    echo -e &quot;Restarting $DESC: $PROGNAME&quot;
+    stop
+        start
+}
+
+list()
+{
+        ps aux | grep $PROGNAME
+}
+
+case $1 in
+        start)
+                  start
+        ;;
+        stop)
+        stop
+        ;;
+        restart)
+        restart
+        ;;
+        list)
+        list
+        ;;
+
+        *)
+        echo &quot;Usage: $SCRIPTNAME {start|stop|restart|list}&quot; &gt;&amp;2
+        exit 1
+        ;;
+esac
+exit 0
+</code></pre><p>之后就需要修改对redis进行chkconfig配置，其命令如下</p>
+<pre><code>sudo chkconfig --add redis
+sudo chkconfig --level 345 redis on    #345这个数字根据脚本中来定
+sudo chkconfig --list redis
+</code></pre><p>之后就可以重启系统进行测试了，只要确定redis能在开机后启动就可以了</p>
+<h4 id="手动启动redis"><a href="#手动启动redis" class="headerlink" title="手动启动redis"></a>手动启动redis</h4><p>手动启动redis一般需要到redis的安装目录的src文件夹下运行redis-server，不过这里我已经将这些可运行程序及配置文件拷贝到/usr/local/redis/目录下，所以可以直接在这个目录下手动启动redis,其命令如下</p>
+<pre><code>cd /usr/local/redis
+./redis-server redis.conf    #启动redis
+./redis-cli -p 端口号 shutdown    #关闭redis服务
+
+./redis-cli        #启动redis客户端
+</code></pre><p>查看redis服务是否启动，命令如下<br><code>ps -aux | grep redis</code><br>查看某端口是否被占用,命令如下<br><code>netstat –tunpl | grep 端口</code><br>后期配置<br>在/etc/sysctl.conf文件中添加下面代码:<br><code>vm.overcommit_memory=1</code><br>这个代码可以解决下面这个问题</p>
+<pre><code>[3876] 01 Aug 14:09:11.809 # WARNING overcommit_memory is set to 0! Background save may fail under low memory condition. To fix this issue add &apos;vm.overcommit_memory = 1&apos; to /etc/sysctl.conf and then reboot or run     the command &apos;sysctl vm.overcommit_memory=1&apos; for this to take effect.
+</code></pre><h3 id="安装nginx服务"><a href="#安装nginx服务" class="headerlink" title="安装nginx服务"></a>安装nginx服务</h3><p>nginx是负责均衡服务器，是c语言开发的，相当于一个调配工具，那个tomcat压力大就调用压力轻的来顶</p>
+<h4 id="配置ngin环境"><a href="#配置ngin环境" class="headerlink" title="配置ngin环境"></a>配置ngin环境</h4><p>安装nginx之前先安装好其所需环境<br>1.安装gcc<br>安装 nginx 需要先将官网下载的源码进行编译，编译依赖 gcc 环境，<br>命令<br><code>yum install gcc-c++</code><br>2.安装PCRE库  pcre-devel库<br>PCRE(Perl Compatible Regular Expressions) 是一个Perl库，包括 perl 兼容的正则表达式库。nginx 的 http 模块使用 pcre 来解析正则表达式，所以需要在 linux 上安装 pcre 库，pcre-devel 是使用 pcre 开发的一个二次开发库。nginx也需要此库<br>命令<br><code>yum install -y pcre pcre-devel</code><br>3.zlib 安装<br>zlib 库提供了很多种压缩和解压缩的方式， nginx 使用 zlib 对 http 包的内容进行 gzip ，所以需要在 Centos 上安装 zlib 库<br>命令<br><code>yum install -y zlib zlib-devel</code><br>4.OpenSSL 安装<br>OpenSSL 是一个强大的安全套接字层密码库，囊括主要的密码算法、常用的密钥和证书封装管理功能及 SSL 协议,nginx 不仅支持 http 协议，还支持 https（即在ssl协议上传输http），所以需要在 Centos 安装 OpenSSL 库<br>命令<br><code>yum install -y openssl openssl-devel</code></p>
+<h4 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h4><p>在tmp文件夹下，使用<code>rz</code>命令上传下载好的nginx-1.12.1.tar压缩文件，之后对其进行解压，将得到一个nginx-1.12.1文件夹，之后安装的命令如下</p>
+<pre><code>cd nginx-1.12.1
+sudo ./configure
+sudo make &amp;&amp; sudo make install
+</code></pre><p>这样的编译安装方式会将nginx安装到/usr/local/nginx下，然后我们进入到安装目录下的sbin文件夹中，使用命令<br><code>sudo ./nginx</code><br>就可以运行nginx了<br>提示<br>如果不使用sudo来启动nginx就会出现如下错误</p>
+<pre><code>nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
+</code></pre><p>这个错误不是文件权限错误，而是端口权限的错误，在linux系统中，所有启动数字小于1024的端口都需要root权限，而nginx使用的80端口，所以，就需要sudo使用root身份</p>
+<h4 id="nginx启动与关闭"><a href="#nginx启动与关闭" class="headerlink" title="nginx启动与关闭"></a>nginx启动与关闭</h4><p>启动、停止nginx的命令如下</p>
+<pre><code>cd /usr/local/nginx/sbin/
+sudo ./nginx  : 启动nginx
+sudo ./nginx -s stop  : 此方式相当于先查出nginx进程id再使用kill命令强制杀掉进程
+sudo ./nginx -s quit  : 此方式是待nginx进程处理任务完毕进行停止
+sudo ./nginx -s reload  : 重启
+</code></pre><p>之后，跟redis一样，也需要将nginx添加开机启动，开机启动我不是特别了解，网上了解到好像有两种区别，一种是如果直接使用编译安装的方式，那其添加到开机启动的方法就是编辑/etc/rc.local这个文件，往其中添加下面的代码<br><code>/usr/local/nginx/sbin/nginx</code><br>然后就是修改/etc/rc.local这个文件的权限，在/etc目录下使用命令<br><code>sudo chmod 755 rc.local</code><br>如果不修改这个文件的权限，那其开机后只会启动一个进程，如下</p>
+<pre><code>Last login: Thu Aug  3 11:22:37 2017 from 192.168.1.70
+[xm6f@localhost ~]$ ps -ef | grep nginx
+xm6f      2963  2919  0 13:53 pts/0    00:00:00 grep --color=auto nginx
+</code></pre><p>这个进程只能被普通用户xm6f控制，而正常启动的nginx会有三个进程，如下</p>
+<pre><code>Type `help&apos; to learn how to use Xshell prompt.
+[c:\~]$ open
+
+Connecting to 192.168.1.149:22...
+Connection established.
+To escape to local shell, press &apos;Ctrl+Alt+]&apos;.
+
+Last login: Thu Aug  3 13:53:21 2017 from 192.168.1.70
+[xm6f@localhost ~]$ ps -ef | grep nginx
+root      1245     1  0 13:55 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx
+nobody    1246  1245  0 13:55 ?        00:00:00 nginx: worker process
+xm6f      2974  2923  0 13:57 pts/0    00:00:00 grep --color=auto nginx
+[xm6f@localhost ~]$ 
+</code></pre><p>另一个区别就是如果是使用yum命令安装的方式，就是用systemctl来启动，具体我也不了解……<br>到现在为止，已经成功的安装了nginx并设为开机启动了,那现在需要做的就是配合前面安装的三台tomcat来实现负载均衡，打开nginx安装目录中conf文件夹下的nginx.conf这个配置文件，它是nginx的配置文件，其原始的内容如下</p>
+<pre><code>#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;
+    #                  &apos;$status $body_bytes_sent &quot;$http_referer&quot; &apos;
+    #                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&apos;;
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen       80;
+        server_name  localhost;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache&apos;s document root
+        # concurs with nginx&apos;s one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    #server {
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+}
+</code></pre><p>在nginx.conf配置文件中添加如下代码，位置可以在gzip这一行后面，只要在location前面即可</p>
+<pre><code>upstream tomcat{
+    server 192.168.1.149:8080 weight=1;
+    server 192.168.1.149:8081 weight=1;
+    server 192.168.1.149:8082 weight=1;
+}
+</code></pre><p>并将其中的<code>gzip  on</code>前面的注释，这个功能是将需要发送到浏览器的文件进行压缩，之后再修改location块中的内容修改成如下</p>
+<pre><code>location / {
+    proxy_buffering on;
+
+    proxy_connect_timeout 3;
+    proxy_send_timeout 3;
+    proxy_read_timeout 3;
+    proxy_pass  http://tomcat;
+    # root   html;
+    # index  index.html index.htm;
+}
+</code></pre><p>这算是最基本的修改了，后面还得涉及到nginx性能的优化配置，这里先不扯。继续看上面的原始配置文件，nginx的server块中表明了nginx使用的地址server_name和端口号listen，其端口号是80端口，为使服务器能够外网访问就需要开放80端口，所以我们需要开放端口，其命令为<br><code>sudo firewall-cmd --zone=public --add-port=80/tcp --permanent</code><br>之后运行下面的命令<br><code>sudo firewall-cmd --reload</code><br>两者都正常运行返回success即为开放成功，另外提下，列出所有已经开放的端口命令如下<br><code>sudo firewall-cmd --list-ports</code><br>目前，将nginx服务启动后，在我自己的笔记本上使用centos7服务器的ip及80端口通过浏览器即可访问到tomcat，但是负载均衡不能得到体现，所以我们可以修改三台tomcat安装目录下的/webapps/ROOT/index.jsp页面，来区分三台不同的tomcat，为了方便，我就修改了index.jsp页面的title，每个title的值就是相应tomcat所在的端口号，浏览器中输入<a href="http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。" target="_blank" rel="external">http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。</a><br>至此nginx安装与配置已经完成<br>查询nginx进程：<br><code>ps aux|grep nginx</code><br>查看服务的状态<br><code>service nginx status或systemctl nginx status</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/centos/" rel="tag"># centos</a>
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+            <a href="/tags/tomcat/" rel="tag"># tomcat</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/25/daily/2017-07-25-daily-biyezatan/" rel="next" title="毕业后杂谈">
+                <i class="fa fa-chevron-left"></i> 毕业后杂谈
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+    <div class="post-spread">
+      
+        
+        <!--
+		<div id="wpac-comment"></div>
+		<script type="text/javascript">
+		wpac_init = window.wpac_init || [];
+		wpac_init.push({widget: 'Comment', id: 5780});
+		(function() {
+		    if ('WIDGETPACK_LOADED' in window) return;
+		    WIDGETPACK_LOADED = true;
+		    var mc = document.createElement('script');
+		    mc.type = 'text/javascript';
+		    mc.async = true;
+		    mc.src = 'https://embed.widgetpack.com/widget.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(mc, s.nextSibling);
+		})();
+		</script>
+		<a href="https://widgetpack.com" class="wpac-cr">Comments System WIDGET PACK</a>
+        -->
+        
+        <!--
+        <div id="container"></div>
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+        <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+        <script>
+        var gitment = new Gitment({
+          id: '',
+          owner: 'cgstudios',
+          repo: 'cgstudios-blog-file',
+          oauth: {
+            client_id: '5f667cada6c6e9fefd45',
+            client_secret: '78c49a731e5396fd763524b410af73a19006f0fb',
+          },
+        })
+        gitment.render('container')
+        </script>
+        -->
+
+        <!--
+        <noscript>Please enable JavaScript to view the comment form powered by <a href="https://commentit.io/">Comm(ent|it)</a></noscript>
+        <div id="commentit"></div>
+        <script type="text/javascript">
+          /** CONFIGURATION VARIABLES **/
+          var commentitUsername = 'cgstudios';
+          var commentitRepo = 'cgstudios/cgstudios.github.io';
+          var commentitPath = '2017/08/07/linux/2017-08-07-install-centos-server/';
+
+          /** DON'T EDIT FOLLOWING LINES **/
+          (function() {
+              var commentit = document.createElement('script');
+              commentit.type = 'text/javascript';
+              commentit.async = true;
+              commentit.src = 'https://commentit.io/static/embed/dist/commentit.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(commentit);
+          })();
+        </script>
+        -->
+
+        <!--
+        <form method="POST" action="https://api.staticman.net/v2/entry/cgstudios/cgstudios.github.io/master">
+          <input name="options[redirect]" type="hidden" value="http://cgspace.date">
+          /** e.g. "2016-01-02-this-is-a-post" **/
+          <input name="options[slug]" type="hidden" value="linux/2017-08-07-install-centos-server">
+          <label><input name="fields[name]" type="text">Name</label>
+          <label><input name="fields[email]" type="email">E-mail</label>
+          <label><textarea name="fields[message]"></textarea>Message</label>
+          
+          <button type="submit">Go!</button>
+        </form>
+        -->
+
+
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="cg" />
+          <p class="site-author-name" itemprop="name">cg</p>
+           
+              <p class="site-description motion-element" itemprop="description">精致地生活</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/cgstudios" target="_blank" title="github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Centos7系统"><span class="nav-number">1.</span> <span class="nav-text">安装Centos7系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#设置静态ip"><span class="nav-number">1.1.</span> <span class="nav-text">设置静态ip</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Tomcat"><span class="nav-number">2.</span> <span class="nav-text">安装Tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#启动tomcat并开放8080端口"><span class="nav-number">2.1.</span> <span class="nav-text">启动tomcat并开放8080端口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置三台tomcat"><span class="nav-number">2.2.</span> <span class="nav-text">配置三台tomcat</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装redis"><span class="nav-number">3.</span> <span class="nav-text">安装redis</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置redis开机启动"><span class="nav-number">3.1.</span> <span class="nav-text">配置redis开机启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手动启动redis"><span class="nav-number">3.2.</span> <span class="nav-text">手动启动redis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装nginx服务"><span class="nav-number">4.</span> <span class="nav-text">安装nginx服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置ngin环境"><span class="nav-number">4.1.</span> <span class="nav-text">配置ngin环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装nginx"><span class="nav-number">4.2.</span> <span class="nav-text">安装nginx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx启动与关闭"><span class="nav-number">4.3.</span> <span class="nav-text">nginx启动与关闭</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+  <span class="span-time"></span>
+  <script>
+  var startTime = new Date("2016/12/27");
+  setInterval(function () {
+    var nowTime = new Date();
+    var time = nowTime - startTime;
+    var day = parseInt(time / 1000 / 60 / 60 / 24);
+    var hour = parseInt(time / 1000 / 60 / 60 % 24);
+    var minute = parseInt(time / 1000 / 60 % 60);
+    var seconds = parseInt(time / 1000 % 60);
+    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+  }, 1000);
+</script>
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i> 访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i> 访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+  </div>
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+
+
+  
+  
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "ec18ccd847d64bfc94031509c79a2056",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (search_path.endsWith("json")) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      $('#local-search-input').focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

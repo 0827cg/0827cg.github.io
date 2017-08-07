@@ -73,7 +73,7 @@
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="前言我之前使用的是jekyll来创建博客,现在转用hexo了.其实在使用jekyll的时候就了解了hexo,那个时候也打算使用hexo来搭建博客,但苦于当时没能把hexo环境搭建好,急于求成就用已经搭建好环境的jekyll来创建博客了.自己挺钟情hexo的,一直想用上她.恰好最近出差,利用空余的时间在宾馆把hexo环境搭建好了,把之前的博客也迁移到了hexo搭建的博客上面.做个总结,就写了这篇文章">
 <meta property="og:image" content="http://www.cgspace.date/images/hexo/hexo-blog-DefaultFile.png">
-<meta property="og:updated_time" content="2017-05-05T22:37:26.000Z">
+<meta property="og:updated_time" content="2017-08-07T13:31:08.035Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo搭建博客">
 <meta name="twitter:description" content="前言我之前使用的是jekyll来创建博客,现在转用hexo了.其实在使用jekyll的时候就了解了hexo,那个时候也打算使用hexo来搭建博客,但苦于当时没能把hexo环境搭建好,急于求成就用已经搭建好环境的jekyll来创建博客了.自己挺钟情hexo的,一直想用上她.恰好最近出差,利用空余的时间在宾馆把hexo环境搭建好了,把之前的博客也迁移到了hexo搭建的博客上面.做个总结,就写了这篇文章">
@@ -100,6 +100,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -361,18 +363,7 @@
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我之前使用的是jekyll来创建博客,现在转用hexo了.其实在使用jekyll的时候就了解了hexo,那个时候也打算使用hexo来搭建博客,但苦于当时没能把hexo环境搭建好,急于求成就用已经搭建好环境的jekyll来创建博客了.<br>自己挺钟情hexo的,一直想用上她.恰好最近出差,利用空余的时间在宾馆把hexo环境搭建好了,把之前的博客也迁移到了hexo搭建的博客上面.做个总结,就写了这篇文章</p>
 <p>文章中的命令行代码都是在搭建环境时所另外复制保存的</p>
 <a id="more"></a>
-<h3 id="了解使用hexo"><a href="#了解使用hexo" class="headerlink" title="了解使用hexo"></a>了解使用hexo</h3><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo"></a>什么是Hexo</h4><p>在使用hexo之前,</p>
-<p>首先我们先要了解什么是hexo,hexo是静态博客生成工具,单纯的生成静态html页面,将页面组合起来,就成了博客.当然,你也可以自己写html页面,写多个html页面,在将html页面手动联系起来,放在同一个站点下,也可以是一个博客<br>,不过,使用hexo来创建博客将会更简单,更快捷方便</p>
-<p>所以,hexo就是一个使搭建博客操作变得简单的工具,跟jekyll一个作用,详情,可以参考<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">Hexo官方文档</a></p>
-<p>ok,在我们已经知道hexo是什么之后,我们还需要稍微了解一下hexo她大概是怎么运作的</p>
-<p>首先知道Hexo这个工具是由JavaScript编写的,那么我们在本地运行Hexo就需要JavaScript环境,即node.js</p>
-<p>所以,我们需要安装node.js,至于node.js是什么.这里就不做介绍.</p>
-<p>不过需要知道node.js中包括了npm,npm是node.js的一个模块管理工具,目前使用她所起到的作用就像是一个下载器</p>
-<p>跟命令apt-get命令差不多</p>
-<p>其实说到JavaScript,个人认为,JavaScript到以后将会发展成主流编程语言,取代java</p>
-<p>扯远了,,,,,,,,</p>
-<p>再来了解hexo的运作方式,先看hexo默认生成的目录结构</p>
-<p>如图:</p>
+<h3 id="了解使用hexo"><a href="#了解使用hexo" class="headerlink" title="了解使用hexo"></a>了解使用hexo</h3><h4 id="什么是Hexo"><a href="#什么是Hexo" class="headerlink" title="什么是Hexo"></a>什么是Hexo</h4><p>在使用hexo之前,首先我们先要了解什么是hexo,hexo是静态博客生成工具,单纯的生成静态html页面,将页面组合起来,就成了博客.当然,你也可以自己写html页面,写多个html页面,在将html页面手动联系起来,放在同一个站点下,也可以是一个博客,不过,使用hexo来创建博客将会更简单,更快捷方便。所以,hexo就是一个使搭建博客操作变得简单的工具,跟jekyll一个作用,详情,可以参考<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="external">Hexo官方文档</a><br>ok,在我们已经知道hexo是什么之后,我们还需要稍微了解一下hexo她大概是怎么运作的<br>首先知道Hexo这个工具是由JavaScript编写的,那么我们在本地运行Hexo就需要JavaScript环境,即node.js。所以,我们需要安装node.js,至于node.js是什么.这里就不做介绍.不过需要知道node.js中包括了npm,npm是node.js的一个模块管理工具,目前使用她所起到的作用就像是一个下载器。跟命令apt-get命令差不多，其实说到JavaScript,个人认为,JavaScript到以后将会发展成主流编程语言,取代java<br>扯远了,,,,,,,,<br>再来了解hexo的运作方式,先看hexo默认生成的目录结构<br>如图:</p>
 <p><img src="/images/hexo/hexo-blog-DefaultFile.png" alt="hexo-blog-defaultFile"></p>
 <p>各文件作用:</p>
 <ul>
@@ -384,34 +375,13 @@
 <li>db.json-数据缓存文件</li>
 <li>package.json-应用程序的信息</li>
 </ul>
-<p>hexo有个专门存放主题的文件夹themes,存放这一个自带的主题landscape,更改主题则需要自己下载主题存放到该目录下,并在站点的配置文件_config.yml中进行配置</p>
-<p>hexo生成静态html页面的原则就是依据模板文件和主题文件来自动生成html页面</p>
-<p>所以,说到这,仔细想想,也可以说hexo是一个框架,工具和框架貌似都差不多</p>
-<p>跟jekyll不同的是,hexo运行时不会生成html页面,需要输入执行命令后,才会生存html页面</p>
-<p>生成的html页面将会在此时的hexo博客跟目录下新建一个public文件夹,所有的html页面和所需的资源都将存放到这个文件夹中,</p>
-<p>再说明一下,提交到github上面的文件也都只有public文件夹里的文件,其余的文件并不会提交到仓库中</p>
-<h4 id="搭建hexo环境"><a href="#搭建hexo环境" class="headerlink" title="搭建hexo环境"></a>搭建hexo环境</h4><p>前面说到,hexo是使用JavaScript语言编写的,那么就需要先搭建好JavaScript环境,即安装node.js</p>
-<p>这里个人建议到[node.js官网][]下载安装,并配置好环境变量</p>
-<p>我这是linux内核系统</p>
-<p>在linux下配置环境变量,运行命令</p>
-<p><code>sudo gedit /etc/profile</code></p>
-<p>在其中添加</p>
+<p>hexo有个专门存放主题的文件夹themes,存放这一个自带的主题landscape,更改主题则需要自己下载主题存放到该目录下,并在站点的配置文件_config.yml中进行配置,hexo生成静态html页面的原则就是依据模板文件和主题文件来自动生成html页面<br>所以,说到这,仔细想想,也可以说hexo是一个框架,工具和框架貌似都差不多.跟jekyll不同的是,hexo运行时不会生成html页面,需要输入执行命令后,才会生存html页面<br>生成的html页面将会在此时的hexo博客跟目录下新建一个public文件夹,所有的html页面和所需的资源都将存放到这个文件夹中.再说明一下,提交到github上面的文件也都只有public文件夹里的文件,其余的文件并不会提交到仓库中</p>
+<h4 id="搭建hexo环境"><a href="#搭建hexo环境" class="headerlink" title="搭建hexo环境"></a>搭建hexo环境</h4><p>前面说到,hexo是使用JavaScript语言编写的,那么就需要先搭建好JavaScript环境,即安装node.js，这里个人建议到[node.js官网][]下载安装,并配置好环境变量,我这是linux内核系统<br>在linux下配置环境变量,运行命令<br><code>sudo gedit /etc/profile</code><br>在其中添加</p>
 <pre><code>#set for nodejs-environment
 #NODE_HOME的路径填写自己的node的安装路径
 export NODE_HOME=/usr/local/src/node-v7.3.0
 export PATH=$NODE_HOME/bin:$PATH
-</code></pre><p>完后运行</p>
-<p><code>source /etc/profile</code></p>
-<p>来使配置立即生效</p>
-<p>之后可以输入</p>
-<p><code>node -v</code></p>
-<p>来查看node.js是否安装成功,输出版本号则表示安装成功</p>
-<p>完成node.js的安装,就可以使用npm命令来安装hexo了</p>
-<p>运行命令</p>
-<p><code>npm install -g hexo-cli</code></p>
-<p>完后测试安装是否成功,如果不成功,看输出是什么样的</p>
-<p>我是配置了hexo的环境变量</p>
-<p>这里贴下我之前的命令行记录:</p>
+</code></pre><p>完后运行<br><code>source /etc/profile</code><br>来使配置立即生效.之后可以输入<br><code>node -v</code><br>来查看node.js是否安装成功,输出版本号则表示安装成功.完成node.js的安装,就可以使用npm命令来安装hexo了<br>运行命令<br><code>npm install -g hexo-cli</code><br>完后测试安装是否成功,如果不成功,看输出是什么样的,我是配置了hexo的环境变量<br>这里贴下我之前的命令行记录:</p>
 <pre><code>cg@cg-ThinkPad-Edge-E540 ~ $ node -v
 v6.9.2
 cg@cg-ThinkPad-Edge-E540 ~ $ npm
@@ -1265,25 +1235,8 @@ npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules/ch
 npm WARN notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.1.1: wanted {&quot;os&quot;:&quot;darwin&quot;,&quot;arch&quot;:&quot;any&quot;} (current: {&quot;os&quot;:&quot;linux&quot;,&quot;arch&quot;:&quot;x64&quot;})
 INFO  Start blogging with Hexo!
 cg@cg-ThinkPad-Edge-E540 ~/Work/HexoWork/blog $ 
-</code></pre><p>这样,就完成了hexo本地环境的搭建,也在创建了本地博客</p>
-<p>之后就可以在source目录下写文章了</p>
-<h4 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h4><p>文章写完后,在本地博客跟目录下运行命令</p>
-<p><code>hexo serve</code></p>
-<p>后,就可以在浏览器中访问本地博客,地址为</p>
-<p><code>http://localhost:4000/</code></p>
-<p>之后,运行命令</p>
-<p><code>hexo generate</code></p>
-<p>来生成html页面,存放到根目录的public文件夹内</p>
-<p>再运行</p>
-<p><code>hexo deploy</code></p>
-<p>命令,就可以将博客push到github中,需要注意的是,这里推送到github的只是public文件夹里的文件,其他的文件不会推送到github仓库中,</p>
-<p>还有,单纯的使用deploy命令来将内容推送到github仓库中时,自己并不能设置更性日志,她所设置的日志只是一些更性时间</p>
-<p>而在之前使用的jekyll创建博客时,是单纯的使用git命令来推送文章,里面每推送一次,都需要设置描述性的日志</p>
-<p>即命令</p>
-<p><code>git commit -m &quot;xxxxx&quot;</code></p>
-<p>而这里的</p>
-<p><code>hexo deploy</code></p>
-<p>则不是这样,她属于包装了git命令,使得推送更新变得更为简单,这点倒让我觉得不太好</p>
+</code></pre><p>这样,就完成了hexo本地环境的搭建,也在创建了本地博客，之后就可以在source目录下写文章了</p>
+<h4 id="发布博客"><a href="#发布博客" class="headerlink" title="发布博客"></a>发布博客</h4><p>文章写完后,在本地博客跟目录下运行命令<br><code>hexo serve</code><br>后,就可以在浏览器中访问本地博客,地址为<br><code>http://localhost:4000/</code><br>之后,运行命令<br><code>hexo generate</code><br>来生成html页面,存放到根目录的public文件夹内<br>再运行<br><code>hexo deploy</code><br>命令,就可以将博客push到github中,需要注意的是,这里推送到github的只是public文件夹里的文件,其他的文件不会推送到github仓库中,还有,单纯的使用deploy命令来将内容推送到github仓库中时,自己并不能设置更性日志,她所设置的日志只是一些更性时间。而在之前使用的jekyll创建博客时,是单纯的使用git命令来推送文章,里面每推送一次,都需要设置描述性的日志<br>即命令<br><code>git commit -m &quot;xxxxx&quot;</code><br>而这里的<br><code>hexo deploy</code><br>则不是这样,她属于包装了git命令,使得推送更新变得更为简单,这点倒让我觉得不太好</p>
 
       
     </div>
@@ -1423,6 +1376,29 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/HexoWork/blog $
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -1478,7 +1454,7 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/HexoWork/blog $
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1500,7 +1476,7 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/HexoWork/blog $
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

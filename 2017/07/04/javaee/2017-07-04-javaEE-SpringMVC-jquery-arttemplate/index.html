@@ -72,7 +72,7 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/07/04/javaee/2017-07-04-javaEE-SpringMVC-jquery-arttemplate/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 流程其大致流程如下  首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
-<meta property="og:updated_time" content="2017-07-05T12:26:26.617Z">
+<meta property="og:updated_time" content="2017-08-07T13:50:08.122Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring MVC注解控制器同步跳转和ajax的异步请求的协作">
 <meta name="twitter:description" content="就着现在接触的项目优茶联项目中，谈谈在系统的个人中心里的我的收藏中，对收藏的商品进行取消收藏的流程 流程其大致流程如下  首先，浏览器访问list.jsp这个页面，对应list.jsp这个页面的控制器直接返回一个页面路径(也就是直接返回一个页面)">
@@ -98,6 +98,8 @@
     }
   };
 </script>
+
+<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
 
 
 
@@ -370,18 +372,9 @@
 <li><p>将放回的结果数据当做参数传入JQuery AJAX的异步请求方法中的success函数，根据结果情况做出相对应的响应</p>
 </li>
 </ol>
-<h4 id="关于success函数"><a href="#关于success函数" class="headerlink" title="关于success函数"></a>关于success函数</h4><p>jquery ajax的异步请求方法中，定义了一个success函数机制，如下面的实现代码</p>
-<p><code>success:function(result){}</code></p>
-<p>这样的</p>
-<p>我也不知道这个success功能该怎么叫，它的工作原理我也不大清楚，说是success函数机制，这也只是我按自己的理解命名的<br>控制器方法在执行完数据的处理后，return操作后的结果，这就当是服务器的返回，原先缓存在浏览器中的favorite_list.js中的jquery ajax还在运行等待服务器的返回，<br>当其检测到服务器发送回来的数据后，将数据当做参数传到success函数机制中</p>
-<p>就如下面代码</p>
-<p><code>success:function(返回数据){}</code></p>
-<p>后面success函数机制在根据返回的数据进行操作判断之前请求的数据是否处理成功<br>并做出对应的相应</p>
-<p>这是我现在的猜测，<br>另外<br>根据根据控制器方法的不同返回结果，可分为不同的跳转方式</p>
+<h4 id="关于success函数"><a href="#关于success函数" class="headerlink" title="关于success函数"></a>关于success函数</h4><p>jquery ajax的异步请求方法中，定义了一个success函数机制，如下面的实现代码<br><code>success:function(result){}</code><br>这样的<br>我也不知道这个success功能该怎么叫，它的工作原理我也不大清楚，说是success函数机制，这也只是我按自己的理解命名的,控制器方法在执行完数据的处理后，return操作后的结果，这就当是服务器的返回，原先缓存在浏览器中的favorite_list.js中的jquery ajax还在运行等待服务器的返回，当其检测到服务器发送回来的数据后，将数据当做参数传到success函数机制中<br>就如下面代码<br><code>success:function(返回数据){}</code><br>后面success函数机制在根据返回的数据进行操作判断之前请求的数据是否处理成功,并做出对应的相应,这是我现在的猜测<br>另外,根据根据控制器方法的不同返回结果，可分为不同的跳转方式</p>
 <h4 id="同步跳转"><a href="#同步跳转" class="headerlink" title="同步跳转"></a>同步跳转</h4><p>控制器方法内部有数据的处理及最后返回一个页面地址，这样的属于同步跳转<br>控制器方法内部要是没有数据的处理，最后确返回一个页面地址，这样也数据同步跳转</p>
-<h4 id="异步跳转"><a href="#异步跳转" class="headerlink" title="异步跳转"></a>异步跳转</h4><p>控制器方法内部只有数据的处理，最后也只返回数据，这样的数据异步跳转</p>
-<p>还有就是，每个ajax的请求都对应一个控制器，每次请求都会对应实例化一个新的Request对象，后面事件触发的ajax数据请求与初次访问页面请求的Request对象是不同的</p>
-<p>下面贴出相关文件的代码</p>
+<h4 id="异步跳转"><a href="#异步跳转" class="headerlink" title="异步跳转"></a>异步跳转</h4><p>控制器方法内部只有数据的处理，最后也只返回数据，这样的数据异步跳转,还有就是，每个ajax的请求都对应一个控制器，每次请求都会对应实例化一个新的Request对象，后面事件触发的ajax数据请求与初次访问页面请求的Request对象是不同的<br>下面贴出相关文件的代码</p>
 <h4 id="list-jsp"><a href="#list-jsp" class="headerlink" title="list.jsp"></a>list.jsp</h4><p>list.jsp页面的代码</p>
 <pre><code>&lt;!DOCTYPE html&gt;
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
@@ -494,7 +487,7 @@
   &lt;/div&gt;
 
 &lt;/script&gt;
-</code></pre><p>这个页面中对应的控制器方法使用了同步加载的方法，其返回值是一个list.jsp页面路径<br>在这个页面中，关键数据使用了arttemplate模板，如<script id="tpl-list-item" type="text/html"></script>标签块中的代码实现，配合ajax实现list.jsp页面数据的异步加载并渲染</p>
+</code></pre><p>这个页面中对应的控制器方法使用了同步加载的方法，其返回值是一个list.jsp页面路径,在这个页面中，关键数据使用了arttemplate模板，如<script id="tpl-list-item" type="text/html"></script>标签块中的代码实现，配合ajax实现list.jsp页面数据的异步加载并渲染</p>
 <h4 id="FavoriteController-java"><a href="#FavoriteController-java" class="headerlink" title="FavoriteController.java"></a>FavoriteController.java</h4><p>其控制器类FavoriteController的部分代码如下</p>
 <pre><code>@Controller
 @RequestMapping(&quot;/favorite&quot;)
@@ -540,9 +533,9 @@ public class FavoriteController {
     ....
 
 }
-</code></pre><p>观察上面的代码可以知道这是个基于注解实现的控制器，<br>使用@Controller来声明一个控制器类，<br>@RequestMapping来声明一个控制器方法，RequestMapping方法除了有value属性外，还有method属性</p>
+</code></pre><p>观察上面的代码可以知道这是个基于注解实现的控制器，使用@Controller来声明一个控制器类，<br>@RequestMapping来声明一个控制器方法，RequestMapping方法除了有value属性外，还有method属性</p>
 <h4 id="favorite-list-js"><a href="#favorite-list-js" class="headerlink" title="favorite_list.js"></a>favorite_list.js</h4><p>favorite_list.js中的部分代码</p>
-<pre><code>$(function() {
+<pre><code>$(function(){
     if (!$.checkLogin()) { //验证登录
         return;
     }
@@ -617,9 +610,7 @@ var Collect = {
     },
 
 }
-</code></pre><p>结合上面的favorite_list.js中的代码，来进一步了解异步加载数据的实现</p>
-<p>list.jsp页面中引用了favorite_list.js这个文件，在第一次访问list.jsp页面并完成文档加载后会自动调用favorite_list.js中的文档就绪函数$(function(){}),以此来初始化Collect对象，并且调用favorite_list.js中的getFavoriteList()方法，实话说，这个方法就是主要用来实现异步加载list.jsp页面所需要的数据的主要实现部分</p>
-<p>getFavoriteList()方法中定义了jquery ajax的异步数据请求，设置了url,使得具体的数据获取操作交给控制器类FavoriteController中相对应的控制器方法,且使用了success函数机制等待控制器方法返回的结果<br>并在方法内将结果处理遍历出来，遍历的方法里面使用了arttemplate中的template()方法，将数据对象都渲染到jsp页面<br>遍历出来的数据div块都在类名为collect-list-box的div块里，所以猜测arttemplate模板只能放到页面最后</p>
+</code></pre><p>结合上面的favorite_list.js中的代码，来进一步了解异步加载数据的实现<br>list.jsp页面中引用了favorite_list.js这个文件，在第一次访问list.jsp页面并完成文档加载后会自动调用favorite_list.js中的文档就绪函数$(function(){}),以此来初始化Collect对象，并且调用favorite_list.js中的getFavoriteList()方法，实话说，这个方法就是主要用来实现异步加载list.jsp页面所需要的数据的主要实现部分<br>getFavoriteList()方法中定义了jquery ajax的异步数据请求，设置了url,使得具体的数据获取操作交给控制器类FavoriteController中相对应的控制器方法,且使用了success函数机制等待控制器方法返回的结果<br>并在方法内将结果处理遍历出来，遍历的方法里面使用了arttemplate中的template()方法，将数据对象都渲染到jsp页面<br>遍历出来的数据div块都在类名为collect-list-box的div块里，所以猜测arttemplate模板只能放到页面最后</p>
 
       
     </div>
@@ -763,6 +754,29 @@ var Collect = {
         -->
 
 
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+    /*
+    var disqus_config = function () {
+    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+    */
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://cgspace0827.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
           </div>
           
 
@@ -818,7 +832,7 @@ var Collect = {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -840,7 +854,7 @@ var Collect = {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
