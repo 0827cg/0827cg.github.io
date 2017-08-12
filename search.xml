@@ -8,7 +8,7 @@
       <content type="html"><![CDATA[<p>7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录</p>
 <h3 id="安装Centos7系统"><a href="#安装Centos7系统" class="headerlink" title="安装Centos7系统"></a>安装Centos7系统</h3><p>原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题及是否需要图形化界面，当然也需要创建账户名和密码及root密码，这里我使用了图形化界面，安装了gnome桌面环境，要安装图形化界面在安装过程中取消最小安装，选择自己所需要的即可。</p>
 <a id="more"></a>
-<p>按需求，在安装完系统后需要将主机ip设为静态ip，将ip固定。</p>
+<p>不过安装完centos系统后，其中需要配置一项，就是设置sudo命令可以被普通用户xm6f所使用，不然将会报<br>    xm6f 不在 sudoers 文件中。此事将被报告。<br>这个错，所以使用命令操作/etc/sudoers这个文件，在文件末尾添加如下一行<br><code>xm6f ALL=(ALL) ALL</code><br>完后就可以使用在普通用户下使用sudo命令来暂时使用root.按需求，在安装完系统后需要将主机ip设为静态ip，将ip固定。</p>
 <h4 id="设置静态ip"><a href="#设置静态ip" class="headerlink" title="设置静态ip"></a>设置静态ip</h4><p>可以使用命令ifconfig查看ip信息，但现在需要进行更改，就需要修改网卡的配置文件，该配置文件存放在/etc/sysconfig/network-scripts目录下，其名字为”ifcfg-“加上网卡名，首先先来到network-scripts目录下，如下输出</p>
 <pre><code>[xm6f@localhost ~]$ cd /etc/sysconfig/network-scripts/
 [xm6f@localhost network-scripts]$ ls
@@ -49,9 +49,10 @@ ONBOOT=yes
 <pre><code>IPADDR=192.168.1.149    #最后要的ip地址
 GATEWAY=192.168.1.1    #网关
 DNS1=192.168.1.1
-</code></pre><p>之后运行命令<br><code>sudo systemctl restart network.service</code><br>或<br><code>sudo service network restart</code><br>重启网卡服务,之后查看ip信息则用命令<br><code>ip add</code><br>用此命令来查看ip信息，ip更改过来并且能上网，才算成功，之后就是为这台centos7服务器主机搭建环境安装tomcat等</p>
+</code></pre><p>之后运行命令<br><code>sudo systemctl restart network.service</code><br>或<br><code>sudo service network restart</code><br>重启网卡服务,之后查看ip信息则用命令<br><code>ip add</code><br>用此命令来查看ip信息，ip更改过来并且能上网，才算成功，之后就是为这台centos7服务器主机搭建java环境环境安装tomcat等，搭建java环境之前，需要将centos系统中的openjdk卸载，这是centos原装的，openjdk用得少，一般都用oraclejdk,所以看下面如何卸载openjdk</p>
+<h4 id="卸载openjdk"><a href="#卸载openjdk" class="headerlink" title="卸载openjdk"></a>卸载openjdk</h4><p>卸载centos7上的openjdk<br>先查看,使用命令<br><code>rpm -qa | grep java</code><br>例如我的输出,显示如下信息<br>    java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64<br>    javapackages-tools-3.4.1-11.el7.noarch<br>    java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64<br>    tzdata-java-2016g-2.el7.noarch<br>    python-javapackages-3.4.1-11.el7.noarch<br>    java-1.7.0-openjdk-headless-1.7.0.111-2.6.7.8.el7.x86_64<br>    java-1.7.0-openjdk-1.7.0.111-2.6.7.8.el7.x86_64<br>卸载命令<br>    rpm -e –nodeps java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64<br>    rpm -e –nodeps java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64<br>还可以这样卸载<br>    java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64<br>    java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64<br>最后我是删成了这样<br>    [xm6f@localhost jdk1.7.0_80]$ rpm -qa | grep java<br>    javapackages-tools-3.4.1-11.el7.noarch<br>    tzdata-java-2016g-2.el7.noarch<br>    python-javapackages-3.4.1-11.el7.noarch<br>    [xm6f@localhost jdk1.7.0_80]$ java<br>    -bash: /usr/bin/java: 没有那个文件或目录<br>然后就是安装oraclejdk，配置环境变量，搭建java环境可以看这移步到这篇文章:[java环境搭建][]</p>
 <h3 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h3><p>在安装Tomcat之前，因为Tomcat是需要java环境，所以先要安装为centos服务器安装jdk。然而需要在自己电脑上操作服务器，公司给我配置的电脑是windows笔记本，那么就需要在电脑上安装xshell这个软件，用它来连接操作centos服务器，下载安装xshell后，打开xshell，利用ip和账户名和密码连接到centos7这台电脑，并了解centos7这台电脑上是否安装lrzsz这个文件传输工具，无则命令安装<br><code>sudo yum install -y lrzsz</code><br>之后再输入命令’rz’用来上传文件，这里需要注意到，上传之前可能需要切换到/tmp文件夹下来进行上传，貌似是权限的问题<br>上传完成之后，使用tar命令来解压文件，如命令<br><code>sudo tar -zvxf jdk-8u144-linux-x64.tar.gz</code><br>通常解压到/usr/local目录…解压完后直接在安装目录尝试启动tomcat看看，因为这里需要配置多个tomcat，那么就不能为单一的tomcat配置环境变量，这样会导致在哪都只能启动配置了环境变量的tomcat，而不能启动其他的tomcat。所以现在便捷的方式是不为任何一个tomcat配置环境变量，那么这样的话，启动tomcat需要到相应的tomcat文件目录中的bin目录下运行命令<code>./catalina.sh start</code> 或<code>./startup.sh</code>来启动，关闭则为<code>./catalina.sh stop</code>或<code>./shutdown.sh</code></p>
-<h4 id="启动tomcat并开放8080端口"><a href="#启动tomcat并开放8080端口" class="headerlink" title="启动tomcat并开放8080端口"></a>启动tomcat并开放8080端口</h4><p>有可能cd不能进入tomcat里的/bin文件夹，会提示权限不够，或者在启动Tomcat的时候提示权限不够，可以先用命令<br><code>ls -l</code><br>来查看下文件或文件夹的运行权限和所属用户组，如果运行权限不足则增加相应的权限，或者更改文件的拥有者，例如命令<br><code>sudo chown -R xm6f bin</code><br>即将bin目录文件的拥有者更改成xm6f普通用户，这样就可以进入bin目录了，进入bin目录后，就可以运行命令来启动tomcat了<br>命令<br><code>./catalina.sh start</code>或者<code>./startup.sh</code><br>因为使用的是8080端口，大于1024端口，而且文件所有者已经更改成了xm6f普通用户，所以不需要使用root来进行启动，启动之后再centos服务器电脑上就使用<a href="http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了" target="_blank" rel="external">http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了</a><br>其开启对外开发8080端口命令如下<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>运行上面这条命令后，如果运行正常返回success那么再运行下面这条命令<br><code>sudo firewall-cmd --reload</code><br>若同样正常返回success那么就成功的对外开发了8080端口，另外提一点，因为现在操作的是centos7系统，centos7是使用firewall，在centos7之前的系统都是使用iptables，所以如果是centos7之前的系统，那么上面这两天命令就不能使用了，而需要操作iptables了。</p>
+<h4 id="启动tomcat并开放8080端口"><a href="#启动tomcat并开放8080端口" class="headerlink" title="启动tomcat并开放8080端口"></a>启动tomcat并开放8080端口</h4><p>有可能cd不能进入tomcat里的/bin文件夹，会提示权限不够，或者在启动Tomcat的时候提示权限不够，可以先用命令<br><code>ls -l</code><br>来查看下文件或文件夹的运行权限和所属用户组，如果运行权限不足则增加相应的权限，或者更改文件的拥有者，例如命令<br><code>sudo chown -R xm6f bin</code><br>即将bin目录文件的拥有者更改成xm6f普通用户，这样就可以进入bin目录了，进入bin目录后，就可以运行命令来启动tomcat了<br>命令<br><code>./catalina.sh start</code>或者<code>./startup.sh</code><br>因为使用的是8080端口，大于1024端口，而且文件所有者已经更改成了xm6f普通用户，所以不需要使用root来进行启动，启动之后再centos服务器电脑上就使用<a href="http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了" target="_blank" rel="external">http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了</a><br>其开启对外开发8080端口命令如下<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>运行上面这条命令后，如果运行正常返回success那么再运行下面这条命令<br><code>sudo firewall-cmd --reload</code><br>若同样正常返回success那么就成功的对外开发了8080端口，另外提一点，因为现在操作的是centos7系统，这里可以有两种方式来开放端口，一种就是上面的使用firewall-cmd命令，另一种就是操作iptables,iptables我不大会操作，不过后期再补上。如果没使用firewall-cmd来开放端口的的话，估计就是iptables里面开放了。我之前就是，同事使用iptables开放了端口，而我又不知道，使用firewall-cmd命令<br><code>sudo firewall-cmd --list-ports</code><br>查看了所以的已经开放了的端口号，发现我要开放的端口在这个输出中并不存在，那就肯定是iptables上进行开放了。</p>
 <h4 id="配置三台tomcat"><a href="#配置三台tomcat" class="headerlink" title="配置三台tomcat"></a>配置三台tomcat</h4><p>而需要配置三台tomcat，那就需要有三个tomcat安装文件，如下</p>
 <pre><code>[xm6f@localhost tomcat]$ ls
 apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
@@ -210,7 +211,7 @@ apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
 <pre><code>&lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
 </code></pre><p>第二胎更改成9009,9443，第三台更改成7009,7443<br>并且将8081和8082这两个端口都进行对外开放，这样就可以了，要测试的话，分别到各个tomcat目录中将其都启动，浏览器输入ip地址和对应的端口号即可。</p>
 <p>至此，就完成了tomcat的安装</p>
-<h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><p>centos7服务器电脑还需要安装redis<br>还没接触过redis，后面跟同事了解到，redis是使用c编写的，redis一般在系统开发中只用作缓存，因为如果要使用的数据量太大的话，而且需要多次使用，如果不使用缓存，那么在每一次请求数据的时候都需要从数据库中进行查找，这样不仅耗时也好资源，所以如果使用redis缓存机制，用户请求数据的时候，如果数据量过大，就会使用redis将该数据暂时放入内存中，以键值对的方式存放着，并于该请求用户的临时id进行关联，使得再次使用到该数据的时候可以直接使用get方式从内存中读取，而不需要从数据库中查…..ok<br>那么下载安装,下载redis-2.8.4.tar压缩包后，将压缩包上传到centos7服务器中<br>因为需要gcc编译，查看了后知道未安装gcc，那么先安装gcc,其命令<br><code>sudo yum install gcc make</code><br>之后解压redis-2.8.4.tar,并编译<br>解压命令<br><code>sudo tar -zvxf redis-2.8.4.tar</code><br>解压之后cd到解压得到的目录中，运行命令sudo make来编译，出了个错误</p>
+<h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><p>centos7服务器电脑还需要安装redis<br>还没接触过redis，后面跟同事了解到，redis是使用c编写的，redis一般在系统开发中只用作缓存，因为如果要使用的数据量太大的话，而且需要多次使用，如果不使用缓存，那么在每一次请求数据的时候都需要从数据库中进行查找，这样不仅耗时也好资源，所以如果使用redis缓存机制，用户请求数据的时候，如果数据量过大，就会使用redis将该数据暂时放入内存中，以键值对的方式存放着，并于该请求用户的临时id进行关联，使得再次使用到该数据的时候可以直接使用get方式从内存中读取，而不需要从数据库中查…..ok<br>那么下载安装,下载redis-2.8.4.tar压缩包后，将压缩包上传到centos7服务器中，现在操作的这台主机不知道为什么，只能通过tmp目录上传，那么每次上传完成之后在tmp目录下进行解压，之后直接cd进入解压得到的文件夹，例如这里解压得到的文件夹名为redis-2.8.6，使用命令进行编译，再编译完成之后会在目录redis-2.8.6/src下会得到可执行程序，最好把可执行程序单独拿出来，放到/usr/local目录下，同样也把存放在/redis-2.8.6目录下的redis.conf这个配置文件也拿出来，这是解压之后得到的。在/usr/local/目录下创建一个redis文件夹来一起存放，之后手动启动和关闭redis都在这个目录进行操作，后期配置开机启动也使用这个文件夹里的可执行程序。<br>因为需要gcc编译，查看了后知道未安装gcc，那么先安装gcc,其命令<br><code>sudo yum install gcc make</code><br>之后解压redis-2.8.4.tar,并编译<br>解压命令<br><code>sudo tar -zvxf redis-2.8.4.tar</code><br>解压之后cd到解压得到的目录中，运行命令sudo make来编译，出了个错误</p>
 <pre><code>zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目录
 </code></pre><p>网上查了之后才知道命令中需要添加一个参数变量,运行命令sudo make MALLOC=libc,就不会出现这个问题，然后测试redis是否安装成功，运行命令<br><code>make test</code><br>时，出现个问题</p>
 <pre><code>You need tcl 8.5 or newer in order to run the Redis test
@@ -226,7 +227,7 @@ OK
 127.0.0.1:6379&gt; get name
 &quot;aa&quot;
 127.0.0.1:6379&gt; 
-</code></pre><p>只要这样测试结果正常，那就意味着redis安装成功，不过，redis需要配置开机启动</p>
+</code></pre><p>只要这样测试结果正常，那就意味着redis安装成功，不过，redis需要配置开机启动，redis运行的端口号一般默认时6379</p>
 <h4 id="配置redis开机启动"><a href="#配置redis开机启动" class="headerlink" title="配置redis开机启动"></a>配置redis开机启动</h4><p>所以为了方便启动和管理，我在/usr/local/下新建了个redis文件夹，并将redis-server，redis-cli，redis-sentinel，redis-benchmark，redis-check-aof，redis-check-dump及redis.conf复制到该redis文件夹下，配置开机启动的方式就是在/etc/rc.d/init.d目录下创建一个启动脚本，命令如下<br><code>sudo vim redis</code><br>脚本是从网上找的，只是进行了修改，其内容如下</p>
 <pre><code>#!/bin/sh
 #chkconfig: 345 86 14
@@ -308,7 +309,7 @@ exit 0
 <pre><code>sudo chkconfig --add redis
 sudo chkconfig --level 345 redis on    #345这个数字根据脚本中来定
 sudo chkconfig --list redis
-</code></pre><p>之后就可以重启系统进行测试了，只要确定redis能在开机后启动就可以了</p>
+</code></pre><p>之后就可以重启系统进行测试了，只要确定redis能在开机后启动就可以了<br>获取详细信息命令<br><code>./redis-server --help</code><br><code>./redis-cli --help</code><br>关闭命令<br><code>pkill redis-server</code><br>或<br><code>redis-cli shutdown</code></p>
 <h4 id="手动启动redis"><a href="#手动启动redis" class="headerlink" title="手动启动redis"></a>手动启动redis</h4><p>手动启动redis一般需要到redis的安装目录的src文件夹下运行redis-server，不过这里我已经将这些可运行程序及配置文件拷贝到/usr/local/redis/目录下，所以可以直接在这个目录下手动启动redis,其命令如下</p>
 <pre><code>cd /usr/local/redis
 ./redis-server redis.conf    #启动redis
@@ -323,7 +324,7 @@ sudo chkconfig --list redis
 <pre><code>cd nginx-1.12.1
 sudo ./configure
 sudo make &amp;&amp; sudo make install
-</code></pre><p>这样的编译安装方式会将nginx安装到/usr/local/nginx下，然后我们进入到安装目录下的sbin文件夹中，使用命令<br><code>sudo ./nginx</code><br>就可以运行nginx了<br>提示<br>如果不使用sudo来启动nginx就会出现如下错误</p>
+</code></pre><p>这样的编译安装方式会自动将nginx安装到/usr/local/nginx下，如果我们需要自定义nginx的安装目录，例如我需要安装在/home/xm6f/dev/nginx-1.12.1目录下，那么可以使用下面的命令<br><code>./configure --prefix=/home/xm6f/dev/nginx-1.12.1</code><br>然后我们进入到安装目录下的sbin文件夹中，使用命令<br><code>sudo ./nginx</code><br>就可以运行nginx了<br>提示<br>如果不使用sudo来启动nginx就会出现如下错误</p>
 <pre><code>nginx: [emerg] bind() to 0.0.0.0:80 failed (13: Permission denied)
 </code></pre><p>这个错误不是文件权限错误，而是端口权限的错误，在linux系统中，所有启动数字小于1024的端口都需要root权限，而nginx使用的80端口，所以，就需要sudo使用root身份</p>
 <h4 id="nginx启动与关闭"><a href="#nginx启动与关闭" class="headerlink" title="nginx启动与关闭"></a>nginx启动与关闭</h4><p>启动、停止nginx的命令如下</p>
@@ -485,6 +486,8 @@ http {
     # index  index.html index.htm;
 }
 </code></pre><p>这算是最基本的修改了，后面还得涉及到nginx性能的优化配置，这里先不扯。继续看上面的原始配置文件，nginx的server块中表明了nginx使用的地址server_name和端口号listen，其端口号是80端口，为使服务器能够外网访问就需要开放80端口，所以我们需要开放端口，其命令为<br><code>sudo firewall-cmd --zone=public --add-port=80/tcp --permanent</code><br>之后运行下面的命令<br><code>sudo firewall-cmd --reload</code><br>两者都正常运行返回success即为开放成功，另外提下，列出所有已经开放的端口命令如下<br><code>sudo firewall-cmd --list-ports</code><br>目前，将nginx服务启动后，在我自己的笔记本上使用centos7服务器的ip及80端口通过浏览器即可访问到tomcat，但是负载均衡不能得到体现，所以我们可以修改三台tomcat安装目录下的/webapps/ROOT/index.jsp页面，来区分三台不同的tomcat，为了方便，我就修改了index.jsp页面的title，每个title的值就是相应tomcat所在的端口号，浏览器中输入<a href="http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。" target="_blank" rel="external">http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。</a><br>至此nginx安装与配置已经完成<br>查询nginx进程：<br><code>ps aux|grep nginx</code><br>查看服务的状态<br><code>service nginx status或systemctl nginx status</code></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>存储帐号的文件：/etc/passwd<br>存储密码的文件：/etc/shadow<br>查看所有用户命令<br><code>cat /etc/passwd</code><br>便捷的输出：<br><code>grep bash /etc/passwd</code><br>查看所有用户对于的密码<br><code>cat /etc/shadow | grep 用户名</code><br>通过/etc/shadow获取的只是密码加密后的Hash散列值，要获取明文密码，需要自己进行破解<br>root下修改普通用户命令<br><code>passwd 用户名</code><br>root下修改自己密码命令<br><code>passwd</code></p>
+<p>[java环境搭建][<a href="https://cgspace.date/2017/03/08/java/2017-3-08-java-EnvironmentVariable/" target="_blank" rel="external">https://cgspace.date/2017/03/08/java/2017-3-08-java-EnvironmentVariable/</a>]</p>
 ]]></content>
       
         <categories>
@@ -503,6 +506,8 @@ http {
             <tag> redis </tag>
             
             <tag> tomcat </tag>
+            
+            <tag> nginx </tag>
             
         </tags>
         
@@ -2497,9 +2502,9 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
         
         <tags>
             
-            <tag> git </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> git </tag>
             
         </tags>
         
@@ -2538,9 +2543,9 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
             <tag> android </tag>
             
@@ -3959,9 +3964,9 @@ class Hint{
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
             <tag> 笔试题 </tag>
             
@@ -4603,7 +4608,14 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
 <p>在终端上输入java -version和javac显示正常即完成了java的环境配置</p>
 <p><img src="/images/java/java-environmentVariable.png" alt="java-bookContorlSystem"></p>
 <p>好了,谢谢</p>
-]]></content>
+<hr>
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><p>给公司centos服务器配置的java环境如下</p>
+<pre><code>#Java-environment
+export JAVA_HOME=/home/xm6f/dev/jdk1.7.0_80
+export JRE_HOME=/home/xm6f/dev/jdk1.7.0_80/jre
+export CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tool.jar:$JRE_HOME/lib
+export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
+</code></pre>]]></content>
       
         <categories>
             
@@ -4614,9 +4626,9 @@ export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -4710,9 +4722,9 @@ while(scanner.hasNextLine()){
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -4758,9 +4770,9 @@ public class ShowFile {
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6246,9 +6258,9 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6291,9 +6303,9 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6351,9 +6363,9 @@ class TextVector{
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6417,9 +6429,9 @@ Math.round(fbelow)0
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6519,9 +6531,9 @@ i == 9，执行break outer,终止所有循环,程序结束
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6647,9 +6659,9 @@ i == 7,执行break,结束整个for循环
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -6810,9 +6822,9 @@ class DrawShape{
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -7360,9 +7372,9 @@ if __name__ == &apos;__main__&apos;:
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> java </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
