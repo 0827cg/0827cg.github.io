@@ -3,6 +3,45 @@
   
     
     <entry>
+      <title><![CDATA[tomcat配置session共享]]></title>
+      <url>/2017/08/12/linux/2017-08-12-tomcat-redis-session-share/</url>
+      <content type="html"><![CDATA[<p>现在在公司里需要管理四台服务器，在这四台服务器中都各自装有三台tomcat,其他redis和nginx在其中一些有装，项目部署到不同ip的tomcat，需要实现session共享，也就是需要实现集群。之前配置的是nginx集群，并未涉及到session事物的共享，所以现在要进行配置，实现session集群。</p>
+<a id="more"></a>
+<p>首先需要准备三个jar包，放到tomcat安装目录的lib文件夹下，每个tomcat都要存放<br>这里我使用到的jar包名如下<br>    tomcat-redis-session-manager-tomcat7.jar<br>    jedis-2.5.2.jar<br>    commons-pool2-2.2.jar<br>将其全部复制到tomcat安装路径下的lib文件夹中，然后编辑安装路径下的conf文件夹中的context.xml文件，增加内容如下<br>    <valve classname="com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve"><br>    <manager classname="com.orangefunction.tomcat.redissessions.RedisSessionManager" host="localhost" port="6379" database="0" maxinactiveinterval="60"><br>其中host是配置redis所在机器的ip地址，如果是本台机器，则配置localhost即可，其测试用到的获取sessions的代码如下<br><code>&lt;%= request.getSession().getId() %&gt;</code><br>将其插入到html页面中，我一般就将其设置为html页面的title标签值，这样简单又有用</manager></valve></p>
+<h3 id="第一次测试"><a href="#第一次测试" class="headerlink" title="第一次测试"></a>第一次测试</h3><p>这里首先测试了两种情况，<br>第一种：2台tomcat和redis及nginx在同一台机器上<br>结果: 获取的session id一样，这样实现了tomcat的session共享</p>
+<p>第二种: 两台不同的机器，机器105上只有1台测试tomcat，机器149上有redis和1台测试tomcat，两台机器上都装的nginx<br>结果: 获取的session id不一样，</p>
+<p>这我就一脸懵逼了，差看日志也没啥输出<br>猜测是不能跨ip来进行session共享，不过有感觉有点浮夸，抱着试一试的心态进行了下一步测试</p>
+<h3 id="第二次测试"><a href="#第二次测试" class="headerlink" title="第二次测试"></a>第二次测试</h3><p>出现第三种情况，就是将前两种情况进行整合<br>就是两台机器，105和149，<br>机器105中有两台测试的tomcat,即tomcat8081和tomcat8082，有个nginx,nginx并为这两台tomcat进行负载均衡<br>机器149中有两台测试的tomcat,即tomcat8081和tomcat8082, 有个nginx，nginx将这两台tomcat进行了负载均衡，有个redis<br>将机器105中的tomcat8081进行负载均衡添加到149中的nginx里面，<br>为四台tomcat都配置redis的session共享，并都指向149中的redis</p>
+<p>结果: 机器105中的tomcat8081和机器149中的两台tomcat使用的session id是一样的，单单只有机器105中的tomcat8082使用的是另一个session id</p>
+<p>出现这样的结果让我很吃惊，跨ip是肯定可以跨的，不过为什么又会有一台获取不到session id，其区别也只是tomcat8082和其他tomcat不在同一个nginx负载均衡集群中，所以猜想难道redis的session会和nginx的负载均衡结合起来？所以还是进行下一步的测试</p>
+<h3 id="第三次测试"><a href="#第三次测试" class="headerlink" title="第三次测试"></a>第三次测试</h3><p>这次是一台机器，即149，有三台tomcat，分别为tomcat8080,tomcat8081,tomcat8082.还有个nginx和redis<br>将tomcat8080和tomcat8081使用nginx来达到负载均衡，tomcat8082不添加进去<br>并都配置好session共享</p>
+<p>结果: 三台tomcat使用的session id都相同<br>这可得怎么搞……</p>
+<p>总结上面的三次测试，感觉单靠redis并不能达到跨ip的session共享的结果，只能达到本台机器下的tomcat进行seession共享，而如果使用nginx来配合redis，解决跨ip问题，那么就可以实现跨ip的session共享，这看感觉有点不符合逻辑，因为redis和nginx并不是同一家公司开发的啊，为什么还需要进行互补…看网上的一些教程，貌似都是单靠redis就可以实现session共享，但我也不能确定，总之就是，现在如果我要达到跨ip的session共享，那么就需要nginx的配合，就可以实现</p>
+<p>测试过程的终端输出就不贴了。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> centos </tag>
+            
+            <tag> redis </tag>
+            
+            <tag> tomcat </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[搭建centos服务器]]></title>
       <url>/2017/08/07/linux/2017-08-07-install-centos-server/</url>
       <content type="html"><![CDATA[<p>7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录</p>
@@ -689,9 +728,9 @@ group by pur_goods_sku_id,order_id
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> javaEE </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -1022,9 +1061,9 @@ public class CruiseShipProjectClassify extends com.framework.hibernate.util.Enti
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> javaEE </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -2543,9 +2582,9 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
             <tag> android </tag>
             
@@ -3964,9 +4003,9 @@ class Hint{
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
             <tag> 笔试题 </tag>
             
@@ -4558,9 +4597,9 @@ for(Student student : list){
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> javaEE </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -4626,9 +4665,9 @@ export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -4722,9 +4761,9 @@ while(scanner.hasNextLine()){
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -4770,9 +4809,9 @@ public class ShowFile {
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6258,9 +6297,9 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6303,9 +6342,9 @@ INSERT INTO allBook(bookIndex,bookName) VALUES (&apos;TN231-33&apos;,&apos;Java�
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6363,9 +6402,9 @@ class TextVector{
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6429,9 +6468,9 @@ Math.round(fbelow)0
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6531,9 +6570,9 @@ i == 9，执行break outer,终止所有循环,程序结束
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6659,9 +6698,9 @@ i == 7,执行break,结束整个for循环
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -6822,9 +6861,9 @@ class DrawShape{
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
@@ -7017,9 +7056,9 @@ public class SpringHelloWorld {
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> javaEE </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -7086,9 +7125,9 @@ public class SpringHelloWorld {
         
         <tags>
             
-            <tag> codeing </tag>
-            
             <tag> javaEE </tag>
+            
+            <tag> codeing </tag>
             
         </tags>
         
@@ -7372,9 +7411,9 @@ if __name__ == &apos;__main__&apos;:
         
         <tags>
             
-            <tag> java </tag>
-            
             <tag> codeing </tag>
+            
+            <tag> java </tag>
             
         </tags>
         
