@@ -76,7 +76,7 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/08/07/linux/2017-08-07-install-centos-server/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录 安装Centos7系统原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题">
-<meta property="og:updated_time" content="2017-08-12T08:37:50.309Z">
+<meta property="og:updated_time" content="2017-08-12T16:15:16.643Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建centos服务器">
 <meta name="twitter:description" content="7月31号第一天上班，boss找那个java开发的项目经理带我。第一天的工作内容就是搭建个centos服务器，其中已经可以外网访问了。centos中需要配置三台tomcat,不同端口访问，并配置redis数据库。工作不难，下面这些就是我在搭建过程中的记录 安装Centos7系统原本主机中安装的是Ubuntu系统，需要将它全部删除，安装centos系统，这个不难不扯。不过在安装过程中需要考虑分区问题">
@@ -571,6 +571,15 @@ apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
 <pre><code>&lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
 </code></pre><p>第二胎更改成9009,9443，第三台更改成7009,7443<br>并且将8081和8082这两个端口都进行对外开放，这样就可以了，要测试的话，分别到各个tomcat目录中将其都启动，浏览器输入ip地址和对应的端口号即可。</p>
 <p>至此，就完成了tomcat的安装</p>
+<p>另外提下，如果使用tomcat页面中manager-app按钮，实现登陆管理，那么就需要修改/conf/tomcat-users.xml这个文件来设置登录的用户名和密码，这里修改成如下，这里的修改就是取消注释后再进行修改<br>或者直接再文件底部，但需要在tomcat-user标签里面，这里我添加代码的代码如下</p>
+<pre><code>&lt;role rolename=&quot;tomcat&quot; /&gt;
+&lt;role rolename=&quot;admin&quot;/&gt;
+&lt;role rolename=&quot;admin-gui&quot;/&gt;
+&lt;role rolename=&quot;manager&quot;/&gt;
+&lt;role rolename=&quot;manager-gui&quot;/&gt;
+&lt;role rolename=&quot;manager-script&quot;/&gt;
+&lt;user username=&quot;tomcat&quot; password=&quot;tomcat&quot; roles=&quot;tomcat,admin-gui,admin,manager,manager-gui,manager-script&quot;/&gt;
+</code></pre><p>即用户名和密码都为tomcat</p>
 <h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><p>centos7服务器电脑还需要安装redis<br>还没接触过redis，后面跟同事了解到，redis是使用c编写的，redis一般在系统开发中只用作缓存，因为如果要使用的数据量太大的话，而且需要多次使用，如果不使用缓存，那么在每一次请求数据的时候都需要从数据库中进行查找，这样不仅耗时也好资源，所以如果使用redis缓存机制，用户请求数据的时候，如果数据量过大，就会使用redis将该数据暂时放入内存中，以键值对的方式存放着，并于该请求用户的临时id进行关联，使得再次使用到该数据的时候可以直接使用get方式从内存中读取，而不需要从数据库中查…..ok<br>那么下载安装,下载redis-2.8.4.tar压缩包后，将压缩包上传到centos7服务器中，现在操作的这台主机不知道为什么，只能通过tmp目录上传，那么每次上传完成之后在tmp目录下进行解压，之后直接cd进入解压得到的文件夹，例如这里解压得到的文件夹名为redis-2.8.6，使用命令进行编译，再编译完成之后会在目录redis-2.8.6/src下会得到可执行程序，最好把可执行程序单独拿出来，放到/usr/local目录下，同样也把存放在/redis-2.8.6目录下的redis.conf这个配置文件也拿出来，这是解压之后得到的。在/usr/local/目录下创建一个redis文件夹来一起存放，之后手动启动和关闭redis都在这个目录进行操作，后期配置开机启动也使用这个文件夹里的可执行程序。<br>因为需要gcc编译，查看了后知道未安装gcc，那么先安装gcc,其命令<br><code>sudo yum install gcc make</code><br>之后解压redis-2.8.4.tar,并编译<br>解压命令<br><code>sudo tar -zvxf redis-2.8.4.tar</code><br>解压之后cd到解压得到的目录中，运行命令sudo make来编译，出了个错误</p>
 <pre><code>zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目录
 </code></pre><p>网上查了之后才知道命令中需要添加一个参数变量,运行命令sudo make MALLOC=libc,就不会出现这个问题，然后测试redis是否安装成功，运行命令<br><code>make test</code><br>时，出现个问题</p>

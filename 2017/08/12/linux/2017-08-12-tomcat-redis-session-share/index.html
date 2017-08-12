@@ -76,7 +76,7 @@
 <meta property="og:url" content="http://www.cgspace.date/2017/08/12/linux/2017-08-12-tomcat-redis-session-share/index.html">
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="现在在公司里需要管理四台服务器，在这四台服务器中都各自装有三台tomcat,其他redis和nginx在其中一些有装，项目部署到不同ip的tomcat，需要实现session共享，也就是需要实现集群。之前配置的是nginx集群，并未涉及到session事物的共享，所以现在要进行配置，实现session集群。">
-<meta property="og:updated_time" content="2017-08-12T16:08:01.688Z">
+<meta property="og:updated_time" content="2017-08-12T16:15:13.096Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tomcat配置session共享">
 <meta name="twitter:description" content="现在在公司里需要管理四台服务器，在这四台服务器中都各自装有三台tomcat,其他redis和nginx在其中一些有装，项目部署到不同ip的tomcat，需要实现session共享，也就是需要实现集群。之前配置的是nginx集群，并未涉及到session事物的共享，所以现在要进行配置，实现session集群。">
@@ -367,7 +367,18 @@
       
         <p>现在在公司里需要管理四台服务器，在这四台服务器中都各自装有三台tomcat,其他redis和nginx在其中一些有装，项目部署到不同ip的tomcat，需要实现session共享，也就是需要实现集群。之前配置的是nginx集群，并未涉及到session事物的共享，所以现在要进行配置，实现session集群。</p>
 <a id="more"></a>
-<p>首先需要准备三个jar包，放到tomcat安装目录的lib文件夹下，每个tomcat都要存放<br>这里我使用到的jar包名如下<br>    tomcat-redis-session-manager-tomcat7.jar<br>    jedis-2.5.2.jar<br>    commons-pool2-2.2.jar<br>将其全部复制到tomcat安装路径下的lib文件夹中，然后编辑安装路径下的conf文件夹中的context.xml文件，增加内容如下<br>    <valve classname="com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve"><br>    <manager classname="com.orangefunction.tomcat.redissessions.RedisSessionManager" host="localhost" port="6379" database="0" maxinactiveinterval="60"><br>其中host是配置redis所在机器的ip地址，如果是本台机器，则配置localhost即可，其测试用到的获取sessions的代码如下<br><code>&lt;%= request.getSession().getId() %&gt;</code><br>将其插入到html页面中，我一般就将其设置为html页面的title标签值，这样简单又有用</manager></valve></p>
+<p>首先需要准备三个jar包，放到tomcat安装目录的lib文件夹下，每个tomcat都要存放<br>这里我使用到的jar包名如下</p>
+<pre><code>tomcat-redis-session-manager-tomcat7.jar 
+jedis-2.5.2.jar 
+commons-pool2-2.2.jar
+</code></pre><p>将其全部复制到tomcat安装路径下的lib文件夹中，然后编辑安装路径下的conf文件夹中的context.xml文件，增加内容如下</p>
+<pre><code>&lt;Valve className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve&quot; /&gt;
+&lt;Manager className=&quot;com.orangefunction.tomcat.redissessions.RedisSessionManager&quot;
+       host=&quot;localhost&quot;
+       port=&quot;6379&quot;
+       database=&quot;0&quot;
+       maxInactiveInterval=&quot;60&quot; /&gt;
+</code></pre><p>其中host是配置redis所在机器的ip地址，如果是本台机器，则配置localhost即可，其测试用到的获取sessions的代码如下<br><code>&lt;%= request.getSession().getId() %&gt;</code><br>将其插入到html页面中，我一般就将其设置为html页面的title标签值，这样简单又有用</p>
 <h3 id="第一次测试"><a href="#第一次测试" class="headerlink" title="第一次测试"></a>第一次测试</h3><p>这里首先测试了两种情况，<br>第一种：2台tomcat和redis及nginx在同一台机器上<br>结果: 获取的session id一样，这样实现了tomcat的session共享</p>
 <p>第二种: 两台不同的机器，机器105上只有1台测试tomcat，机器149上有redis和1台测试tomcat，两台机器上都装的nginx<br>结果: 获取的session id不一样，</p>
 <p>这我就一脸懵逼了，差看日志也没啥输出<br>猜测是不能跨ip来进行session共享，不过有感觉有点浮夸，抱着试一试的心态进行了下一步测试</p>
