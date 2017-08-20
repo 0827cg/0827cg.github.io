@@ -109,7 +109,6 @@
 
 
 
-
   <link rel="canonical" href="http://www.cgspace.date/2017/07/11/javaee/2017-07-11-javaEE-spring-jdbcTemplate/"/>
 
 
@@ -570,7 +569,21 @@ group by pur_goods_sku_id,order_id
       
     </div>
  </div>
-        
+
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+var gitalk = new Gitalk({
+  clientID: '72b592f61c3081484782',
+  clientSecret: 'f52ccfc473ec10411d5357cd7cb980fb6a940ed7',
+  repo: 'cgstudios-blog-file',
+  owner: 'cgstudios',
+  admin: ['cgstudios'],
+})
+gitalk.render('gitalk-container')
+</script>
     
 
           </div>
@@ -628,7 +641,7 @@ group by pur_goods_sku_id,order_id
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-count">40</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
