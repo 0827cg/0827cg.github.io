@@ -9,11 +9,11 @@
 <a id="more"></a>
 <p>这里是链接</p>
 <ul>
-<li>[项目地址][]</li>
-<li>[演示地址][]</li>
+<li><a href="https://github.com/gitalk/gitalk" target="_blank" rel="external">项目地址</a></li>
+<li><a href="https://gitalk.github.io/" target="_blank" rel="external">演示地址</a></li>
 </ul>
 <p>项目地址中有中文说明，详细的使用方式参考项目地址中的就可以了，这里我只是对我这次的使用进行一次简单的总结，做个记录</p>
-<p>首先申请一个Github Application，到[这个页面]去，具体的填写方式如下图中的</p>
+<p>首先申请一个Github Application，到<a href="https://github.com/settings/applications/new" target="_blank" rel="external">这个页面</a>去，具体的填写方式如下图中的</p>
 <p><img src="/images/gitalk/github-application.jpg" alt="github Application"></p>
 <p>其中Homepage URL和Authorization callback URL这两个都填写自己博客站点的url，如我的博客现在浏览器地址中显示的根地址是<a href="https://cgspace.date那我就填这个，这两个填对了就好说了" target="_blank" rel="external">https://cgspace.date那我就填这个，这两个填对了就好说了</a><br>粘贴代码到自己的post页面中了<br>我是直接使用url链接引入的方式，来使用gitalk的，如下我的引入代码格式</p>
 <pre><code>&lt;div id=&quot;gitalk-container&quot;&gt;&lt;/div&gt;
@@ -31,7 +31,6 @@ gitalk.render(&apos;gitalk-container&apos;)
 &lt;/script&gt;
 </code></pre><p>上面代码中列出的参数都是必须的，必须为他们进行赋值。当然也有一些其他的参数，具体可以参考gitalk项目地址里面的中文说明。上面<code>admin</code>参数的值是一个集合来存放，里面存放着这个项目仓库的所有开发人员的github的id名，这是对应那些团体开发的项目来说的，而对于我们一些个人项目，就比如博客，开发维护人员就只有我们自己，所以<code>admin</code>这个参数对应的集合只有一个元素，与<code>owner</code>的值一样<br>这样引入代码完成之后，提交到github，就需要自己对每一篇文章进行初始化，开放与文章对应的issue，之后就可以被其他github用户进行评论了</p>
 <p>对于上面的样式引入链接，自己也可以把两文件下载下来然后存放到自己的仓库中进行引入</p>
-<p>[项目地址][<a href="https://github.com/gitalk/gitalk" target="_blank" rel="external">https://github.com/gitalk/gitalk</a>]<br>[演示地址][<a href="https://gitalk.github.io/" target="_blank" rel="external">https://gitalk.github.io/</a>]<br>[这个页面][<a href="https://github.com/settings/applications/new" target="_blank" rel="external">https://github.com/settings/applications/new</a>]</p>
 ]]></content>
       
         <categories>
