@@ -3,6 +3,3462 @@
   
     
     <entry>
+      <title><![CDATA[night]]></title>
+      <url>/2017/12/09/daily/2017-12-09-daily-wu/</url>
+      <content type="html"><![CDATA[<p>好久没更博客了<br>最近事有点多</p>
+<a id="more"></a>
+<p>还是要找点自己的事做<br>做回自己</p>
+<p>琐事太多<br>飘忽不定<br>或许飘泊不定的日子才是我们所谓的生活</p>
+]]></content>
+      
+        <categories>
+            
+            <category> daily </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> daily </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[随感]]></title>
+      <url>/2017/10/13/daily/2017-10-13-daily-withTheFeeling/</url>
+      <content type="html"><![CDATA[<p>今天突然就想明白了</p>
+<p>朋友总是要走的<br>人还是要交朋友的<br>朋友来，我欢迎<br>朋友走，我也不强留</p>
+<a id="more"></a>
+<p>跟以前相比，朋友走了<br>我老是会那么不习惯<br>会不想再重新交朋友<br>想着，<br>那样算是背叛</p>
+<p>而如今<br>我变了<br>感觉像是那种没心没肺的了</p>
+<p>朋友来<br>我还是要认真对待<br>用心去交<br>走后<br>就当是一段经历吧</p>
+<p>总之<br>人生而孤独<br>走或来<br>结果都一样</p>
+<p>或许也有不一样<br>就如你和我</p>
+]]></content>
+      
+        <categories>
+            
+            <category> daily </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> daily </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Linux上安装python3]]></title>
+      <url>/2017/10/11/python/2017-10-11-python-installPython3/</url>
+      <content type="html"><![CDATA[<p>目的是安装在cento服务器上安装python3，实现python3和python2共存，因为linux系统中很多是依赖于python2，所以避免出错python2不能卸载。这就想到了防火墙iptables也不能卸载，之前折腾公司服务器差点把iptables卸了…<br>所以这里就安装python3与系统自带的python2共存</p>
+<a id="more"></a>
+<p>首先创建文件夹python3来存放安装文件，例如我在/usr/local/创建python3目录<br>这里我下载的是<code>Python-3.5.4.tar.xz</code>这个版本，将其上传到服务器<br>然后命令解压<br><code>sudo tar -xf Python-3.5.4.tar.xz</code><br>解压后<code>cd Python-3.5.4</code>进入解压目录<br>再运行命令<br><code>sudo ./configure --prefix=/usr/local/python3/</code><br>设定安装目录为<code>/usr/local/python3/</code>这个，运行之后它将检测源码，当然如果直接运行<code>sudo ./configure</code>也可以，默认也是安装到<code>/usr/local/</code>下</p>
+<p>然后<br><code>sudo make</code><br>来构建源码<br>之后<br><code>sudo make install</code><br>才算安装</p>
+<p>像这种源代码编译安装的方式，其卸载方法就是删除安装目录即可<br>之后<code>cd /usr/loca/python3/bin</code>中</p>
+<p><code>sudo cp pip3 python3 /usr/bin/</code><br>将其复制到/usr/bin中，这样就可以直接使用<code>python3</code>命令来运行python3了，这样也就使得系统自带的python2和python3共存了。同时不过为方便管理，通</p>
+<p>常也会将pip3复制到<code>/usr/bin/</code>下，这样安装python3的第三方包就使用pip3命令了</p>
+<p>至于复制到<code>/usr/bin/</code>目录下而不复制到别的目录，例如<code>/bin</code>,<code>/usr/sbin/</code>….的原因，<br>网上搜到个解释感觉很ok，如下</p>
+<p><code>/bin</code><br>是存放系统的一些指令。bin为binary的简写主要放置一些系统的必备执行档例如: cat、cp、chmod、df、dmesg、gzip、kill、ls、mkdir、more、mount、rm、su、tar等。</p>
+<p><code>/sbin</code><br>一般是指超级用户指令。主要放置一些系统管理的必备程式例如: cfdisk、dhcpcd、dump、e2fsck、fdisk、halt、ifconfig、ifup、ifdown、init、insmod、lilo、lsmod、mke2fs、modprobe、quotacheck、reboot、rmmod、 runlevel、shutdown等。</p>
+<p><code>/usr/bin</code><br>是用户在后期安装的一些软件的运行脚本。主要放置一些应用软体工具的必备执行档例如: c++、g++、gcc、chdrv、diff、dig、du、eject、elm、free、gnome、gzip、htpasswd、kfm、ktop、last、less、locale、m4、make、man、mcopy、ncftp、 newaliases、nslookup passwd、quota、smb、wget等。</p>
+<p><code>/usr/sbin</code><br>放置一些用户安装的系统管理的必备程式例如: dhcpd、httpd、imap、in.*d、inetd、lpd、named、netconfig、nmbd、samba、sendmail、squid、swap、tcpd、tcpdump等。</p>
+]]></content>
+      
+        <categories>
+            
+            <category> python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[python实现服务器监控脚本]]></title>
+      <url>/2017/10/10/linux/2017-10-10-linux-serverMonitor/</url>
+      <content type="html"><![CDATA[<p>这段时间都在写这个监控脚本，之前用shell写过一个，其实也可以用，但考虑到后期需要实现自动化运维，功能需要更加完善，于是就打算写一个python版的监控脚本</p>
+<a id="more"></a>
+<h3 id="脚本概况"><a href="#脚本概况" class="headerlink" title="脚本概况"></a>脚本概况</h3><p>分模块来总结，分为</p>
+<ul>
+<li>选择操作包</li>
+<li>工具包</li>
+<li>项目模块包</li>
+</ul>
+<p>目前完成的这个脚本文件中，其目录结构文件如下</p>
+<p><img src="/images/linux/python-monitor-2.png" alt="python-monitor"></p>
+<p><code>monitor.py</code> 脚本入口<br><code>monitorbin</code> 存放的operate.py这个文件及选择操作模块<br><code>monitorbin.util</code>存放四个工具模块<br><code>monitorbin.module</code> 存放需要监控的进程模块</p>
+<h3 id="monitorbin包"><a href="#monitorbin包" class="headerlink" title="monitorbin包"></a>monitorbin包</h3><h4 id="operate-py"><a href="#operate-py" class="headerlink" title="operate.py"></a>operate.py</h4><p>选择操作模块，被<code>monitor.py</code>调用执行<br>其代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+from monitorbin.util.fileUtil import FileUtil
+from monitorbin.module.tomcatCheck import TomcatOperate
+from monitorbin.module.nginxCheck import NginxOperate
+from monitorbin.module.redisCheck import RedisOperate
+from monitorbin.util.emailUtil import EmailUtil
+
+#author: cg错过
+#time: 2017-09-30
+
+class Operate:
+
+    #选择执行操作类
+
+    def __init__(self):
+
+        self.fileUtil = FileUtil()
+
+        dictNeedRunMsg = self.fileUtil.getNeedRunMsg()
+        if(len(dictNeedRunMsg) &gt; 1):
+            self.runProcess(dictNeedRunMsg)
+            emailUtil = EmailUtil(dictNeedRunMsg, self.fileUtil)
+        elif(len(dictNeedRunMsg) == 1):
+            self.fileUtil.writerContent(&quot;配置文件参数值不全&quot;, &apos;runErr&apos;)
+        else:
+            self.fileUtil.writerContent(&quot;配置文件读取失败&quot;, &apos;runErr&apos;)
+
+
+    def runProcess(self, dictNeedRunMsg):
+
+        #运行检测各个项目
+
+        listKeys = dictNeedRunMsg.keys()
+        for keyItem in listKeys:
+            if(keyItem.find(&apos;tomcat&apos;) != -1):
+                strTomcatPath = dictNeedRunMsg.get(keyItem)
+                tomcatOperate = TomcatOperate(strTomcatPath, self.fileUtil.strMinTime, self.fileUtil)
+                #print(strTomcatPath)
+            if(keyItem.find(&apos;nginx&apos;) != -1):
+                strNginxPath = dictNeedRunMsg.get(keyItem)
+                nginxOperate = NginxOperate(strNginxPath, self.fileUtil.strMinTime, self.fileUtil)
+                #print(strNginxPath)
+            if(keyItem.find(&apos;redis&apos;) != -1):
+                strRedisPath = dictNeedRunMsg.get(keyItem)
+                redisOperate = RedisOperate(strRedisPath, self.fileUtil.strMinTime, self.fileUtil)
+                #print(strRedisPath)
+</code></pre><p>其中实例化FileUtil这个模块类，调用类中的方法<code>getNeedRunMsg()</code>或许根据配置文件过滤得到需要检测系统所需要的数据，为dict字典类型。得到数据后进行判断，其中，当长度大于1即可认为该<code>dictNeedRunMsg</code>或许到的数据是完全的，当长度等于1时，该dict中存放的值为<code>dictNeedRunMsg={&#39;0&#39;: &#39;error&#39;}</code>,表示数据不全，即配置文件中缺少配置运行所需的数据，使运行中止，另外就是当<code>dictNeedRunMsg</code>长度为0时，即未成功读取到配置文件中的数据，当然这种情况到这一步是不会发送的，因为在此之前在FileUtil这个模块类中已经进行了判断。可以看下面FileUtil这个模块类</p>
+<h3 id="monitorbin-util包"><a href="#monitorbin-util包" class="headerlink" title="monitorbin.util包"></a>monitorbin.util包</h3><h4 id="fileUtil-py"><a href="#fileUtil-py" class="headerlink" title="fileUtil.py"></a>fileUtil.py</h4><p>文件及部分数据处理类,在脚本运行中只能存在一个该对象<br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+import os
+import xml.dom.minidom
+import configparser
+from monitorbin.util.sysTime import RunTime
+
+#author: cg错过
+#time: 2017-09-30
+
+class FileUtil:
+
+    #文件及部分数据处理类
+
+    configurePath = &apos;conf&apos;
+    configureFileName = &apos;monitor.conf&apos;
+
+    def __init__(self):
+
+        self.strLogPath = self.getLogPath()
+        #strLogPath = self.getLogPath()
+        self.setAttribute()
+
+    def setAttribute(self):
+
+        #设置一些属性
+
+        runTime = RunTime()
+        self.strDateTime = runTime.getDateTime()
+        self.strHourTime = runTime.getHourTime()
+        self.strMinTime = runTime.getMinTime()
+        self.strHourMinTime = runTime.getHourMinTime()
+        self.strNumSecondTime = runTime.getNumSecondTime()
+        self.strNumHourTime = runTime.getNumHourTime()
+
+        strlogContentSecondName = &quot;monitor_content-&quot; + self.strNumSecondTime + &quot;.txt&quot;
+        strlogContentName = &quot;monitor_content-&quot; + self.strNumHourTime + &quot;.txt&quot;
+        strlogErrName = &quot;monitor_err-&quot; + self.strNumHourTime + &quot;.txt&quot;
+        strlogErrSecondName = &quot;monitor_err-&quot; + self.strNumSecondTime + &quot;.txt&quot;
+        strRunErrName = &quot;err-&quot; + self.strNumSecondTime + &quot;.txt&quot;
+
+        self.strlogContentSecondName = self.strLogPath + &apos;/&apos; + strlogContentSecondName
+        self.strlogContentName = self.strLogPath + &apos;/&apos; + strlogContentName
+        self.strlogErrName = self.strLogPath + &apos;/&apos; + strlogErrName
+        self.strlogErrSecondName = self.strLogPath + &apos;/&apos; + strlogErrSecondName
+        self.strRunErrPathName = self.strLogPath + &apos;/&apos; + strRunErrName
+
+
+    def writerContent(self, strContent, strFileMark=&apos;Hour&apos;, whetherAdd=True):
+
+        #strFileMark: 区分写入小时执行的文件还是分钟执行的文件
+        #strContent: 写入文件的内容
+        #whetherAdd: 是否在文件后面换行追加，默认True
+
+        if(strFileMark == &apos;Hour&apos;):
+            if(whetherAdd &amp; True):
+                fileObj = open(self.strlogContentName, &apos;a&apos;)
+                fileObj.write(strContent + &quot;\n&quot;)
+                fileObj.close()
+            else:
+                fileObj = open(self.strlogContentName, &apos;w&apos;)
+                fileObj.write(strContent)
+                fileObj.close()
+        elif(strFileMark == &apos;Second&apos;):
+            if(whetherAdd &amp; True):
+                fileObj = open(self.strlogContentSecondName, &apos;a&apos;)
+                fileObj.write(strContent + &quot;\n&quot;)
+                fileObj.close()
+            else:
+                fileObj = open(self.strlogContentSecondName, &apos;w&apos;)
+                fileObj.write(strContent)
+                fileObj.close()
+        else:
+            if(whetherAdd &amp; True):
+                fileObj = open(self.strRunErrPathName, &apos;a&apos;)
+                fileObj.write(strContent + &quot;\n&quot;)
+                fileObj.close()
+            else:
+                fileObj = open(self.strRunErrPathName, &apos;w&apos;)
+                fileObj.write(strContent)
+                fileObj.close()
+
+    def writerErr(self, strContent, strFileMark=&apos;Hour&apos;, whetherAdd=True):
+
+        if(strFileMark == &apos;Hour&apos;):
+            if(whetherAdd &amp; True):
+                fileObj = open(self.strlogErrName, &apos;a&apos;)
+                fileObj.write(&quot;\n&quot; + strContent)
+                fileObj.close()
+            else:
+                fileObj = open(self.strlogErrName, &apos;w&apos;)
+                fileObj.write(strContent)
+                fileObj.close()
+        else:
+            if(whetherAdd &amp; True):
+                fileObj = open(self.strlogErrSecondName, &apos;a&apos;)
+                fileObj.write(&quot;\n&quot; + strContent)
+                fileObj.close()
+            else:
+                fileObj = open(self.strlogErrSecondName, &apos;w&apos;)
+                fileObj.write(strContent)
+                fileObj.close()
+
+
+
+    def getXMLTagElementValue(self, strFilePath, strTagName, strTagElementName, intTagIndex):
+
+        #获取xml文件指定标签的内容，返回一个字符串值
+        #self: 对象本身
+        #strTagName: 标签名字
+        #strTagElementName: 标签中的元素名字
+        #intTagIndex: 文件中出现该标签的序列号(即第几个，从0开始)
+
+        confObj = xml.dom.minidom.parse(strFilePath)
+
+        documentElementObj = confObj.documentElement
+        listElementItem = documentElementObj.getElementsByTagName(strTagName)
+        #按照顺序存放，文件内容中第一个出现该标签名字的就放在集合的下标为0的位置
+        tagElement = listElementItem[intTagIndex]
+        strTagElementValue = tagElement.getAttribute(strTagElementName)
+        print(strTagElementName + &quot;=&quot; + strTagElementValue)
+        return strTagElementValue
+
+
+    def getConfFileValue(self, configParserObj, configureFileNameAndPath):
+
+        #获取conf后缀的配置文件内容，返回一个字典
+        #注释了不读取，值为空会读取
+        #configParserObj: 读取配置文件的对象
+        #configureFileNameAndPath: 配置文件路径
+        #读取写入的key名字全部小写
+
+        dictConfMsg = {}
+        intMark = self.checkFileExists(configureFileNameAndPath)
+        if(intMark == 1):
+            configParserObj.read(configureFileNameAndPath)
+            try:
+                listSectionName = configParserObj.sections()
+            except:
+                self.writerContent(&quot;读取配置文件出错&quot;, &apos;runErr&apos;)
+            else:
+                for sectionItem in listSectionName:
+                    #print(sectionItem)
+                    listKeyName = configParserObj.options(sectionItem)
+                    #print(listKeyName)
+                    sectionObj = configParserObj[sectionItem]
+                    if(len(listKeyName) != 0):
+                        for keyItem in  listKeyName:
+                            valueItem = sectionObj[keyItem]
+                            if(valueItem == None):
+                                dictConfMsg[sectionItem] = listKeyName
+                            else:
+                                dictConfMsg[keyItem] = valueItem
+                    else:
+                        dictConfMsg[sectionItem] = &apos;&apos;
+        #print(dictConfMsg)
+        return dictConfMsg
+
+
+    def readFileContent(self, inputFileName):
+
+        #读取普通文件内容并返回
+
+        fileObj = open(inputFileName, &apos;r&apos;)
+        strFileContent = fileObj.read()
+        fileObj.close()
+
+        return strFileContent
+
+
+    def initConfigureFile(self):
+
+        #初始化配置文件
+
+        strTomcatPath = &quot;/home/liying/dev/tomcat-7.0.73&quot;
+        strNginxPath = &quot;/usr/local/nginx&quot;
+        strRedisPath = &quot;/home/liying/dev/redis-2.8.24&quot;
+
+        strServerName = &quot;116&quot;
+        strUserName = &quot;林繁&quot;
+
+        strLogPath = &quot;logs&quot;
+
+        strSmtp_server = &quot;smtp.qq.com&quot;
+        strEmail_sendAddr = &quot;yakult-cg@qq.com&quot;
+        strEmail_sendPasswd = &quot;lscgsbnjddtgdegc&quot;
+
+        strToEmail = &quot;1542723438@qq.com&quot;
+        strToEmail2 = &quot;1732821152@qq.com&quot;
+
+        strAuthor = &quot;cg错过&quot;
+        strCreateTime = &quot;2017-09-30&quot;
+
+        if not os.path.exists(self.configurePath):
+            os.mkdir(self.configurePath)
+
+        configureFileNameAndPath = self.configurePath + &apos;/&apos; + self.configureFileName
+
+        config = configparser.ConfigParser(allow_no_value=True, delimiters=&apos;:&apos;)
+        config.add_section(&apos;ProjectConfigure&apos;)
+        config.add_section(&apos;UseConfigure&apos;)
+        config.add_section(&apos;LogConfigure&apos;)
+        config.add_section(&apos;EmailConfigure&apos;)
+        config.add_section(&apos;ToEmail&apos;)
+        config.add_section(&quot;Message&quot;)
+
+        config.set(&apos;ProjectConfigure&apos;, &apos;tomcatpath&apos;, strTomcatPath)
+        config.set(&apos;ProjectConfigure&apos;, &apos;nginxpath&apos;, strNginxPath)
+        config.set(&apos;ProjectConfigure&apos;, &apos;redispath&apos;, strRedisPath)
+
+        config.set(&apos;UseConfigure&apos;, &apos;servername&apos;, strServerName)
+        config.set(&apos;UseConfigure&apos;, &apos;username&apos;, strUserName)
+
+        config.set(&apos;LogConfigure&apos;, &apos;logpath&apos;, strLogPath)
+
+        config.set(&apos;EmailConfigure&apos;, &apos;smtp_server&apos;, strSmtp_server)
+        config.set(&apos;EmailConfigure&apos;, &apos;email_sendAddr&apos;, strEmail_sendAddr)
+        config.set(&apos;EmailConfigure&apos;, &apos;email_sendPasswd&apos;, strEmail_sendPasswd)
+
+        config.set(&apos;ToEmail&apos;, strToEmail)
+        config.set(&apos;ToEmail&apos;, strToEmail2)
+
+        config.set(&apos;Message&apos;, &apos;author&apos;, strAuthor)
+        config.set(&apos;Message&apos;, &apos;createtime&apos;, strCreateTime)
+
+        with open(configureFileNameAndPath, &apos;w&apos;) as configureFile:
+            config.write(configureFile, space_around_delimiters=True)
+
+        #print(&quot;done&quot;)
+
+
+    def getNeedRunMsg(self):
+
+        #根据配置文件的配置内容来选择代码执行
+        #即从存放的字典中去除不需要检测运行的项目(未配置值的参数)，之后返回
+        print(&quot;获取运行需要的配置数据&quot;)
+
+        #fileUtil = FileUtil()
+        dictNewConfMsg = {}
+        dictConfMsg = self.readConfigureFile()
+        intMark = self.checkConfMsg(dictConfMsg)
+        if(intMark == 1):
+            intTomcatMark = self.checkRunProject(&quot;tomcat&quot;, &quot;tomcatpath&quot;, dictConfMsg)
+            if(intTomcatMark == 0):
+                del dictConfMsg[&apos;tomcatpath&apos;]
+
+            intNginxMark = self.checkRunProject(&quot;nginx&quot;, &quot;nginxpath&quot;, dictConfMsg)
+            if((intNginxMark == 0)):
+                del dictConfMsg[&apos;nginxpath&apos;]
+
+            intRedisMark = self.checkRunProject(&quot;redis&quot;, &quot;redispath&quot;, dictConfMsg)
+            if(intRedisMark == 0):
+                del dictConfMsg[&apos;redispath&apos;]
+            dictNewConfMsg = dictConfMsg
+        elif(intMark == 0):
+            dictNewConfMsg[&apos;0&apos;] = &apos;error&apos;
+
+
+        print(&quot;需要运行的有&quot;)
+        print(dictNewConfMsg)
+        return dictNewConfMsg
+
+
+    def readConfigureFile(self):
+
+        #读取脚本配置文件
+        dictConfMsgTotal = {}
+        configureFileNameAndPath = self.configurePath + &apos;/&apos; + self.configureFileName
+        self.checkAndInitConfigure(configureFileNameAndPath)
+        config = configparser.ConfigParser(allow_no_value=True, delimiters=&apos;:&apos;)
+        dictConfMsg = self.getConfFileValue(config, configureFileNameAndPath)
+        dictConfMsgTotal.update(dictConfMsg)
+        if(len(dictConfMsgTotal)  == 0):
+            self.writerContent(&quot;未获取到配置文件内容&quot;, &apos;runErr&apos;)
+
+        return dictConfMsgTotal
+
+    def checkConfMsg(self, dictConfMsg):
+
+        #检测配置文件是否完全
+        #其中日志路径和email值必须存在
+        #所以这里只检查logpath和email
+        #email仅包括smtp_server, email_sendaddr, email_sendpasswd
+
+        intMark = -1
+        if(len(dictConfMsg) != 0):
+            for keyItem in dictConfMsg:
+                if((keyItem == &apos;logpath&apos;) | (keyItem == &apos;smtp_server&apos;) | (keyItem == &apos;email_sendaddr&apos;)
+                  | (keyItem == &apos;email_sendpasswd&apos;)):
+                    if(dictConfMsg.get(keyItem) == &apos;&apos;):
+                        strErr = (&quot;未读取到%s配置参数的值，请修改配置文件&quot; %(keyItem))
+                        self.writerContent(strErr, &apos;runErr&apos;)
+                        intMark = 0
+                        break
+                    else:
+                        intMark = 1
+        else:
+            self.writerContent(&quot;未读取到配置文件内容&quot;, &apos;runErr&apos;)
+        return intMark
+
+
+
+    def checkRunProject(self, projectName, strKey, dictConfMsg):
+
+        #根据配置文件的配置，判断并选择代码块来执行
+        #如果返回值为1，则表示返回允许执行检测projectName这个项目
+
+        intMark = -1
+        if(strKey in dictConfMsg):
+            if(dictConfMsg.get(strKey) != &apos;&apos;):
+                intMark = 1
+            else:
+                intMark = 0
+                strErr = (&quot;未读取到%s配置参数,如需检测%s请修改配置文件&quot; %(projectName, projectName))
+                self.writerContent(strErr, &apos;runErr&apos;)
+        return intMark
+
+
+    def checkFileExists(self, configureFileNameAndPath):
+
+        #检测配置文件是否存在，不存在则返回-1
+
+        intMark = -1
+        if(os.path.exists(configureFileNameAndPath)):
+            intMark = 1
+
+        return intMark
+
+    def checkAndInitConfigure(self, configureFileNameAndPath):
+
+        #检测并初始化配置文件
+
+        intMark = self.checkFileExists(configureFileNameAndPath)
+        if(intMark != 1):
+            print(&quot;配置文件monitor.conf不存在,脚本自动创建并初始化&quot;)
+            print(&quot;配置文件monitor.conf路径为&quot; + self.configurePath + &quot;/&quot; + self.configureFileName)
+            #self.writerContent(&quot;配置文件monitor.conf不存在,脚本自动创建并初始化&quot;, &apos;runErr&apos;)
+            #strErr = (&quot;配置文件monitor.conf路径为&quot; + self.configurePath + &quot;/&quot; + self.configureFileName)
+            #self.writerContent(strErr, &apos;runErr&apos;)
+            self.initConfigureFile()
+
+    def checkAndCreate(self, FileNameAndPath):
+
+        #检测并创建日志文件路径
+
+        intMark = self.checkFileExists(FileNameAndPath)
+        if(intMark != 1):
+            print(&quot;配置的日志文件夹路径不存在，脚本执行自动创建&quot;)
+            #self.writerContent(&quot;配置的日志文件夹路径不存在，脚本执行自动创建&quot;, &apos;runErr&apos;)
+            os.mkdir(FileNameAndPath)
+
+    def getLogPath(self):
+
+        #获取日志文件配置
+        #需要运行的项目字典,即过滤完后的字典
+        #dictConfMsg = self.getNeedRunMsg()
+        #strLogPath = dictConfMsg.get(&apos;logpath&apos;)
+        strLogPath = &apos;&apos;
+        configureFileNameAndPath = self.configurePath + &apos;/&apos; + self.configureFileName
+        self.checkAndInitConfigure(configureFileNameAndPath)
+        config = configparser.ConfigParser(allow_no_value=True, delimiters=&apos;:&apos;)
+        config.read(configureFileNameAndPath)
+        if(config.has_section(&apos;LogConfigure&apos;)):
+            strLogPath = config[&apos;LogConfigure&apos;][&apos;logpath&apos;]
+            self.checkAndCreate(strLogPath)
+        else:
+            print(&quot;配置文件内容缺少日志配置参数&quot;)
+            #self.writerContent(&quot;配置文件内容缺少日志配置参数&quot;, &apos;runErr&apos;)
+        return strLogPath
+
+
+    def reWriterForEmail(self, listSendContent, dictEmailMsg):
+
+        #重构需要邮件发送的内容，并设置对应主题，并返回list
+        #重构后的list数据集合格式：无错误日志list长度为3，有错误日志list长度为4
+        #list[0]: Hour或者Second或者no
+        #list[1]: 邮件主题
+        #list[2]: 需要发送的邮件内容(已重构的内容)
+        #list[3]: 错误日志的相对路径地址
+
+        strNewContent = &apos;&apos;
+        strContent = listSendContent[1]
+
+        strServerName = &apos;none&apos;
+        strUserName = &apos;cg&apos;
+        for keyItem in dictEmailMsg:
+            if((keyItem == &apos;servername&apos;) | (keyItem == &apos;username&apos;)):
+                if(keyItem == &apos;servername&apos;):
+                    strServerName = dictEmailMsg.get(&apos;servername&apos;)
+                else:
+                    strUserName = dictEmailMsg.get(&apos;username&apos;)
+            else:
+                continue
+
+        strContentLine = &quot;====================&quot;
+
+        strNewContent = strContent[:0] + strContentLine + &quot;\n&quot; + strContent[0:]
+        strNewContent = (strNewContent + &quot;\n&quot; + strContentLine + &quot;\n&quot; + &quot;---&quot; +
+                         strUserName + &quot;\n&quot; + &quot;---&quot; + self.strDateTime)
+
+        listSendContent[1] = strNewContent
+        if(listSendContent[0] == &apos;Hour&apos;):
+            strSubject = strServerName + &quot;今日&quot; + self.strHourTime + &quot;时执行结果&quot;
+            listSendContent.insert(1, strSubject)
+        elif(listSendContent[0] == &apos;Second&apos;):
+            strSubject = strServerName + &quot;今日&quot; + self.strHourMinTime + &quot;时检测到异常&quot;
+            listSendContent.insert(1, strSubject)        
+
+        else:
+            strSubject = strServerName + &quot;脚本运行异常&quot;
+            listSendContent.insert(1, strSubject)
+        print(&quot;已重构......&quot;)
+        print(listSendContent)
+        return listSendContent
+</code></pre><p>这个<code>fileUtil.py</code>文件中，功能包括配置文件的读取,判断,过滤以及日志文件的读取写入即邮件内容的操作，这是脚本的一个重要模块。写的时候本来时将文件处理和数据处理分开来写的，但写到中途又合并了，因为这是国庆放假前写的代码，国庆这8天假都没碰这代码，从昨天才开始继续写…..</p>
+<h4 id="process-py"><a href="#process-py" class="headerlink" title="process.py"></a>process.py</h4><p>封装了调用了<code>subprocess.Popen</code>模块，实现python操作linux命令。通过python运行linux命令，截获两种输出<code>stdout</code>和<code>stderr</code>，在我看来这可分为有持续输出和无持续输出，区分这个时避免在持续输出时因存放量过大而发生阻塞，具体可参考<a href="http://www.firefoxbug.com/index.php/archives/2419/" target="_blank" rel="external">这篇文章</a>及<a href="https://docs.python.org/2/library/subprocess.html" target="_blank" rel="external">官方文档</a>,当然，这也有<a href="https://www.rddoc.com/doc/Python/3.6.0/zh/library/subprocess/?highlight=subprocess" target="_blank" rel="external">中文文档</a><br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+import subprocess
+
+#author: cg错过
+#time: 2017-09-30
+
+class ProcessCL:
+
+    #python操作Linux模块
+
+    def getResultAndProcess(self, strCL):
+
+        #
+        #获取无持续输出的命令操作后的结果
+        #获取正常输出和错误输出，存放到dict中返回
+        #strCL: 操作的命令
+
+        dictResult = {}
+        strOut = &apos;&apos;
+        strErr = &apos;&apos;
+        subObj = subprocess.Popen(strCL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True,
+                                  universal_newlines=True)
+        returnCode = subObj.poll()
+        while returnCode is None:
+            stdout, stderr = subObj.communicate()
+            returnCode = subObj.poll()
+            strOut += stdout
+            strErr += stderr
+        dictResult[&apos;stdout&apos;] = stdout
+        dictResult[&apos;stderr&apos;] = stderr
+
+        return dictResult
+
+
+    def getContinueResultAndProcess(self, strCL):
+
+        #获取有持续输出的程序的结果，将其分类(stdout和stderr)
+        #但检测到无输出后就退出
+        #strCL: 操作的命令
+
+        strOut = &apos;&apos;
+        strErr = &apos;&apos;
+        dictResult = {}
+        subObj = subprocess.Popen(strCL, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True,
+                                  universal_newlines=True)
+        returnCode = subObj.poll()
+        while returnCode is None:
+            lineOut = subObj.stdout.readline()
+            lineErr = subObj.stdout.readline()
+            returnCode = subObj.poll()
+            lineOut = lineOut.strip()
+            lineErr = lineErr.strip()
+
+            strOut += lineOut
+            strErr += lineErr
+            if((lineOut == &apos;&apos;) | (lineErr == &apos;&apos;)):
+                break
+
+        dictResult[&apos;stdout&apos;] = strOut
+        dictResult[&apos;stderr&apos;] = strErr
+
+        return dictResult
+</code></pre><p>上面的代码中，<code>getResultAndProcess()</code>这个方法虽然是针对无持续输出的命令，但依然是加上了<code>strOut += stdout</code>这个输出追加方式。因为如若不加这个，在当连续两次调用这个方法时，会出现bug，如下</p>
+<pre><code>dictResult[&apos;stdout&apos;] = stdout
+UnboundLocalError: local variable &apos;stdout&apos; referenced before assignment
+</code></pre><p>即命令行执行时可能stdout和stderr都无值，都未给进行声明并赋值，所以导致后面添加到dict的时候就会出错，这个错误就是在变量赋值之前被引用</p>
+<h4 id="emailUtil-py"><a href="#emailUtil-py" class="headerlink" title="emailUtil.py"></a>emailUtil.py</h4><p>邮件发送模块<br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+import sys
+from smtplib import SMTP_SSL
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
+
+#author: cg错过
+#time: 2017-09-30
+
+class EmailUtil:
+
+    #发送邮件模块
+
+    def __init__(self, dictNeedRunMsg, fileUtilObj):
+
+        #dictNeedRunMsg:存放从配置文件中读取到的数据，其数据是本次检测运行所需要的数据
+        #fileUtilObj: FileUtil的对象(脚本从运行到结束都只有这一个FileUtil对象)
+        #其中的key有
+        #smtp_server:
+        #mail_sendAddr:
+        #mail_sendPasswd:
+        #mail_toAddr:
+
+        self.fileUtilObj = fileUtilObj
+        dictEmailMsg = self.getForEmailMsg(dictNeedRunMsg)
+        listEmailContentMsg = self.checkAndGetForEmailListMsg()
+
+        strServerName = dictEmailMsg.get(&apos;servername&apos;)
+        strUserName = dictEmailMsg.get(&apos;username&apos;)
+        listNewEmailContentMsg = self.fileUtilObj.reWriterForEmail(listEmailContentMsg, dictEmailMsg)
+
+        self.choiceSend(dictEmailMsg, listNewEmailContentMsg)
+
+    def getForEmailMsg(self, dictNeedRunMsg):
+
+        #将从配置文件的完全读取到的数据中，抽取出发送邮件需要的数据，存放为dict类型并返回
+        #dictNeedRunMsg: 存放从配置文件中读取到的数据，其数据是本次检测运行所需要的数据
+        #因为有可能并不是所有项目都配置了需要运行
+
+        dictMsgForEmail = {}
+        for keyItem in dictNeedRunMsg:
+            if((keyItem == &apos;email_sendaddr&apos;) | (keyItem == &apos;email_sendpasswd&apos;) |
+               (keyItem == &apos;smtp_server&apos;) | (keyItem == &apos;ToEmail&apos;) | (keyItem == &apos;logpath&apos;) |
+               (keyItem == &apos;servername&apos;) | (keyItem == &apos;username&apos;)):
+                dictMsgForEmail[keyItem] = dictNeedRunMsg.get(keyItem)
+
+        return dictMsgForEmail
+
+    def checkAndGetForEmailListMsg(self):
+
+        #检查是否存在日志，并读取该日志进行返回
+        #返回格式:如无错误日志list长度为2，有错误日志list长度为3
+        #list[0]: Hour或者Second或者no
+        #list[1]: 需要发送的邮件内容(仅运行日志)
+        #list[2]: 错误日志的相对路径地址
+
+        #产生的日志文件中，在每分钟和每小时的两种情况中，只会运行一种情况
+        #也就是只会产生一个日志
+
+        listSendContent = []
+        intExistsContent = self.fileUtilObj.checkFileExists(self.fileUtilObj.strlogContentName)
+        intExistsContentS = self.fileUtilObj.checkFileExists(self.fileUtilObj.strlogContentSecondName)
+        if(intExistsContent == 1):
+            listSendContent.append(&apos;Hour&apos;)
+            print(self.fileUtilObj.strlogContentName)
+            strContent = self.fileUtilObj.readFileContent(self.fileUtilObj.strlogContentName)
+            listSendContent.append(strContent)
+
+            intExistsErr = self.fileUtilObj.checkFileExists(self.fileUtilObj.strlogErrName)
+            if(intExistsErr == 1):
+                print(&quot;每小时，有错误，附件&quot;)
+                listSendContent.append(self.fileUtilObj.strlogErrName)
+            else:
+                print(&quot;每小时，无错误&quot;)
+        elif(intExistsContentS == 1):
+            listSendContent.append(&apos;Second&apos;)
+            print(self.fileUtilObj.strlogContentSecondName)
+            strContentS = self.fileUtilObj.readFileContent(self.fileUtilObj.strlogContentSecondName)
+            listSendContent.append(strContentS)
+
+            intExistsErrS = self.fileUtilObj.checkFileExists(self.fileUtilObj.strlogErrSecondName)
+            if(intExistsErrS == 1):
+                print(&quot;每分钟，有错误，附件&quot;)
+                listSendContent.append(self.fileUtilObj.strlogErrSecondName)
+            else:
+                print(&quot;每分钟，无错误&quot;)
+
+        else:
+            listSendContent.append(&apos;no&apos;)
+            strContent = &quot;未产生日志文件&quot;
+            self.fileUtilObj.writerContent(&quot;未产生日志文件&quot;, &apos;runErr&apos;)
+            listSendContent.append(strContent)
+        print(&quot;未重构......&quot;)
+        print(listSendContent)
+
+        return listSendContent
+
+
+    def choiceSend(self, dictEmailMsg, listEmailContent):
+
+        #选择发送类型(有无附件)
+        #dictEmailMsg: 发送和接受邮件账户，及smtp服务器地址
+        #listEmailContent: 发送的邮件内容，主题，附件
+
+        strSmtpServer = dictEmailMsg.get(&apos;smtp_server&apos;)
+        strSendAddr = dictEmailMsg.get(&apos;email_sendaddr&apos;)
+        strPasswd = dictEmailMsg.get(&apos;email_sendpasswd&apos;)
+        listToAddr = dictEmailMsg.get(&apos;ToEmail&apos;)
+        strSubject = listEmailContent[1]
+        strContent = listEmailContent[2]
+
+        if(len(listEmailContent) == 3):
+            if(listEmailContent[0] != &apos;no&apos;):
+                self.sendEmailByString(strSmtpServer, strSendAddr, strPasswd,
+                               listToAddr, strSubject, strContent)
+            else:
+                self.fileUtilObj.writerContent(&quot;邮件未发送&quot;, &apos;runErr&apos;)
+        else:
+            strErrFilePath = listEmailContent[3]
+            self.sendEmailByStringAndFile(strSmtpServer, strSendAddr, strPasswd,
+                               listToAddr, strSubject, strContent, strErrFilePath)
+
+        #print(self.fileUtilObj.strlogContentSecondName)
+
+
+    def sendEmailByString(self, strSmtpServer, strSendAddr, strPasswd,
+                          listToAddr, strSubject, strContent):
+
+        #用字符串来发送邮件
+        #strSmtpServer: smtp服务器地址
+        #strSendAddr: 邮件发送地址
+        #strPasswd: 发送地址的登陆授权码
+        #listToAddr: 接受邮件的地址，为list集合
+        #strSubject: 邮件主题
+        #strContent: 邮件内容字符串类型
+        #message对象中的三个key(&apos;From&apos;,&apos;To&apos;,&apos;Subject&apos;)最好都要有，不然容易被识别为垃圾邮件
+
+        #mail_port = &apos;465&apos;
+
+        message = MIMEText(strContent, &quot;plain&quot;, &quot;utf-8&quot;)
+        message[&apos;Subject&apos;] = Header(strSubject, &apos;utf-8&apos;)
+        message[&apos;From&apos;] = Header(&apos;monitor&lt;%s&gt;&apos; % strSendAddr, &apos;utf-8&apos;)
+        message[&apos;To&apos;] = Header(&apos;monitor.admin&apos;, &apos;utf-8&apos;)
+
+        try:
+            smtpObj = SMTP_SSL(strSmtpServer)
+            #smtpObj.set_debuglevel(1)
+            smtpObj.ehlo(strSmtpServer)
+            smtpObj.login(strSendAddr, strPasswd)
+            if(len(listToAddr) &gt; 0):
+                smtpObj.sendmail(strSendAddr, listToAddr, message.as_string())
+                smtpObj.quit()
+            else:
+                self.fileUtilObj.writerContent(&quot;接收邮件地址为空&quot;, &apos;runErr&apos;)
+            #self.fileUtilObj.writerContent(&quot;邮件发送成功&quot;)
+        except:
+            print(sys.exc_info()[0])
+            self.fileUtilObj.writerContent(&quot;邮件发送失败&quot;, &apos;runErr&apos;)
+
+
+    def sendEmailByStringAndFile(self, strSmtpServer, strSendAddr, strPasswd,
+                          listToAddr, strSubject, strContent, strErrFilePath):
+
+        #发送有附件的邮件
+        #strSmtpServer: smtp服务器地址
+        #strSendAddr: 邮件发送地址
+        #strPasswd: 发送地址的登陆授权码
+        #listToAddr: 接受邮件的地址，为list集合
+        #strSubject: 邮件主题
+        #strContent: 邮件内容字符串类型
+        #message对象中的三个key(&apos;From&apos;,&apos;To&apos;,&apos;Subject&apos;)最好都要有，不然容易被识别为垃圾邮件
+
+        #mail_port = &apos;465&apos;
+
+        message = MIMEMultipart()
+        message[&apos;Subject&apos;] = Header(strSubject, &apos;utf-8&apos;)
+        message[&apos;From&apos;] = Header(&apos;monitor&lt;%s&gt;&apos; % strSendAddr, &apos;utf-8&apos;)
+        message[&apos;To&apos;] = Header(&apos;monitor.admin&apos;, &apos;utf-8&apos;)
+
+        message.attach(MIMEText(strContent, &apos;plain&apos;, &apos;utf-8&apos;))
+
+        annexFile = MIMEText(open(strErrFilePath, &apos;rb&apos;).read(), &apos;base64&apos;, &apos;utf-8&apos;)
+        annexFile[&quot;Content-Type&quot;] = &apos;application/octet-stream&apos;
+        annexFile[&quot;Content-Disposition&quot;] = &apos;attachment; filename=&quot;err_logs.txt&quot;&apos;
+        message.attach(annexFile)
+
+        try:
+            smtpObj = SMTP_SSL(strSmtpServer)
+            #smtpObj.set_debuglevel(1)
+            smtpObj.ehlo(strSmtpServer)
+            smtpObj.login(strSendAddr, strPasswd)
+            if(len(listToAddr) &gt; 0):
+                smtpObj.sendmail(strSendAddr, addrItem, message.as_string())
+                smtpObj.quit()
+            else:
+                self.fileUtilObj.writerContent(&quot;接受邮件地址为空&quot;, &apos;runErr&apos;)
+            #self.fileUtilObj.writerContent(&quot;附件邮件发送成功&quot;)
+        except:
+            print(sys.exc_info()[0])
+            self.fileUtilObj.writerContent(&quot;附件邮件发送失败&quot;, &apos;runErr&apos;)
+</code></pre><p>具体看代码中的注释即可</p>
+<h4 id="sysTime-py"><a href="#sysTime-py" class="headerlink" title="sysTime.py"></a>sysTime.py</h4><p>时间模块<br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+import time
+
+#author: cg错过
+#time: 2017-09-30
+
+class RunTime:
+
+    #时间模块
+
+    def getTime(self, strFormat):
+
+        #按照格式获取时间
+
+        nowTime = time.localtime()
+        strFormatTime = time.strftime(strFormat, nowTime)
+        return strFormatTime
+
+    def getDateTime(self):
+        return self.getTime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+
+    def getNumSecondTime(self):
+        return self.getTime(&quot;%Y%m%d%H%M%S&quot;)
+
+    def getNumHourTime(self):
+        return self.getTime(&quot;%Y%m%d%H&quot;)
+
+    def getMinTime(self):
+        return self.getTime(&quot;%M&quot;)
+
+    def getHourTime(self):
+        return self.getTime(&quot;%H&quot;)
+
+    def getHourMinTime(self):
+        return self.getTime(&quot;%H%M&quot;)
+</code></pre><h3 id="monitorbin-module包"><a href="#monitorbin-module包" class="headerlink" title="monitorbin.module包"></a>monitorbin.module包</h3><h4 id="tomcatCheck-py"><a href="#tomcatCheck-py" class="headerlink" title="tomcatCheck.py"></a>tomcatCheck.py</h4><p>tomcat检测模块<br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+import subprocess
+import os
+from monitorbin.util.process import ProcessCL
+
+#author: cg错过
+#time: 2017-09-30
+
+class TomcatOperate:
+
+    #tomcat检测模块
+    #需要配合前面分时间段来运行
+    #即至少要有个对tomcat进行所有全部的检测和部分检测两种功能
+    #全检不提供脚本操作功能，例如自启。全检后不管是否正常都将发送邮件
+    #部检提供自启，自启后只有检测到不正常才发送邮件
+
+    def __init__(self, strTotalPath, intDateMin, fileUtilObj):
+
+        #strTotalPath: tomcat的安装文件根目录的上一级目录
+        #intDateMin: 当前运行脚本的分钟数
+        #fileUtilObj: FileUtil的对象(脚本从运行到结束都只有这一个FileUtil对象)
+
+        self.fileUtil = fileUtilObj
+        self.intDateMin = intDateMin
+        self.strTotalPath = strTotalPath
+        #self.fileUtil.writerContent(&quot;你好&quot;)
+        intCheckResult = self.fileUtil.checkFileExists(self.strTotalPath)
+        if(intCheckResult == 1):
+            self.checkTomcat()
+        else:
+            self.fileUtil.writerContent(&quot;配置的tomcat路径不存在&quot;, &apos;runErr&apos;)
+
+    def checkTomcat(self):
+
+        #检测tomcat
+
+        strTomcatStatus = self.getTomcatStatus()
+        dictTomcatMsg = self.getTomcatMsg(self.strTotalPath)
+        listTomcatName = dictTomcatMsg.get(&apos;tomcatName&apos;)
+        listTomcatPort = dictTomcatMsg.get(&apos;tomcatPort&apos;)
+        listTomcatPath = dictTomcatMsg.get(&apos;tomcatPath&apos;)
+
+        if(self.intDateMin == 30):
+            for i in range(len(listTomcatPort)):
+                intMark = self.checkTomcatStatusByPort(i, listTomcatName, listTomcatPort, strTomcatStatus)
+                if(intMark == 1):
+                    #print(&quot;查看日志&quot;)
+                    #self.fileUtil.writerContent(&quot;查看日志&quot;)
+                    self.checkTomcatLogStatusByTomcatName(i, listTomcatName, listTomcatPort)
+        else:
+            for i in range(len(listTomcatPort)):
+                #print(i)
+                intMark = self.checkTomcatStatusByPort(i, listTomcatName, listTomcatPort,
+                                                       strTomcatStatus, &apos;Second&apos;)
+                if(intMark != 1):
+                    #print(&quot;重启&quot;)
+                    self.tryStartTomcat(i, listTomcatPath, listTomcatName)
+
+
+    def getTomcatStatus(self):
+
+        #获取进程中的tomcat
+        tomcatStatusCL = &quot;ps -ef | grep tomcat&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getResultAndProcess(tomcatStatusCL)
+        strTomcatStatus = dictResult.get(&apos;stdout&apos;)
+        return strTomcatStatus
+
+
+    def checkTomcatStatusByPort(self, intIndex, listTomcatName, listTomcatPort, strTomcatStatus,
+                                strFileMark=&apos;Hour&apos;):
+
+        #检测tomcat是否运行，在运行返回1
+        #intIndex: 要检测的tomcat所在dictTomcatMsg中tomcatName的下标
+        #dictTomcatMsg: 存放tomcat文件名,端口号和对应路径,为字典类型包含列表
+
+        intMark = -1
+
+        #listTomcatName = dictTomcatMsg.get(&apos;tomcatName&apos;)
+        #listTomcatPort = dictTomcatMsg.get(&apos;tomcatPort&apos;)
+
+        if(strTomcatStatus.find(listTomcatName[intIndex]) != -1):
+            intMark = 1
+            if(strFileMark==&apos;Hour&apos;):
+                self.fileUtil.writerContent((&quot;%s在运行&quot; %(listTomcatName[intIndex])), &apos;Hour&apos;, False)
+            #else:
+                #self.fileUtil.writerContent((&quot;%s在运行&quot; %(listTomcatName[intIndex])), &apos;Second&apos;)
+        else:
+            if(strFileMark==&apos;Hour&apos;):
+                self.fileUtil.writerContent((&quot;%s未运行&quot; %(listTomcatName[intIndex])))
+            else:
+                self.fileUtil.writerContent((&quot;%s未运行&quot; %(listTomcatName[intIndex])), &apos;Second&apos;)
+                #print(&quot;%s未运行&quot; %(listTomcatName[intIndex]))
+
+        return intMark
+
+
+    def checkTomcatLogStatusByTomcatName(self, intIndex, listTomcatName, listTomcatPort):
+
+        #检测tomcat日志输出是否正常，正常返回1
+        #intIndex: tomcat所在dictTomcatMsg中tomcatName的下标，一般检测在运行的tomcat
+        #dictTomcatMsg: 存放tomcat文件名,端口号和对应路径,为字典类型包含列表
+
+        intMark = 1
+
+        #listTomcatName = dictTomcatMsg.get(&apos;tomcatName&apos;)
+        #listTomcatPort = dictTomcatMsg.get(&apos;tomcatPort&apos;)
+        strOperateTomcatPath = listTomcatPath[intIndex]
+
+        checkLogCL = &quot;tail -n 200 &quot; + strOperateTomcatPath + &quot;/logs/catalina.out&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getResultAndProcess(checkLogCL)
+        strOut = dictResult.get(&apos;stdout&apos;)
+        if(strOut.find(&quot;exception&quot;) != -1):
+            intMark = -1
+            #print(&quot;%s日志输出异常&quot; %(listTomcatName[intIndex]))
+            self.fileUtil.writerContent((&quot;%s日志输出异常&quot; %(listTomcatName[intIndex])))
+        else:
+            self.fileUtil.writerContent((&quot;%s日志输出正常&quot; %(listTomcatName[intIndex])))
+            #print(&quot;%s日志输出正常&quot; %(listTomcatName[intIndex]))
+            self.fileUtil.writerErr(strOut)
+        return intMark
+
+
+
+    def tryStartTomcat(self, intIndex, listTomcatPath, listTomcatName):
+
+        #启动未运行的tomcat，启动成功返回1
+        #intIndex: 未运行的tomcat所在dictTomcatMsg中tomcatName的下标
+        #dictTomcatMsg: 存放tomcat文件名,端口号和对应路径，为字典类型包含列表
+
+        intMark = -1
+
+        #listTomcatPath = dictTomcatMsg.get(&apos;tomcatPath&apos;)
+        #listTomcatName = dictTomcatMsg.get(&apos;tomcatName&apos;)
+        #print(&quot;脚本尝试将其启动....&quot;)
+        self.fileUtil.writerContent(&quot;脚本尝试将其启动....&quot;, &apos;Second&apos;)
+        strOperateTomcatPath = listTomcatPath[intIndex]
+        tryStartTomcatCL = strOperateTomcatPath + &quot;/bin/./catalina.sh start&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getResultAndProcess(tryStartTomcatCL)
+        strOut = dictResult.get(&apos;stdout&apos;)
+        strErr = dictResult.get(&apos;stderr&apos;)
+        if(strOut != &apos;&apos;):
+            if((strOut.find(&apos;Tomcat started&apos;) != -1) &amp; (strErr == &apos;&apos;)):
+                #print(&quot;%s已被脚本启动成功&quot; %(listTomcatName[intIndex]))
+                self.fileUtil.writerContent((&quot;%s已被脚本启动成功&quot; %(listTomcatName[intIndex])),
+                                            &apos;Second&apos;)
+                intMark = 1
+            else:
+                #print(&quot;脚本启动%s未成功,请手动启动&quot; %(listTomcatName[intIndex]))
+                self.fileUtil.writerContent((&quot;脚本启动%s未成功,请手动启动&quot; %(listTomcatName[intIndex])),
+                                            &apos;Second&apos;)
+                self.fileUtil.writerErr(strErr, &apos;Second&apos;)
+        else:
+            #print(&quot;%s启动命令未执行&quot; %(listTomcatName[intIndex]))
+            self.fileUtil.writerContent((&quot;%s启动命令未执行,请手动执行&quot; %(listTomcatName[intIndex])), &apos;Second&apos;)
+            #print(strErr)
+            self.fileUtil.writerErr(strErr, &apos;Second&apos;)
+        return intMark
+
+
+    def getTomcatMsg(self, strTotalPath):
+
+        #根据存放多个tomcat的文件路径来查找多少个tomcat
+        #获取tomcat安装文件的名称和对应的端口
+        #通过读取tomcat配置文件，以此来获得端口号
+        #返回一个字典，存放tomcat安装文件名和对应端口号
+
+        dictTomcatMsg = {}
+        listTomcatName = []
+        listMsgName = os.listdir(strTotalPath)
+        for item in listMsgName:
+            nextPath = (strTotalPath + &apos;/&apos; +  item)
+            if(os.path.isdir(nextPath)):
+                confPath = (nextPath + &apos;/conf/server.xml&apos;)
+                if((item.find(&quot;tomcat&quot;) != -1) &amp; (os.path.exists(confPath))):
+                    listMsgName.remove(item)
+                    listTomcatName.append(item)
+
+        #fileUtil = FileUtil()
+        listTomcatPort = []
+        listTomcatPath = []
+        for item in listTomcatName:
+            nextPath = (strTotalPath + &apos;/&apos; +  item)
+            confPath = (nextPath + &apos;/conf/server.xml&apos;)
+            intItemPort = self.fileUtil.getXMLTagElementValue(confPath, &apos;Connector&apos;, &apos;port&apos;, 0)
+            listTomcatPort.append(intItemPort)
+            listTomcatPath.append(nextPath)
+
+        dictTomcatMsg[&apos;tomcatName&apos;] = listTomcatName
+        dictTomcatMsg[&apos;tomcatPort&apos;] = listTomcatPort
+        dictTomcatMsg[&apos;tomcatPath&apos;] = listTomcatPath
+        print(dictTomcatMsg)
+
+        return dictTomcatMsg
+</code></pre><p>这个tomcat检测模块中，可以比较自动识别tomcat安装个数及相对应的端口，操作xml配置文件的方法在fileUtil.py这个模块类中</p>
+<h4 id="redisCheck-py"><a href="#redisCheck-py" class="headerlink" title="redisCheck.py"></a>redisCheck.py</h4><p>redis检测模块<br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+import os
+from monitorbin.util.process import ProcessCL
+
+#author: cg错过
+#time: 2017-09-30
+
+class RedisOperate:
+
+    #redis检测模块
+
+    def __init__(self, strRedisPath, intDateMin, fileUtilObj):
+
+        #strRedisPath: redis的安装文件目录
+        #intDateMin: 当前运行脚本的分钟数
+        #fileUtilObj: FileUtil的对象(脚本从运行到结束都只有这一个FileUtil对象)
+
+        self.fileUtil = fileUtilObj
+        self.intDateMin = intDateMin
+        self.strRedisPath = strRedisPath
+        intCheckResult = self.fileUtil.checkFileExists(self.strRedisPath)
+        if(intCheckResult == 1):
+            self.checkRedis()
+        else:
+            self.fileUtil.writerContent(&quot;配置的redis路径不存在&quot;, &apos;runErr&apos;)
+
+    def checkRedis(self):
+
+        #每个小时检测一遍，不做操作
+        #其他时候，当检测到未运行时，脚本尝试自启一次
+
+        strRedisStatus = self.getRedisStatus()
+
+        if(self.intDateMin == 30):
+            self.checkRedisStatus(strRedisStatus)
+        else:
+            intMark = self.checkRedisStatus(strRedisStatus, &apos;Second&apos;)
+            if(intMark == -1):
+                self.tryStartRedis(self.strRedisPath)
+
+
+    def getRedisStatus(self):
+
+        #获取进程中的redis
+
+        redisStatusCL = &quot;ps -ef | grep redis&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getResultAndProcess(redisStatusCL)
+        strRedisStatus = dictResult.get(&apos;stdout&apos;)
+        return strRedisStatus
+
+
+    def checkRedisStatus(self, strRedisStatus, strFileMark=&apos;Hour&apos;):
+
+        #判断redis是否运行
+
+        intMark = -1
+        strRedis = &quot;redis-server&quot;
+
+        if(strRedisStatus.find(strRedis) != -1):
+            #print(&quot;redis在运行&quot;)
+            if(strFileMark==&apos;Hour&apos;):
+                self.fileUtil.writerContent(&quot;redis在运行&quot;)
+            intMark = 1
+        else:
+            if(strFileMark==&apos;Hour&apos;):
+                self.fileUtil.writerContent(&quot;redis未运行&quot;)
+            else:
+                self.fileUtil.writerContent(&quot;redis未运行&quot;, &apos;Second&apos;)
+            #print(&quot;redis未运行&quot;)
+        return intMark
+
+
+    def tryStartRedis(self, strRedisPath):
+
+        #脚本启动redis
+
+        intMark = -1
+        #print(&quot;脚本尝试将其启动....&quot;)
+        #print(strRedisPath)
+        self.fileUtil.writerContent(&quot;脚本尝试将其启动....&quot;, &apos;Second&apos;)
+        strStartRedisCL = strRedisPath + &quot;/src/./redis-server&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getContinueResultAndProcess(strStartRedisCL)
+        strOut = dictResult.get(&apos;stdout&apos;)
+        strErr = dictResult.get(&apos;stderr&apos;)
+        if(strOut.find(&apos;redis.io&apos;) != -1):
+            self.fileUtil.writerContent(&quot;redis已被脚本启动&quot;, &apos;Second&apos;)
+            #print(&quot;redis已被脚本启动成功&quot;)
+            intMark = 1
+        else:
+            #print(&quot;脚本启动redis未成功，请手动启动&quot;)
+            self.fileUtil.writerContent(&quot;脚本启动redis未成功，请手动启动&quot;, &apos;Second&apos;)
+            self.fileUtil.writerErr(strErr, &apos;Second&apos;)
+            #print(strErr)
+        return intMark
+</code></pre><h4 id="nginxCheck-py"><a href="#nginxCheck-py" class="headerlink" title="nginxCheck.py"></a>nginxCheck.py</h4><p>nginx检测模块<br>代码如下</p>
+<pre><code>#!/usr/bin/python3
+#coding=utf-8
+
+from monitorbin.util.process import ProcessCL
+
+#author: cg错过
+#time: 2017-09-30
+
+class NginxOperate:
+
+    #nginx检测模块
+
+    def __init__(self, strNginxPath, intDateMin, fileUtilObj):
+
+        #strNginxPath: nginx的安装目录
+        #intDateMin: 当前运行脚本的分钟数
+        #fileUtilObj: FileUtil的对象(脚本从运行到结束都只有这一个FileUtil对象)
+
+        self.fileUtil = fileUtilObj
+        self.intDateMin = intDateMin
+        self.strNginxPath = strNginxPath
+        intCheckResult = self.fileUtil.checkFileExists(self.strNginxPath)
+        if(intCheckResult == 1):
+            self.checkNginx()
+        else:
+            self.fileUtil.writerContent(&quot;配置的nginx路径不存在&quot;, &apos;runErr&apos;)
+
+    def checkNginx(self):
+
+        #每个小时检测一遍，不做操作
+        #其他时候，当检测到未运行时，脚本尝试自启一次
+
+        strNginxStatus = self.getNginxStatus()
+
+        if(self.intDateMin == 30):
+            self.checkNginxStatus(strNginxStatus)
+        else:
+             intMark = self.checkNginxStatus(strNginxStatus, &apos;Second&apos;)
+             if(intMark == -1):
+                 self.tryStartNginx(self.strNginxPath)
+
+
+
+    def getNginxStatus(self):
+
+        #获取进程中的nginx
+
+        nginxStatusCL = &quot;ps -ef | grep nginx&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getResultAndProcess(nginxStatusCL)
+        strNginxStatus = dictResult.get(&apos;stdout&apos;)
+        return strNginxStatus
+
+
+    def checkNginxStatus(self, strNginxStatus, strFileMark=&apos;Hour&apos;):
+
+        #判断nginx是否运行
+
+        intMark = -1
+        strNginx = &quot;nginx:&quot;
+
+        if(strNginxStatus.find(strNginx) != -1):
+            #print(&quot;nginx在运行&quot;)
+            intMark = 1
+            if(strFileMark==&apos;Hour&apos;):
+                self.fileUtil.writerContent(&quot;nginx在运行&quot;)
+        else:
+            if(strFileMark==&apos;Hour&apos;):
+                self.fileUtil.writerContent(&quot;nginx未运行&quot;)
+            else:
+                self.fileUtil.writerContent(&quot;nginx未运行&quot;, &apos;Second&apos;)
+            #print(&quot;nginx未运行&quot;)
+        return intMark
+
+
+    def tryStartNginx(self, strNginxPath):
+
+        #脚本启动nginx
+
+        intMark = -1
+        self.fileUtil.writerContent(&quot;脚本尝试将其启动....&quot;, &apos;Second&apos;)
+        strStartNginxCL = strNginxPath + &quot;/sbin/./nginx&quot;
+        processCL = ProcessCL()
+        dictResult = processCL.getResultAndProcess(strStartNginxCL)
+        strErr = dictResult.get(&apos;stderr&apos;)
+        if(strErr == &apos;&apos;):
+            #print(&quot;nginx已被脚本启动&quot;)
+            self.fileUtil.writerContent(&quot;nginx已被脚本启动&quot;, &apos;Second&apos;)
+            intMark = 1
+        else:
+            #print(&quot;脚本启动nginx未成功，请手动启动&quot;)
+            self.fileUtil.writerContent(&quot;脚本启动nginx未成功，请手动启动&quot;, &apos;Second&apos;)
+            self.fileUtil.writerErr(strErr, &apos;Second&apos;)
+            #print(strErr)
+        return intMark
+</code></pre><p>nginx和redis这两个检测模块代码比较类似</p>
+<h3 id="monitor-conf"><a href="#monitor-conf" class="headerlink" title="monitor.conf"></a>monitor.conf</h3><p>配置文件内容字段如下</p>
+<pre><code>[ProjectConfigure]
+tomcatpath : tomcat安装目录的上一级目录，如果有多个tomcat,则为多个tomcat安装目录的上一级。需要这多个tomcat在同一目录下
+nginxpath : nginx安装目录
+redispath : redis安装目录
+
+[UseConfigure]
+servername : 服务器别称
+username : 发送邮件用户名
+
+[LogConfigure]
+logpath : 存放日志文件的路径名,例如&apos;logpath :logs&apos;即将在本脚本根目录下创建logs文件夹来存放日志
+
+[EmailConfigure]
+smtp_server : smtp服务地址,例如&apos;smtp.qq.com&apos;
+email_sendaddr : 发送邮件的邮箱账户
+email_sendpasswd : 发送邮件的账户授权码
+
+[ToEmail]
+//在此处填写接受邮件的邮箱地址，可以为多个，例如如下
+1732821152@qq.com
+</code></pre><h3 id="定时执行实现"><a href="#定时执行实现" class="headerlink" title="定时执行实现"></a>定时执行实现</h3><p>现在的实现方式是使用linux上的crontab定时器来执行脚本<br>命令<br><code>sudo vim /etc/crontab</code><br>在其中添加<br><code>*/5 * * * * root /usr/bin/python3 /usr/scripts/python/automatic_monitor/monitor.py &gt;&gt; /var/log/monitor.py.log 2&gt;&amp;1</code><br>其代码的意思就是告诉crontab，这个脚本是每隔5分钟使用root身份，用<code>/usr/bin/</code>此路径下的python3命令来运行monitor.py这个脚本，并将脚本中的输出和脚本运行出错的输出写入到<code>/var/log/monitor.py.log这个文件中</code><br>使用这个方法会出现两个问题<br>1.编码问题<br>输出如下</p>
+<pre><code>Traceback (most recent call last):
+  File &quot;/usr/scripts/python/automatic_monitor/test.py&quot;, line 7, in &lt;module&gt;
+    print(&quot;\u914d\u7f6e\u6587\u4ef6monitor.conf\u4e0d\u5b58\u5728,\u811a\u672c\u81ea\u52a8\u521b\u5efa\u5e76\u521d\u59cb\u5316&quot;)
+UnicodeEncodeError: &apos;ascii&apos; codec can&apos;t encode characters in position 0-3: ordinal not in range(128)
+</code></pre><p>这个问题很奇怪，使用命令行运行脚本就不会出现这个问题。gg<br>解决这个问题的方法是在<code>/etc/crontab</code>这个文件中添加字段<br><code>LANG=zh_CN.UTF-8</code><br>其原因就是crontab使用的环境变量配置文件并不是<code>/etc/profile</code>这个，而是使用自己的环境变量，即它自身的环境变量配置在就crontab这个文件中(文件内容开头部分)</p>
+<p>2.这个问题是本身的脚本问题，脚本设定的配置文件路径是固定的，即脚本目录的根目录。如果在这个情况下，使用crontab来做定时任务，那么脚本自动创建的配置文件路径将不是脚本存放目录的根目录，而将是<code>/root</code>这个目录，因为是以root身份运行，所以也就是说，使用crontab这个定时器来运行脚本，那么脚本的工作目录将会是<code>/root</code>这个路径，其创建的配置文件夹路径将为<code>/root/conf</code>.<br>所以这需要在脚本上进行调整。</p>
+<p>后面将对代码进行更改，将定时功能直接添加到脚本本身中。</p>
+<p>目前脚本简单检测这三个项目的功能已经实现，后期只需要在进程模块包中进行添加模块，同是配置文件也需要更改<br>后面再写，慢慢维护。项目代码已经提交至github仓库中，<a href="https://github.com/cgstudios/createUtil-daily-me/tree/master/python/automatic_monitor/automatic_monitor-base" target="_blank" rel="external">这是里链接</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> python </tag>
+            
+            <tag> linux </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[柬埔寨笔记]]></title>
+      <url>/2017/10/10/daily/2017-10-10-daily-cambodiaNote/</url>
+      <content type="html"><![CDATA[<p>这是在柬埔寨时闲下来的时候记下的，用simplenote同步，想到一些就写了一些，慢慢积累着</p>
+<p>先记今天的吧.<br>下午吃完饭回来，司机用手语问我是否可以去吃饭，我犹豫了会儿，那会儿我看了下时间是北京时间6点40多，我们下班时间是7点，我担心怕来不及，而且我也考虑到我没这个权利，但是我想我们或许可以晚点下班，只要我和新来这里的那个同事在位置上坐久点，负责人肯定也不会这么早走，然后我就跟他说yeah,yeah…ok,又说了一句七点半，自己没听懂后面一句，就那他的手机打开了计算器，我明白他的意思，然后我就在他手机上打出了7.30，说了句thankyou,就走了</p>
+<a id="more"></a>
+<div class="note default"><p>人为什么要有思想，要是没有思想多好，就不会胡思乱想了</p></div>
+<div class="note default"><p>从毕业到现在，四个多月了。毕业之前，<br>现在的我也没啥大的抱负，做个无名小卒，平平淡淡的生活</p></div>
+<div class="note default"><p>山高水长，天各一方，别来无恙</p></div>
+<div class="note default"><p>我想，司机不干了的原因，应该是感觉到没有被在乎吧，<br>那些人，有谁会关心普通人的感受</p></div>
+<div class="note default"><p>我实在想不通，为什么交不到永久在一起的朋友。</p></div>
+<div class="note default"><p>我想去一个一过就都能过一辈子的地方，平平淡淡，无人知晓</p></div>
+<div class="note default"><p>现在10月3号下午6点钟，今天一天都没吃东西，算是毕业以来第一次这么长时间。我不喜欢这样，毕业后我开始慢慢喜欢一个人住，跟同事住一起没什么意思，感觉就是多了个机器人，不仅吵还浪费空间</p></div>
+<div class="note default"><p>有那么一个时候，突然发现其实上天是公平的，你抱怨自己的不幸说社会不公平，其实这只是你生活的那个社会不公平罢了，跳出这个社会，去进入另一个社会生活，然后你就会发现，有一些能力很强的人生活竟然是那么不容易……</p></div>
+<div class="note default"><p>都说，你要有一个好听动人的故事才能被人们所记住</p></div>
+<div class="note default"><p>有的时候其实也觉得人生挺有意思的，没钱就去挣钱，有点钱了就好好待自己和家人朋友，人生就是要来个经历。就比如那些有钱人，他们有钱，下半辈子都不用愁了，但还是会去挣钱，他们有点只是去经历，有的只是去尝试证明自己，都是为了经历</p></div>
+<div class="note default"><p>真不能把钱看太重，看太重了人都会变</p></div>
+<div class="note default"><p>自由民主   Freedom and democracy</p></div>
+<div class="note default"><p>如果更能在意生活，诗和远方还是有的，主要是取决你自己对生活的理解</p></div>
+<div class="note default"><p>人 生而孤独</p></div>
+<div class="note default"><p>希望这世间所有的生命都能被温柔以待</p></div>
+<p>10月9号。今天来了个司机，这里的负责人带司机来我这栋别墅，说让司机睡沙发，我觉得这很不仁义，都还有床位，还不让睡，况且司机要是睡眠不够，开车也不安全。上下铺，为什么不让司机睡床，让后我就跟负责人说了这些，但他的回话很让人无语，说是这边的司机都是这样，都睡沙发…..沃日，真特么可笑，然后用中文跟司机说，让司机待会儿2点30起来去公司接人..。负责人走后，我带司机给他介绍了下这边，用英语，司机懂一些英语，不过我英语很烂，说两句就得用翻译….聊完之后司机就去洗澡，然后我就去那栋还有床位的别墅里问，那会儿他们在喝酒，有两间是上下铺，上铺都空着，他俩一人一间…..去的时候负责人也在，我把想法睡了一通，负责人一点也不做声，就在那喝酒，其他人就敷衍了事的回绝了。停下来想想我也没那个权利，他们也没理由听我的建议，我进公司三个月，跟他们比，我只是新人。<br>实在是好笑，<br>最终还是没用，司机还是被安排睡沙发。<br>晚上跟司机聊了会儿天，很拘束，提行李过来那会儿，我帮忙开门，他以为我要出去就靠边站开来了，我就比了个双手在胸前合拢的手势，然后他把行李放下来也比了个这样的手势，我不知道这是不是这个国家的礼仪方式，这我只是因为看过boss做这个手势…<br>后面跟司机自我介绍后了解到，司机今年20岁，名字叫D，很简单的一个名字，我刚开始一直不能确定是不是，然后司机用手机打出了这个字符D。司机比我小一岁，还很年轻啊.上一个司机30岁左右，有个小女儿，上一次司机送我们回去的时候去拿午饭，他妻子撑着伞抱着他女儿，给司机送饭，递过饭后感觉还在叮嘱司机什么，司机一直点头。<br>感觉越卑微的人越不被别人所在意，上一个司机就是这么走的，不知道这个司机会不会这样.</p>
+<p>10月14号我就可以走了</p>
+]]></content>
+      
+        <categories>
+            
+            <category> daily </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> daily </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[centos搭建redis集群]]></title>
+      <url>/2017/09/19/linux/2017-09-19-linux-redis-colony/</url>
+      <content type="html"><![CDATA[<p>为一台服务器搭建redis集群，存在ssh外网ip与服务器内网ip。<br>redis集群最少需要6个节点，而我这只有一台服务器，所以6个节点都在这服务器上</p>
+<a id="more"></a>
+<p>这里就撤步骤，完整下来分这么几步<br>1.检查防火墙和端口<br>2.安装最基本的当个redis环境<br>3.集群配置</p>
+<h3 id="检查防火墙和端口"><a href="#检查防火墙和端口" class="headerlink" title="检查防火墙和端口"></a>检查防火墙和端口</h3><p>系统是centos7,centos原本使用的防火墙是iptables，但在centos7版本以后就已经废弃了iptables,改用firewall-cmd了。由于公司前辈要求使用iptables，所以没办法只能跟着来</p>
+<h4 id="iptables操作"><a href="#iptables操作" class="headerlink" title="iptables操作"></a>iptables操作</h4><p>安装iptables之前需要检查firewall-cmd的运行状况，如若firewall-cmd在运行，则需将其关闭<br>停止firewall命令<code>systemctl stop firewalld</code><br>禁止firewall开机启动<code>systemctl disable firewalld</code><br>安装iptables<br><code>yum -y install iptables-services</code></p>
+<p>开发端口则输入下面命令来修改该文件<br><code>vim /etc/sysconfig/iptables</code><br>如开发8080端口，则在该文件中添加如下代码<br><code>-A INPUT -m state –state NEW -m tcp -p tcp –dport 8080 -j ACCEPT</code></p>
+<p>之后重启iptables<br><code>systemctl restart iptables</code><br>并设置防火墙开机启动<br><code>systemctl enable iptables</code><br>同样查看iptables状态<br><code>service iptables status</code>或<code>systemctl status iptables</code></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>关闭防火墙<code>service iptables stop</code><br>启动防火墙<code>service iptables start</code><br>重启防火墙<code>service iptables restart</code><br>查看防火墙状态<code>service iptables status</code><br>永久关闭防火墙<code>chkconfig iptables off</code><br>永久关闭后启用<code>chkconfig iptables on</code></p>
+<h3 id="安装基本的redis环境"><a href="#安装基本的redis环境" class="headerlink" title="安装基本的redis环境"></a>安装基本的redis环境</h3><p>安装redis之前文章提过，详情看这篇文章<a href="http://cgspace.date/2017/08/07/linux/2017-08-07-install-centos-server/" target="_blank" rel="external">搭建centos服务器</a></p>
+<h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><h4 id="增添修改配置文件"><a href="#增添修改配置文件" class="headerlink" title="增添修改配置文件"></a>增添修改配置文件</h4><p>集群至少需要6个节点，所以就需要6个端口，<br>安装完redis后，在/home/xm6f/dev/目录下新建<code>redis_cluster</code>文件夹，之后在该文件夹中创建7000~70056个文件夹，并每个文件夹包含子文件夹logs<br>命令如下</p>
+<pre><code>mkdir redis_cluster
+mkdir -p 7000/logs 7001/logs 7002/logs 7003/logs 7004/logs 7005/logs
+</code></pre><p>之后再将redis安装目录下的<code>redis.conf</code>这个文件分别拷贝到7000等文件夹下，之后为每个节点修改<code>redis.conf</code>这个文件<br>从上到下依次需要求改的内容如下</p>
+<pre><code>bind 机器ip            #使用ifconfig命令获得的ip,有可能处于局域网
+port 7000            #而后依次增加7001,7002....
+daemonize yes        #后台运行
+pidfile /var/run/redis_7000.pid        #而后依次增加7001,7002....
+logfile &quot;/root/dev/redis_cluster/7000/logs/redis.log&quot;        #而后依次增加7001,7002....
+dbfilename dump_7000.rdb            #而后依次增加7001,7002....
+dir &quot;/root/dev/redis-3.2.4/src&quot;        #redis安装目录下的src
+requirepass &quot;123456&quot;                #配置密码
+appendonly yes
+appendfilename &quot;appendonly_7000.aof&quot;
+cluster-enabled yes                    #开启集群
+cluster-config-file nodes-7000.conf
+cluster-node-timeout 5000
+</code></pre><p>修改完上面之后，还需在该文件末尾添加一行</p>
+<pre><code>masterauth &quot;123456&quot;                #集群密码，与requirepass一样
+</code></pre><p>这里需要注意的问题就是bind的值，bind的值最好是本机ip，使用icfonfig命令得到的ip。千万不要相信手头的ip，即用ssh连接linux的ip，有可能ssh连接的ip是外网ip，而此服务器有一个内网ip…..我今天配置的就是，一直启动不了。bing使用外网ip是，命令启动redis没反应，启动不了。浪费一天了一上午的时间…..</p>
+<p>写个脚本来一次性启动6个节点的redis</p>
+<h4 id="启动redis"><a href="#启动redis" class="headerlink" title="启动redis"></a>启动redis</h4><p>脚本代码</p>
+<pre><code>cd /root/dev/redis-3.2.4/src
+./redis-server ../../redis_cluster/7000/redis.conf &amp;
+./redis-server ../../redis_cluster/7001/redis.conf &amp;
+./redis-server ../../redis_cluster/7002/redis.conf &amp;
+./redis-server ../../redis_cluster/7003/redis.conf &amp;
+./redis-server ../../redis_cluster/7004/redis.conf &amp;
+./redis-server ../../redis_cluster/7005/redis.conf &amp;
+</code></pre><p>然后看redis运行情况，使用命令<code>ps -ef | grep redis</code><br>若输出如下</p>
+<pre><code>[root@VM_176_139_centos shell]# ps -ef | grep redis
+root      8833     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7000 [cluster]
+root      8834     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7001 [cluster]
+root      8835     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7005 [cluster]
+root      8836     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7002 [cluster]
+root      8837     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7004 [cluster]
+root      8838     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7003 [cluster]
+root      8863  6015  0 15:12 pts/6    00:00:00 grep --color=auto redis
+</code></pre><p>注意redis的url，url需要是本机ip地址<br>只要这样，就可以进行下一步</p>
+<h4 id="关闭redis"><a href="#关闭redis" class="headerlink" title="关闭redis"></a>关闭redis</h4><p>命令<br><code>pkill -9 redis</code><br>即可同时关闭这6个redis</p>
+<h4 id="集群连接操作"><a href="#集群连接操作" class="headerlink" title="集群连接操作"></a>集群连接操作</h4><p>此时需要使用到redis安装目录src下的<code>redis-trib.rb</code>这个文件，这个文件是用ruby语言写的，所以需要安装ruby环境<br>运行命令<br><code>yum -y install ruby ruby-devel rubygems rpm-build</code><br>之后再使用gem来安装redis接口<br><code>gem install redis</code></p>
+<p>注意<br>如果在执行使用gem安装redis是报</p>
+<pre><code>ERROR:Error installing redis:redis requires Ruby version &gt;= 2.2.2
+</code></pre><p>这个异常的话，这报的是版本异常，要求gem安装redis最低的ruby版本为2.2.2,而yum仓库中提供的版本为2.0,其解决方法可以去看<a href="http://blog.csdn.net/fengye_yulu/article/details/77628094" target="_blank" rel="external">这篇文章</a>。<br>上述步骤完成之后，使用命令</p>
+<pre><code>./redis-trib.rb create --replicas 1 10.104.176.139:7000 10.104.176.139:7001 10.104.176.139:7002 10.104.176.139:7003 10.104.176.139:7004 10.104.176.139:7005
+</code></pre><p>正常输出如下</p>
+<pre><code>[root@VM_176_139_centos src]# ./redis-trib.rb create --replicas 1 10.104.176.139:7000 10.104.176.139:7001 10.104.176.139:7002 10.104.176.139:7003 10.104.176.139:7004 10.104.176.139:7005
+&gt;&gt;&gt; Creating cluster
+&gt;&gt;&gt; Performing hash slots allocation on 6 nodes...
+Using 3 masters:
+10.104.176.139:7000
+10.104.176.139:7001
+10.104.176.139:7002
+Adding replica 10.104.176.139:7003 to 10.104.176.139:7000
+Adding replica 10.104.176.139:7004 to 10.104.176.139:7001
+Adding replica 10.104.176.139:7005 to 10.104.176.139:7002
+M: 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85 10.104.176.139:7000
+   slots:0-5460 (5461 slots) master
+M: 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9 10.104.176.139:7001
+   slots:5461-10922 (5462 slots) master
+M: 26e7e5c215ff685a06908da9418bb0d6145d2eb2 10.104.176.139:7002
+   slots:10923-16383 (5461 slots) master
+S: a2ebe312b7dbab29aa60c404e347e8570f598273 10.104.176.139:7003
+   replicates 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85
+S: a346f606aa0a1f2bd96c95b1831582f30aae04e2 10.104.176.139:7004
+   replicates 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9
+S: 54d3fc53cde48495dcf709c1be03b483001bd873 10.104.176.139:7005
+   replicates 26e7e5c215ff685a06908da9418bb0d6145d2eb2
+Can I set the above configuration? (type &apos;yes&apos; to accept): yes   
+&gt;&gt;&gt; Nodes configuration updated
+&gt;&gt;&gt; Assign a different config epoch to each node
+&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster
+Waiting for the cluster to join...
+&gt;&gt;&gt; Performing Cluster Check (using node 10.104.176.139:7000)
+M: 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85 10.104.176.139:7000
+   slots:0-5460 (5461 slots) master
+   1 additional replica(s)
+S: a346f606aa0a1f2bd96c95b1831582f30aae04e2 10.104.176.139:7004
+   slots: (0 slots) slave
+   replicates 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9
+S: 54d3fc53cde48495dcf709c1be03b483001bd873 10.104.176.139:7005
+   slots: (0 slots) slave
+   replicates 26e7e5c215ff685a06908da9418bb0d6145d2eb2
+M: 26e7e5c215ff685a06908da9418bb0d6145d2eb2 10.104.176.139:7002
+   slots:10923-16383 (5461 slots) master
+   1 additional replica(s)
+M: 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9 10.104.176.139:7001
+   slots:5461-10922 (5462 slots) master
+   1 additional replica(s)
+S: a2ebe312b7dbab29aa60c404e347e8570f598273 10.104.176.139:7003
+   slots: (0 slots) slave
+   replicates 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85
+[OK] All nodes agree about slots configuration.
+&gt;&gt;&gt; Check for open slots...
+&gt;&gt;&gt; Check slots coverage...
+[OK] All 16384 slots covered.
+[root@VM_176_139_centos src]# 
+</code></pre><p>连接完成之后，就可以测试各个节点的连接情况了，这里先不撤…</p>
+<h4 id="重新连接集群"><a href="#重新连接集群" class="headerlink" title="重新连接集群"></a>重新连接集群</h4><p>如果需要重新连接集群，那么就需要找到redis.conf配置文件中<br><code>dir &quot;/root/dev/redis-3.2.4/src&quot;</code><br>这个文件路径，并删除里面的带端口的文件，就是上面提到的配置方法中的文件<br>直接在该文件目录下运行命令</p>
+<p><code>sudo rm appendonly_*.conf nodes-*.conf dump_*.rdb</code></p>
+<p>引用: <a href="http://www.cnblogs.com/linjiqin/p/7451822.html" target="_blank" rel="external">Redis 3.2.4集群实战</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> redis </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java使用Sunday算法来查找文件]]></title>
+      <url>/2017/09/17/java/2017-09-17-java-SundayfindFile/</url>
+      <content type="html"><![CDATA[<p>今天周末，出租屋无聊便来公司呆着。顺便看看Sunday算法<br>Sunday算法的查找匹配速率比KMP算法快，其匹配规则也简单易懂，其移动位数主要时参考与字符串中参加匹配的最末位字符的下一位字符，如果该字符并未在搜索串中出现，则将字符串指针移动到该字符的下一位字符，搜索串指针则归零，反之，如果参加匹配的最末位字符的下一位字符出现在搜索串中，则移动位数等于搜索串长度减去搜索串中第一次出现该字符的下标。</p>
+<a id="more"></a>
+<p>详情看末尾的引用，同样也谢谢这两篇文章的作者</p>
+<h3 id="java实现代码"><a href="#java实现代码" class="headerlink" title="java实现代码"></a>java实现代码</h3><pre><code>public int sundaySearchStrByStr(String strTotal, String strSearch) {
+
+    char charTotal [] = strTotal.toCharArray();
+    char charSearch [] = strSearch.toCharArray();
+
+    int t = 0;
+    int s = 0;
+    int existCount = 0;
+    while(s &lt; charSearch.length &amp;&amp; t &lt; charTotal.length) {
+
+        if(charSearch[s] == charTotal[t]) {
+
+            if((s + 1) != charSearch.length) {
+                s++;
+                t++;
+            }else {
+                existCount++;
+                if(charTotal.length - (t + 1) &gt;= charSearch.length) {
+                    s = 0;
+                    t++;
+                }else {
+                    break;
+                }
+            }
+        }else {
+            int num = t + charSearch.length;
+            int index = -1;
+            if(num &lt; charTotal.length) {
+
+                for(int i = 0; i &lt; charSearch.length; i++) {
+                    if(charTotal[num] == charSearch[i]) {
+                        index = i;
+                        break;
+                    }
+                }
+                if(index != -1) {
+                    t = t + (charSearch.length - index);
+                    s = 0;
+
+                }else {
+                    t = num + 1;
+                    s = 0;
+                }
+            }else {
+                break;
+            }
+        }
+        if(t &gt;= charTotal.length) {
+            break;
+        }
+    }
+    return existCount;
+
+}
+</code></pre><p>整个Sunday算法的核心代码即while循环里面的代码，这里主要需注意字符串指针移动时的溢出问题，添加的条件即代码中的<code>num &lt; charTotal.length</code>，满足此条件才能进行下一步，否则则跳出循环<br>另外，Sunday算法在while循环中多了一部for循环，其做的就是将那下一个字符与搜索串进行匹配，如果第一次就匹配成功，即break</p>
+<h3 id="Sunday和KMP对比"><a href="#Sunday和KMP对比" class="headerlink" title="Sunday和KMP对比"></a>Sunday和KMP对比</h3><p>就拿之前写的KMP算法代码来对比</p>
+<h4 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h4><p>如图<br><img src="/images/java/kmp-search.png" alt="java-KMP-searchFile"></p>
+<h4 id="Sunday算法"><a href="#Sunday算法" class="headerlink" title="Sunday算法"></a>Sunday算法</h4><p>如图<br><img src="/images/java/sunday-search.png" alt="java-Sunday-searchFile"></p>
+<p>所以总体来说，Sunday较KMP来说匹配速率更快，代码实现也更简单</p>
+<p>引用:<br>1.<a href="http://wiki.jikexueyuan.com/project/kmp-algorithm/sunday.html" target="_blank" rel="external">扩展 2：Sunday 算法-从头到尾彻底理解 KMP-极客学院wiki</a><br>2.<a href="https://wenzhiquan.github.io/2016/05/28/java_pattern_string_match_sunday_algorithm/" target="_blank" rel="external">Sunday算法-温志泉博客</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> java </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> codeing </tag>
+            
+            <tag> java </tag>
+            
+            <tag> Sunday </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Java使用KMP算法来查找文件]]></title>
+      <url>/2017/09/15/java/2017-09-15-java-KMPfindFile/</url>
+      <content type="html"><![CDATA[<p>接上一篇文章，依据字符串来查找文件。当时使用Python来实现的，没使用啥算法，也就算是暴力匹配，查找速率很是慢。所以这次是使用KMP算法来实现。<br>首先要先了解KMP算法，记得大学的时候老师有讲过这个算法，可惜自己没好好听…于是网上找资料，主要就是看末尾引用的那篇文章，想了解KMP的倒可以看这篇，谢谢这位博主</p>
+<a id="more"></a>
+<h3 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h3><p>KMP算法有两种实现<br>1.基于部分匹配值表的实现<br>2.基于next数组的实现</p>
+<p>KMP算法的第一种实现方式需要基于部分匹配值表，其大部分时候匹配移动的位数就是根据这个部分匹配值表来操作的，所以部分匹配值表对于这种KMP算法来说是很重要的。<br>这里我只实现了第一种方式，另一种基于next的方式并没去折腾。<br>这两种实现所遵循原则都一样，即摆脱每次只移动一位的匹配规则。</p>
+<h3 id="KMP算法移动位数情况"><a href="#KMP算法移动位数情况" class="headerlink" title="KMP算法移动位数情况"></a>KMP算法移动位数情况</h3><p>KMP算法的移动方式都是将字符串固定，移动搜索串<br>假设有两个数组，搜索串:<code>searchStr[]</code>和字符串:<code>totalStr[]</code>,分别用下表<code>s</code>和<code>t</code>表示<br>无论<code>t</code>的值是多少，在当<code>searchStr[0]</code>与<code>totalStr[t]</code>相等时，即意味着在totalStr中有一个字符与searchStr的第一个字符相同，此时就需要确认下一个字符是否与<code>searchStr[1]</code>相同，那么将此刻不移动位数，将指针<code>从totalStr[t]</code>移到<code>total[t+1]</code>,对比是否和<code>search[1]</code>是否相等，如果相同那就将指针继续往后移动，如果不相同就该移动位数了，即移动<code>searchStr[]</code>这个数组，对于具体需要移动多少位，我想，如果使用最死的方法就是一位一位的移，但这样太浪费时间和资源了，这个时候就需要用到部分匹配值表，其移动位数值的计算公式如下</p>
+<p><code>移动位数 = 已经匹配的字符数 - 匹配不成功的字符数的上一位字符对应的部分匹配值</code></p>
+<p>注意，这都是移动搜索串，使字符串的<code>t++</code><br>在前面的匹配都满足的时候，在当<code>searchStr[searchStr.length-1]</code>与<code>totalStr[t]</code>也相等时，即表示已经成功的在字符串中找着了搜索串，如果还需要继续匹配，即查找全部字符串，那么就需要将<code>searchStr[]</code>清零，<code>totalStr[]</code>下标<code>t+1</code>，继续匹配<br>当然，在继续匹配之前，可以判断下totalStr剩余的字符是否还够得完成一次匹配，如果不够，就可以直接跳出循环，结束匹配</p>
+<h3 id="kmp算法代码实现"><a href="#kmp算法代码实现" class="headerlink" title="kmp算法代码实现"></a>kmp算法代码实现</h3><pre><code>while(s &lt; searchChar.length &amp;&amp; t &lt; totalChar.length) {
+    if(searchChar[s] == totalChar[t]) {
+        if((s + 1) != searchChar.length) {
+            s++;                                //如果，且并为匹配完，即searchStr长度还有剩余
+            t++;
+        }else {
+            existCount++;                        //如果searchStr已经全部匹配完成，则当前文件存在的总个数自加
+            if((totalChar.length - (t + 1)) &gt;= searchChar.length) {
+                s = 0;                            //如果totalStr剩余的字符个数比searchStr字符个数多，即足够还能再匹配
+                t++;
+            }else {
+                break;                            //如果个数不够，不能完成一次匹配，则跳出循环
+            }
+        }
+    }else if(s == 0){
+        s = 0;                                    //如果是seasrchStr第一个字符成功匹配，则t自加,即searchStr移动一位。否则依据部分匹配表来移动位数
+        t++;
+    }else {
+        s = s - (s - kmpTable[(s - 1)]);        //kmpTable是int类型的部分匹配值数组
+    }
+    if((t + 1) &gt;= totalChar.length) {            //如果totalStr下表达到了totalStr的总字符数，则跳出循环
+        break;
+    }
+}
+</code></pre><p>kmp算法大致类似，那么下面就需要知道部分匹配值表是如何通过代码得到的</p>
+<h3 id="部分匹配值表代码"><a href="#部分匹配值表代码" class="headerlink" title="部分匹配值表代码"></a>部分匹配值表代码</h3><p>其规则是，首先进行第一次拆分，即将一个字符串拆分，从首部开始拆分。例如字符串<code>ABC</code>,将其拆分成<code>A</code>,<code>AB</code>,<code>ABC</code>三个字符串<br>之后再将这三个字符串分别进行前缀，后缀拆分，例如将<code>ABC</code>拆分得到的前缀为<code>A</code>,<code>AB</code>,拆分得到的后缀为<code>C</code>,<code>BC</code><br>然后就匹配<code>A</code>,<code>AB</code>和<code>C</code>,<code>BC</code>这四个字符串是否相等，如果有相等，则获取其字符串长度，如果有长度更待的字符串相等，则将前面获取的字符串长度替换成字符串长度更大的值<br>代码如下</p>
+<pre><code>public int[] getKMPtable(String strInput) {
+
+    /*
+     * 获取kmp的部分匹配数值表
+     * 但得先获取字符串所有可能长度的最大公告元素长度，将其存放到int数组中返回
+     */
+
+    int intTablesLength = strInput.length();
+    int kmp_table [] = new int [intTablesLength];
+
+    for(int i = 0; i &lt; strInput.length(); i++) {
+        String strItem = strInput.substring(0, i + 1);
+        int intMaxPublicNum = getMaxPublicNum(strItem);
+        kmp_table [i] = intMaxPublicNum;
+    }
+    return kmp_table;
+
+}
+
+
+public int getMaxPublicNum(String strItem) {
+
+    //获取前缀和后缀，并最终对比得到最大的公共元素长度,并返回
+
+    int intMaxPublicNum = 0;
+    int intItemLength = strItem.length();
+
+    String strFront [] = new String [intItemLength - 1];
+    String strBack [] = new String [intItemLength - 1];
+
+    for(int i = 0; i &lt; intItemLength - 1; i++) {
+        strFront[i] = strItem.substring(0, i + 1);
+    }
+    for(int i = intItemLength; i &gt; 1; i--) {
+        strBack[intItemLength - i] = strItem.substring(i - 1, intItemLength);
+    }
+
+    int n = -1;
+    for(int i = 0; i &lt; intItemLength - 1; i++) {
+        if(strFront[i].equals(strBack[i])) {
+            n = i;
+        }
+    }
+    if(n != -1) {
+        intMaxPublicNum = strFront[n].length();
+    }
+    return intMaxPublicNum;
+}
+</code></pre><p>上面代码中，方法<code>getKMPtable()</code>传入的参数即为搜索串，该方法将搜索串进行第一次拆分，将每一次拆分得到的字符串作为参数传入<code>getMaxPublicNum()</code>方法中，<code>getMaxPublicNum()</code>方法就是获取该字符串的最大公共字符串的长度，其做法就是将传入的字符串进行前缀后缀拆分，之后返回最大公共字符串长度，如果没有公共字符串则返回0<br>所有返回的最大公共字符串长度将被方法<code>getKMPtable()</code>操作存放到一个int类型的数组中，并最后返回这个数组<br>这个最大公共字符串长度对应的字符就是相同下表的搜索串的字符。</p>
+<h3 id="java字符串搜索文件总体代码"><a href="#java字符串搜索文件总体代码" class="headerlink" title="java字符串搜索文件总体代码"></a>java字符串搜索文件总体代码</h3><pre><code>package com.cgtest.kmpsearch;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+/**
+* @author cg
+* time: 2017-09-15
+* describe: use kmp algorithm to search files by string
+*/
+
+public class KMPsearchFile {
+
+    public static void main(String [] args) {
+
+        System.out.println(&quot;通过字符串来查找文件，使用全匹配的基于部分匹配表的KMP算法&quot;);
+        Scanner scanner = new Scanner(System.in);
+        while(true){
+            System.out.println(&quot;请输入文件路径(&apos;q to exit&apos;) :&quot;);
+            String strFilePath = scanner.nextLine();
+            if(strFilePath.equals(&quot;q&quot;) || strFilePath.equals(&quot;Q&quot;)) {
+                scanner.close();
+                break;
+            }else if(!strFilePath.equals(&quot;&quot;)){
+                if(new File((strFilePath)).exists() &amp;&amp; true) {
+                    System.out.println(&quot;请输入要查找的字符串 :&quot;);
+                    String strSearch = scanner.nextLine();
+                    if(strSearch.equals(&quot;q&quot;) || strSearch.equals(&quot;Q&quot;)) {
+                        scanner.close();
+                        break;
+                    }else {
+
+                        long startTime = System.currentTimeMillis();
+
+                        KMPself kmpself = new KMPself();
+                        int [] kmpTable = kmpself.getKMPtable(strSearch);
+
+                        Map&lt;String, Object&gt; mapTotalFile = kmpself.kmpSearchFileByStr(strFilePath, strSearch, kmpTable);
+                        double userTime = (System.currentTimeMillis() - startTime);
+                        kmpself.showResult(mapTotalFile);
+                        System.out.println(&quot;查找耗时:&quot; + (userTime)/1000 + &quot;s&quot;);
+                        }
+
+                    }
+                }else {
+                    System.out.println(&quot;文件路径&quot; + strFilePath + &quot;不存在&quot;);
+                    continue;
+                }
+            }
+        }
+
+}
+
+
+class KMPself{
+
+    ArrayList&lt;File&gt; listFilesObj = null;
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+    public void showResult(Map&lt;String, Object&gt; mapTotalFile) {
+
+        ArrayList&lt;Object&gt; listMsg = (ArrayList&lt;Object&gt;) mapTotalFile.get(&quot;resultMsg&quot;);
+        System.out.println(&quot;&lt;-----查找结果-----&gt;&quot;);
+        System.out.println(&quot;查找路径为:&quot; + mapTotalFile.get(&quot;searchPath&quot;));
+        System.out.println(&quot;查找的字符串为:&quot; + mapTotalFile.get(&quot;strSearch&quot;));
+        if(listMsg == null || listMsg.size() == 0) {
+            System.out.println(&quot;已扫描文件个数 :&quot; + mapTotalFile.get(&quot;fileNum&quot;));
+            System.out.println(&quot;已扫描字符个数 :&quot; + mapTotalFile.get(&quot;totalCharNum&quot;));
+            System.out.println(&quot;抱歉 , 未查找到相应文件&quot;);
+        }else {
+            System.out.println(&quot;包含该字符串的文件路径及详情如下 :&quot;);
+            for(int i = 0; i &lt; listMsg.size(); i++) {
+                Map&lt;String, Object&gt; mapItem = (Map&lt;String, Object&gt;) listMsg.get(i);
+                System.out.println(&quot;文件&quot; + (i + 1) + &quot;路径 :&quot; + mapItem.get(&quot;filePath&quot;));
+                System.out.println(&quot;出现该字符串的总数 :&quot; + mapItem.get(&quot;totalCount&quot;));
+                System.out.println(&quot;出现该字符串的行数 :&quot; + mapItem.get(&quot;lineNum&quot;));
+                System.out.println(&quot;行数对应的出现次数 :&quot; + mapItem.get(&quot;lineExistCount&quot;));
+            }
+            System.out.println(&quot;总查找文件个数 :&quot; + mapTotalFile.get(&quot;fileNum&quot;));
+            System.out.println(&quot;总查找字符个数 :&quot; + mapTotalFile.get(&quot;totalCharNum&quot;));
+            System.out.println(&quot;&lt;-----查找完成-----&gt;&quot;);
+        }
+    }
+
+
+    public ArrayList&lt;File&gt; getFiles(String strFilePath) {
+
+        if(listFilesObj == null) {
+            listFilesObj = new ArrayList&lt;File&gt;();
+        }
+
+        File fileObj = new File(strFilePath);
+
+        if(fileObj.isDirectory()) {
+            File fileNextDir [] = fileObj.listFiles();
+            for(File fileItem : fileNextDir) {
+                if(fileItem.isDirectory()) {
+                    getFiles(fileItem.getPath());
+                }else {
+                    listFilesObj.add(fileItem);
+                }
+            }
+        }else {
+            listFilesObj.add(fileObj);
+        }
+        return listFilesObj;
+    }
+
+
+    public Map&lt;String, Object&gt; kmpSearchFileByStr(String strFilePath, String strSearch, int kmpTable []) {
+
+        /*
+         * 使用kmp算法
+         * 通过字符串搜索文件，将搜索到的结果封装到map，list混合集合中，并最终返回一个map集合
+         */
+
+        ArrayList&lt;File&gt; listFilesObj = getFiles(strFilePath);
+
+        Map&lt;String, Object&gt; mapTotalFile = new HashMap&lt;String, Object&gt;();
+        ArrayList&lt;Object&gt; listMsg = new ArrayList&lt;Object&gt;();
+        int fileNum = 0;
+        long totalCharNum = 0;
+
+        for(File listItem : listFilesObj) {
+            Map&lt;String, Object&gt; mapFile = new HashMap&lt;String, Object&gt;();
+            ArrayList&lt;Integer&gt; listLineNum = new ArrayList&lt;Integer&gt;();
+            ArrayList&lt;Integer&gt; listLineExistCount = new ArrayList&lt;Integer&gt;();
+            int lineNum = 1;
+            int existCount = 0;
+            int totalCount = 0;
+            try {
+                BufferedReader buffererReader = new BufferedReader(new FileReader(listItem));
+                String strLine = null;
+                while((strLine = buffererReader.readLine()) != null) {
+                    existCount = kmpSearchStrByStr(strLine, strSearch, kmpTable);
+                    if(existCount != 0) {
+                        listLineNum.add(lineNum);
+                        listLineExistCount.add(existCount);
+                    }
+                    totalCharNum += strLine.length();
+                    totalCount += existCount;
+
+                    lineNum++;
+                }
+                buffererReader.close();
+                if(totalCount != 0) {
+                    mapFile.put(&quot;filePath&quot;, listItem);
+                    mapFile.put(&quot;totalCount&quot;, totalCount);
+                    mapFile.put(&quot;lineNum&quot;, listLineNum);
+                    mapFile.put(&quot;lineExistCount&quot;, listLineExistCount);
+                }
+                if( mapFile.size() != 0) {
+                    listMsg.add(mapFile);
+                }
+
+            } catch (FileNotFoundException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            fileNum++;
+        }
+        if(listMsg.size() != 0) {
+            mapTotalFile.put(&quot;resultMsg&quot;, listMsg);
+        }
+        mapTotalFile.put(&quot;searchPath&quot;, strFilePath);
+        mapTotalFile.put(&quot;strSearch&quot;, strSearch);
+        mapTotalFile.put(&quot;fileNum&quot;, fileNum);
+        mapTotalFile.put(&quot;totalCharNum&quot;, totalCharNum);
+
+        return mapTotalFile;
+    }
+
+
+    public int kmpSearchStrByStr(String totalStr, String strSearch, int kmpTable []) {
+        /*
+         * 参数1为内容字符串
+         * 参数2为输入的搜索字符串即搜索串
+         * 参数3为输入的搜索字符串的部分匹配数值表，为int类型的一维数组
+         * 全匹配的基于部分匹配表的KMP算法
+         * 并不是基于next数组
+         * 
+         * 其返回值是当前字符串中有出现搜索串的个数
+         * 此时并无下标
+         * 
+         */
+        char searchChar [] = strSearch.toCharArray();
+        char totalChar [] = totalStr.toCharArray();
+
+        int s = 0;
+        int t = 0;
+        //int index = -1;
+        int existCount = 0;
+        while(s &lt; searchChar.length &amp;&amp; t &lt; totalChar.length) {
+            if(searchChar[s] == totalChar[t]) {
+                if((s + 1) != searchChar.length) {
+                    s++;
+                    t++;
+                }else {
+                    existCount++;
+                    if((totalChar.length - (t + 1)) &gt;= searchChar.length) {
+                        s = 0;
+                        t++;
+                    }else {
+                        break;
+                    }
+                }
+            }else if(s == 0){
+                s = 0;
+                t++;
+            }else {
+                s = s - (s - kmpTable[(s - 1)]);
+            }
+            if((t + 1) &gt;= totalChar.length) {
+                break;
+            }
+        }
+        return existCount;
+
+    }
+
+
+
+    public int[] getKMPtable(String strInput) {
+
+        /*
+         * 获取kmp的部分匹配数值表
+         * 但得先获取字符串所有可能长度的最大公告元素长度，将其存放到int数组中返回
+         */
+
+        int intTablesLength = strInput.length();
+        int kmp_table [] = new int [intTablesLength];
+
+        for(int i = 0; i &lt; strInput.length(); i++) {
+            String strItem = strInput.substring(0, i + 1);
+            int intMaxPublicNum = getMaxPublicNum(strItem);
+            kmp_table [i] = intMaxPublicNum;
+        }
+        return kmp_table;
+
+    }
+
+
+    public int getMaxPublicNum(String strItem) {
+
+        //获取前缀和后缀，并最终对比得到最大的公共元素长度,并返回
+
+        int intMaxPublicNum = 0;
+        int intItemLength = strItem.length();
+
+        String strFront [] = new String [intItemLength - 1];
+        String strBack [] = new String [intItemLength - 1];
+
+        for(int i = 0; i &lt; intItemLength - 1; i++) {
+            strFront[i] = strItem.substring(0, i + 1);
+        }
+        for(int i = intItemLength; i &gt; 1; i--) {
+            strBack[intItemLength - i] = strItem.substring(i - 1, intItemLength);
+        }
+
+        int n = -1;
+        for(int i = 0; i &lt; intItemLength - 1; i++) {
+            if(strFront[i].equals(strBack[i])) {
+                n = i;
+            }
+        }
+        if(n != -1) {
+            intMaxPublicNum = strFront[n].length();
+        }
+        return intMaxPublicNum;
+    }
+
+
+}
+</code></pre><p>同时，我也对原先写的python代码进行了修改，使用KMP算法</p>
+<h3 id="python实现KMP算法代码"><a href="#python实现KMP算法代码" class="headerlink" title="python实现KMP算法代码"></a>python实现KMP算法代码</h3><p>其python实现的KMP算法核心代码如下</p>
+<pre><code>def kmpSearchStrByStr(totalStr, strSearch, kmpTable):
+
+    #kmp算法查找
+    #返回字符串中包含搜索串的个数
+
+    listSearch = list(strSearch)
+    listTotal = list(totalStr)
+
+    s = 0
+    t = 0
+    existCount = 0
+    while((s &lt; len(listSearch)) &amp; (t &lt; len(listTotal))):
+        if(listSearch[s] == listTotal[t]):
+            if((s + 1) != len(listSearch)):
+                s+=1
+                t+=1
+            else:
+                existCount+=1
+                if((len(listTotal) - (t + 1)) &gt;= len(listSearch)):
+                    s = 0
+                    t+=1
+                else:
+                    break;
+        elif(s == 0):
+            s = 0
+            t+=1
+        else:
+            s = s - (s - kmpTable[(s - 1)])
+        if((t + 1) &gt;= len(listTotal)):
+            break
+    #print(existCount)
+    return existCount
+
+
+
+def getKMPtable(strSearch):
+
+    #获取kmp的部分匹配数值表
+    #但得先获取字符串所有可能长度的最大公告元素长度，将其存放到int数组中返回
+
+    intTablesLength = len(strSearch)
+    kmpTable = []
+
+    for i in range(intTablesLength):
+        strItem = strSearch[0 : i + 1]
+        intMaxPublicNum = getMaxPublicNum(strItem)
+        kmpTable.append(intMaxPublicNum)
+
+    #print(kmpTable)
+    return kmpTable
+
+
+def getMaxPublicNum(strItem):
+
+    #获取前缀和后缀，并最终对比得到最大的公共元素长度,并返回
+
+    intMaxPublicNum = 0
+    intItemLength = len(strItem)
+
+    listFront = []
+    listBack = []
+
+    for i in range(intItemLength - 1):
+        listFront.append(strItem[0 : i + 1])
+
+    for i in range(intItemLength, 1, -1):
+        listBack.append(strItem[i - 1 : intItemLength])
+
+    n = -1
+    for i in range(intItemLength - 1):
+        if(listFront[i] == listBack[i]):
+            n = i
+    if(n != -1):
+        intMaxPublicNum = len(listFront[n])
+
+    #print(intMaxPublicNum)
+    return intMaxPublicNum
+</code></pre><h3 id="python和java搜索对比"><a href="#python和java搜索对比" class="headerlink" title="python和java搜索对比"></a>python和java搜索对比</h3><p>python实现的字符串搜索文件和java实现的字符串搜索文件，其运行速率对比还是很明显，估计问题就在python对文件编码格式上面，如图</p>
+<p><img src="/images/java/python-java-kmp-searchFile.png" alt="java-python-KMP-searchFile"></p>
+<p>速率相差太大，估计就是代码的问题<br>java代码同样也是臃肿…..</p>
+<p>引用: <a href="http://blog.csdn.net/sunnyyoona/article/details/44004563" target="_blank" rel="external">算法系列之二十六–字符串匹配之KMP算法</a></p>
+]]></content>
+      
+        <categories>
+            
+            <category> java </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> codeing </tag>
+            
+            <tag> java </tag>
+            
+            <tag> python </tag>
+            
+            <tag> KMP </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Python通过字符串查找包含该字符串的文件]]></title>
+      <url>/2017/09/12/python/2017-09-12-python-findFilesByStr/</url>
+      <content type="html"><![CDATA[<p>无聊很可怕，上班无聊也是一样。今天上班无聊翻自己做的笔记看，但是笔记太多，所以我就只想看包含一些已知内容的笔记，但又不知道存放在哪里，苦逼实在系统windows，要是linux直接用命令很快就找出来了，于是就打算用python写个脚本，顺便回顾一下python,好久没用了</p>
+<a id="more"></a>
+<h3 id="实现描述"><a href="#实现描述" class="headerlink" title="实现描述"></a>实现描述</h3><p>根据字符串查找，使用的是re模块中的findall方法，属于精确匹配，这样使得查找很尴尬，需要输入很准确的字符才能查找到文件，模糊匹配并没有去做，现在做的只要是为了实现我这很简单的需求….，通过精确匹配，将匹配结果未true的进行存放到字典中，并最终存放到列表中进行返回，之后直接遍历得到的列表来显示查找得到的结果<br>其中有一点，就是文件编码问题，由于笔记包含了各种字符，存放的编码格式有utf-8,ascii,gb2312等，所以再open的时候不能统一编码，所以这里是用chardet先判断下编码格式，然后返回给open使用</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><p>这里贴代码</p>
+<pre><code>import re
+import os
+import sys
+import time
+import chardet
+
+#describe: find files by string
+#author: cg
+
+def main():
+    print(&quot;查找出该路径下所有包含此字符串的文件路径&quot;)
+    while True:
+        print(&quot;请输入文件路径(&apos;q to exit&apos;) :&quot;)
+        inputFilePath = input(&apos;&gt;&apos;)
+        if (inputFilePath == &apos;q&apos;) or (inputFilePath == &apos;Q&apos;):
+            break
+        elif inputFilePath != &quot;&quot;:
+            if os.path.exists(inputFilePath):
+                print(&quot;请输入要查找的字符串 :&quot;)
+                inputStr = input(&apos;&gt;&apos;)
+                if (inputStr == &apos;q&apos;) or (inputStr == &apos;Q&apos;):
+                    break
+                startTime = time.time()
+                resultList = searchStr(inputStr, inputFilePath)
+                useTime = round((time.time() - startTime), 4)
+                showResult(resultList)
+                print(&quot;查找所耗时间 %s s&quot; %useTime)
+                print(&quot;&lt;-----查找完成-----&gt;&quot;)
+                print(&apos;&apos;)
+            else:
+                print(&quot;文件路径[%s]不存在&quot; %(inputFilePath))
+                continue
+
+def searchStr(str1, path):
+    listTotalFile = []
+    dictTotalMsg = {}
+    totalFile = 0
+    for rootPathStr, dirNameLists, fileNameLists in os.walk(path, True):
+        for fileName in fileNameLists:
+            filePath = os.path.join(rootPathStr, fileName)
+            fileEncoding = getFileEncode(filePath)
+            with open(filePath, &apos;r&apos;, encoding=fileEncoding) as fileObj:
+                totalNum = 0
+                lineNum = 0
+                dictTotal = {}
+                listItemLine = []
+                listItemCount = []
+                while True:
+                    try:
+                        line = fileObj.readline()
+                        lineNum += 1
+                        if line:
+                            resultList = re.findall(str1, line)
+                            if len(resultList) &gt; 0:
+                                totalNum += len(resultList)
+                                listItemLine.append(lineNum)
+                                listItemCount.append(len(resultList))
+                        else:
+                            break
+                    except Exception:
+                        print(&quot;error:&quot;)
+                        print(&quot;&lt;&lt;&quot; + filePath + &quot;读取失败 &gt;&gt;&quot;)
+                        continue
+
+                if totalNum &gt; 0:
+                    dictTotal[&apos;filePath&apos;] = filePath
+                    dictTotal[&apos;totalCount&apos;] = totalNum
+                    dictTotal[&apos;detailLine&apos;] = listItemLine
+                    dictTotal[&apos;detailCount&apos;] = listItemCount
+                    listTotalFile.append(dictTotal)
+        totalFile += (len(fileNameLists))
+    dictTotalMsg[&apos;findPath&apos;] = path
+    dictTotalMsg[&apos;findStr&apos;] = str1
+    dictTotalMsg[&apos;totalFileNum&apos;] = totalFile
+    dictTotalMsg[&apos;msg&apos;] = listTotalFile
+    return dictTotalMsg
+
+def getFileEncode(filePath):
+    with open(filePath, &apos;rb&apos;) as fileObj:
+        data = fileObj.read()
+        fileDataDict = chardet.detect(data)
+        return fileDataDict.get(&apos;encoding&apos;)
+
+def showResult(dictTotalMsg):
+    listMsg = dictTotalMsg.get(&apos;msg&apos;)
+    print(&quot;&lt;-----查找结果-----&gt;&quot;)
+    print(&quot;查找路径为: %s&quot; %(dictTotalMsg.get(&apos;findPath&apos;)))
+    print(&quot;查找的字符串为: %s&quot; %(dictTotalMsg.get(&apos;findStr&apos;)))
+    if len(listMsg) &gt; 0:
+        print(&quot;包含该字符串的文件路径及详情如下 :&quot;)
+    else:
+        print(&quot;抱歉 , 未查找到相应文件&quot;)
+    for i in range(len(listMsg)):
+        print(&quot;文件%s路径 : %s&quot; %((i + 1), listMsg[i].get(&apos;filePath&apos;)))
+        print(&quot;出现该字符串的总数 : %s&quot; %(listMsg[i].get(&apos;totalCount&apos;)))
+        print(&quot;出现该字符串的行数 : %s&quot; %(listMsg[i].get(&apos;detailLine&apos;)))
+        print(&quot;行数对应的出现次数 : %s&quot; %(listMsg[i].get(&apos;detailCount&apos;)))
+    print(&quot;总查找文件个数 : %s&quot; %(dictTotalMsg.get(&apos;totalFileNum&apos;)))
+
+
+if __name__ == &apos;__main__&apos;:
+    main()
+</code></pre><p>代码不多，也就100行，当然，功能也非常简单。</p>
+<h3 id="运行示例"><a href="#运行示例" class="headerlink" title="运行示例"></a>运行示例</h3><p><img src="/images/python/python-searchByStr.png" alt="python-hwEncryption"></p>
+<p>看上面输出，还是有编码问题…..</p>
+]]></content>
+      
+        <categories>
+            
+            <category> python </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> codeing </tag>
+            
+            <tag> python </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[使用shell脚本监控服务器项目运行]]></title>
+      <url>/2017/09/01/linux/2017-09-01-linux-shell-monitor/</url>
+      <content type="html"><![CDATA[<p>之前写过一个每天定时对nginx日志文件进行切割的脚本，并在切割之后通过发送邮件来告知脚本执行是否成功。实现起来很简单，本来不想写，但前辈让一定要写，写就写吧，反正无聊。就是写完脚本后就更无聊了…<br>这次也还是一样的，需要写一个脚本来监控服务器中的各种服务，tomcat,redis,nginx,磁盘空间，jdk…没错，还说要监控jdk…..</p>
+<a id="more"></a>
+<p>不多说了，本来语文就差，组词这么粗糙。</p>
+<p>先说下，现在这个脚本应该算是还有两个bug,后面慢慢解决。</p>
+<p>正文</p>
+<h3 id="脚本大致功能"><a href="#脚本大致功能" class="headerlink" title="脚本大致功能"></a>脚本大致功能</h3><p>1.脚本每间隔5分钟运行一次，检测各个系统模块运行是否正常，如若运行不正常，脚本先自行处理一次，如果处理后该服务仍然未正常运行，则发邮件提醒。正常则无提醒<br>2.在脚本没5分钟运行的情况下，每间隔1个小时(24h)，脚本会对服务器中的所有已经监控的模块状态进行汇总，并发邮件通知</p>
+<p>脚本已经提供监控代码的服务就这三项，tomcat,redis和nginx，外加个磁盘根目录信息(无自动清理功能)</p>
+<h3 id="脚本大致流程"><a href="#脚本大致流程" class="headerlink" title="脚本大致流程"></a>脚本大致流程</h3><h4 id="匹配项目是否运行"><a href="#匹配项目是否运行" class="headerlink" title="匹配项目是否运行"></a>匹配项目是否运行</h4><p>就拿tomcat来说，脚本通过命令<br>‘ps -ef | grep tomcat’<br>来查看进程中运行的tomcat，将输出结果进行模糊匹配，这里的模糊匹配只是匹配对应tomcat安装目录的文件夹名称<br>例如运行该命令的输出如下</p>
+<pre><code>[xm6f@localhost automatic]$ ps -ef | grep tomcat
+root      1503     1  0 8月29 ?       00:11:29 //bin/java -Djava.util.logging.config.file=/usr/local/tomcat/tomcat-8082/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -server -Xms512m -Xmx4096m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/local/tomcat/tomcat-8082/endorsed -classpath /usr/local/tomcat/tomcat-8082/bin/bootstrap.jar:/usr/local/tomcat/tomcat-8082/bin/tomcat-juli.jar -Dcatalina.base=/usr/local/tomcat/tomcat-8082 -Dcatalina.home=/usr/local/tomcat/tomcat-8082 -Djava.io.tmpdir=/usr/local/tomcat/tomcat-8082/temp org.apache.catalina.startup.Bootstrap start
+xm6f     10126     1  0 12:59 pts/5    00:01:34 /usr/local/java/jdk1.8.0_144/bin/java -Djava.util.logging.config.file=/usr/local/tomcat/lotmall-8080/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -server -Xms512m -Xmx4096m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/local/tomcat/lotmall-8080/endorsed -classpath /usr/local/tomcat/lotmall-8080/bin/bootstrap.jar:/usr/local/tomcat/lotmall-8080/bin/tomcat-juli.jar -Dcatalina.base=/usr/local/tomcat/lotmall-8080 -Dcatalina.home=/usr/local/tomcat/lotmall-8080 -Djava.io.tmpdir=/usr/local/tomcat/lotmall-8080/temp org.apache.catalina.startup.Bootstrap start
+xm6f     12173     1  1 14:26 pts/7    00:00:54 /usr/local/java/jdk1.8.0_144/bin/java -Djava.util.logging.config.file=/usr/local/tomcat/mango-8081/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -server -Xms512m -Xmx4096m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/local/tomcat/mango-8081/endorsed -classpath /usr/local/tomcat/mango-8081/bin/bootstrap.jar:/usr/local/tomcat/mango-8081/bin/tomcat-juli.jar -Dcatalina.base=/usr/local/tomcat/mango-8081 -Dcatalina.home=/usr/local/tomcat/mango-8081 -Djava.io.tmpdir=/usr/local/tomcat/mango-8081/temp org.apache.catalina.startup.Bootstrap start
+xm6f     13681  7589  0 15:39 pts/7    00:00:00 grep --color=auto tomcat
+</code></pre><p>根据上面的输出，可以看到运行了三台tomcat,三台tomcat分别对应的安装目录的路径即上面输出中的<code>Dcatalina.base</code>这个变量的值，对比这三台tomcat的<code>Dcatalina.base</code>的值，可以知道这三台tomcat的安装文件都是存放在<code>/usr/local/tomcat/</code>这个路径下的，虽然这是安装时刻意弄的，但这样毕竟更好管理，对应写脚本也更方便。在这个路径下，存放的三个文件夹就是对应的三台tomcat安装文件，所以根据这些输出，可以进行模糊匹配来辨别当个tomcat是否运行<br>主要实现代码如下</p>
+<pre><code>TOMCAT_STATUS=$(ps -ef | grep tomcat)
+if [[ $TOMCAT_STATUS =~ &quot;8080&quot; ]]
+then
+    createEmail_content &quot;* tomcat8080---已在运行&quot; -h 1
+    TOMCAT_1_LOG=$(tail -n 150 /usr/local/tomcat/tomcat-8080}/logs/catalina.out)
+    if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+    then
+        createEmail_content &quot;---日志输出异常&quot; -h
+        createEmail_errContent &quot;===============149-8080-输出日志===============&quot; -h
+        createEmail_errContent &quot;$TOMCAT_1_LOG&quot; -h
+    else
+        createEmail_content &quot;---日志输出正常&quot; -h
+    fi
+else
+    createEmail_content &quot;* tomcat$8080---未运行&quot; -h
+fi
+</code></pre><p>在知道tomcat是否运行之后，就可以对日志的输出进行解析了，以此来判断该tomcat运行时的日志输出是否正常，当然，如果tomcat未运行就不必对日志文件进行分析了。<br>判断日志输出是否正常的方式和判断tomcat是否运行的方式其理念是一样的，如上面的代码，获取8080端口的那台tomcat的文件末尾的150行，150行足够了，全屏下来也就50+行，获取这些输出之后同样拿来进行模糊匹配，观察之前的日志报错输出，里面都会有<code>exception</code>这个字段，匹配它就可以了，如果为结果为<code>true</code>，则说明日志报错了。<br>在知道tomcat是否正常运行及日志输出是否正常之后，将结果写入到txt文件，方便后面发送邮件，也方便记录<br>相对应的，判断nginx和redis是否运行也是通过这样的方式，这里就不说了</p>
+<h4 id="查看磁盘空间"><a href="#查看磁盘空间" class="headerlink" title="查看磁盘空间"></a>查看磁盘空间</h4><p>查看磁盘使用空间最简单的命令就是<code>df</code>命令，使用<code>df -h</code>就可以知道所有挂载点的空间使用量，获取根目录挂载点命令就如<code>df -h /</code>,其输出有6列，拿要获取第5列就用命令<br><code>df -h / | awk &#39;{print $5}&#39;</code><br>其输出如下</p>
+<pre><code>[xm6f@localhost automatic]$ df -h / | awk &apos;{print $5}&apos;
+已用%
+1%
+[xm6f@localhost automatic]$ 
+</code></pre><p>1%不大好对比，我想得到的是单纯的数字，但这个也不好截取，那就网上搜，例如我这里搜索得到的例如<br><code>df -h | grep /dev/mapper/cl-root | awk &#39;{print $5}&#39; | cut -f 1 -d &quot;%&quot;</code><br>这里的<code>/dev/mapper/cl-root</code>是根挂载点对应的文件系统的输出<br>整个命令运行输出如下</p>
+<pre><code>[xm6f@localhost automatic]$ df -h | grep /dev/mapper/cl-root | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;
+1
+[xm6f@localhost automatic]$
+</code></pre><p>这就ok了，这样运行得到结果之后直接放到if语句中进行对比，大于50%就发邮件提醒，就行了</p>
+<h3 id="脚本函数介绍"><a href="#脚本函数介绍" class="headerlink" title="脚本函数介绍"></a>脚本函数介绍</h3><h4 id="写入内容到txt文件函数"><a href="#写入内容到txt文件函数" class="headerlink" title="写入内容到txt文件函数"></a>写入内容到txt文件函数</h4><p>因为总是需要写入内容到文件，总是一味的使用<code>echo</code>命令感觉太麻烦了，索性就封装成方法，后面调用即可<br>就如下面的代码，定义了两个函数，一个用来写记录执行错误输出的文件，一个用来写反馈结果到文件的方法<br>代码如下</p>
+<pre><code>function createEmail_content() {
+    if [[ $2 = -h ]]
+    then
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        fi
+    else
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+}
+
+function createEmail_errContent() {
+        if [[ $2 = -h ]]
+        then
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                fi
+        else
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                fi
+        fi
+}
+</code></pre><p>简单的介绍下上面代码，总共可以输入三个参数</p>
+<ul>
+<li>$1:文本内容</li>
+<li>$2:写入到隔1小时执行结果的文件还是写入到隔5分钟执行结果的文件</li>
+<li>$3:写入是否换行</li>
+</ul>
+<h4 id="重启函数"><a href="#重启函数" class="headerlink" title="重启函数"></a>重启函数</h4><p>不多说了</p>
+<pre><code>function startTomcat() {
+    ${1}/bin/./catalina.sh start
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对tomcat${2}执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对tomcat${2}执行命令&quot;
+    fi
+    START_TOM_RESULT=$(ps -ef | grep tomcat)
+    if [[ $START_TOM_RESULT =~ &quot;$2&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;tomcat${2}已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;tomcat${2}启动未成功，请手动启动&quot;
+    fi    
+}
+</code></pre><h4 id="1小时执行函数"><a href="#1小时执行函数" class="headerlink" title="1小时执行函数"></a>1小时执行函数</h4><p>其中包括检测tomcat，redis，nginx和磁盘根目录使用情况<br>后面打算把这个方法拆分开了，代码太臃肿了</p>
+<pre><code>function automatic_h() {
+
+    echo &quot;&quot; &gt; email_content-${TODAY_H}.txt
+
+    createEmail_content &quot;${COMPUTER_NAME}今日${HOUR}时脚本自动执行结果&quot; -h
+    createEmail_content &quot;======================================&quot; -h
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        createEmail_content &quot;* tomcat${PORT_1}---已在运行&quot; -h 1
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;---日志输出异常&quot; -h
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot; -h
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot; -h
+        else
+            createEmail_content &quot;---日志输出正常&quot; -h
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_2}---已在运行&quot; -h 1
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_3}---已在运行&quot; -h 1
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_3_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot; -h
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis已在运行&quot; -h
+    else
+        createEmail_content &quot;* redis未运行&quot; -h
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx已在运行&quot; -h
+    else
+        createEmail_content &quot;* nginx未运行&quot; -h
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -lt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较小---已使用${DISK_GEN_STATUS}%&quot; -h
+    else
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot; -h
+    fi
+
+
+    echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_H}.txt
+
+    createAll_tail -h
+}
+</code></pre><h4 id="5分钟执行函数"><a href="#5分钟执行函数" class="headerlink" title="5分钟执行函数"></a>5分钟执行函数</h4><p>这个方法和前面的方法大致一样，是上面方法的缩减版</p>
+<pre><code>function automatic_hms() {
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        TOMCAT_1_DIR=${TOMCAT_DIR}/${PORT_1_FILENAME}
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${PORT_1}---已运行---但日志输出异常&quot;
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot;
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot;
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_1_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_1_FILENAME} ${PORT_1}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_1}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_1}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_2}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_2_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_2_FILENAME} ${PORT_2}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_2}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_2}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_3}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_3_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_3_FILENAME} ${PORT_3}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_3}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_3}失败&quot;
+                fi
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ ! $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$REDIS_DIR&quot; ]]
+                then
+                        startRedis $REDIS_DIR
+                else
+                        createEmail_content &quot;**--&gt;redis路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动redis失败&quot;
+                fi
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ ! $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$NGINX_DIR&quot; ]]
+                then
+                        startNginx $NGINX_DIR
+                else
+                        createEmail_content &quot;**--&gt;nginx路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动nginx失败&quot;
+                fi
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -gt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot;
+    fi
+
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        createAll_tail
+    fi
+}
+</code></pre><h4 id="选择执行并发送邮件"><a href="#选择执行并发送邮件" class="headerlink" title="选择执行并发送邮件"></a>选择执行并发送邮件</h4><pre><code>if [[ $MIN = 30 ]]
+then
+    automatic_h
+    if [[ -e &quot;email_err-${TODAY_H}.txt&quot; ]]
+    then
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -a email_err-${TODAY_H}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    else
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    fi
+else
+    automatic_hms
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        if [[ -e &quot;email_err-${TODAY_HMS}.txt&quot; ]]
+        then
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -a email_err-${TODAY_HMS}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        else
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+fi
+</code></pre><p>代码中主要的功能就在这隔1小时执行的方法</p>
+<h4 id="总共代码如下"><a href="#总共代码如下" class="headerlink" title="总共代码如下"></a>总共代码如下</h4><pre><code>#!/bin/bash
+
+#Describe: Monitor Control System.
+# tomcat, nginx, redis
+#Author: cg
+#Time: 2017-08-31
+
+#----------USER CONFIG----------#
+
+##电脑服务器别称，这里用ip的最后一个字段
+COMPUTER_NAME=149
+
+##tomcat路径，该路径为tomcat的父级路径
+#前提是在此路径文件夹下包含有3个或多个子tomcat的安装文件夹
+#例如:
+#    /usr/local/tomcat---&gt;lotmall-8080
+#                     ---&gt;mango-8081
+#                     ---&gt;tomcat-8082
+TOMCAT_DIR=/usr/local/tomcat
+
+##redis的可运行文件所在文件夹的路径
+#前提是redis的配置文件redis.conf和redis.server....都在该文件路径下
+REDIS_DIR=/home/xm6f/dev/redis
+
+##nginx安装文件路径
+NGINX_DIR=/usr/local/nginx
+
+
+##多个tomcat对应的ip
+PORT_1=8080
+PORT_2=8081
+PORT_3=8082
+
+##父级tomcat路径下存放的3个tomcat安装文件的文件夹名称
+PORT_1_FILENAME=lotmall-8080
+PORT_2_FILENAME=mango-8081
+PORT_3_FILENAME=tomcat-8082
+
+##redis端口，这里默认使用6379
+#REDIS_PORT=6379
+
+##根节点对应的文件系统
+#可以使用`df -Th /` 命令查看获得
+GEN_FILE_TYPE=/dev/mapper/cl-root
+
+##要发送的邮箱地址
+#如果有需要发送更多个，则在下面按照格式添加，之后在此脚本末尾的if语句块中添加，注意空格
+EMAIL_ADDR_1=1542723438@qq.com
+EMAIL_ADDR_2=1679055895@qq.com
+
+#-------------------------------#
+
+TODAY_HMS=$(date +%y%m%d%H%M%S)
+TODAY_H=$(date +%y%m%d%H)
+YESTERDAY=$(date -d &quot;yesterday&quot; +%y%m%d)
+TIME=$(date +%Y-%m-%d-%T)
+HOUR=$(date +%H)
+MIN=$(date +%M)
+
+
+function createEmail_content() {
+    if [[ $2 = -h ]]
+    then
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        fi
+    else
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+}
+
+function createEmail_errContent() {
+        if [[ $2 = -h ]]
+        then
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                fi
+        else
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                fi
+        fi
+}
+
+
+function startTomcat() {
+    ${1}/bin/./catalina.sh start
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对tomcat${2}执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对tomcat${2}执行命令&quot;
+    fi
+    START_TOM_RESULT=$(ps -ef | grep tomcat)
+    if [[ $START_TOM_RESULT =~ &quot;$2&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;tomcat${2}已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;tomcat${2}启动未成功，请手动启动&quot;
+    fi    
+}
+
+function startRedis() {
+    ${1}/./redis-server redis.conf
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对redis执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对reids执行命令&quot;
+    fi
+    START_RED_RESULT=$(ps -ef | grep 6379)
+    if [[ $START_RED_RESULT =~ &quot;6379&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;redis已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;redis启动未成功，请手动启动&quot;
+    fi
+}
+
+
+function startNginx() {
+    ${1}/sbin/./nginx
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对nginx执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对nginx执行命令&quot;
+    fi
+    START_NGINX_RESULT=$(ps -ef | grep nginx)
+    if [[ $START_NGINX_RESULT =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;nginx已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;nginx启动未成功，请手动启动&quot;
+    fi
+}
+
+
+function createAll_tail() {
+
+createEmail_content &quot;======================================&quot; $1
+createEmail_content &quot;---林繁&quot; $1
+createEmail_content &quot;---$TIME&quot; $1
+
+}
+
+function automatic_h() {
+
+    echo &quot;&quot; &gt; email_content-${TODAY_H}.txt
+
+    createEmail_content &quot;${COMPUTER_NAME}今日${HOUR}时脚本自动执行结果&quot; -h
+    createEmail_content &quot;======================================&quot; -h
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        createEmail_content &quot;* tomcat${PORT_1}---已在运行&quot; -h 1
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;---日志输出异常&quot; -h
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot; -h
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot; -h
+        else
+            createEmail_content &quot;---日志输出正常&quot; -h
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_2}---已在运行&quot; -h 1
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_3}---已在运行&quot; -h 1
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_3_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot; -h
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis已在运行&quot; -h
+    else
+        createEmail_content &quot;* redis未运行&quot; -h
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx已在运行&quot; -h
+    else
+        createEmail_content &quot;* nginx未运行&quot; -h
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -lt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较小---已使用${DISK_GEN_STATUS}%&quot; -h
+    else
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot; -h
+    fi
+
+
+    echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_H}.txt
+
+    createAll_tail -h
+}
+
+
+function automatic_hms() {
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        TOMCAT_1_DIR=${TOMCAT_DIR}/${PORT_1_FILENAME}
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${PORT_1}---已运行---但日志输出异常&quot;
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot;
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot;
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_1_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_1_FILENAME} ${PORT_1}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_1}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_1}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_2}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_2_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_2_FILENAME} ${PORT_2}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_2}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_2}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_3}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_3_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_3_FILENAME} ${PORT_3}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_3}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_3}失败&quot;
+                fi
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ ! $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$REDIS_DIR&quot; ]]
+                then
+                        startRedis $REDIS_DIR
+                else
+                        createEmail_content &quot;**--&gt;redis路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动redis失败&quot;
+                fi
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ ! $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$NGINX_DIR&quot; ]]
+                then
+                        startNginx $NGINX_DIR
+                else
+                        createEmail_content &quot;**--&gt;nginx路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动nginx失败&quot;
+                fi
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -gt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot;
+    fi
+
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        createAll_tail
+    fi
+}
+
+
+#$HOUR_INT=$(echo $HOUR | sed -r &apos;s/\&lt;0+([1-9]+)/\1/g&apos;)
+
+if [[ $MIN = 30 ]]
+then
+    automatic_h
+    if [[ -e &quot;email_err-${TODAY_H}.txt&quot; ]]
+    then
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -a email_err-${TODAY_H}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    else
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    fi
+else
+    automatic_hms
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        if [[ -e &quot;email_err-${TODAY_HMS}.txt&quot; ]]
+        then
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -a email_err-${TODAY_HMS}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        else
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+fi
+</code></pre><p>jdk就不监控了，根本不需要有…</p>
+<h3 id="代码更新-170918"><a href="#代码更新-170918" class="headerlink" title="代码更新-170918"></a>代码更新-170918</h3><pre><code>#!/bin/bash
+
+#Describe: Monitor Control System.
+# tomcat, nginx, redis
+#Author: cg
+#Time: 2017-08-31
+
+#----------USER CONFIG----------#
+
+COMPUTER_NAME=105
+TOMCAT_DIR=/home/xm6f/dev/tomcat-7.0.79
+REDIS_DIR=/home/xm6f/dev/redis-3.2.4
+REDIS_START_SHELL_CL=/home/xm6f/dev/shell/./redis_start_all.sh
+#NGINX_DIR=/usr/local/nginx
+
+TOMCAT_NUM=4
+
+PORT_1=8080
+PORT_2=8081
+PORT_3=8088
+PORT_4=8098
+
+PORT_1_FILENAME=tomcat-8080
+PORT_2_FILENAME=tomcat-8081
+PORT_3_FILENAME=tomcat-8088
+PORT_4_FILENAME=tomcat-8098
+
+#REDIS_PORT=6379
+
+#
+GEN_FILE_TYPE=/dev/mapper/cl-root
+
+EMAIL_LOG=/usr/scripts/automatic/monitor_log
+
+EMAIL_ADDR_1=1542723438@qq.com
+#EMAIL_ADDR_2=1679055895@qq.com
+
+#-------------------------------#
+
+TODAY_HMS=$(date +%y%m%d%H%M%S)
+TODAY_H=$(date +%y%m%d%H)
+YESTERDAY=$(date -d &quot;yesterday&quot; +%y%m%d)
+TIME=$(date +%Y-%m-%d-%T)
+HOUR=$(date +%H)
+MIN=$(date +%M)
+
+
+function createEmail_content() {
+    if [[ $2 = -h ]]
+    then
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+        fi
+    else
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        fi
+    fi
+}
+
+function createEmail_errContent() {
+        if [[ $2 = -h ]]
+        then
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_H}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_H}.txt
+                fi
+        else
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_HMS}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_HMS}.txt
+                fi
+        fi
+}
+
+
+function startTomcat() {
+    ${1}/bin/./catalina.sh start
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对tomcat${2}执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对tomcat${2}执行命令&quot;
+    fi
+    START_TOM_RESULT=$(ps -ef | grep tomcat)
+    if [[ $START_TOM_RESULT =~ &quot;$2&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;tomcat${2}已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;tomcat${2}启动未成功，请手动启动&quot;
+    fi    
+}
+
+function startRedis() {
+    ${REDIS_DIR}/./redis-server redis.conf
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对redis执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对reids执行命令&quot;
+    fi
+    START_RED_RESULT=$(ps -ef | grep redis)
+    if [[ $START_RED_RESULT =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;redis已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;redis启动未成功，请手动启动&quot;
+    fi
+}
+
+function startRedis_byShell() {
+    ${REDIS_START_SHELL_CL}
+    if [[ $? -eq 0 ]]
+    then
+                createEmail_content &quot;**--&gt;脚本已对redis执行启动命令&quot;
+        else
+                createEmail_content &quot;**--&gt;脚本未成功对reids执行命令&quot;
+        fi
+        START_RED_RESULT=$(ps -ef | grep redis)
+        if [[ $START_RED_RESULT =~ &quot;redis-server&quot; ]]
+        then
+                createEmail_content &quot;**--&gt;redis已成功启动&quot;
+        else
+                createEmail_content &quot;**--&gt;redis启动未成功，请手动启动&quot;
+        fi
+
+
+}
+
+
+function startNginx() {
+    ${NGINX_DIR}/sbin/./nginx
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对nginx执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对nginx执行命令&quot;
+    fi
+    START_NGINX_RESULT=$(ps -ef | grep nginx)
+    if [[ $START_NGINX_RESULT =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;nginx已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;nginx启动未成功，请手动启动&quot;
+    fi
+}
+
+function try_start() {
+        createEmail_content &quot;* ${1}未运行&quot;
+        createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+        if [[ -x &quot;$2&quot; ]]
+        then
+                if [[ ${1} -eq &quot;redis&quot; ]]
+                then
+                        startRedis_byShell
+                else
+                        startNginx
+                fi
+        else
+                createEmail_content &quot;**--&gt;${1}路径不存在&quot;
+                createEmail_content &quot;**--&gt;脚本启动${1}失败&quot;
+        fi
+}
+
+
+
+function createAll_tail() {
+
+createEmail_content &quot;======================================&quot; $1
+createEmail_content &quot;---林繁&quot; $1
+createEmail_content &quot;---$TIME&quot; $1
+
+}
+
+
+function tomcat_h() {
+
+        if [[ $TOMCAT_STATUS =~ &quot;$1&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${1}---已在运行&quot; -h 1
+                TOMCAT_LOG=$(tail -n 150 ${TOMCAT_DIR}/${2}/logs/catalina.out)
+                if [[ $TOMCAT_LOG =~ &quot;exception&quot; ]]
+                then
+                        createEmail_content &quot;---日志输出异常&quot; -h
+                        createEmail_errContent &quot;===============${COMPUTER_NAME}-${1}-输出日志===============&quot; -h
+                        createEmail_errContent &quot;$TOMCAT_LOG&quot; -h
+                else
+                        createEmail_content &quot;---日志输出正常&quot; -h
+                fi
+        else
+                createEmail_content &quot;* tomcat${1}---未运行&quot; -h
+
+        fi
+}
+
+
+function tomcat_hms() {
+
+    if [[ $TOMCAT_STATUS =~ &quot;$1&quot; ]]
+    then
+        TOMCAT_LOG=$(tail -n 150 ${TOMCAT_DIR}/${2}/logs/catalina.out)
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${1}---已运行---但日志输出异常&quot;
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${1}-输出日志===============&quot;
+            createEmail_errContent &quot;$TOMCAT_LOG&quot;
+        fi
+    else
+        createEmail_content &quot;* tomcat${1}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${2}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${2} ${1}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${1}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${1}失败&quot;
+                fi
+    fi
+}
+
+
+function for_tomcat_h() {
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+        for(( i=1; i&lt;=${TOMCAT_NUM}; i++ )) {
+                PORT=PORT_$i
+        FILENAME=PORT_${i}_FILENAME
+                eval TOMCAT_PORT=&quot;$&quot;$PORT
+        eval TOMCAT_FILENAME=&quot;$&quot;$FILENAME
+                tomcat_h $TOMCAT_PORT $TOMCAT_FILENAME
+        }
+}
+
+function for_tomcat_hms() {
+
+        TOMCAT_STATUS=$(ps -ef | grep tomcat)
+        for(( i=1; i&lt;=${TOMCAT_NUM}; i++ )) {
+                PORT=PORT_$i
+                FILENAME=PORT_${i}_FILENAME
+                eval TOMCAT_PORT=&quot;$&quot;$PORT
+                eval TOMCAT_FILENAME=&quot;$&quot;$FILENAME
+                tomcat_hms $TOMCAT_PORT $TOMCAT_FILENAME
+        }
+}
+
+
+
+function redis_state() {
+
+        REDIS_STATUS=$(ps -ef | grep redis)
+        if [[ $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+        then
+                createEmail_content &quot;* redis已在运行&quot; -h
+        else
+                createEmail_content &quot;* redis未运行&quot; -h
+        fi
+}
+
+
+function nginx_state() {
+
+        NGINX_STATUS=$(ps -ef | grep nginx)
+        if [[ $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+        then
+                createEmail_content &quot;* nginx已在运行&quot; -h
+        else
+                createEmail_content &quot;* nginx未运行&quot; -h
+        fi
+}
+
+function gen_state() {
+
+        DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+        if [[ $DISK_GEN_STATUS -lt 50 ]]
+        then
+                createEmail_content &quot;* 根目录使用量较小---已使用${DISK_GEN_STATUS}%&quot; -h
+        else
+                createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot; -h
+        fi
+}
+
+
+function redis_stats_hms() {
+
+        REDIS_STATUS=$(ps -ef | grep redis)
+        if [[ ! $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        try_start &quot;redis&quot; $REDIS_DIR
+    fi
+}
+
+function nginx_stats_hms() {
+
+        NGINX_STATUS=$(ps -ef | grep nginx)
+        if [[ ! $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        try_start &quot;nginx&quot; $NGINX_DIR
+    fi
+}
+
+function gen_stats_hms() {
+
+        DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+        if [[ $DISK_GEN_STATUS -gt 50 ]]
+        then
+                createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot;
+        fi
+}
+
+function rm_email_log() {
+
+        rm ${EMAIL_LOG}/email_*-${YESTERDAY}*.txt
+        if [[ $? -eq 0 ]]
+        then
+                createEmail_content &quot;昨天的邮件日志已经删除&quot; -h
+        else
+                createEmail_content &quot;昨天的邮件日志未成功删除&quot; -h
+        fi
+}
+
+
+function automatic_h() {
+
+        echo &quot;&quot; &gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+
+        createEmail_content &quot;${COMPUTER_NAME}今日${HOUR}时脚本自动执行结果&quot; -h
+        createEmail_content &quot;======================================&quot; -h
+
+        for_tomcat_h
+        redis_state
+        #nginx_state
+        gen_state
+
+    if [[ $HOUR = 23 ]]
+    then
+            rm_email_log
+    fi
+
+        echo -e &quot;\n\n&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+
+        createAll_tail -h
+}
+
+
+function automatic_hms() {
+
+    for_tomcat_hms
+    redis_stats_hms
+    #nginx_stats_hms
+    gen_stats_hms
+
+    if [[ -e &quot;${EMAIL_LOG}/email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        echo -e &quot;\n\n&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        createAll_tail
+    fi
+}
+
+
+#$HOUR_INT=$(echo $HOUR | sed -r &apos;s/\&lt;0+([1-9]+)/\1/g&apos;)
+
+if [[ $MIN = 30 ]]
+then
+    automatic_h
+    if [[ -e &quot;${EMAIL_LOG}/email_err-${TODAY_H}.txt&quot; ]]
+    then
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -a ${EMAIL_LOG}/email_err-${TODAY_H}.txt $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+    else
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+    fi
+else
+    automatic_hms
+    if [[ -e &quot;${EMAIL_LOG}/email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        if [[ -e &quot;${EMAIL_LOG}/email_err-${TODAY_HMS}.txt&quot; ]]
+        then
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -a ${EMAIL_LOG}/email_err-${TODAY_HMS}.txt $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        else
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        fi
+    fi
+fi
+</code></pre><p>优化了代码，使其模块化，同时解决了之前提到的一些bug</p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> email </tag>
+            
+            <tag> mail </tag>
+            
+            <tag> shell </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[使用shell发送qq邮件]]></title>
+      <url>/2017/08/30/linux/2017-08-30-linux-sendEmail/</url>
+      <content type="html"><![CDATA[<p>前些天折腾了下在linux系统上发送qq邮件，发现使用shell命令来实现这个很简单，于是就弄了。弄这个的主要目的是为了将脚本监控或者操作系统后得到的结果以邮件的方式反馈给我，这样我也就能及时知道自己写的脚本执行情况怎么样。</p>
+<a id="more"></a>
+<h3 id="安装mail"><a href="#安装mail" class="headerlink" title="安装mail"></a>安装mail</h3><p>首先，查看系统中是否又mail和mailx，运行命令<br><code>mail -V</code><br>或者<br><code>mailx -V</code><br>有输出即表示系统中已经存在,如下</p>
+<pre><code>[xm6f@localhost cut_nginx_log]$ mail -V
+12.5 7/5/10
+[xm6f@localhost cut_nginx_log]$ mailx -V
+12.5 7/5/10
+</code></pre><p>centos一般自带了这个命令，如果别的系统如ubuntu，要没有则运行命令<br><code>sudo apt-get install heirloom-mailx</code><br>来安装</p>
+<h3 id="mail配置"><a href="#mail配置" class="headerlink" title="mail配置"></a>mail配置</h3><p>之后就是需要对mail进行配置，修改其配置文件，配置好用来发送邮件的邮件地址和密码，密码都是stmp授权码<br>ubuntu下的配置文件为/etc/s-nail.rc<br>centos下的配置文件为/etc/mail.rc<br>在该文件末尾添加如下代码</p>
+<pre><code>set from=1732821152@qq.com(cg)                 #设置发送邮件的邮箱和发邮件名称为cg
+set smtp=smtp.qq.com                        #设置smtp服务器地址
+set smtp-auth-user=1732821152@qq.com        #设置邮箱账户
+set smtp-auth-password=xxx                    #设置密码，为授权码
+set smtp-auth=login                            #SSL验证信息
+set smtp-use-starttls
+set ssl-verify=ignore
+set nss-config-dir=/etc/pki/nssdb/            #设置证书存放路径
+</code></pre><p>将其保存，之后就可以使用mail命令来发送邮件了，发送方就是上面填写的邮件地址</p>
+<h3 id="发送测试"><a href="#发送测试" class="headerlink" title="发送测试"></a>发送测试</h3><p>例如</p>
+<h4 id="读取文件内容发送"><a href="#读取文件内容发送" class="headerlink" title="读取文件内容发送"></a>读取文件内容发送</h4><p><code>mail -v -s &quot;定时任务&quot; 1542723438@qq.com &lt; mail_content.txt</code><br>上述命令表示，将名为mail_content.txt的文件中的内容作为邮件内容发送到<code>1542723438@qq.com</code>这个邮箱地址,<br><code>-v</code>是显示输出日志，<code>-s</code>表示邮件主题名称,详情使用<br><code>man mail</code><br>或者<br><code>mail --help</code><br>来查看如何使用</p>
+<h4 id="管道发送"><a href="#管道发送" class="headerlink" title="管道发送"></a>管道发送</h4><p><code>echo &quot;hey,how are you &quot; | mail -v -s &quot;test&quot; 1542723438@qq.com</code><br>使用管道命令，将<code>echo</code>输出的内容作为邮件内容发送出去</p>
+<h4 id="发送附件"><a href="#发送附件" class="headerlink" title="发送附件"></a>发送附件</h4><p><code>mail -s &quot;测试&quot; -a email_err.txt 1542723438@qq.com &lt; email_content.txt</code><br>读取email_content.txt这个文件的内容作为邮件内容发送，并将email_err.txt这个文件作为附件一起发送到邮箱</p>
+<h3 id="定时发送"><a href="#定时发送" class="headerlink" title="定时发送"></a>定时发送</h3><p>需要修改这个文件/etc/crontab，这相当于一个定时器，例如我在这个文件末尾添加如下代码<br><code>11 23 * * * root /bin/bash /usr/scripts/automatic/automatic_util.sh</code><br>即表示在每天的23点11分以root身份，使用<code>/bin/bash</code>这个解释器来运行automatic_util.sh这个shell脚本</p>
+<h3 id="管道发送实例输出"><a href="#管道发送实例输出" class="headerlink" title="管道发送实例输出"></a>管道发送实例输出</h3><pre><code>[xm6f@localhost cut_nginx_log]$ echo &quot;hey,how are you &quot; | mail -v -s &quot;test&quot; 1542723438@qq.com
+Resolving host smtp.qq.com . . . done.
+Connecting to 14.17.57.241:smtp . . . connected.
+220 smtp.qq.com Esmtp QQ Mail Server
+&gt;&gt;&gt; EHLO localhost
+250-smtp.qq.com
+250-PIPELINING
+250-SIZE 73400320
+250-STARTTLS
+250-AUTH LOGIN PLAIN
+250-AUTH=LOGIN
+250-MAILCOMPRESS
+250 8BITMIME
+&gt;&gt;&gt; STARTTLS
+220 Ready to start TLS
+Error in certificate: Peer&apos;s certificate issuer is not recognized.
+Comparing DNS name: &quot;upload.mail.qq.com&quot;
+Comparing DNS name: &quot;hwsmtp.exmail.qq.com&quot;
+Comparing DNS name: &quot;hwimap.exmail.qq.com&quot;
+Comparing DNS name: &quot;cloudmx.qq.com&quot;
+Comparing DNS name: &quot;imap.exmail.qq.com&quot;
+Comparing DNS name: &quot;hwpop.exmail.qq.com&quot;
+Comparing DNS name: &quot;smtp.qq.com&quot;
+SSL parameters: cipher=AES-128, keysize=128, secretkeysize=128,
+issuer=CN=GeoTrust SSL CA - G3,O=GeoTrust Inc.,C=US
+subject=CN=pop.qq.com,OU=R&amp;D,O=Shenzhen Tencent Computer Systems Company Limited,L=Shenzhen,ST=Guangdong,C=CN
+&gt;&gt;&gt; EHLO localhost
+250-smtp.qq.com
+250-PIPELINING
+250-SIZE 73400320
+250-AUTH LOGIN PLAIN
+250-AUTH=LOGIN
+250-MAILCOMPRESS
+250 8BITMIME
+&gt;&gt;&gt; AUTH LOGIN
+334 VXNlcm5hbWU6
+&gt;&gt;&gt; MTczMjgyMTE1MkBxcS5jb20=
+334 UGFzc3dvcmQ6
+&gt;&gt;&gt; YWlpcmptcWhwdmxlZWFnZw==
+235 Authentication successful
+&gt;&gt;&gt; MAIL FROM:&lt;1732821152@qq.com&gt;
+250 Ok
+&gt;&gt;&gt; RCPT TO:&lt;1542723438@qq.com&gt;
+250 Ok
+&gt;&gt;&gt; DATA
+354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+&gt;&gt;&gt; .
+250 Ok: queued as 
+&gt;&gt;&gt; QUIT
+221 Bye
+[xm6f@localhost cut_nginx_log]$
+</code></pre><h3 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h3><p>mail发送邮件平常使用25端口，也可以使用587，465(ssl)，587和25端口一样，465端口就是加密端口。平常一些服务器运营商会禁止使用25端口，使得用上面的配置则发送不去出，因此可以使用587端口<br>设置使用465端口来发送邮件的mail.rc配置如下<br><code>set smtp=smtps://smtp.qq.com:465</code><br>设置使用587端口则如下<br><code>set smtp=smtp.qq.com:587</code></p>
+]]></content>
+      
+        <categories>
+            
+            <category> linux </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> linux </tag>
+            
+            <tag> email </tag>
+            
+            <tag> mail </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Hexo博客电脑迁移]]></title>
+      <url>/2017/08/30/hexo/2017-08-30-hexoMoreComputer/</url>
+      <content type="html"><![CDATA[<p>公司配了电脑，所以就不用自己带电脑去上班，而出租屋里自己也没wifi，也就导致不好更博。原先自己是将笔记整理好，用simpleNote来进行同步更新，等到了周末就带自己笔记本来公司总结自己写的笔记，并将其更新到博客中。总觉得麻烦，于是就在公司配的笔记本上搭建好环境来更博….</p>
+<a id="more"></a>
+<p>自己在之前就已经把博客主题和博客source文件都上传到github中，所以换个电脑来更博也不麻烦</p>
+<h3 id="配置好hexo环境"><a href="#配置好hexo环境" class="headerlink" title="配置好hexo环境"></a>配置好hexo环境</h3><p>这个windows上直接下载node.js和git,安装时一路enter就好了。安装完成之后在cmd窗口下运行命令<br><code>npm install -g hexo-cli</code><br>来安装hexo</p>
+<h3 id="配置git"><a href="#配置git" class="headerlink" title="配置git"></a>配置git</h3><p>安装好git后，需要填写用户名和邮箱作为一个标识，运行命令<br><code>git config --global user.name &quot;cgstudios&quot;</code><br><code>git config --global user.email &quot;1732821152@qq.com&quot;</code><br>参数–global表示全局设置，使用<code>git config --help</code>来查看其他参数</p>
+<h3 id="创建本地站点"><a href="#创建本地站点" class="headerlink" title="创建本地站点"></a>创建本地站点</h3><p>使用hexo init命令创建一个本地博客站点</p>
+<h3 id="为hexo指定git"><a href="#为hexo指定git" class="headerlink" title="为hexo指定git"></a>为hexo指定git</h3><p>在创建的本地站点目录下运行命令<br><code>npm install hexo-deployer-git -save</code><br>这样才能通过hexo来操作git<br>另外还需安装插件，实现local search搜索，运行命令<br><code>npm install hexo-generator-searchdb --save</code></p>
+<h3 id="git连接github"><a href="#git连接github" class="headerlink" title="git连接github"></a>git连接github</h3><p>git上传文件到github会进行加密，且使用rsa加密，这需要让github知道公有密钥，git bash下使用命令<br><code>ssh-keygen -t rsa -C &quot;1732821152@qq.com&quot;</code><br>之后会让你选择确认存放密钥的文件路径，为方便一路enter下去就可以，知道密钥存放路径就行了。将公有密钥id_rsa.pub文件里的内容放到github上</p>
+<h3 id="其他配置"><a href="#其他配置" class="headerlink" title="其他配置"></a>其他配置</h3><p>这项配置本人自己需要弄的<br>1.删除本地站点根目录中的source这个文件夹，并从github上下载cgstudios-blog-file,直接在本地站点根目录下运行命令<br><code>git colne https://github.com/cgstudios/cgstudios-blog-file.git</code><br>将clone得到的cgstudios-blog-file这个文件夹重命名为source,并将该文件夹里的site-config-file文件夹中的_config.yml复制到根目录覆盖根目录下的_config.yml</p>
+<p>2.在themes文件夹下运行<br><code>git clone https://github.com/cgstudios/myselfBlog-theme-next-myself.git</code><br>再将clone得到的myselfBlog-theme-next-myself重命名为next-myself</p>
+<p>3.本地站点目录下运行命令<br><code>npm install aplayer --save</code><br><code>npm install hexo-tag-aplayer</code></p>
+<p>之后运行命令<code>hexo deploy</code>就可以查看是否连接到github仓库了</p>
+]]></content>
+      
+        <categories>
+            
+            <category> hexo </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> hexo </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[为静态博客添加gitalk评论插件]]></title>
       <url>/2017/08/20/gitalk/2017-08-20-gitalk-comment-use/</url>
       <content type="html"><![CDATA[<p>多说跟网易云跟帖都倒闭这么久了，一直在找适合自己的评论系统，之前接触到一个gitment这个开源的基于github的issue评论，测试用了下还不错，不过就是在页面上显示不那么协调，也就没用了。前几天凑巧找着个gitalk这个插件，和gitment类似，一样是基于github的issue来实现评论的。同样的功能，给我的感觉就是gitalk的ui真是不错，于是就打算使用这个了</p>
@@ -30,6 +3486,7 @@ var gitalk = new Gitalk({
 gitalk.render(&apos;gitalk-container&apos;)
 &lt;/script&gt;
 </code></pre><p>上面代码中列出的参数都是必须的，必须为他们进行赋值。当然也有一些其他的参数，具体可以参考gitalk项目地址里面的中文说明。上面<code>admin</code>参数的值是一个集合来存放，里面存放着这个项目仓库的所有开发人员的github的id名，这是对应那些团体开发的项目来说的，而对于我们一些个人项目，就比如博客，开发维护人员就只有我们自己，所以<code>admin</code>这个参数对应的集合只有一个元素，与<code>owner</code>的值一样<br>这样引入代码完成之后，提交到github，就需要自己对每一篇文章进行初始化，开放与文章对应的issue，之后就可以被其他github用户进行评论了</p>
+<p>对于上面的样式引入链接，自己也可以把两文件下载下来然后存放到自己的仓库中进行引入</p>
 ]]></content>
       
         <categories>
@@ -62,7 +3519,13 @@ Try using the -Djava.io.tmpdir= option to select an alternate temp location.
 <p>另一个tomcat不能停止的问题，例如如下输出</p>
 <pre><code>PID file found but no matching process was found. Stop aborted.
 </code></pre><p>这个问题这个是因为tomcat进程被强杀了，但是文件run.pid(这个文件来记录进程号的)中还是依然保存着被杀的进程id，也就是说系统中实际运行的tomcat进程id与run.pid中保存的进程id不一样，使得使用命令将tomcat关闭行不通<br>解决方法就是将电脑服务器重启或者直接将现在的tomcat进程杀死就可以了</p>
-<h3 id="tomcat部署项目问题"><a href="#tomcat部署项目问题" class="headerlink" title="tomcat部署项目问题"></a>tomcat部署项目问题</h3><p>之前测试将apple部署到远程服务器上<br>使用rz命令将lotmall.war这个文件上传到tomcat8080安装目录的webapps下，之后访问，出现404，后来再查看，发现自动解压出来的lotmall这个文件夹和lotmall.war都不存在，被删了，然后再重新上传，还是被删。后面才知道需要先将tomcat关闭，再上传war包，之后启动tomcat进行访问就不会自动被删除了。部署上去后，命令运行tomcat后，测试运行是否正常，发现浏览器打不开页面，再使用命令<br><code>ps -ef | grep tomcat</code><br>发现tomcat不在运行,使用root身份启动之后，还是不运行，查看logs也没有发现什么错误，之后索性重启机器，然后再次启动tomcat后检查是否正在运行，嗯tomcat正常运行<br>然而浏览器还是访问不了，于是就猜测是端口未开放的问题，命令查看所有已开放端口<br><code>firewall-cmd --list-ports</code><br>其输出是<br><code>FirewallD is not running</code><br>看来防火墙没有打开，于是便使用命令查看状态<br><code>systemctl status firewalld</code><br>确认下<br>其输出如下<br>    [root@localhost bin]# systemctl status firewalld<br>    ● firewalld.service - firewalld - dynamic firewall daemon<br>       Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)<br>       Active: inactive (dead)<br>         Docs: man:firewalld(1)<br>确实不在运行，所以就命令让它运行<br><code>systemctl start firewalld</code><br>即可启动，查看下状态可知inactive变为running，即在运行，然后命令查看所有已开放的端口，发现没有一个端口开放，这里需要开放8080端口<br>于是命令<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>将其开放，在重新加载<br><code>sudo firewall-cmd --reload</code><br>之后浏览器就可以访问了</p>
+<h3 id="tomcat部署项目问题"><a href="#tomcat部署项目问题" class="headerlink" title="tomcat部署项目问题"></a>tomcat部署项目问题</h3><p>之前测试将apple部署到远程服务器上<br>使用rz命令将lotmall.war这个文件上传到tomcat8080安装目录的webapps下，之后访问，出现404，后来再查看，发现自动解压出来的lotmall这个文件夹和lotmall.war都不存在，被删了，然后再重新上传，还是被删。后面才知道需要先将tomcat关闭，再上传war包，之后启动tomcat进行访问就不会自动被删除了。部署上去后，命令运行tomcat后，测试运行是否正常，发现浏览器打不开页面，再使用命令<br><code>ps -ef | grep tomcat</code><br>发现tomcat不在运行,使用root身份启动之后，还是不运行，查看logs也没有发现什么错误，之后索性重启机器，然后再次启动tomcat后检查是否正在运行，嗯tomcat正常运行<br>然而浏览器还是访问不了，于是就猜测是端口未开放的问题，命令查看所有已开放端口<br><code>firewall-cmd --list-ports</code><br>其输出是<br><code>FirewallD is not running</code><br>看来防火墙没有打开，于是便使用命令查看状态<br><code>systemctl status firewalld</code><br>确认下<br>其输出如下</p>
+<pre><code>[root@localhost bin]# systemctl status firewalld
+● firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; disabled; vendor preset: enabled)
+   Active: inactive (dead)
+     Docs: man:firewalld(1)
+</code></pre><p>确实不在运行，所以就命令让它运行<br><code>systemctl start firewalld</code><br>即可启动，查看下状态可知inactive变为running，即在运行，然后命令查看所有已开放的端口，发现没有一个端口开放，这里需要开放8080端口<br>于是命令<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>将其开放，在重新加载<br><code>sudo firewall-cmd --reload</code><br>之后浏览器就可以访问了</p>
 <h3 id="linux中的top命令"><a href="#linux中的top命令" class="headerlink" title="linux中的top命令"></a>linux中的top命令</h3><p>直接运行命令<br><code>top</code><br>其输出的讲解如下<br>第一行是任务队列信息，同 uptime 命令的执行结果，其解析如下：<br>01:06:48  当前时间<br>up 1:22   系统运行时间，格式为时:分<br>1 user    当前登录用户数<br>load average: 0.03, 0.04, 0.05 系统负载，即任务队列的平均长度。三个数值分别为 1分钟、5分钟、15分钟前到现在的平均值。</p>
 <p>第二、三行为进程和CPU的信息。当有多个CPU时，这些内容可能会超过两行，意思解析如下：<br>total 进程总数<br>running 正在运行的进程数<br>sleeping 睡眠的进程数<br>stopped 停止的进程数<br>zombie 僵尸进程数<br>Cpu(s):<br>0.3% us 用户空间占用CPU百分比<br>1.0% sy 内核空间占用CPU百分比<br>0.0% ni 用户进程空间内改变过优先级的进程占用CPU百分比<br>98.7% id 空闲CPU百分比<br>0.0% wa 等待输入输出的CPU时间百分比<br>0.0%hi：硬件CPU中断占用百分比<br>0.0%si：软中断占用百分比<br>0.0%st：虚拟机占用百分比</p>
 <p>最后两行为内存信息。内容如下<br>Mem<br>191272k total   物理内存总量<br>173656k used    使用的物理内存总量<br>17616k free     空闲内存总量<br>22052k buffers    用作内核缓存的内存量<br>Swap<br>192772k total   交换区总量<br>0k used    使用的交换区总量<br>192772k free    空闲交换区总量<br>123988k cached </p>
@@ -252,9 +3715,30 @@ ONBOOT=yes
 GATEWAY=192.168.1.1    #网关
 DNS1=192.168.1.1
 </code></pre><p>之后运行命令<br><code>sudo systemctl restart network.service</code><br>或<br><code>sudo service network restart</code><br>重启网卡服务,之后查看ip信息则用命令<br><code>ip add</code><br>用此命令来查看ip信息，ip更改过来并且能上网，才算成功，之后就是为这台centos7服务器主机搭建java环境环境安装tomcat等，搭建java环境之前，需要将centos系统中的openjdk卸载，这是centos原装的，openjdk用得少，一般都用oraclejdk,所以看下面如何卸载openjdk</p>
-<h4 id="卸载openjdk"><a href="#卸载openjdk" class="headerlink" title="卸载openjdk"></a>卸载openjdk</h4><p>卸载centos7上的openjdk<br>先查看,使用命令<br><code>rpm -qa | grep java</code><br>例如我的输出,显示如下信息<br>    java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64<br>    javapackages-tools-3.4.1-11.el7.noarch<br>    java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64<br>    tzdata-java-2016g-2.el7.noarch<br>    python-javapackages-3.4.1-11.el7.noarch<br>    java-1.7.0-openjdk-headless-1.7.0.111-2.6.7.8.el7.x86_64<br>    java-1.7.0-openjdk-1.7.0.111-2.6.7.8.el7.x86_64<br>卸载命令<br>    rpm -e –nodeps java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64<br>    rpm -e –nodeps java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64<br>还可以这样卸载<br>    java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64<br>    java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64<br>最后我是删成了这样<br>    [xm6f@localhost jdk1.7.0_80]$ rpm -qa | grep java<br>    javapackages-tools-3.4.1-11.el7.noarch<br>    tzdata-java-2016g-2.el7.noarch<br>    python-javapackages-3.4.1-11.el7.noarch<br>    [xm6f@localhost jdk1.7.0_80]$ java<br>    -bash: /usr/bin/java: 没有那个文件或目录<br>然后就是安装oraclejdk，配置环境变量，搭建java环境可以看这移步到这篇文章:[java环境搭建][]</p>
+<h4 id="卸载openjdk"><a href="#卸载openjdk" class="headerlink" title="卸载openjdk"></a>卸载openjdk</h4><p>卸载centos7上的openjdk<br>先查看,使用命令<br><code>rpm -qa | grep java</code><br>例如我的输出,显示如下信息</p>
+<pre><code>java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64
+javapackages-tools-3.4.1-11.el7.noarch
+java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64
+tzdata-java-2016g-2.el7.noarch
+python-javapackages-3.4.1-11.el7.noarch
+java-1.7.0-openjdk-headless-1.7.0.111-2.6.7.8.el7.x86_64
+java-1.7.0-openjdk-1.7.0.111-2.6.7.8.el7.x86_64
+</code></pre><p>卸载命令</p>
+<pre><code>rpm -e --nodeps java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64
+rpm -e --nodeps java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64
+</code></pre><p>还可以这样卸载</p>
+<pre><code>java-1.8.0-openjdk-1.8.0.102-4.b14.el7.x86_64
+java-1.8.0-openjdk-headless-1.8.0.102-4.b14.el7.x86_64
+</code></pre><p>最后我是删成了这样</p>
+<pre><code>[xm6f@localhost jdk1.7.0_80]$ rpm -qa | grep java
+javapackages-tools-3.4.1-11.el7.noarch
+tzdata-java-2016g-2.el7.noarch
+python-javapackages-3.4.1-11.el7.noarch
+[xm6f@localhost jdk1.7.0_80]$ java
+-bash: /usr/bin/java: 没有那个文件或目录
+</code></pre><p>然后就是安装oraclejdk，配置环境变量，搭建java环境可以看这移步到这篇文章:[java环境搭建][]</p>
 <h3 id="安装Tomcat"><a href="#安装Tomcat" class="headerlink" title="安装Tomcat"></a>安装Tomcat</h3><p>在安装Tomcat之前，因为Tomcat是需要java环境，所以先要安装为centos服务器安装jdk。然而需要在自己电脑上操作服务器，公司给我配置的电脑是windows笔记本，那么就需要在电脑上安装xshell这个软件，用它来连接操作centos服务器，下载安装xshell后，打开xshell，利用ip和账户名和密码连接到centos7这台电脑，并了解centos7这台电脑上是否安装lrzsz这个文件传输工具，无则命令安装<br><code>sudo yum install -y lrzsz</code><br>之后再输入命令’rz’用来上传文件，这里需要注意到，上传之前可能需要切换到/tmp文件夹下来进行上传，貌似是权限的问题<br>上传完成之后，使用tar命令来解压文件，如命令<br><code>sudo tar -zvxf jdk-8u144-linux-x64.tar.gz</code><br>通常解压到/usr/local目录…解压完后直接在安装目录尝试启动tomcat看看，因为这里需要配置多个tomcat，那么就不能为单一的tomcat配置环境变量，这样会导致在哪都只能启动配置了环境变量的tomcat，而不能启动其他的tomcat。所以现在便捷的方式是不为任何一个tomcat配置环境变量，那么这样的话，启动tomcat需要到相应的tomcat文件目录中的bin目录下运行命令<code>./catalina.sh start</code> 或<code>./startup.sh</code>来启动，关闭则为<code>./catalina.sh stop</code>或<code>./shutdown.sh</code></p>
-<h4 id="启动tomcat并开放8080端口"><a href="#启动tomcat并开放8080端口" class="headerlink" title="启动tomcat并开放8080端口"></a>启动tomcat并开放8080端口</h4><p>有可能cd不能进入tomcat里的/bin文件夹，会提示权限不够，或者在启动Tomcat的时候提示权限不够，可以先用命令<br><code>ls -l</code><br>来查看下文件或文件夹的运行权限和所属用户组，如果运行权限不足则增加相应的权限，或者更改文件的拥有者，例如命令<br><code>sudo chown -R xm6f bin</code><br>即将bin目录文件的拥有者更改成xm6f普通用户，这样就可以进入bin目录了，进入bin目录后，就可以运行命令来启动tomcat了<br>命令<br><code>./catalina.sh start</code>或者<code>./startup.sh</code><br>因为使用的是8080端口，大于1024端口，而且文件所有者已经更改成了xm6f普通用户，所以不需要使用root来进行启动，启动之后再centos服务器电脑上就使用<a href="http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了" target="_blank" rel="external">http://localhost:8080这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为:http://192.168.1.149:8080来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了</a><br>其开启对外开发8080端口命令如下<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>运行上面这条命令后，如果运行正常返回success那么再运行下面这条命令<br><code>sudo firewall-cmd --reload</code><br>若同样正常返回success那么就成功的对外开发了8080端口，另外提一点，因为现在操作的是centos7系统，这里可以有两种方式来开放端口，一种就是上面的使用firewall-cmd命令，另一种就是操作iptables,iptables我不大会操作，不过后期再补上。如果没使用firewall-cmd来开放端口的的话，估计就是iptables里面开放了。我之前就是，同事使用iptables开放了端口，而我又不知道，使用firewall-cmd命令<br><code>sudo firewall-cmd --list-ports</code><br>查看了所以的已经开放了的端口号，发现我要开放的端口在这个输出中并不存在，那就肯定是iptables上进行开放了。</p>
+<h4 id="启动tomcat并开放8080端口"><a href="#启动tomcat并开放8080端口" class="headerlink" title="启动tomcat并开放8080端口"></a>启动tomcat并开放8080端口</h4><p>有可能cd不能进入tomcat里的/bin文件夹，会提示权限不够，或者在启动Tomcat的时候提示权限不够，可以先用命令<br><code>ls -l</code><br>来查看下文件或文件夹的运行权限和所属用户组，如果运行权限不足则增加相应的权限，或者更改文件的拥有者，例如命令<br><code>sudo chown -R xm6f bin</code><br>即将bin目录文件的拥有者更改成xm6f普通用户，这样就可以进入bin目录了，进入bin目录后，就可以运行命令来启动tomcat了<br>命令<br><code>./catalina.sh start</code>或者<code>./startup.sh</code><br>因为使用的是8080端口，大于1024端口，而且文件所有者已经更改成了xm6f普通用户，所以不需要使用root来进行启动，启动之后再centos服务器电脑上就使用<code>http://localhost:8080</code>这个链接来访问tomcat服务器主页，那我在自己电脑上来进行访问，其链接为<code>http://192.168.1.149:8080</code>来进行访问。不过需要注意的是，这样访问需要centos服务器已经对外开放了8080端口，默认对外开发的端口为20，并没有8080，所以需要手动开启，不然照样访问不了<br>其开启对外开发8080端口命令如下<br><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code><br>运行上面这条命令后，如果运行正常返回success那么再运行下面这条命令<br><code>sudo firewall-cmd --reload</code><br>若同样正常返回success那么就成功的对外开发了8080端口，另外提一点，因为现在操作的是centos7系统，这里可以有两种方式来开放端口，一种就是上面的使用firewall-cmd命令，另一种就是操作iptables,iptables我不大会操作，不过后期再补上。如果没使用firewall-cmd来开放端口的的话，估计就是iptables里面开放了。我之前就是，同事使用iptables开放了端口，而我又不知道，使用firewall-cmd命令<br><code>sudo firewall-cmd --list-ports</code><br>查看了所以的已经开放了的端口号，发现我要开放的端口在这个输出中并不存在，那就肯定是iptables上进行开放了。<br>firewall-cmd关闭已经开发的端口命令<br><code>sudo firewall-cmd --zone=public --remove-port=8080/tcp --permanent</code></p>
 <h4 id="配置三台tomcat"><a href="#配置三台tomcat" class="headerlink" title="配置三台tomcat"></a>配置三台tomcat</h4><p>而需要配置三台tomcat，那就需要有三个tomcat安装文件，如下</p>
 <pre><code>[xm6f@localhost tomcat]$ ls
 apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
@@ -413,7 +3897,7 @@ apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
 <pre><code>&lt;Connector port=&quot;8009&quot; protocol=&quot;AJP/1.3&quot; redirectPort=&quot;8443&quot; /&gt;
 </code></pre><p>第二胎更改成9009,9443，第三台更改成7009,7443<br>并且将8081和8082这两个端口都进行对外开放，这样就可以了，要测试的话，分别到各个tomcat目录中将其都启动，浏览器输入ip地址和对应的端口号即可。</p>
 <p>至此，就完成了tomcat的安装</p>
-<p>另外提下，如果使用tomcat页面中manager-app按钮，实现登陆管理，那么就需要修改/conf/tomcat-users.xml这个文件来设置登录的用户名和密码，这里修改成如下，这里的修改就是取消注释后再进行修改<br>或者直接再文件底部，但需要在tomcat-user标签里面，这里我添加代码的代码如下</p>
+<p>另外提下，如果使用tomcat页面中<code>manager-app</code>按钮，实现登陆管理，那么就需要修改<code>/conf/tomcat-users.xml</code>这个文件来设置登录的用户名和密码，这里修改成如下，这里的修改就是取消注释后再进行修改<br>或者直接再文件底部，但需要在tomcat-user标签里面，这里我添加代码的代码如下</p>
 <pre><code>&lt;role rolename=&quot;tomcat&quot; /&gt;
 &lt;role rolename=&quot;admin&quot;/&gt;
 &lt;role rolename=&quot;admin-gui&quot;/&gt;
@@ -424,7 +3908,7 @@ apache-tomcat-7.0.79  apache-tomcat-7.0.79-2  apache-tomcat-7.0.79-3
 </code></pre><p>即用户名和密码都为tomcat</p>
 <h3 id="安装redis"><a href="#安装redis" class="headerlink" title="安装redis"></a>安装redis</h3><p>centos7服务器电脑还需要安装redis<br>还没接触过redis，后面跟同事了解到，redis是使用c编写的，redis一般在系统开发中只用作缓存，因为如果要使用的数据量太大的话，而且需要多次使用，如果不使用缓存，那么在每一次请求数据的时候都需要从数据库中进行查找，这样不仅耗时也好资源，所以如果使用redis缓存机制，用户请求数据的时候，如果数据量过大，就会使用redis将该数据暂时放入内存中，以键值对的方式存放着，并于该请求用户的临时id进行关联，使得再次使用到该数据的时候可以直接使用get方式从内存中读取，而不需要从数据库中查…..ok<br>那么下载安装,下载redis-2.8.4.tar压缩包后，将压缩包上传到centos7服务器中，现在操作的这台主机不知道为什么，只能通过tmp目录上传，那么每次上传完成之后在tmp目录下进行解压，之后直接cd进入解压得到的文件夹，例如这里解压得到的文件夹名为redis-2.8.6，使用命令进行编译，再编译完成之后会在目录redis-2.8.6/src下会得到可执行程序，最好把可执行程序单独拿出来，放到/usr/local目录下，同样也把存放在/redis-2.8.6目录下的redis.conf这个配置文件也拿出来，这是解压之后得到的。在/usr/local/目录下创建一个redis文件夹来一起存放，之后手动启动和关闭redis都在这个目录进行操作，后期配置开机启动也使用这个文件夹里的可执行程序。<br>因为需要gcc编译，查看了后知道未安装gcc，那么先安装gcc,其命令<br><code>sudo yum install gcc make</code><br>之后解压redis-2.8.4.tar,并编译<br>解压命令<br><code>sudo tar -zvxf redis-2.8.4.tar</code><br>解压之后cd到解压得到的目录中，运行命令sudo make来编译，出了个错误</p>
 <pre><code>zmalloc.h:50:31: 致命错误：jemalloc/jemalloc.h：没有那个文件或目录
-</code></pre><p>网上查了之后才知道命令中需要添加一个参数变量,运行命令sudo make MALLOC=libc,就不会出现这个问题，然后测试redis是否安装成功，运行命令<br><code>make test</code><br>时，出现个问题</p>
+</code></pre><p>网上查了之后才知道命令中需要添加一个参数变量,运行命令<br><code>sudo make MALLOC=libc</code><br>就不会出现这个问题，然后测试redis是否安装成功，运行命令<br><code>make test</code><br>时，出现个问题</p>
 <pre><code>You need tcl 8.5 or newer in order to run the Redis test
 </code></pre><p>看着抛出的错误，提示这需要下载tcl8.5并编译安装</p>
 <pre><code>cd  /usr/local/tcl8.6.1/unix/  
@@ -439,7 +3923,7 @@ OK
 &quot;aa&quot;
 127.0.0.1:6379&gt; 
 </code></pre><p>只要这样测试结果正常，那就意味着redis安装成功，不过，redis需要配置开机启动，redis运行的端口号一般默认时6379</p>
-<h4 id="配置redis开机启动"><a href="#配置redis开机启动" class="headerlink" title="配置redis开机启动"></a>配置redis开机启动</h4><p>所以为了方便启动和管理，我在/usr/local/下新建了个redis文件夹，并将redis-server，redis-cli，redis-sentinel，redis-benchmark，redis-check-aof，redis-check-dump及redis.conf复制到该redis文件夹下，配置开机启动的方式就是在/etc/rc.d/init.d目录下创建一个启动脚本，命令如下<br><code>sudo vim redis</code><br>脚本是从网上找的，只是进行了修改，其内容如下</p>
+<h4 id="配置redis开机启动"><a href="#配置redis开机启动" class="headerlink" title="配置redis开机启动"></a>配置redis开机启动</h4><p>所以为了方便启动和管理，我在/usr/local/下新建了个redis文件夹，并将安装目录下是srz文件夹中的redis-server，redis-cli，redis-sentinel，redis-benchmark，redis-check-aof，redis-check-dump及redis.conf复制到该redis文件夹下，配置开机启动的方式就是在/etc/rc.d/init.d目录下创建一个启动脚本，命令如下<br><code>sudo vim redis</code><br>脚本是从网上找的，只是进行了修改，其内容如下</p>
 <pre><code>#!/bin/sh
 #chkconfig: 345 86 14
 #description: Startup and shutdown script for Redis
@@ -680,24 +4164,35 @@ http {
 
 }
 </code></pre><p>在nginx.conf配置文件中添加如下代码，位置可以在gzip这一行后面，只要在location前面即可</p>
-<pre><code>upstream tomcat{
-    server 192.168.1.149:8080 weight=1;
-    server 192.168.1.149:8081 weight=1;
-    server 192.168.1.149:8082 weight=1;
+<pre><code>upstream 119.29.216.43 {
+    server 119.29.216.43:8080 weight=1;
+    server 119.29.177.116:8080 weight=1;
 }
-</code></pre><p>并将其中的<code>gzip  on</code>前面的注释，这个功能是将需要发送到浏览器的文件进行压缩，之后再修改location块中的内容修改成如下</p>
-<pre><code>location / {
-    proxy_buffering on;
+</code></pre><p>并将其中的<code>gzip  on</code>前面的注释，这个功能是将需要发送到浏览器的文件进行压缩，之后再修改server块中索要修改的内容修改成如下</p>
+<pre><code>server {
+    listen       80;
+    server_name  119.29.216.43;
 
-    proxy_connect_timeout 3;
-    proxy_send_timeout 3;
-    proxy_read_timeout 3;
-    proxy_pass  http://tomcat;
-    # root   html;
-    # index  index.html index.htm;
+    #charset koi8-r;
+
+    #access_log  logs/host.access.log  main;
+
+    location / {
+        root   html;
+        index  index.html index.htm;
+        proxy_pass  http://119.29.216.43;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        client_max_body_size 10m;
+        proxy_connect_timeout 90;
+        proxy_sen
+    }
+...
 }
-</code></pre><p>这算是最基本的修改了，后面还得涉及到nginx性能的优化配置，这里先不扯。继续看上面的原始配置文件，nginx的server块中表明了nginx使用的地址server_name和端口号listen，其端口号是80端口，为使服务器能够外网访问就需要开放80端口，所以我们需要开放端口，其命令为<br><code>sudo firewall-cmd --zone=public --add-port=80/tcp --permanent</code><br>之后运行下面的命令<br><code>sudo firewall-cmd --reload</code><br>两者都正常运行返回success即为开放成功，另外提下，列出所有已经开放的端口命令如下<br><code>sudo firewall-cmd --list-ports</code><br>目前，将nginx服务启动后，在我自己的笔记本上使用centos7服务器的ip及80端口通过浏览器即可访问到tomcat，但是负载均衡不能得到体现，所以我们可以修改三台tomcat安装目录下的/webapps/ROOT/index.jsp页面，来区分三台不同的tomcat，为了方便，我就修改了index.jsp页面的title，每个title的值就是相应tomcat所在的端口号，浏览器中输入<a href="http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。" target="_blank" rel="external">http://192.168.1.149:80出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。</a><br>至此nginx安装与配置已经完成<br>查询nginx进程：<br><code>ps aux|grep nginx</code><br>查看服务的状态<br><code>service nginx status或systemctl nginx status</code></p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>存储帐号的文件：/etc/passwd<br>存储密码的文件：/etc/shadow<br>查看所有用户命令<br><code>cat /etc/passwd</code><br>便捷的输出：<br><code>grep bash /etc/passwd</code><br>查看所有用户对于的密码<br><code>cat /etc/shadow | grep 用户名</code><br>通过/etc/shadow获取的只是密码加密后的Hash散列值，要获取明文密码，需要自己进行破解<br>root下修改普通用户命令<br><code>passwd 用户名</code><br>root下修改自己密码命令<br><code>passwd</code></p>
+</code></pre><p>这算是最基本的修改了，后面还得涉及到nginx性能的优化配置，这里先不扯。继续看上面的原始配置文件，nginx的server块中表明了nginx使用的地址server_name和端口号listen，其端口号是80端口，为使服务器能够外网访问就需要开放80端口，所以我们需要开放端口，其命令为<br><code>sudo firewall-cmd --zone=public --add-port=80/tcp --permanent</code><br>之后运行下面的命令<br><code>sudo firewall-cmd --reload</code><br>两者都正常运行返回success即为开放成功，另外提下，列出所有已经开放的端口命令如下<br><code>sudo firewall-cmd --list-ports</code><br>目前，将nginx服务启动后，在我自己的笔记本上使用centos7服务器的ip及80端口通过浏览器即可访问到tomcat，但是负载均衡不能得到体现，所以我们可以修改三台tomcat安装目录下的<code>/webapps/ROOT/index.jsp</code>页面，来区分三台不同的tomcat，为了方便，我就修改了index.jsp页面的title，每个title的值就是相应tomcat所在的端口号，浏览器中输入<code>http://192.168.1.149:80</code>出现的页面就会使title=8080的tomcat欢迎页面，每次点击刷新，title都会更换，即tomcat都会更换，这就实现了nginx的负载均衡。<br>至此nginx安装与配置已经完成<br>查询nginx进程：<br><code>ps aux|grep nginx</code><br>查看服务的状态<br><code>service nginx status或systemctl nginx status</code></p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>存储帐号的文件：/etc/passwd<br>存储密码的文件：/etc/shadow<br>查看所有用户命令<br><code>cat /etc/passwd</code><br>便捷的输出：<br><code>grep bash /etc/passwd</code><br>查看所有用户对于的密码<br><code>cat /etc/shadow | grep 用户名</code><br>通过/etc/shadow获取的只是密码加密后的Hash散列值，要获取明文密码，需要自己进行破解<br>root下修改普通用户命令<br><code>passwd 用户名</code><br>root下修改自己密码命令<br><code>passwd</code><br>添加用户<code>adduser 用户名</code></p>
+<p>查看系统信息<br><code>uname -a</code><br>和<br><code>cat /etc/redhat-release</code></p>
 <p>[java环境搭建][<a href="https://cgspace.date/2017/03/08/java/2017-3-08-java-EnvironmentVariable/" target="_blank" rel="external">https://cgspace.date/2017/03/08/java/2017-3-08-java-EnvironmentVariable/</a>]</p>
 ]]></content>
       
@@ -1175,9 +4670,11 @@ var Collect = {
         
         <tags>
             
+            <tag> codeing </tag>
+            
             <tag> javaEE </tag>
             
-            <tag> codeing，JQuery </tag>
+            <tag> JQuery </tag>
             
             <tag> AJAX </tag>
             
@@ -2760,8 +6257,6 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
             
             <tag> android </tag>
             
-            <tag> 反编译 </tag>
-            
         </tags>
         
     </entry>
@@ -2822,8 +6317,6 @@ cg@cg-ThinkPad-Edge-E540 ~/Work/GitoscWork/test-1 $
         <tags>
             
             <tag> daily </tag>
-            
-            <tag> 厦门 </tag>
             
         </tags>
         
@@ -4178,8 +7671,6 @@ class Hint{
             <tag> codeing </tag>
             
             <tag> java </tag>
-            
-            <tag> 笔试题 </tag>
             
         </tags>
         

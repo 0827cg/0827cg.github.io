@@ -1,22 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
+
 
 
   
+
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="theme-color" content="#2e2e2e"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#2e2e2e">
 
 <meta name="google-site-verification" content="6W--ve65HbCJhCzMr9T0GWQFxmoIt6TAvxAOK7mbmdw" />
 <meta name="baidu-site-verification" content="gOo33cChxc" />
 
 
 
+
+
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -28,37 +46,26 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
 
 
 
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+
+
 
 
   <meta name="keywords" content="codeing,javaEE," />
@@ -66,7 +73,10 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+
+
 
 
 <meta name="description" content="Spring是一个轻量级控制反转(IOC)和面向切面(AOP)的容器框架,它主要是为了解决企业应用开发的复杂性而诞生的.Spring提供一个简易的开发方式,这种开发方式将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类. #####其关键特性如下:  强大的基于JavaBean的采用控制反转(Inversion of Control,IOC)原则的配置管理,使得应用程序的组建更加快捷简">
@@ -77,20 +87,24 @@
 <meta property="og:site_name" content="cgspace">
 <meta property="og:description" content="Spring是一个轻量级控制反转(IOC)和面向切面(AOP)的容器框架,它主要是为了解决企业应用开发的复杂性而诞生的.Spring提供一个简易的开发方式,这种开发方式将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类. #####其关键特性如下:  强大的基于JavaBean的采用控制反转(Inversion of Control,IOC)原则的配置管理,使得应用程序的组建更加快捷简">
 <meta property="og:image" content="http://www.cgspace.date/images/javaee/spring-jiagou.png">
-<meta property="og:updated_time" content="2017-08-07T13:50:37.018Z">
+<meta property="og:updated_time" content="2017-10-13T06:10:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JavaEE-Spring概况">
 <meta name="twitter:description" content="Spring是一个轻量级控制反转(IOC)和面向切面(AOP)的容器框架,它主要是为了解决企业应用开发的复杂性而诞生的.Spring提供一个简易的开发方式,这种开发方式将避免那些可能致使底层代码变得繁杂混乱的大量的属性文件和帮助类. #####其关键特性如下:  强大的基于JavaBean的采用控制反转(Inversion of Control,IOC)原则的配置管理,使得应用程序的组建更加快捷简">
 <meta name="twitter:image" content="http://www.cgspace.date/images/javaee/spring-jiagou.png">
+
+
 
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -105,10 +119,6 @@
   };
 </script>
 
-<!--
-<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
--->
-
 
 
   <link rel="canonical" href="http://www.cgspace.date/2017/01/03/javaee/2017-1-3-javaEE-spring-introduce/"/>
@@ -118,38 +128,27 @@
 
 
   <title>JavaEE-Spring概况 | cgspace</title>
-</head>
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
 
 
 
 
 
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
-  <div class="container sidebar-position-left page-post-detail ">
+
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
+
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -163,7 +162,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">精致地生活</p>
+        <h1 class="site-subtitle" itemprop="description">精致地生活</h1>
       
   </div>
 
@@ -194,7 +193,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -204,7 +203,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
@@ -240,7 +239,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+      <input autocomplete="off"
              placeholder="搜索..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
@@ -255,42 +254,50 @@
 </nav>
 
 
+
  </div>
     </header>
+
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
           <div id="content" class="content">
             
+
   <div id="posts" class="posts-expand">
     
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/01/03/javaee/2017-1-3-javaEE-spring-introduce/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                JavaEE-Spring概况
-              
-            
-          </h1>
+          <h2 class="post-title" itemprop="name headline">JavaEE-Spring概况</h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -300,13 +307,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
+			  
               <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-01-03T10:59:42+08:00">
-                2017-01-03
+                2017-01-03 10:59:42
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -324,22 +336,14 @@
                     <span itemprop="name">javaEE</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a class="cloud-tie-join-count" href="/2017/01/03/javaee/2017-1-3-javaEE-spring-introduce/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
-                </a>
-              </span>
             
           
 
@@ -352,6 +356,7 @@
             <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
             </span>
           
+
           
 
           
@@ -360,6 +365,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -416,27 +424,15 @@
 
       
     </div>
+    
+    
+    
 
-    <div>
-      
-        
+    
 
-      
-    </div>
+    
 
-    <div>
-      
-        
-
-      
-    </div>
-
-    <div>
-      
-        
-
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -450,7 +446,7 @@
       
 
       
-        
+      
       
 
       
@@ -478,14 +474,18 @@
       
       
     </footer>
+  </div>
+  
+  
+  
   </article>
+
 
 
     <div class="post-spread">
       
-      
     </div>
- </div>
+  </div>
 
 <div id="gitalk-container"></div>
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
@@ -497,22 +497,20 @@ var gitalk = new Gitalk({
   repo: 'cgstudios.github.io',
   owner: 'cgstudios',
   admin: ['cgstudios'],
-  distractionFreeMode: 'true'
+  distractionFreeMode: true
 })
 gitalk.render('gitalk-container')
 </script>
-    
+  
+  
+  
 
           </div>
           
 
 
           
-  <div class="comments" id="comments">
-    
-      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
-    
-  </div>
+  
 
 
         </div>
@@ -528,119 +526,161 @@ gitalk.render('gitalk-container')
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
     <div class="sidebar-inner">
 
       
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             文章目录
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             站点概览
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="cg" />
-          <p class="site-author-name" itemprop="name">cg</p>
-           
-              <p class="site-description motion-element" itemprop="description">精致地生活</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">41</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="cg" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/cgstudios" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-block">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://blog.lwl12.com/" title="LWL的自由天空" target="_blank">LWL的自由天空</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
-                </li>
-              
-            </ul>
+              <p class="site-author-name" itemprop="name">cg</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
-        
 
-        
+          <nav class="site-state motion-element">
 
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cgstudios" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/cg082702" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/5123957375" target="_blank" title="weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.neverlove.me/" title="不才博客" target="_blank">不才博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://siitake.cn/" title="香菇社长" target="_blank">香菇社长</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.dreamwings.cn/" title="若是凉夜已成梦" target="_blank">若是凉夜已成梦</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.thkira.com/" title="兰陵の记事簿" target="_blank">兰陵の记事簿</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://Lao.si" title="孙老四 Lao.si" target="_blank">孙老四 Lao.si</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="aplayer1" class="aplayer"></div>
+<script src="/lib/aplayer/APlayer.min.js"></script>
+<script>
+	var ap = new APlayer({
+		element: document.getElementById('aplayer1'),
+		narrow: false,
+		autoplay: false,
+		showlrc: false,
+		mutex: true,
+		theme: '#e6d0b2',
+		preload: 'metadata',
+		mode: 'circulation',
+		music: {
+			title: '流浪者之歌',
+			author: '陈绮贞',
+			url: '/lib/song/llzzg/The-song-of-the-Rangers.mp3',
+			pic: 'http://p3.music.126.net/uXxV1FqCCQz61vsOX0JXdA==/5779033115676966.jpg?param=300y300'
+		}
+	});
+</script>
+
+        </div>
       </section>
 
       
@@ -670,16 +710,17 @@ gitalk.render('gitalk-container')
         
       </div>
     </main>
+
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2016 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">cg</span>
+
+  
+  
   <span class="span-time"></span>
   <script>
   var startTime = new Date("2016/12/27");
@@ -690,10 +731,17 @@ gitalk.render('gitalk-container')
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("&nbsp;| &nbsp;" + "建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
-</script>
+  </script>
 </div>
+
+
+
+
+
+
+
 
 
         
@@ -702,7 +750,7 @@ gitalk.render('gitalk-container')
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人次
+      <i class="fa fa-user"></i>访问人次
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       人
     </span>
@@ -710,7 +758,7 @@ gitalk.render('gitalk-container')
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 访问次数
+      <i class="fa fa-eye"></i>访问次数
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>
@@ -718,16 +766,25 @@ gitalk.render('gitalk-container')
 </div>
 
 
+
+
+
+
+
+
         
       </div>
     </footer>
+
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
         
       </div>
     
+
   </div>
+
   
 
 <script type="text/javascript">
@@ -779,22 +836,26 @@ gitalk.render('gitalk-container')
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
 
-
-  
-  
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1-1"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1-1"></script>
 
 
   
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
 
 
   
@@ -812,19 +873,12 @@ gitalk.render('gitalk-container')
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "ec18ccd847d64bfc94031509c79a2056",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
 
 
 
@@ -843,7 +897,7 @@ gitalk.render('gitalk-container')
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -864,7 +918,10 @@ gitalk.render('gitalk-container')
         .css('overflow', 'hidden');
       $('.search-popup-overlay').click(onPopupClose);
       $('.popup').toggle();
-      $('#local-search-input').focus();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
     }
 
     // search function;
@@ -1154,6 +1211,23 @@ gitalk.render('gitalk-container')
 
 
   
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

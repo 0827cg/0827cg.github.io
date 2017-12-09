@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#2e2e2e">
+
+<meta name="google-site-verification" content="6W--ve65HbCJhCzMr9T0GWQFxmoIt6TAvxAOK7mbmdw" />
+<meta name="baidu-site-verification" content="gOo33cChxc" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+
+
+
+
+  <meta name="keywords" content="linux,redis," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="为一台服务器搭建redis集群，存在ssh外网ip与服务器内网ip。redis集群最少需要6个节点，而我这只有一台服务器，所以6个节点都在这服务器上">
+<meta name="keywords" content="linux,redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="centos搭建redis集群">
+<meta property="og:url" content="http://www.cgspace.date/2017/09/19/linux/2017-09-19-linux-redis-colony/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="为一台服务器搭建redis集群，存在ssh外网ip与服务器内网ip。redis集群最少需要6个节点，而我这只有一台服务器，所以6个节点都在这服务器上">
+<meta property="og:updated_time" content="2017-10-13T06:10:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="centos搭建redis集群">
+<meta name="twitter:description" content="为一台服务器搭建redis集群，存在ssh外网ip与服务器内网ip。redis集群最少需要6个节点，而我这只有一台服务器，所以6个节点都在这服务器上">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/09/19/linux/2017-09-19-linux-redis-colony/"/>
+
+
+
+
+
+  <title>centos搭建redis集群 | cgspace</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">精致地生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/09/19/linux/2017-09-19-linux-redis-colony/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">centos搭建redis集群</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-19T15:32:46+08:00">
+                2017-09-19 15:32:46
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>为一台服务器搭建redis集群，存在ssh外网ip与服务器内网ip。<br>redis集群最少需要6个节点，而我这只有一台服务器，所以6个节点都在这服务器上</p>
+<a id="more"></a>
+<p>这里就撤步骤，完整下来分这么几步<br>1.检查防火墙和端口<br>2.安装最基本的当个redis环境<br>3.集群配置</p>
+<h3 id="检查防火墙和端口"><a href="#检查防火墙和端口" class="headerlink" title="检查防火墙和端口"></a>检查防火墙和端口</h3><p>系统是centos7,centos原本使用的防火墙是iptables，但在centos7版本以后就已经废弃了iptables,改用firewall-cmd了。由于公司前辈要求使用iptables，所以没办法只能跟着来</p>
+<h4 id="iptables操作"><a href="#iptables操作" class="headerlink" title="iptables操作"></a>iptables操作</h4><p>安装iptables之前需要检查firewall-cmd的运行状况，如若firewall-cmd在运行，则需将其关闭<br>停止firewall命令<code>systemctl stop firewalld</code><br>禁止firewall开机启动<code>systemctl disable firewalld</code><br>安装iptables<br><code>yum -y install iptables-services</code></p>
+<p>开发端口则输入下面命令来修改该文件<br><code>vim /etc/sysconfig/iptables</code><br>如开发8080端口，则在该文件中添加如下代码<br><code>-A INPUT -m state –state NEW -m tcp -p tcp –dport 8080 -j ACCEPT</code></p>
+<p>之后重启iptables<br><code>systemctl restart iptables</code><br>并设置防火墙开机启动<br><code>systemctl enable iptables</code><br>同样查看iptables状态<br><code>service iptables status</code>或<code>systemctl status iptables</code></p>
+<h4 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h4><p>关闭防火墙<code>service iptables stop</code><br>启动防火墙<code>service iptables start</code><br>重启防火墙<code>service iptables restart</code><br>查看防火墙状态<code>service iptables status</code><br>永久关闭防火墙<code>chkconfig iptables off</code><br>永久关闭后启用<code>chkconfig iptables on</code></p>
+<h3 id="安装基本的redis环境"><a href="#安装基本的redis环境" class="headerlink" title="安装基本的redis环境"></a>安装基本的redis环境</h3><p>安装redis之前文章提过，详情看这篇文章<a href="http://cgspace.date/2017/08/07/linux/2017-08-07-install-centos-server/" target="_blank" rel="external">搭建centos服务器</a></p>
+<h3 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h3><h4 id="增添修改配置文件"><a href="#增添修改配置文件" class="headerlink" title="增添修改配置文件"></a>增添修改配置文件</h4><p>集群至少需要6个节点，所以就需要6个端口，<br>安装完redis后，在/home/xm6f/dev/目录下新建<code>redis_cluster</code>文件夹，之后在该文件夹中创建7000~70056个文件夹，并每个文件夹包含子文件夹logs<br>命令如下</p>
+<pre><code>mkdir redis_cluster
+mkdir -p 7000/logs 7001/logs 7002/logs 7003/logs 7004/logs 7005/logs
+</code></pre><p>之后再将redis安装目录下的<code>redis.conf</code>这个文件分别拷贝到7000等文件夹下，之后为每个节点修改<code>redis.conf</code>这个文件<br>从上到下依次需要求改的内容如下</p>
+<pre><code>bind 机器ip            #使用ifconfig命令获得的ip,有可能处于局域网
+port 7000            #而后依次增加7001,7002....
+daemonize yes        #后台运行
+pidfile /var/run/redis_7000.pid        #而后依次增加7001,7002....
+logfile &quot;/root/dev/redis_cluster/7000/logs/redis.log&quot;        #而后依次增加7001,7002....
+dbfilename dump_7000.rdb            #而后依次增加7001,7002....
+dir &quot;/root/dev/redis-3.2.4/src&quot;        #redis安装目录下的src
+requirepass &quot;123456&quot;                #配置密码
+appendonly yes
+appendfilename &quot;appendonly_7000.aof&quot;
+cluster-enabled yes                    #开启集群
+cluster-config-file nodes-7000.conf
+cluster-node-timeout 5000
+</code></pre><p>修改完上面之后，还需在该文件末尾添加一行</p>
+<pre><code>masterauth &quot;123456&quot;                #集群密码，与requirepass一样
+</code></pre><p>这里需要注意的问题就是bind的值，bind的值最好是本机ip，使用icfonfig命令得到的ip。千万不要相信手头的ip，即用ssh连接linux的ip，有可能ssh连接的ip是外网ip，而此服务器有一个内网ip…..我今天配置的就是，一直启动不了。bing使用外网ip是，命令启动redis没反应，启动不了。浪费一天了一上午的时间…..</p>
+<p>写个脚本来一次性启动6个节点的redis</p>
+<h4 id="启动redis"><a href="#启动redis" class="headerlink" title="启动redis"></a>启动redis</h4><p>脚本代码</p>
+<pre><code>cd /root/dev/redis-3.2.4/src
+./redis-server ../../redis_cluster/7000/redis.conf &amp;
+./redis-server ../../redis_cluster/7001/redis.conf &amp;
+./redis-server ../../redis_cluster/7002/redis.conf &amp;
+./redis-server ../../redis_cluster/7003/redis.conf &amp;
+./redis-server ../../redis_cluster/7004/redis.conf &amp;
+./redis-server ../../redis_cluster/7005/redis.conf &amp;
+</code></pre><p>然后看redis运行情况，使用命令<code>ps -ef | grep redis</code><br>若输出如下</p>
+<pre><code>[root@VM_176_139_centos shell]# ps -ef | grep redis
+root      8833     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7000 [cluster]
+root      8834     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7001 [cluster]
+root      8835     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7005 [cluster]
+root      8836     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7002 [cluster]
+root      8837     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7004 [cluster]
+root      8838     1  0 15:12 ?        00:00:00 ./redis-server 10.104.176.139:7003 [cluster]
+root      8863  6015  0 15:12 pts/6    00:00:00 grep --color=auto redis
+</code></pre><p>注意redis的url，url需要是本机ip地址<br>只要这样，就可以进行下一步</p>
+<h4 id="关闭redis"><a href="#关闭redis" class="headerlink" title="关闭redis"></a>关闭redis</h4><p>命令<br><code>pkill -9 redis</code><br>即可同时关闭这6个redis</p>
+<h4 id="集群连接操作"><a href="#集群连接操作" class="headerlink" title="集群连接操作"></a>集群连接操作</h4><p>此时需要使用到redis安装目录src下的<code>redis-trib.rb</code>这个文件，这个文件是用ruby语言写的，所以需要安装ruby环境<br>运行命令<br><code>yum -y install ruby ruby-devel rubygems rpm-build</code><br>之后再使用gem来安装redis接口<br><code>gem install redis</code></p>
+<p>注意<br>如果在执行使用gem安装redis是报</p>
+<pre><code>ERROR:Error installing redis:redis requires Ruby version &gt;= 2.2.2
+</code></pre><p>这个异常的话，这报的是版本异常，要求gem安装redis最低的ruby版本为2.2.2,而yum仓库中提供的版本为2.0,其解决方法可以去看<a href="http://blog.csdn.net/fengye_yulu/article/details/77628094" target="_blank" rel="external">这篇文章</a>。<br>上述步骤完成之后，使用命令</p>
+<pre><code>./redis-trib.rb create --replicas 1 10.104.176.139:7000 10.104.176.139:7001 10.104.176.139:7002 10.104.176.139:7003 10.104.176.139:7004 10.104.176.139:7005
+</code></pre><p>正常输出如下</p>
+<pre><code>[root@VM_176_139_centos src]# ./redis-trib.rb create --replicas 1 10.104.176.139:7000 10.104.176.139:7001 10.104.176.139:7002 10.104.176.139:7003 10.104.176.139:7004 10.104.176.139:7005
+&gt;&gt;&gt; Creating cluster
+&gt;&gt;&gt; Performing hash slots allocation on 6 nodes...
+Using 3 masters:
+10.104.176.139:7000
+10.104.176.139:7001
+10.104.176.139:7002
+Adding replica 10.104.176.139:7003 to 10.104.176.139:7000
+Adding replica 10.104.176.139:7004 to 10.104.176.139:7001
+Adding replica 10.104.176.139:7005 to 10.104.176.139:7002
+M: 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85 10.104.176.139:7000
+   slots:0-5460 (5461 slots) master
+M: 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9 10.104.176.139:7001
+   slots:5461-10922 (5462 slots) master
+M: 26e7e5c215ff685a06908da9418bb0d6145d2eb2 10.104.176.139:7002
+   slots:10923-16383 (5461 slots) master
+S: a2ebe312b7dbab29aa60c404e347e8570f598273 10.104.176.139:7003
+   replicates 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85
+S: a346f606aa0a1f2bd96c95b1831582f30aae04e2 10.104.176.139:7004
+   replicates 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9
+S: 54d3fc53cde48495dcf709c1be03b483001bd873 10.104.176.139:7005
+   replicates 26e7e5c215ff685a06908da9418bb0d6145d2eb2
+Can I set the above configuration? (type &apos;yes&apos; to accept): yes   
+&gt;&gt;&gt; Nodes configuration updated
+&gt;&gt;&gt; Assign a different config epoch to each node
+&gt;&gt;&gt; Sending CLUSTER MEET messages to join the cluster
+Waiting for the cluster to join...
+&gt;&gt;&gt; Performing Cluster Check (using node 10.104.176.139:7000)
+M: 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85 10.104.176.139:7000
+   slots:0-5460 (5461 slots) master
+   1 additional replica(s)
+S: a346f606aa0a1f2bd96c95b1831582f30aae04e2 10.104.176.139:7004
+   slots: (0 slots) slave
+   replicates 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9
+S: 54d3fc53cde48495dcf709c1be03b483001bd873 10.104.176.139:7005
+   slots: (0 slots) slave
+   replicates 26e7e5c215ff685a06908da9418bb0d6145d2eb2
+M: 26e7e5c215ff685a06908da9418bb0d6145d2eb2 10.104.176.139:7002
+   slots:10923-16383 (5461 slots) master
+   1 additional replica(s)
+M: 3cb3569fb1efec5cdb5ec11f4ac863279a702bd9 10.104.176.139:7001
+   slots:5461-10922 (5462 slots) master
+   1 additional replica(s)
+S: a2ebe312b7dbab29aa60c404e347e8570f598273 10.104.176.139:7003
+   slots: (0 slots) slave
+   replicates 7fed05243fa5e8d44b04b3ef5b4b2d246a20bf85
+[OK] All nodes agree about slots configuration.
+&gt;&gt;&gt; Check for open slots...
+&gt;&gt;&gt; Check slots coverage...
+[OK] All 16384 slots covered.
+[root@VM_176_139_centos src]# 
+</code></pre><p>连接完成之后，就可以测试各个节点的连接情况了，这里先不撤…</p>
+<h4 id="重新连接集群"><a href="#重新连接集群" class="headerlink" title="重新连接集群"></a>重新连接集群</h4><p>如果需要重新连接集群，那么就需要找到redis.conf配置文件中<br><code>dir &quot;/root/dev/redis-3.2.4/src&quot;</code><br>这个文件路径，并删除里面的带端口的文件，就是上面提到的配置方法中的文件<br>直接在该文件目录下运行命令</p>
+<p><code>sudo rm appendonly_*.conf nodes-*.conf dump_*.rdb</code></p>
+<p>引用: <a href="http://www.cnblogs.com/linjiqin/p/7451822.html" target="_blank" rel="external">Redis 3.2.4集群实战</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/17/java/2017-09-17-java-SundayfindFile/" rel="next" title="Java使用Sunday算法来查找文件">
+                <i class="fa fa-chevron-left"></i> Java使用Sunday算法来查找文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/10/daily/2017-10-10-daily-cambodiaNote/" rel="prev" title="柬埔寨笔记">
+                柬埔寨笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+var gitalk = new Gitalk({
+  clientID: '72b592f61c3081484782',
+  clientSecret: 'f52ccfc473ec10411d5357cd7cb980fb6a940ed7',
+  repo: 'cgstudios.github.io',
+  owner: 'cgstudios',
+  admin: ['cgstudios'],
+  distractionFreeMode: true
+})
+gitalk.render('gitalk-container')
+</script>
+  
+  
+  
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="cg" />
+            
+              <p class="site-author-name" itemprop="name">cg</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cgstudios" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/cg082702" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/5123957375" target="_blank" title="weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.neverlove.me/" title="不才博客" target="_blank">不才博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://siitake.cn/" title="香菇社长" target="_blank">香菇社长</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.dreamwings.cn/" title="若是凉夜已成梦" target="_blank">若是凉夜已成梦</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.thkira.com/" title="兰陵の记事簿" target="_blank">兰陵の记事簿</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://Lao.si" title="孙老四 Lao.si" target="_blank">孙老四 Lao.si</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="aplayer1" class="aplayer"></div>
+<script src="/lib/aplayer/APlayer.min.js"></script>
+<script>
+	var ap = new APlayer({
+		element: document.getElementById('aplayer1'),
+		narrow: false,
+		autoplay: false,
+		showlrc: false,
+		mutex: true,
+		theme: '#e6d0b2',
+		preload: 'metadata',
+		mode: 'circulation',
+		music: {
+			title: '流浪者之歌',
+			author: '陈绮贞',
+			url: '/lib/song/llzzg/The-song-of-the-Rangers.mp3',
+			pic: 'http://p3.music.126.net/uXxV1FqCCQz61vsOX0JXdA==/5779033115676966.jpg?param=300y300'
+		}
+	});
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#检查防火墙和端口"><span class="nav-number">1.</span> <span class="nav-text">检查防火墙和端口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#iptables操作"><span class="nav-number">1.1.</span> <span class="nav-text">iptables操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其他"><span class="nav-number">1.2.</span> <span class="nav-text">其他</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装基本的redis环境"><span class="nav-number">2.</span> <span class="nav-text">安装基本的redis环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集群配置"><span class="nav-number">3.</span> <span class="nav-text">集群配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#增添修改配置文件"><span class="nav-number">3.1.</span> <span class="nav-text">增添修改配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动redis"><span class="nav-number">3.2.</span> <span class="nav-text">启动redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关闭redis"><span class="nav-number">3.3.</span> <span class="nav-text">关闭redis</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#集群连接操作"><span class="nav-number">3.4.</span> <span class="nav-text">集群连接操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重新连接集群"><span class="nav-number">3.5.</span> <span class="nav-text">重新连接集群</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+
+  
+  
+  <span class="span-time"></span>
+  <script>
+  var startTime = new Date("2016/12/27");
+  setInterval(function () {
+    var nowTime = new Date();
+    var time = nowTime - startTime;
+    var day = parseInt(time / 1000 / 60 / 60 / 24);
+    var hour = parseInt(time / 1000 / 60 / 60 % 24);
+    var minute = parseInt(time / 1000 / 60 % 60);
+    var seconds = parseInt(time / 1000 % 60);
+    $('.span-time').html("&nbsp;| &nbsp;" + "建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+  }, 1000);
+  </script>
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,22 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
+
 
 
   
+
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="theme-color" content="#2e2e2e"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#2e2e2e">
 
 <meta name="google-site-verification" content="6W--ve65HbCJhCzMr9T0GWQFxmoIt6TAvxAOK7mbmdw" />
 <meta name="baidu-site-verification" content="gOo33cChxc" />
 
 
 
+
+
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -28,37 +46,26 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
 
 
 
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+
+
 
 
   <meta name="keywords" content="这是我仅有的" />
@@ -66,7 +73,10 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+
+
 
 
 <meta name="description" content="精致地生活">
@@ -79,14 +89,18 @@
 <meta name="twitter:title" content="cgspace">
 <meta name="twitter:description" content="精致地生活">
 
+
+
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -101,10 +115,6 @@
   };
 </script>
 
-<!--
-<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
--->
-
 
 
   <link rel="canonical" href="http://www.cgspace.date/page/2/"/>
@@ -114,40 +124,28 @@
 
 
   <title>cgspace</title>
-</head>
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
 
 
 
 
 
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
+
   <div class="container sidebar-position-left 
-   page-home 
- ">
+  page-home">
     <div class="headband"></div>
+
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -161,7 +159,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">精致地生活</p>
+        <h1 class="site-subtitle" itemprop="description">精致地生活</h1>
       
   </div>
 
@@ -192,7 +190,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -202,7 +200,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
@@ -238,7 +236,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+      <input autocomplete="off"
              placeholder="搜索..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
@@ -253,8 +251,10 @@
 </nav>
 
 
+
  </div>
     </header>
+
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
@@ -263,36 +263,40 @@
   <section id="posts" class="posts-expand">
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/09/15/java/2017-09-15-java-KMPfindFile/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/" itemprop="url">
-                  JavaEE-Hibernate标签中的懒加载与Session事物
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/09/15/java/2017-09-15-java-KMPfindFile/" itemprop="url">Java使用KMP算法来查找文件</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -302,677 +306,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-29T19:02:55+08:00">
-                2017-06-29
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-15T15:29:28+08:00">
+                2017-09-15
               </time>
+			  
             
+
             
+
             
           </span>
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javaEE/" itemprop="url" rel="index">
-                    <span itemprop="name">javaEE</span>
-                  </a>
-                </span>
-                
-                
-              
-            </span>
-          
-          
-            
-          
 
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>最近开发的项目，谈开发算不上，只是在前辈们写的代码基础上添写代码，对系统增加功能。在阅读以前的代码过程中，遇到了懒加载，自己对懒加载的根本不了解，就向公司里的老司机请教。</p>
-<p>这里就作为总结，谈自己现在对懒加载的认识</p>
-<p>ps:用Hibernate还不如用Mybatis..</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/29/javaee/2017-06-29-javaEE-Hibernate-lanjiazai/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-  
-  
-  
-  
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/06/21/note/2017-06-21-createNote/">
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cg">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cgspace">
-    </span>
-    
-      <header class="post-header">
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/21/note/2017-06-21-createNote/" itemprop="url">
-                  Note
-                </a>
-              
-            
-          </h1>
-        
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-21T16:26:11+08:00">
-                2017-06-21
-              </time>
-            
-            
-            
-          </span>
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/note/" itemprop="url" rel="index">
-                    <span itemprop="name">note</span>
-                  </a>
-                </span>
-                
-                
-              
-            </span>
-          
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>这里将记录日常工作中的一些简单笔记.个人有个习惯,喜欢将开发中遇到的一些需要记住的东西,问题及相对应的解决方法记录下来.</p>
-<p>说是喜欢,其实就是记忆力不好,想记下来,就用写笔记这种方式,久而久之就成了习惯</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/21/note/2017-06-21-createNote/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-  
-  
-  
-  
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/">
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cg">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cgspace">
-    </span>
-    
-      <header class="post-header">
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/" itemprop="url">
-                  Linux上远程连接mysql数据库服务器
-                </a>
-              
-            
-          </h1>
-        
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T10:43:30+08:00">
-                2017-06-20
-              </time>
-            
-            
-            
-          </span>
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
-                  </a>
-                </span>
-                
-                
-              
-            </span>
-          
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用</p>
-<p>这里记录的只是当时的过程</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-  
-  
-  
-  
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/11/daily/2017-05-11-daily-exquisiteLife/">
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cg">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cgspace">
-    </span>
-    
-      <header class="post-header">
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/11/daily/2017-05-11-daily-exquisiteLife/" itemprop="url">
-                  精致地生活
-                </a>
-              
-            
-          </h1>
-        
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T13:21:41+08:00">
-                2017-05-11
-              </time>
-            
-            
-            
-          </span>
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/daily/" itemprop="url" rel="index">
-                    <span itemprop="name">daily</span>
-                  </a>
-                </span>
-                
-                
-              
-            </span>
-          
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>我一直想过精致的生活<br>但<br>我一直找不到什么是精致的生活<br>我以前想的<br>就是认真的去做一件事<br>端端正正的去做</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/11/daily/2017-05-11-daily-exquisiteLife/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-  
-  
-  
-  
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/10/git/2017-05-10-git-gitUse/">
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cg">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cgspace">
-    </span>
-    
-      <header class="post-header">
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/10/git/2017-05-10-git-gitUse/" itemprop="url">
-                  git使用
-                </a>
-              
-            
-          </h1>
-        
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-10T16:08:50+08:00">
-                2017-05-10
-              </time>
-            
-            
-            
-          </span>
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index">
-                    <span itemprop="name">git</span>
-                  </a>
-                </span>
-                
-                
-              
-            </span>
-          
-          
-            
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/10/git/2017-05-10-git-gitUse/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-  
-  
-  
-  
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/09/java/2017-05-09-java-Decompile-Tool/">
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="cg">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="cgspace">
-    </span>
-    
-      <header class="post-header">
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2017/05/09/java/2017-05-09-java-Decompile-Tool/" itemprop="url">
-                  Java-android反编译
-                </a>
-              
-            
-          </h1>
-        
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T12:44:00+08:00">
-                2017-05-09
-              </time>
-            
-            
-            
-          </span>
           
             <span class="post-category" >
             
@@ -990,11 +335,13 @@
                     <span itemprop="name">java</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -1003,6 +350,7 @@
           
 
           
+
           
 
           
@@ -1011,6 +359,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1018,29 +369,26 @@
 
       
         
-          <p>今天在读公司之前开发的一个项目的代码,对其中的一段代码挺感兴趣,就尝试着自己敲,下载需要导入的jar包.自己单独运行看看效果.<br>不过其中一段小插曲,就是下载的包导入项目中后一直提示不出来,就是代码import不到,于是就想着去看看jar包里的代码是什么样的,心里怀疑这难不成是包里的类名换了,,,,?<br>于是就想到了我之前弄的android反编译.<br>时隔太久,担心忘了,就总结在此</p>
+          <p>接上一篇文章，依据字符串来查找文件。当时使用Python来实现的，没使用啥算法，也就算是暴力匹配，查找速率很是慢。所以这次是使用KMP算法来实现。<br>首先要先了解KMP算法，记得大学的时候老师有讲过这个算法，可惜自己没好好听…于是网上找资料，主要就是看末尾引用的那篇文章，想了解KMP的倒可以看这篇，谢谢这位博主</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/09/java/2017-05-09-java-Decompile-Tool/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/09/15/java/2017-09-15-java-KMPfindFile/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1054,41 +402,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/08/daily/2017-05-08-daily-companyDinnerParty-first/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/09/12/python/2017-09-12-python-findFilesByStr/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/05/08/daily/2017-05-08-daily-companyDinnerParty-first/" itemprop="url">
-                  步入社会的第一次感受
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/09/12/python/2017-09-12-python-findFilesByStr/" itemprop="url">Python通过字符串查找包含该字符串的文件</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -1098,13 +454,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T11:22:50+08:00">
-                2017-05-08
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T17:32:49+08:00">
+                2017-09-12
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -1118,15 +479,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/daily/" itemprop="url" rel="index">
-                    <span itemprop="name">daily</span>
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -1135,6 +498,7 @@
           
 
           
+
           
 
           
@@ -1143,6 +507,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1150,31 +517,26 @@
 
       
         
-          <p>现在是2017年5月8号 10:33分</p>
-<p>昨天公司举行了开业典礼<br>白天做的无非就是招待领导吃饭喝酒</p>
-<p>而昨天也有一位同事w离职,<br>晚上大家一块打算给w饯行<br>所以</p>
+          <p>无聊很可怕，上班无聊也是一样。今天上班无聊翻自己做的笔记看，但是笔记太多，所以我就只想看包含一些已知内容的笔记，但又不知道存放在哪里，苦逼实在系统windows，要是linux直接用命令很快就找出来了，于是就打算用python写个脚本，顺便回顾一下python,好久没用了</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/05/08/daily/2017-05-08-daily-companyDinnerParty-first/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/09/12/python/2017-09-12-python-findFilesByStr/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1188,14 +550,759 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/09/01/linux/2017-09-01-linux-shell-monitor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/09/01/linux/2017-09-01-linux-shell-monitor/" itemprop="url">使用shell脚本监控服务器项目运行</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-01T17:13:26+08:00">
+                2017-09-01
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>之前写过一个每天定时对nginx日志文件进行切割的脚本，并在切割之后通过发送邮件来告知脚本执行是否成功。实现起来很简单，本来不想写，但前辈让一定要写，写就写吧，反正无聊。就是写完脚本后就更无聊了…<br>这次也还是一样的，需要写一个脚本来监控服务器中的各种服务，tomcat,redis,nginx,磁盘空间，jdk…没错，还说要监控jdk…..</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/01/linux/2017-09-01-linux-shell-monitor/" rel="contents">
+              阅读全文
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/08/30/linux/2017-08-30-linux-sendEmail/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/30/linux/2017-08-30-linux-sendEmail/" itemprop="url">使用shell发送qq邮件</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-30T17:18:40+08:00">
+                2017-08-30
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>前些天折腾了下在linux系统上发送qq邮件，发现使用shell命令来实现这个很简单，于是就弄了。弄这个的主要目的是为了将脚本监控或者操作系统后得到的结果以邮件的方式反馈给我，这样我也就能及时知道自己写的脚本执行情况怎么样。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/30/linux/2017-08-30-linux-sendEmail/" rel="contents">
+              阅读全文
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/08/30/hexo/2017-08-30-hexoMoreComputer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/30/hexo/2017-08-30-hexoMoreComputer/" itemprop="url">Hexo博客电脑迁移</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-30T16:25:39+08:00">
+                2017-08-30
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>公司配了电脑，所以就不用自己带电脑去上班，而出租屋里自己也没wifi，也就导致不好更博。原先自己是将笔记整理好，用simpleNote来进行同步更新，等到了周末就带自己笔记本来公司总结自己写的笔记，并将其更新到博客中。总觉得麻烦，于是就在公司配的笔记本上搭建好环境来更博….</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/30/hexo/2017-08-30-hexoMoreComputer/" rel="contents">
+              阅读全文
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/08/20/gitalk/2017-08-20-gitalk-comment-use/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/20/gitalk/2017-08-20-gitalk-comment-use/" itemprop="url">为静态博客添加gitalk评论插件</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T13:18:30+08:00">
+                2017-08-20
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gitalk/" itemprop="url" rel="index">
+                    <span itemprop="name">gitalk</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>多说跟网易云跟帖都倒闭这么久了，一直在找适合自己的评论系统，之前接触到一个gitment这个开源的基于github的issue评论，测试用了下还不错，不过就是在页面上显示不那么协调，也就没用了。前几天凑巧找着个gitalk这个插件，和gitment类似，一样是基于github的issue来实现评论的。同样的功能，给我的感觉就是gitalk的ui真是不错，于是就打算使用这个了</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/20/gitalk/2017-08-20-gitalk-comment-use/" rel="contents">
+              阅读全文
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/08/20/linux/2017-08-20-linux-server/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/20/linux/2017-08-20-linux-server/" itemprop="url">linux服务器运维问题</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T08:48:40+08:00">
+                2017-08-20
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>今天周末，也是无聊。昨天刚搬玩家，新的住址里公司挺近的，所以就来公司坐着了，打算总结一下这个星期工作中遇到的关于linux服务器的问题，多总结多学习，还得好好提升自己</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/08/20/linux/2017-08-20-linux-server/" rel="contents">
+              阅读全文
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
   </section>
+
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1219,110 +1326,152 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="cg" />
-          <p class="site-author-name" itemprop="name">cg</p>
-           
-              <p class="site-description motion-element" itemprop="description">精致地生活</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">41</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="cg" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/cgstudios" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-block">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://blog.lwl12.com/" title="LWL的自由天空" target="_blank">LWL的自由天空</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
-                </li>
-              
-            </ul>
+              <p class="site-author-name" itemprop="name">cg</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
-        
 
-        
+          <nav class="site-state motion-element">
 
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cgstudios" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/cg082702" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/5123957375" target="_blank" title="weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.neverlove.me/" title="不才博客" target="_blank">不才博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://siitake.cn/" title="香菇社长" target="_blank">香菇社长</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.dreamwings.cn/" title="若是凉夜已成梦" target="_blank">若是凉夜已成梦</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.thkira.com/" title="兰陵の记事簿" target="_blank">兰陵の记事簿</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://Lao.si" title="孙老四 Lao.si" target="_blank">孙老四 Lao.si</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="aplayer1" class="aplayer"></div>
+<script src="/lib/aplayer/APlayer.min.js"></script>
+<script>
+	var ap = new APlayer({
+		element: document.getElementById('aplayer1'),
+		narrow: false,
+		autoplay: false,
+		showlrc: false,
+		mutex: true,
+		theme: '#e6d0b2',
+		preload: 'metadata',
+		mode: 'circulation',
+		music: {
+			title: '流浪者之歌',
+			author: '陈绮贞',
+			url: '/lib/song/llzzg/The-song-of-the-Rangers.mp3',
+			pic: 'http://p3.music.126.net/uXxV1FqCCQz61vsOX0JXdA==/5779033115676966.jpg?param=300y300'
+		}
+	});
+</script>
+
+        </div>
       </section>
 
       
@@ -1336,16 +1485,17 @@
         
       </div>
     </main>
+
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2016 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">cg</span>
+
+  
+  
   <span class="span-time"></span>
   <script>
   var startTime = new Date("2016/12/27");
@@ -1356,10 +1506,17 @@
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("&nbsp;| &nbsp;" + "建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
-</script>
+  </script>
 </div>
+
+
+
+
+
+
+
 
 
         
@@ -1368,7 +1525,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人次
+      <i class="fa fa-user"></i>访问人次
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       人
     </span>
@@ -1376,7 +1533,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 访问次数
+      <i class="fa fa-eye"></i>访问次数
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>
@@ -1384,16 +1541,25 @@
 </div>
 
 
+
+
+
+
+
+
         
       </div>
     </footer>
+
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
         
       </div>
     
+
   </div>
+
   
 
 <script type="text/javascript">
@@ -1445,18 +1611,22 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
 
 
   
   
+
   
+
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
 
 
   
@@ -1474,19 +1644,12 @@
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "ec18ccd847d64bfc94031509c79a2056",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
 
 
 
@@ -1505,7 +1668,7 @@
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -1526,7 +1689,10 @@
         .css('overflow', 'hidden');
       $('.search-popup-overlay').click(onPopupClose);
       $('.popup').toggle();
-      $('#local-search-input').focus();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
     }
 
     // search function;
@@ -1816,6 +1982,23 @@
 
 
   
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

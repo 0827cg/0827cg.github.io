@@ -1,22 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
+
 
 
   
+
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="theme-color" content="#2e2e2e"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#2e2e2e">
 
 <meta name="google-site-verification" content="6W--ve65HbCJhCzMr9T0GWQFxmoIt6TAvxAOK7mbmdw" />
 <meta name="baidu-site-verification" content="gOo33cChxc" />
 
 
 
+
+
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -28,37 +46,26 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
 
 
 
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+
+
 
 
   <meta name="keywords" content="这是我仅有的" />
@@ -66,7 +73,10 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+
+
 
 
 <meta name="description" content="精致地生活">
@@ -79,14 +89,18 @@
 <meta name="twitter:title" content="cgspace">
 <meta name="twitter:description" content="精致地生活">
 
+
+
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -101,10 +115,6 @@
   };
 </script>
 
-<!--
-<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
--->
-
 
 
   <link rel="canonical" href="http://www.cgspace.date/tags/linux/"/>
@@ -114,38 +124,27 @@
 
 
   <title>标签: linux | cgspace</title>
-</head>
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
 
 
 
 
 
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
-  <div class="container sidebar-position-left  ">
+
+  <div class="container sidebar-position-left ">
     <div class="headband"></div>
+
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -159,7 +158,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">精致地生活</p>
+        <h1 class="site-subtitle" itemprop="description">精致地生活</h1>
       
   </div>
 
@@ -190,7 +189,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -200,7 +199,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
@@ -236,7 +235,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+      <input autocomplete="off"
              placeholder="搜索..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
@@ -251,27 +250,174 @@
 </nav>
 
 
+
  </div>
     </header>
+
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        linux
-        <small>标签</small>
-      </h2>
-    </div>
-    
+
+  
+  
+  
+  <div class="post-block tag">
+
+    <div id="posts" class="posts-collapse">
+      <div class="collection-title">
+        <h2>linux<small>标签</small>
+        </h2>
+      </div>
+
       
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
-      <h1 class="post-title">
+      <h3 class="post-title">
+        
+            <a class="post-title-link" href="/2017/10/11/python/2017-10-11-python-installPython3/" itemprop="url">
+              
+                <span itemprop="name">Linux上安装python3</span>
+              
+            </a>
+        
+      </h3>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-10-11T14:44:23+08:00"
+              content="2017-10-11" >
+          10-11
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h3 class="post-title">
+        
+            <a class="post-title-link" href="/2017/10/10/linux/2017-10-10-linux-serverMonitor/" itemprop="url">
+              
+                <span itemprop="name">python实现服务器监控脚本</span>
+              
+            </a>
+        
+      </h3>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-10-10T17:27:02+08:00"
+              content="2017-10-10" >
+          10-10
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h3 class="post-title">
+        
+            <a class="post-title-link" href="/2017/09/19/linux/2017-09-19-linux-redis-colony/" itemprop="url">
+              
+                <span itemprop="name">centos搭建redis集群</span>
+              
+            </a>
+        
+      </h3>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-09-19T15:32:46+08:00"
+              content="2017-09-19" >
+          09-19
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h3 class="post-title">
+        
+            <a class="post-title-link" href="/2017/09/01/linux/2017-09-01-linux-shell-monitor/" itemprop="url">
+              
+                <span itemprop="name">使用shell脚本监控服务器项目运行</span>
+              
+            </a>
+        
+      </h3>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-09-01T17:13:26+08:00"
+              content="2017-09-01" >
+          09-01
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h3 class="post-title">
+        
+            <a class="post-title-link" href="/2017/08/30/linux/2017-08-30-linux-sendEmail/" itemprop="url">
+              
+                <span itemprop="name">使用shell发送qq邮件</span>
+              
+            </a>
+        
+      </h3>
+
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-08-30T17:18:40+08:00"
+              content="2017-08-30" >
+          08-30
+        </time>
+      </div>
+
+    </header>
+  </article>
+
+
+      
+        
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <h3 class="post-title">
         
             <a class="post-title-link" href="/2017/08/20/linux/2017-08-20-linux-server/" itemprop="url">
               
@@ -279,7 +425,7 @@
               
             </a>
         
-      </h1>
+      </h3>
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
@@ -293,13 +439,13 @@
   </article>
 
 
-    
       
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
-      <h1 class="post-title">
+      <h3 class="post-title">
         
             <a class="post-title-link" href="/2017/08/12/linux/2017-08-12-tomcat-redis-session-share/" itemprop="url">
               
@@ -307,7 +453,7 @@
               
             </a>
         
-      </h1>
+      </h3>
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
@@ -321,13 +467,13 @@
   </article>
 
 
-    
       
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
-      <h1 class="post-title">
+      <h3 class="post-title">
         
             <a class="post-title-link" href="/2017/08/07/linux/2017-08-07-install-centos-server/" itemprop="url">
               
@@ -335,7 +481,7 @@
               
             </a>
         
-      </h1>
+      </h3>
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
@@ -349,13 +495,13 @@
   </article>
 
 
-    
       
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
-      <h1 class="post-title">
+      <h3 class="post-title">
         
             <a class="post-title-link" href="/2016/12/28/linux/2016-12-28-ubuntu-tweaktool-schememissing/" itemprop="url">
               
@@ -363,7 +509,7 @@
               
             </a>
         
-      </h1>
+      </h3>
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
@@ -377,13 +523,13 @@
   </article>
 
 
-    
       
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
 
-      <h1 class="post-title">
+      <h3 class="post-title">
         
             <a class="post-title-link" href="/2016/12/27/linux/2016-12-27-ubuntu-loginlightdm-bgpic/" itemprop="url">
               
@@ -391,7 +537,7 @@
               
             </a>
         
-      </h1>
+      </h3>
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
@@ -405,37 +551,19 @@
   </article>
 
 
-    
       
+    </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2016/12/27/linux/2016-12-27-ubuntu-startup-dns/" itemprop="url">
-              
-                <span itemprop="name">解决ubuntu15.10开机自动更改DNS服务器问题</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-12-27T15:23:32+08:00"
-              content="2016-12-27" >
-          12-27
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
   </div>
   
+  
+  
+
+  
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/tags/linux/page/2/">2</a><a class="extend next" rel="next" href="/tags/linux/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -457,110 +585,152 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="cg" />
-          <p class="site-author-name" itemprop="name">cg</p>
-           
-              <p class="site-description motion-element" itemprop="description">精致地生活</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">41</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="cg" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/cgstudios" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-block">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://blog.lwl12.com/" title="LWL的自由天空" target="_blank">LWL的自由天空</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
-                </li>
-              
-            </ul>
+              <p class="site-author-name" itemprop="name">cg</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
-        
 
-        
+          <nav class="site-state motion-element">
 
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cgstudios" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/cg082702" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/5123957375" target="_blank" title="weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.neverlove.me/" title="不才博客" target="_blank">不才博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://siitake.cn/" title="香菇社长" target="_blank">香菇社长</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.dreamwings.cn/" title="若是凉夜已成梦" target="_blank">若是凉夜已成梦</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.thkira.com/" title="兰陵の记事簿" target="_blank">兰陵の记事簿</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://Lao.si" title="孙老四 Lao.si" target="_blank">孙老四 Lao.si</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="aplayer1" class="aplayer"></div>
+<script src="/lib/aplayer/APlayer.min.js"></script>
+<script>
+	var ap = new APlayer({
+		element: document.getElementById('aplayer1'),
+		narrow: false,
+		autoplay: false,
+		showlrc: false,
+		mutex: true,
+		theme: '#e6d0b2',
+		preload: 'metadata',
+		mode: 'circulation',
+		music: {
+			title: '流浪者之歌',
+			author: '陈绮贞',
+			url: '/lib/song/llzzg/The-song-of-the-Rangers.mp3',
+			pic: 'http://p3.music.126.net/uXxV1FqCCQz61vsOX0JXdA==/5779033115676966.jpg?param=300y300'
+		}
+	});
+</script>
+
+        </div>
       </section>
 
       
@@ -574,16 +744,17 @@
         
       </div>
     </main>
+
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2016 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">cg</span>
+
+  
+  
   <span class="span-time"></span>
   <script>
   var startTime = new Date("2016/12/27");
@@ -594,10 +765,17 @@
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("&nbsp;| &nbsp;" + "建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
-</script>
+  </script>
 </div>
+
+
+
+
+
+
+
 
 
         
@@ -606,7 +784,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人次
+      <i class="fa fa-user"></i>访问人次
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       人
     </span>
@@ -614,7 +792,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 访问次数
+      <i class="fa fa-eye"></i>访问次数
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>
@@ -622,16 +800,25 @@
 </div>
 
 
+
+
+
+
+
+
         
       </div>
     </footer>
+
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
         
       </div>
     
+
   </div>
+
   
 
 <script type="text/javascript">
@@ -683,18 +870,22 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
 
 
   
   
+
   
+
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
 
 
   
@@ -712,19 +903,12 @@
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "ec18ccd847d64bfc94031509c79a2056",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
 
 
 
@@ -743,7 +927,7 @@
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -764,7 +948,10 @@
         .css('overflow', 'hidden');
       $('.search-popup-overlay').click(onPopupClose);
       $('.popup').toggle();
-      $('#local-search-input').focus();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
     }
 
     // search function;
@@ -1054,6 +1241,23 @@
 
 
   
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 

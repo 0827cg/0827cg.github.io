@@ -1,0 +1,2307 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#2e2e2e">
+
+<meta name="google-site-verification" content="6W--ve65HbCJhCzMr9T0GWQFxmoIt6TAvxAOK7mbmdw" />
+<meta name="baidu-site-verification" content="gOo33cChxc" />
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+
+
+
+
+  <meta name="keywords" content="linux,email,mail,shell," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="之前写过一个每天定时对nginx日志文件进行切割的脚本，并在切割之后通过发送邮件来告知脚本执行是否成功。实现起来很简单，本来不想写，但前辈让一定要写，写就写吧，反正无聊。就是写完脚本后就更无聊了…这次也还是一样的，需要写一个脚本来监控服务器中的各种服务，tomcat,redis,nginx,磁盘空间，jdk…没错，还说要监控jdk…..">
+<meta name="keywords" content="linux,email,mail,shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用shell脚本监控服务器项目运行">
+<meta property="og:url" content="http://www.cgspace.date/2017/09/01/linux/2017-09-01-linux-shell-monitor/index.html">
+<meta property="og:site_name" content="cgspace">
+<meta property="og:description" content="之前写过一个每天定时对nginx日志文件进行切割的脚本，并在切割之后通过发送邮件来告知脚本执行是否成功。实现起来很简单，本来不想写，但前辈让一定要写，写就写吧，反正无聊。就是写完脚本后就更无聊了…这次也还是一样的，需要写一个脚本来监控服务器中的各种服务，tomcat,redis,nginx,磁盘空间，jdk…没错，还说要监控jdk…..">
+<meta property="og:updated_time" content="2017-09-18T01:14:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用shell脚本监控服务器项目运行">
+<meta name="twitter:description" content="之前写过一个每天定时对nginx日志文件进行切割的脚本，并在切割之后通过发送邮件来告知脚本执行是否成功。实现起来很简单，本来不想写，但前辈让一定要写，写就写吧，反正无聊。就是写完脚本后就更无聊了…这次也还是一样的，需要写一个脚本来监控服务器中的各种服务，tomcat,redis,nginx,磁盘空间，jdk…没错，还说要监控jdk…..">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.cgspace.date/2017/09/01/linux/2017-09-01-linux-shell-monitor/"/>
+
+
+
+
+
+  <title>使用shell脚本监控服务器项目运行 | cgspace</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">cgspace</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">精致地生活</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/09/01/linux/2017-09-01-linux-shell-monitor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="cg">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="cgspace">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">使用shell脚本监控服务器项目运行</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-01T17:13:26+08:00">
+                2017-09-01 17:13:26
+              </time>
+			  
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">阅读
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>次
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>之前写过一个每天定时对nginx日志文件进行切割的脚本，并在切割之后通过发送邮件来告知脚本执行是否成功。实现起来很简单，本来不想写，但前辈让一定要写，写就写吧，反正无聊。就是写完脚本后就更无聊了…<br>这次也还是一样的，需要写一个脚本来监控服务器中的各种服务，tomcat,redis,nginx,磁盘空间，jdk…没错，还说要监控jdk…..</p>
+<a id="more"></a>
+<p>不多说了，本来语文就差，组词这么粗糙。</p>
+<p>先说下，现在这个脚本应该算是还有两个bug,后面慢慢解决。</p>
+<p>正文</p>
+<h3 id="脚本大致功能"><a href="#脚本大致功能" class="headerlink" title="脚本大致功能"></a>脚本大致功能</h3><p>1.脚本每间隔5分钟运行一次，检测各个系统模块运行是否正常，如若运行不正常，脚本先自行处理一次，如果处理后该服务仍然未正常运行，则发邮件提醒。正常则无提醒<br>2.在脚本没5分钟运行的情况下，每间隔1个小时(24h)，脚本会对服务器中的所有已经监控的模块状态进行汇总，并发邮件通知</p>
+<p>脚本已经提供监控代码的服务就这三项，tomcat,redis和nginx，外加个磁盘根目录信息(无自动清理功能)</p>
+<h3 id="脚本大致流程"><a href="#脚本大致流程" class="headerlink" title="脚本大致流程"></a>脚本大致流程</h3><h4 id="匹配项目是否运行"><a href="#匹配项目是否运行" class="headerlink" title="匹配项目是否运行"></a>匹配项目是否运行</h4><p>就拿tomcat来说，脚本通过命令<br>‘ps -ef | grep tomcat’<br>来查看进程中运行的tomcat，将输出结果进行模糊匹配，这里的模糊匹配只是匹配对应tomcat安装目录的文件夹名称<br>例如运行该命令的输出如下</p>
+<pre><code>[xm6f@localhost automatic]$ ps -ef | grep tomcat
+root      1503     1  0 8月29 ?       00:11:29 //bin/java -Djava.util.logging.config.file=/usr/local/tomcat/tomcat-8082/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -server -Xms512m -Xmx4096m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/local/tomcat/tomcat-8082/endorsed -classpath /usr/local/tomcat/tomcat-8082/bin/bootstrap.jar:/usr/local/tomcat/tomcat-8082/bin/tomcat-juli.jar -Dcatalina.base=/usr/local/tomcat/tomcat-8082 -Dcatalina.home=/usr/local/tomcat/tomcat-8082 -Djava.io.tmpdir=/usr/local/tomcat/tomcat-8082/temp org.apache.catalina.startup.Bootstrap start
+xm6f     10126     1  0 12:59 pts/5    00:01:34 /usr/local/java/jdk1.8.0_144/bin/java -Djava.util.logging.config.file=/usr/local/tomcat/lotmall-8080/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -server -Xms512m -Xmx4096m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/local/tomcat/lotmall-8080/endorsed -classpath /usr/local/tomcat/lotmall-8080/bin/bootstrap.jar:/usr/local/tomcat/lotmall-8080/bin/tomcat-juli.jar -Dcatalina.base=/usr/local/tomcat/lotmall-8080 -Dcatalina.home=/usr/local/tomcat/lotmall-8080 -Djava.io.tmpdir=/usr/local/tomcat/lotmall-8080/temp org.apache.catalina.startup.Bootstrap start
+xm6f     12173     1  1 14:26 pts/7    00:00:54 /usr/local/java/jdk1.8.0_144/bin/java -Djava.util.logging.config.file=/usr/local/tomcat/mango-8081/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -server -Xms512m -Xmx4096m -Djdk.tls.ephemeralDHKeySize=2048 -Djava.endorsed.dirs=/usr/local/tomcat/mango-8081/endorsed -classpath /usr/local/tomcat/mango-8081/bin/bootstrap.jar:/usr/local/tomcat/mango-8081/bin/tomcat-juli.jar -Dcatalina.base=/usr/local/tomcat/mango-8081 -Dcatalina.home=/usr/local/tomcat/mango-8081 -Djava.io.tmpdir=/usr/local/tomcat/mango-8081/temp org.apache.catalina.startup.Bootstrap start
+xm6f     13681  7589  0 15:39 pts/7    00:00:00 grep --color=auto tomcat
+</code></pre><p>根据上面的输出，可以看到运行了三台tomcat,三台tomcat分别对应的安装目录的路径即上面输出中的<code>Dcatalina.base</code>这个变量的值，对比这三台tomcat的<code>Dcatalina.base</code>的值，可以知道这三台tomcat的安装文件都是存放在<code>/usr/local/tomcat/</code>这个路径下的，虽然这是安装时刻意弄的，但这样毕竟更好管理，对应写脚本也更方便。在这个路径下，存放的三个文件夹就是对应的三台tomcat安装文件，所以根据这些输出，可以进行模糊匹配来辨别当个tomcat是否运行<br>主要实现代码如下</p>
+<pre><code>TOMCAT_STATUS=$(ps -ef | grep tomcat)
+if [[ $TOMCAT_STATUS =~ &quot;8080&quot; ]]
+then
+    createEmail_content &quot;* tomcat8080---已在运行&quot; -h 1
+    TOMCAT_1_LOG=$(tail -n 150 /usr/local/tomcat/tomcat-8080}/logs/catalina.out)
+    if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+    then
+        createEmail_content &quot;---日志输出异常&quot; -h
+        createEmail_errContent &quot;===============149-8080-输出日志===============&quot; -h
+        createEmail_errContent &quot;$TOMCAT_1_LOG&quot; -h
+    else
+        createEmail_content &quot;---日志输出正常&quot; -h
+    fi
+else
+    createEmail_content &quot;* tomcat$8080---未运行&quot; -h
+fi
+</code></pre><p>在知道tomcat是否运行之后，就可以对日志的输出进行解析了，以此来判断该tomcat运行时的日志输出是否正常，当然，如果tomcat未运行就不必对日志文件进行分析了。<br>判断日志输出是否正常的方式和判断tomcat是否运行的方式其理念是一样的，如上面的代码，获取8080端口的那台tomcat的文件末尾的150行，150行足够了，全屏下来也就50+行，获取这些输出之后同样拿来进行模糊匹配，观察之前的日志报错输出，里面都会有<code>exception</code>这个字段，匹配它就可以了，如果为结果为<code>true</code>，则说明日志报错了。<br>在知道tomcat是否正常运行及日志输出是否正常之后，将结果写入到txt文件，方便后面发送邮件，也方便记录<br>相对应的，判断nginx和redis是否运行也是通过这样的方式，这里就不说了</p>
+<h4 id="查看磁盘空间"><a href="#查看磁盘空间" class="headerlink" title="查看磁盘空间"></a>查看磁盘空间</h4><p>查看磁盘使用空间最简单的命令就是<code>df</code>命令，使用<code>df -h</code>就可以知道所有挂载点的空间使用量，获取根目录挂载点命令就如<code>df -h /</code>,其输出有6列，拿要获取第5列就用命令<br><code>df -h / | awk &#39;{print $5}&#39;</code><br>其输出如下</p>
+<pre><code>[xm6f@localhost automatic]$ df -h / | awk &apos;{print $5}&apos;
+已用%
+1%
+[xm6f@localhost automatic]$ 
+</code></pre><p>1%不大好对比，我想得到的是单纯的数字，但这个也不好截取，那就网上搜，例如我这里搜索得到的例如<br><code>df -h | grep /dev/mapper/cl-root | awk &#39;{print $5}&#39; | cut -f 1 -d &quot;%&quot;</code><br>这里的<code>/dev/mapper/cl-root</code>是根挂载点对应的文件系统的输出<br>整个命令运行输出如下</p>
+<pre><code>[xm6f@localhost automatic]$ df -h | grep /dev/mapper/cl-root | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;
+1
+[xm6f@localhost automatic]$
+</code></pre><p>这就ok了，这样运行得到结果之后直接放到if语句中进行对比，大于50%就发邮件提醒，就行了</p>
+<h3 id="脚本函数介绍"><a href="#脚本函数介绍" class="headerlink" title="脚本函数介绍"></a>脚本函数介绍</h3><h4 id="写入内容到txt文件函数"><a href="#写入内容到txt文件函数" class="headerlink" title="写入内容到txt文件函数"></a>写入内容到txt文件函数</h4><p>因为总是需要写入内容到文件，总是一味的使用<code>echo</code>命令感觉太麻烦了，索性就封装成方法，后面调用即可<br>就如下面的代码，定义了两个函数，一个用来写记录执行错误输出的文件，一个用来写反馈结果到文件的方法<br>代码如下</p>
+<pre><code>function createEmail_content() {
+    if [[ $2 = -h ]]
+    then
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        fi
+    else
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+}
+
+function createEmail_errContent() {
+        if [[ $2 = -h ]]
+        then
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                fi
+        else
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                fi
+        fi
+}
+</code></pre><p>简单的介绍下上面代码，总共可以输入三个参数</p>
+<ul>
+<li>$1:文本内容</li>
+<li>$2:写入到隔1小时执行结果的文件还是写入到隔5分钟执行结果的文件</li>
+<li>$3:写入是否换行</li>
+</ul>
+<h4 id="重启函数"><a href="#重启函数" class="headerlink" title="重启函数"></a>重启函数</h4><p>不多说了</p>
+<pre><code>function startTomcat() {
+    ${1}/bin/./catalina.sh start
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对tomcat${2}执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对tomcat${2}执行命令&quot;
+    fi
+    START_TOM_RESULT=$(ps -ef | grep tomcat)
+    if [[ $START_TOM_RESULT =~ &quot;$2&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;tomcat${2}已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;tomcat${2}启动未成功，请手动启动&quot;
+    fi    
+}
+</code></pre><h4 id="1小时执行函数"><a href="#1小时执行函数" class="headerlink" title="1小时执行函数"></a>1小时执行函数</h4><p>其中包括检测tomcat，redis，nginx和磁盘根目录使用情况<br>后面打算把这个方法拆分开了，代码太臃肿了</p>
+<pre><code>function automatic_h() {
+
+    echo &quot;&quot; &gt; email_content-${TODAY_H}.txt
+
+    createEmail_content &quot;${COMPUTER_NAME}今日${HOUR}时脚本自动执行结果&quot; -h
+    createEmail_content &quot;======================================&quot; -h
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        createEmail_content &quot;* tomcat${PORT_1}---已在运行&quot; -h 1
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;---日志输出异常&quot; -h
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot; -h
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot; -h
+        else
+            createEmail_content &quot;---日志输出正常&quot; -h
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_2}---已在运行&quot; -h 1
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_3}---已在运行&quot; -h 1
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_3_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot; -h
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis已在运行&quot; -h
+    else
+        createEmail_content &quot;* redis未运行&quot; -h
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx已在运行&quot; -h
+    else
+        createEmail_content &quot;* nginx未运行&quot; -h
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -lt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较小---已使用${DISK_GEN_STATUS}%&quot; -h
+    else
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot; -h
+    fi
+
+
+    echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_H}.txt
+
+    createAll_tail -h
+}
+</code></pre><h4 id="5分钟执行函数"><a href="#5分钟执行函数" class="headerlink" title="5分钟执行函数"></a>5分钟执行函数</h4><p>这个方法和前面的方法大致一样，是上面方法的缩减版</p>
+<pre><code>function automatic_hms() {
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        TOMCAT_1_DIR=${TOMCAT_DIR}/${PORT_1_FILENAME}
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${PORT_1}---已运行---但日志输出异常&quot;
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot;
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot;
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_1_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_1_FILENAME} ${PORT_1}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_1}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_1}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_2}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_2_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_2_FILENAME} ${PORT_2}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_2}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_2}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_3}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_3_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_3_FILENAME} ${PORT_3}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_3}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_3}失败&quot;
+                fi
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ ! $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$REDIS_DIR&quot; ]]
+                then
+                        startRedis $REDIS_DIR
+                else
+                        createEmail_content &quot;**--&gt;redis路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动redis失败&quot;
+                fi
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ ! $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$NGINX_DIR&quot; ]]
+                then
+                        startNginx $NGINX_DIR
+                else
+                        createEmail_content &quot;**--&gt;nginx路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动nginx失败&quot;
+                fi
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -gt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot;
+    fi
+
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        createAll_tail
+    fi
+}
+</code></pre><h4 id="选择执行并发送邮件"><a href="#选择执行并发送邮件" class="headerlink" title="选择执行并发送邮件"></a>选择执行并发送邮件</h4><pre><code>if [[ $MIN = 30 ]]
+then
+    automatic_h
+    if [[ -e &quot;email_err-${TODAY_H}.txt&quot; ]]
+    then
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -a email_err-${TODAY_H}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    else
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    fi
+else
+    automatic_hms
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        if [[ -e &quot;email_err-${TODAY_HMS}.txt&quot; ]]
+        then
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -a email_err-${TODAY_HMS}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        else
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+fi
+</code></pre><p>代码中主要的功能就在这隔1小时执行的方法</p>
+<h4 id="总共代码如下"><a href="#总共代码如下" class="headerlink" title="总共代码如下"></a>总共代码如下</h4><pre><code>#!/bin/bash
+
+#Describe: Monitor Control System.
+# tomcat, nginx, redis
+#Author: cg
+#Time: 2017-08-31
+
+#----------USER CONFIG----------#
+
+##电脑服务器别称，这里用ip的最后一个字段
+COMPUTER_NAME=149
+
+##tomcat路径，该路径为tomcat的父级路径
+#前提是在此路径文件夹下包含有3个或多个子tomcat的安装文件夹
+#例如:
+#    /usr/local/tomcat---&gt;lotmall-8080
+#                     ---&gt;mango-8081
+#                     ---&gt;tomcat-8082
+TOMCAT_DIR=/usr/local/tomcat
+
+##redis的可运行文件所在文件夹的路径
+#前提是redis的配置文件redis.conf和redis.server....都在该文件路径下
+REDIS_DIR=/home/xm6f/dev/redis
+
+##nginx安装文件路径
+NGINX_DIR=/usr/local/nginx
+
+
+##多个tomcat对应的ip
+PORT_1=8080
+PORT_2=8081
+PORT_3=8082
+
+##父级tomcat路径下存放的3个tomcat安装文件的文件夹名称
+PORT_1_FILENAME=lotmall-8080
+PORT_2_FILENAME=mango-8081
+PORT_3_FILENAME=tomcat-8082
+
+##redis端口，这里默认使用6379
+#REDIS_PORT=6379
+
+##根节点对应的文件系统
+#可以使用`df -Th /` 命令查看获得
+GEN_FILE_TYPE=/dev/mapper/cl-root
+
+##要发送的邮箱地址
+#如果有需要发送更多个，则在下面按照格式添加，之后在此脚本末尾的if语句块中添加，注意空格
+EMAIL_ADDR_1=1542723438@qq.com
+EMAIL_ADDR_2=1679055895@qq.com
+
+#-------------------------------#
+
+TODAY_HMS=$(date +%y%m%d%H%M%S)
+TODAY_H=$(date +%y%m%d%H)
+YESTERDAY=$(date -d &quot;yesterday&quot; +%y%m%d)
+TIME=$(date +%Y-%m-%d-%T)
+HOUR=$(date +%H)
+MIN=$(date +%M)
+
+
+function createEmail_content() {
+    if [[ $2 = -h ]]
+    then
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_H}.txt
+        fi
+    else
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+}
+
+function createEmail_errContent() {
+        if [[ $2 = -h ]]
+        then
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_H}.txt
+                fi
+        else
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; email_err-${TODAY_HMS}.txt
+                fi
+        fi
+}
+
+
+function startTomcat() {
+    ${1}/bin/./catalina.sh start
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对tomcat${2}执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对tomcat${2}执行命令&quot;
+    fi
+    START_TOM_RESULT=$(ps -ef | grep tomcat)
+    if [[ $START_TOM_RESULT =~ &quot;$2&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;tomcat${2}已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;tomcat${2}启动未成功，请手动启动&quot;
+    fi    
+}
+
+function startRedis() {
+    ${1}/./redis-server redis.conf
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对redis执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对reids执行命令&quot;
+    fi
+    START_RED_RESULT=$(ps -ef | grep 6379)
+    if [[ $START_RED_RESULT =~ &quot;6379&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;redis已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;redis启动未成功，请手动启动&quot;
+    fi
+}
+
+
+function startNginx() {
+    ${1}/sbin/./nginx
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对nginx执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对nginx执行命令&quot;
+    fi
+    START_NGINX_RESULT=$(ps -ef | grep nginx)
+    if [[ $START_NGINX_RESULT =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;nginx已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;nginx启动未成功，请手动启动&quot;
+    fi
+}
+
+
+function createAll_tail() {
+
+createEmail_content &quot;======================================&quot; $1
+createEmail_content &quot;---林繁&quot; $1
+createEmail_content &quot;---$TIME&quot; $1
+
+}
+
+function automatic_h() {
+
+    echo &quot;&quot; &gt; email_content-${TODAY_H}.txt
+
+    createEmail_content &quot;${COMPUTER_NAME}今日${HOUR}时脚本自动执行结果&quot; -h
+    createEmail_content &quot;======================================&quot; -h
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        createEmail_content &quot;* tomcat${PORT_1}---已在运行&quot; -h 1
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;---日志输出异常&quot; -h
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot; -h
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot; -h
+        else
+            createEmail_content &quot;---日志输出正常&quot; -h
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_2}---已在运行&quot; -h 1
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot; -h
+
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            createEmail_content &quot;* tomcat${PORT_3}---已在运行&quot; -h 1
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_3_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;---日志输出异常&quot; -h
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot; -h
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot; -h
+            else
+                    createEmail_content &quot;---日志输出正常&quot; -h
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot; -h
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis已在运行&quot; -h
+    else
+        createEmail_content &quot;* redis未运行&quot; -h
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx已在运行&quot; -h
+    else
+        createEmail_content &quot;* nginx未运行&quot; -h
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -lt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较小---已使用${DISK_GEN_STATUS}%&quot; -h
+    else
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot; -h
+    fi
+
+
+    echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_H}.txt
+
+    createAll_tail -h
+}
+
+
+function automatic_hms() {
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_1&quot; ]]
+    then
+        TOMCAT_1_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_1_FILENAME}/logs/catalina.out)
+        TOMCAT_1_DIR=${TOMCAT_DIR}/${PORT_1_FILENAME}
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${PORT_1}---已运行---但日志输出异常&quot;
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_1}-输出日志===============&quot;
+            createEmail_errContent &quot;$TOMCAT_1_LOG&quot;
+        fi
+    else
+        createEmail_content &quot;* tomcat${PORT_1}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_1_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_1_FILENAME} ${PORT_1}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_1}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_1}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_2&quot; ]]
+    then
+            TOMCAT_2_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_2_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_2}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_2}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_2_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_2}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_2_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_2_FILENAME} ${PORT_2}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_2}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_2}失败&quot;
+                fi
+    fi
+
+    if [[ $TOMCAT_STATUS =~ &quot;$PORT_3&quot; ]]
+    then
+            TOMCAT_3_LOG=$(tail -n 150 ${TOMCAT_DIR}/${PORT_2_FILENAME}/logs/catalina.out)
+            if [[ $TOMCAT_3_LOG =~ &quot;exception&quot; ]]
+            then
+                    createEmail_content &quot;tomcat${PORT_3}---已运行---但日志输出异常&quot;
+                    createEmail_errContent &quot;===============${COMPUTER_NAME}-${PORT_3}-输出日志===============&quot;
+                    createEmail_errContent &quot;$TOMCAT_3_LOG&quot;
+            fi
+    else
+            createEmail_content &quot;* tomcat${PORT_3}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${PORT_3_FILENAME}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${PORT_3_FILENAME} ${PORT_3}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${PORT_3}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${PORT_3}失败&quot;
+                fi
+    fi
+
+    REDIS_STATUS=$(ps -ef | grep 6379)
+    if [[ ! $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;* redis未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$REDIS_DIR&quot; ]]
+                then
+                        startRedis $REDIS_DIR
+                else
+                        createEmail_content &quot;**--&gt;redis路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动redis失败&quot;
+                fi
+    fi
+
+    NGINX_STATUS=$(ps -ef | grep nginx)
+    if [[ ! $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;* nginx未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;$NGINX_DIR&quot; ]]
+                then
+                        startNginx $NGINX_DIR
+                else
+                        createEmail_content &quot;**--&gt;nginx路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动nginx失败&quot;
+                fi
+    fi
+
+    #DISK_GEN_STATUS=$(df -h | grep /dev/m | awk &apos;{print $5}&apos;)
+    #createEmail_content &quot;根目录使用量为$DISK_GEN_STATUS&quot;
+
+    DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+    if [[ $DISK_GEN_STATUS -gt 50 ]]
+    then
+        createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot;
+    fi
+
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        echo -e &quot;\n\n&quot; &gt;&gt; email_content-${TODAY_HMS}.txt
+        createAll_tail
+    fi
+}
+
+
+#$HOUR_INT=$(echo $HOUR | sed -r &apos;s/\&lt;0+([1-9]+)/\1/g&apos;)
+
+if [[ $MIN = 30 ]]
+then
+    automatic_h
+    if [[ -e &quot;email_err-${TODAY_H}.txt&quot; ]]
+    then
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -a email_err-${TODAY_H}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    else
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_H}.txt
+    fi
+else
+    automatic_hms
+    if [[ -e &quot;email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        if [[ -e &quot;email_err-${TODAY_HMS}.txt&quot; ]]
+        then
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -a email_err-${TODAY_HMS}.txt -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        else
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -c $EMAIL_ADDR_1 $EMAIL_ADDR_2 &lt; email_content-${TODAY_HMS}.txt
+        fi
+    fi
+fi
+</code></pre><p>jdk就不监控了，根本不需要有…</p>
+<h3 id="代码更新-170918"><a href="#代码更新-170918" class="headerlink" title="代码更新-170918"></a>代码更新-170918</h3><pre><code>#!/bin/bash
+
+#Describe: Monitor Control System.
+# tomcat, nginx, redis
+#Author: cg
+#Time: 2017-08-31
+
+#----------USER CONFIG----------#
+
+COMPUTER_NAME=105
+TOMCAT_DIR=/home/xm6f/dev/tomcat-7.0.79
+REDIS_DIR=/home/xm6f/dev/redis-3.2.4
+REDIS_START_SHELL_CL=/home/xm6f/dev/shell/./redis_start_all.sh
+#NGINX_DIR=/usr/local/nginx
+
+TOMCAT_NUM=4
+
+PORT_1=8080
+PORT_2=8081
+PORT_3=8088
+PORT_4=8098
+
+PORT_1_FILENAME=tomcat-8080
+PORT_2_FILENAME=tomcat-8081
+PORT_3_FILENAME=tomcat-8088
+PORT_4_FILENAME=tomcat-8098
+
+#REDIS_PORT=6379
+
+#
+GEN_FILE_TYPE=/dev/mapper/cl-root
+
+EMAIL_LOG=/usr/scripts/automatic/monitor_log
+
+EMAIL_ADDR_1=1542723438@qq.com
+#EMAIL_ADDR_2=1679055895@qq.com
+
+#-------------------------------#
+
+TODAY_HMS=$(date +%y%m%d%H%M%S)
+TODAY_H=$(date +%y%m%d%H)
+YESTERDAY=$(date -d &quot;yesterday&quot; +%y%m%d)
+TIME=$(date +%Y-%m-%d-%T)
+HOUR=$(date +%H)
+MIN=$(date +%M)
+
+
+function createEmail_content() {
+    if [[ $2 = -h ]]
+    then
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+        fi
+    else
+        if [[ $3 -eq 0 ]]
+        then
+            echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        else
+            echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        fi
+    fi
+}
+
+function createEmail_errContent() {
+        if [[ $2 = -h ]]
+        then
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_H}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_H}.txt
+                fi
+        else
+                if [[ $3 -eq 0 ]]
+                then
+                        echo &quot;$1&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_HMS}.txt
+                else
+                        echo -e &quot;$1\c&quot; &gt;&gt; ${EMAIL_LOG}/email_err-${TODAY_HMS}.txt
+                fi
+        fi
+}
+
+
+function startTomcat() {
+    ${1}/bin/./catalina.sh start
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对tomcat${2}执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对tomcat${2}执行命令&quot;
+    fi
+    START_TOM_RESULT=$(ps -ef | grep tomcat)
+    if [[ $START_TOM_RESULT =~ &quot;$2&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;tomcat${2}已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;tomcat${2}启动未成功，请手动启动&quot;
+    fi    
+}
+
+function startRedis() {
+    ${REDIS_DIR}/./redis-server redis.conf
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对redis执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对reids执行命令&quot;
+    fi
+    START_RED_RESULT=$(ps -ef | grep redis)
+    if [[ $START_RED_RESULT =~ &quot;redis-server&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;redis已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;redis启动未成功，请手动启动&quot;
+    fi
+}
+
+function startRedis_byShell() {
+    ${REDIS_START_SHELL_CL}
+    if [[ $? -eq 0 ]]
+    then
+                createEmail_content &quot;**--&gt;脚本已对redis执行启动命令&quot;
+        else
+                createEmail_content &quot;**--&gt;脚本未成功对reids执行命令&quot;
+        fi
+        START_RED_RESULT=$(ps -ef | grep redis)
+        if [[ $START_RED_RESULT =~ &quot;redis-server&quot; ]]
+        then
+                createEmail_content &quot;**--&gt;redis已成功启动&quot;
+        else
+                createEmail_content &quot;**--&gt;redis启动未成功，请手动启动&quot;
+        fi
+
+
+}
+
+
+function startNginx() {
+    ${NGINX_DIR}/sbin/./nginx
+    if [[ $? -eq 0 ]]
+    then
+        createEmail_content &quot;**--&gt;脚本已对nginx执行启动命令&quot;
+    else
+        createEmail_content &quot;**--&gt;脚本未成功对nginx执行命令&quot;
+    fi
+    START_NGINX_RESULT=$(ps -ef | grep nginx)
+    if [[ $START_NGINX_RESULT =~ &quot;nginx:&quot; ]]
+    then
+        createEmail_content &quot;**--&gt;nginx已成功启动&quot;
+    else
+        createEmail_content &quot;**--&gt;nginx启动未成功，请手动启动&quot;
+    fi
+}
+
+function try_start() {
+        createEmail_content &quot;* ${1}未运行&quot;
+        createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+        if [[ -x &quot;$2&quot; ]]
+        then
+                if [[ ${1} -eq &quot;redis&quot; ]]
+                then
+                        startRedis_byShell
+                else
+                        startNginx
+                fi
+        else
+                createEmail_content &quot;**--&gt;${1}路径不存在&quot;
+                createEmail_content &quot;**--&gt;脚本启动${1}失败&quot;
+        fi
+}
+
+
+
+function createAll_tail() {
+
+createEmail_content &quot;======================================&quot; $1
+createEmail_content &quot;---林繁&quot; $1
+createEmail_content &quot;---$TIME&quot; $1
+
+}
+
+
+function tomcat_h() {
+
+        if [[ $TOMCAT_STATUS =~ &quot;$1&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${1}---已在运行&quot; -h 1
+                TOMCAT_LOG=$(tail -n 150 ${TOMCAT_DIR}/${2}/logs/catalina.out)
+                if [[ $TOMCAT_LOG =~ &quot;exception&quot; ]]
+                then
+                        createEmail_content &quot;---日志输出异常&quot; -h
+                        createEmail_errContent &quot;===============${COMPUTER_NAME}-${1}-输出日志===============&quot; -h
+                        createEmail_errContent &quot;$TOMCAT_LOG&quot; -h
+                else
+                        createEmail_content &quot;---日志输出正常&quot; -h
+                fi
+        else
+                createEmail_content &quot;* tomcat${1}---未运行&quot; -h
+
+        fi
+}
+
+
+function tomcat_hms() {
+
+    if [[ $TOMCAT_STATUS =~ &quot;$1&quot; ]]
+    then
+        TOMCAT_LOG=$(tail -n 150 ${TOMCAT_DIR}/${2}/logs/catalina.out)
+        if [[ $TOMCAT_1_LOG =~ &quot;exception&quot; ]]
+        then
+            createEmail_content &quot;* tomcat${1}---已运行---但日志输出异常&quot;
+            createEmail_errContent &quot;===============${COMPUTER_NAME}-${1}-输出日志===============&quot;
+            createEmail_errContent &quot;$TOMCAT_LOG&quot;
+        fi
+    else
+        createEmail_content &quot;* tomcat${1}---未运行&quot;
+                createEmail_content &quot;**--&gt;脚本将尝试进行启动....&quot;
+                if [[ -x &quot;${TOMCAT_DIR}/${2}&quot; ]]
+                then
+                        startTomcat ${TOMCAT_DIR}/${2} ${1}
+                else
+                        createEmail_content &quot;**--&gt;tomcat${1}路径不存在&quot;
+                        createEmail_content &quot;**--&gt;脚本启动tomcat${1}失败&quot;
+                fi
+    fi
+}
+
+
+function for_tomcat_h() {
+
+    TOMCAT_STATUS=$(ps -ef | grep tomcat)
+        for(( i=1; i&lt;=${TOMCAT_NUM}; i++ )) {
+                PORT=PORT_$i
+        FILENAME=PORT_${i}_FILENAME
+                eval TOMCAT_PORT=&quot;$&quot;$PORT
+        eval TOMCAT_FILENAME=&quot;$&quot;$FILENAME
+                tomcat_h $TOMCAT_PORT $TOMCAT_FILENAME
+        }
+}
+
+function for_tomcat_hms() {
+
+        TOMCAT_STATUS=$(ps -ef | grep tomcat)
+        for(( i=1; i&lt;=${TOMCAT_NUM}; i++ )) {
+                PORT=PORT_$i
+                FILENAME=PORT_${i}_FILENAME
+                eval TOMCAT_PORT=&quot;$&quot;$PORT
+                eval TOMCAT_FILENAME=&quot;$&quot;$FILENAME
+                tomcat_hms $TOMCAT_PORT $TOMCAT_FILENAME
+        }
+}
+
+
+
+function redis_state() {
+
+        REDIS_STATUS=$(ps -ef | grep redis)
+        if [[ $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+        then
+                createEmail_content &quot;* redis已在运行&quot; -h
+        else
+                createEmail_content &quot;* redis未运行&quot; -h
+        fi
+}
+
+
+function nginx_state() {
+
+        NGINX_STATUS=$(ps -ef | grep nginx)
+        if [[ $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+        then
+                createEmail_content &quot;* nginx已在运行&quot; -h
+        else
+                createEmail_content &quot;* nginx未运行&quot; -h
+        fi
+}
+
+function gen_state() {
+
+        DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+        if [[ $DISK_GEN_STATUS -lt 50 ]]
+        then
+                createEmail_content &quot;* 根目录使用量较小---已使用${DISK_GEN_STATUS}%&quot; -h
+        else
+                createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot; -h
+        fi
+}
+
+
+function redis_stats_hms() {
+
+        REDIS_STATUS=$(ps -ef | grep redis)
+        if [[ ! $REDIS_STATUS =~ &quot;redis-server&quot; ]]
+    then
+        try_start &quot;redis&quot; $REDIS_DIR
+    fi
+}
+
+function nginx_stats_hms() {
+
+        NGINX_STATUS=$(ps -ef | grep nginx)
+        if [[ ! $NGINX_STATUS =~ &quot;nginx:&quot; ]]
+    then
+        try_start &quot;nginx&quot; $NGINX_DIR
+    fi
+}
+
+function gen_stats_hms() {
+
+        DISK_GEN_STATUS=$(df -h | grep $GEN_FILE_TYPE | awk &apos;{print $5}&apos; | cut -f 1 -d &quot;%&quot;)
+        if [[ $DISK_GEN_STATUS -gt 50 ]]
+        then
+                createEmail_content &quot;* 根目录使用量较大---已使用${DISK_GEN_STATUS}%&quot;
+        fi
+}
+
+function rm_email_log() {
+
+        rm ${EMAIL_LOG}/email_*-${YESTERDAY}*.txt
+        if [[ $? -eq 0 ]]
+        then
+                createEmail_content &quot;昨天的邮件日志已经删除&quot; -h
+        else
+                createEmail_content &quot;昨天的邮件日志未成功删除&quot; -h
+        fi
+}
+
+
+function automatic_h() {
+
+        echo &quot;&quot; &gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+
+        createEmail_content &quot;${COMPUTER_NAME}今日${HOUR}时脚本自动执行结果&quot; -h
+        createEmail_content &quot;======================================&quot; -h
+
+        for_tomcat_h
+        redis_state
+        #nginx_state
+        gen_state
+
+    if [[ $HOUR = 23 ]]
+    then
+            rm_email_log
+    fi
+
+        echo -e &quot;\n\n&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+
+        createAll_tail -h
+}
+
+
+function automatic_hms() {
+
+    for_tomcat_hms
+    redis_stats_hms
+    #nginx_stats_hms
+    gen_stats_hms
+
+    if [[ -e &quot;${EMAIL_LOG}/email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        echo -e &quot;\n\n&quot; &gt;&gt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        createAll_tail
+    fi
+}
+
+
+#$HOUR_INT=$(echo $HOUR | sed -r &apos;s/\&lt;0+([1-9]+)/\1/g&apos;)
+
+if [[ $MIN = 30 ]]
+then
+    automatic_h
+    if [[ -e &quot;${EMAIL_LOG}/email_err-${TODAY_H}.txt&quot; ]]
+    then
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; -a ${EMAIL_LOG}/email_err-${TODAY_H}.txt $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+    else
+            mail -s &quot;${COMPUTER_NAME}检测结果&quot; $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_H}.txt
+    fi
+else
+    automatic_hms
+    if [[ -e &quot;${EMAIL_LOG}/email_content-${TODAY_HMS}.txt&quot; ]]
+    then
+        if [[ -e &quot;${EMAIL_LOG}/email_err-${TODAY_HMS}.txt&quot; ]]
+        then
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; -a ${EMAIL_LOG}/email_err-${TODAY_HMS}.txt $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        else
+            mail -s &quot;${COMPUTER_NAME}有服务未运行&quot; $EMAIL_ADDR_1 &lt; ${EMAIL_LOG}/email_content-${TODAY_HMS}.txt
+        fi
+    fi
+fi
+</code></pre><p>优化了代码，使其模块化，同时解决了之前提到的一些bug</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/email/" rel="tag"># email</a>
+          
+            <a href="/tags/mail/" rel="tag"># mail</a>
+          
+            <a href="/tags/shell/" rel="tag"># shell</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/08/30/linux/2017-08-30-linux-sendEmail/" rel="next" title="使用shell发送qq邮件">
+                <i class="fa fa-chevron-left"></i> 使用shell发送qq邮件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/12/python/2017-09-12-python-findFilesByStr/" rel="prev" title="Python通过字符串查找包含该字符串的文件">
+                Python通过字符串查找包含该字符串的文件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+<div id="gitalk-container"></div>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+var gitalk = new Gitalk({
+  clientID: '72b592f61c3081484782',
+  clientSecret: 'f52ccfc473ec10411d5357cd7cb980fb6a940ed7',
+  repo: 'cgstudios.github.io',
+  owner: 'cgstudios',
+  admin: ['cgstudios'],
+  distractionFreeMode: true
+})
+gitalk.render('gitalk-container')
+</script>
+  
+  
+  
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="cg" />
+            
+              <p class="site-author-name" itemprop="name">cg</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cgstudios" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/cg082702" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/5123957375" target="_blank" title="weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.neverlove.me/" title="不才博客" target="_blank">不才博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://siitake.cn/" title="香菇社长" target="_blank">香菇社长</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.dreamwings.cn/" title="若是凉夜已成梦" target="_blank">若是凉夜已成梦</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.thkira.com/" title="兰陵の记事簿" target="_blank">兰陵の记事簿</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://Lao.si" title="孙老四 Lao.si" target="_blank">孙老四 Lao.si</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="aplayer1" class="aplayer"></div>
+<script src="/lib/aplayer/APlayer.min.js"></script>
+<script>
+	var ap = new APlayer({
+		element: document.getElementById('aplayer1'),
+		narrow: false,
+		autoplay: false,
+		showlrc: false,
+		mutex: true,
+		theme: '#e6d0b2',
+		preload: 'metadata',
+		mode: 'circulation',
+		music: {
+			title: '流浪者之歌',
+			author: '陈绮贞',
+			url: '/lib/song/llzzg/The-song-of-the-Rangers.mp3',
+			pic: 'http://p3.music.126.net/uXxV1FqCCQz61vsOX0JXdA==/5779033115676966.jpg?param=300y300'
+		}
+	});
+</script>
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本大致功能"><span class="nav-number">1.</span> <span class="nav-text">脚本大致功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本大致流程"><span class="nav-number">2.</span> <span class="nav-text">脚本大致流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#匹配项目是否运行"><span class="nav-number">2.1.</span> <span class="nav-text">匹配项目是否运行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看磁盘空间"><span class="nav-number">2.2.</span> <span class="nav-text">查看磁盘空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本函数介绍"><span class="nav-number">3.</span> <span class="nav-text">脚本函数介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#写入内容到txt文件函数"><span class="nav-number">3.1.</span> <span class="nav-text">写入内容到txt文件函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重启函数"><span class="nav-number">3.2.</span> <span class="nav-text">重启函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1小时执行函数"><span class="nav-number">3.3.</span> <span class="nav-text">1小时执行函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5分钟执行函数"><span class="nav-number">3.4.</span> <span class="nav-text">5分钟执行函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择执行并发送邮件"><span class="nav-number">3.5.</span> <span class="nav-text">选择执行并发送邮件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总共代码如下"><span class="nav-number">3.6.</span> <span class="nav-text">总共代码如下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码更新-170918"><span class="nav-number">4.</span> <span class="nav-text">代码更新-170918</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">cg</span>
+
+  
+  
+  <span class="span-time"></span>
+  <script>
+  var startTime = new Date("2016/12/27");
+  setInterval(function () {
+    var nowTime = new Date();
+    var time = nowTime - startTime;
+    var day = parseInt(time / 1000 / 60 / 60 / 24);
+    var hour = parseInt(time / 1000 / 60 / 60 % 24);
+    var minute = parseInt(time / 1000 / 60 % 60);
+    var seconds = parseInt(time / 1000 % 60);
+    $('.span-time').html("&nbsp;| &nbsp;" + "建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+  }, 1000);
+  </script>
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>访问人次
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>访问次数
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

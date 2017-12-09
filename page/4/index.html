@@ -1,22 +1,40 @@
-<!doctype html>
+<!DOCTYPE html>
+
 
 
   
+
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="theme-color" content="#2e2e2e"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#2e2e2e">
 
 <meta name="google-site-verification" content="6W--ve65HbCJhCzMr9T0GWQFxmoIt6TAvxAOK7mbmdw" />
 <meta name="baidu-site-verification" content="gOo33cChxc" />
 
 
 
+
+
+
+
+
 <meta http-equiv="Cache-Control" content="no-transform" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -28,37 +46,26 @@
 
 
 
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
-
 
 
 
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.1-1" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=5.1.3">
+
+
+
+
 
 
   <meta name="keywords" content="这是我仅有的" />
@@ -66,7 +73,10 @@
 
 
 
-  <link rel="shortcut icon" type="image/x-icon" href="/cgspace-favicon.ico?v=5.1.1-1" />
+
+
+
+
 
 
 <meta name="description" content="精致地生活">
@@ -79,14 +89,18 @@
 <meta name="twitter:title" content="cgspace">
 <meta name="twitter:description" content="精致地生活">
 
+
+
 <script type="text/javascript" id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":true},
     fancybox: true,
-    motion: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     duoshuo: {
       userId: '0',
       author: '博主'
@@ -101,10 +115,6 @@
   };
 </script>
 
-<!--
-<script id="dsq-count-scr" src="//cgspace0827.disqus.com/count.js" async></script>
--->
-
 
 
   <link rel="canonical" href="http://www.cgspace.date/page/4/"/>
@@ -114,40 +124,28 @@
 
 
   <title>cgspace</title>
-</head>
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
   
 
 
 
 
 
-  <script type="text/javascript">
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?2eb78e373e384b367d24fdc622487767";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
 
 
 
+</head>
 
-
-
-
-
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   
   
     
   
+
   <div class="container sidebar-position-left 
-   page-home 
- ">
+  page-home">
     <div class="headband"></div>
+
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
   <div class="site-meta ">
@@ -161,7 +159,7 @@
       </a>
     </div>
       
-        <p class="site-subtitle">精致地生活</p>
+        <h1 class="site-subtitle" itemprop="description">精致地生活</h1>
       
   </div>
 
@@ -192,7 +190,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -202,7 +200,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
@@ -238,7 +236,7 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+      <input autocomplete="off"
              placeholder="搜索..." spellcheck="false"
              type="text" id="local-search-input">
     </div>
@@ -253,8 +251,10 @@
 </nav>
 
 
+
  </div>
     </header>
+
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
@@ -263,36 +263,40 @@
   <section id="posts" class="posts-expand">
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/03/08/java/2017-3-08-java-EnvironmentVariable/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/03/08/java/2017-3-08-java-EnvironmentVariable/" itemprop="url">
-                  Java环境变量
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/" itemprop="url">Linux上远程连接mysql数据库服务器</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -302,13 +306,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-08T19:17:40+08:00">
-                2017-03-08
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-20T10:43:30+08:00">
+                2017-06-20
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -322,15 +331,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -339,6 +350,7 @@
           
 
           
+
           
 
           
@@ -347,6 +359,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -354,31 +369,27 @@
 
       
         
-          <p>Java环境变量的设置.这还是大一的时候学的,现在大三了,重温一下,免得忘记</p>
-<h3 id="Windows系统"><a href="#Windows系统" class="headerlink" title="Windows系统"></a>Windows系统</h3><p>在官网上下载java开发包切安装完成后，接下来就是配置环境变量了。在“我的电脑”右键后点击“属性”，在弹出的控制面板主页中点击“高级系统配置”，随即在弹出的系统属性的对话框中点击“环境变量”，之后就可以在弹出的对话框中看到有用户变量和系统变量，我们配置java环境变量就是在系统变量中进行。<br>先直接说下我们需要配置的环境变量的名称：<br>有两种：</p>
-<p>第一种是一定要配置的环境变量：PATH和CLASSPATH<br>第二种就是可要可不要的环境变量：JAVA_HOME</p>
+          <p>昨天有需要从远程mysql数据库服务器中读取数据库信息,自己多于在Linux系统上做开发,而且都是使用xampp软件集成包来完成数据库等服务,并没有涉及到连接远程数据库服务器的需求,所以,就在linux系统上装了个mysql使用</p>
+<p>这里记录的只是当时的过程</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/03/08/java/2017-3-08-java-EnvironmentVariable/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/06/20/mysql/2017-06-20-mysql-linuxConnect/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -392,41 +403,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/23/java/2017-2-24-java-ScannerJiexiFile/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/11/daily/2017-05-11-daily-exquisiteLife/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/23/java/2017-2-24-java-ScannerJiexiFile/" itemprop="url">
-                  Java中Scanner类扫描文件
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/05/11/daily/2017-05-11-daily-exquisiteLife/" itemprop="url">精致地生活</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -436,13 +455,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-23T19:35:52+08:00">
-                2017-02-23
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-11T13:21:41+08:00">
+                2017-05-11
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -456,15 +480,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/daily/" itemprop="url" rel="index">
+                    <span itemprop="name">daily</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -473,6 +499,7 @@
           
 
           
+
           
 
           
@@ -481,6 +508,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -488,29 +518,26 @@
 
       
         
-          <p>Java中的Scanner类除了可以用来读取扫描从键盘输入,还可以扫描文件<br>Scanner类很基本,通过读取用户从键盘输入字符来实现交互.主要是通过Scanner类中的nextLine()方法来获取输入的所有内容,也可以使用next()方法,<br>但next()方法不会获取空格,但一般使用nextLine()方法</p>
+          <p>我一直想过精致的生活<br>但<br>我一直找不到什么是精致的生活<br>我以前想的<br>就是认真的去做一件事<br>端端正正的去做</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/23/java/2017-2-24-java-ScannerJiexiFile/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/05/11/daily/2017-05-11-daily-exquisiteLife/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -524,41 +551,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/20/java/2017-2-20-java-ShowFile/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/10/git/2017-05-10-git-gitUse/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/20/java/2017-2-20-java-ShowFile/" itemprop="url">
-                  Java遍历显示文件
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/05/10/git/2017-05-10-git-gitUse/" itemprop="url">git使用</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -568,13 +603,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T15:10:11+08:00">
-                2017-02-20
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-10T16:08:50+08:00">
+                2017-05-10
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -588,15 +628,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/git/" itemprop="url" rel="index">
+                    <span itemprop="name">git</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -605,6 +647,7 @@
           
 
           
+
           
 
           
@@ -613,6 +656,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -620,29 +666,26 @@
 
       
         
-          <p>用来遍历文件夹内容的后树形显示内容的一段小代码<br>如下代码:</p>
+          <p>今天经理分配一个问题让去解决,就是git连接码云来进行项目的版本控制时,分支与主分支合并时的冲突问题,于是就打算今天拿出一天时间来弄这个问题,截止到现在,问题算是解决了,不过并不是采用我的方法.我的方法更老套,就是操作命令.而最后采用的是直接在idea上操作</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/20/java/2017-2-20-java-ShowFile/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/05/10/git/2017-05-10-git-gitUse/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -656,41 +699,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/20/java/2017-2-20-java-BookContorlSystem/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/09/java/2017-05-09-java-Decompile-Tool/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/20/java/2017-2-20-java-BookContorlSystem/" itemprop="url">
-                  Java编写图书馆信息管理系统
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/05/09/java/2017-05-09-java-Decompile-Tool/" itemprop="url">Java-android反编译</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -700,13 +751,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-20T14:29:07+08:00">
-                2017-02-20
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-09T12:44:00+08:00">
+                2017-05-09
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -724,11 +780,13 @@
                     <span itemprop="name">java</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -737,6 +795,7 @@
           
 
           
+
           
 
           
@@ -745,6 +804,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -752,33 +814,26 @@
 
       
         
-          <p>这里记录的是一个图书馆信息管理系统,是之前自己闲着无聊练手的,现在记录下来就是为了回想之前的知识点,重温总结</p>
-<h3 id="运行效果"><a href="#运行效果" class="headerlink" title="运行效果"></a>运行效果</h3><p>这里先贴下运行效果,进行测试</p>
-<p>首先打开数据库</p>
-<p><img src="/images/java/java-bookControlSystem-1.png" alt="java-bookControlSystem"></p>
-<p>之后运行main函数,如下:</p>
+          <p>今天在读公司之前开发的一个项目的代码,对其中的一段代码挺感兴趣,就尝试着自己敲,下载需要导入的jar包.自己单独运行看看效果.<br>不过其中一段小插曲,就是下载的包导入项目中后一直提示不出来,就是代码import不到,于是就想着去看看jar包里的代码是什么样的,心里怀疑这难不成是包里的类名换了,,,,?<br>于是就想到了我之前弄的android反编译.<br>时隔太久,担心忘了,就总结在此</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/20/java/2017-2-20-java-BookContorlSystem/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/05/09/java/2017-05-09-java-Decompile-Tool/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -792,41 +847,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/13/java/2017-2-13-java-BufferedInputFile/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/08/daily/2017-05-08-daily-companyDinnerParty-first/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/13/java/2017-2-13-java-BufferedInputFile/" itemprop="url">
-                  Java读取自己文件内容
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/05/08/daily/2017-05-08-daily-companyDinnerParty-first/" itemprop="url">步入社会的第一次感受</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -836,13 +899,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T20:03:57+08:00">
-                2017-02-13
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-08T11:22:50+08:00">
+                2017-05-08
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -856,15 +924,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/daily/" itemprop="url" rel="index">
+                    <span itemprop="name">daily</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -873,6 +943,7 @@
           
 
           
+
           
 
           
@@ -881,6 +952,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -888,29 +962,28 @@
 
       
         
-          <p>这里使用对文件进行缓冲,将得到的引用传给BufferedReader构造器,从而实现对文件的读取<br>代码如下</p>
+          <p>现在是2017年5月8号 10:33分</p>
+<p>昨天公司举行了开业典礼<br>白天做的无非就是招待领导吃饭喝酒</p>
+<p>而昨天也有一位同事w离职,<br>晚上大家一块打算给w饯行<br>所以</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/13/java/2017-2-13-java-BufferedInputFile/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/05/08/daily/2017-05-08-daily-companyDinnerParty-first/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -924,41 +997,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/13/java/2017-2-13-java-Foreach/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/06/daily/2017-05-06-daily-xiamenBegin/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/13/java/2017-2-13-java-Foreach/" itemprop="url">
-                  Java中的foreach语法
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/05/06/daily/2017-05-06-daily-xiamenBegin/" itemprop="url">关于厦门-始</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -968,13 +1049,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T19:49:13+08:00">
-                2017-02-13
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-06T17:11:16+08:00">
+                2017-05-06
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -988,15 +1074,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/daily/" itemprop="url" rel="index">
+                    <span itemprop="name">daily</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -1005,6 +1093,7 @@
           
 
           
+
           
 
           
@@ -1013,6 +1102,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1020,36 +1112,28 @@
 
       
         
-          <p>foreach语法多用与数组和容器，表示不用创建int变量去对由访问项构成的序列进行计数，foreach将自动产生每一项</p>
-<ul>
-<li><p>程序中Random random = new Random(47)中的47作为种子,是伪随机数生成器的内部状态的初始值，<br>随机产生的数字随着种子的改变而改变也就是使用了种子的随机数生成器其random对象在每一次运行程序时产生的数值都相同，</p>
-</li>
-<li><p>而Random random = new Random()这中创建对象可以认为是默认使用时间作为种子</p>
-</li>
-</ul>
-<p>代码如下:</p>
+          <p>我现在人就在厦门,一家公司里实习.<br>公司是小公司,开始以为挺好的,后面接触多了,感觉也就那样.</p>
+<p>上班一天下来也都是碌碌无趣<br>公司早上八点半上班.</p>
+<p>早上八点从出租屋里出来,坐个公交车大概八点二十可以到公司,</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/13/java/2017-2-13-java-Foreach/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/05/06/daily/2017-05-06-daily-xiamenBegin/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1063,41 +1147,49 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
       
+
+  
+
   
   
   
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/02/13/java/2017-2-13-java-CastingNum/">
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://www.cgspace.date/2017/05/05/hexo/2017-05-05-hexoBlog/">
+
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="cg">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
+
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="cgspace">
     </span>
+
     
       <header class="post-header">
+
         
         
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+          <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/02/13/java/2017-2-13-java-CastingNum/" itemprop="url">
-                  Java数据类型转换
-                </a>
-              
-            
-          </h1>
+                <a class="post-title-link" href="/2017/05/05/hexo/2017-05-05-hexoBlog/" itemprop="url">Hexo搭建博客</a></h2>
         
+
         <div class="post-meta">
           <span class="post-time">
             
@@ -1107,13 +1199,18 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-13T19:42:53+08:00">
-                2017-02-13
+			  
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-05T19:36:01+08:00">
+                2017-05-05
               </time>
+			  
             
+
             
+
             
           </span>
+
           
             <span class="post-category" >
             
@@ -1127,15 +1224,17 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">hexo</span>
                   </a>
                 </span>
+
                 
                 
               
             </span>
           
+
           
             
           
@@ -1144,6 +1243,7 @@
           
 
           
+
           
 
           
@@ -1152,6 +1252,9 @@
       </header>
     
 
+    
+    
+    
     <div class="post-body" itemprop="articleBody">
 
       
@@ -1159,31 +1262,27 @@
 
       
         
-          <p>Java中的类型转换操作</p>
-<p>在java中，类型的转换是一种比较安全的操作，如果要执行一种名为榨化转换的操作(也就是说，将能容纳更多信息的数据类型转换成无法容纳那么多信息的类型)，<br>就有可能面临信息丢失的危险，所以此时，编译器会强制我们进行类型转换，所以说，这可能是意见危险的事情，如果无论如何都要这么做，那必须显式地进行类型转换．<br>而对于扩展转换，则不必显式地进行类型转换，因为新类型肯定能容纳原来类型的信息，不会造成任何信息的丢失</p>
-<p>如下程序，java在将float或double类型转换成int类型时，总是对该数字执行截尾．</p>
+          <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>我之前使用的是jekyll来创建博客,现在转用hexo了.其实在使用jekyll的时候就了解了hexo,那个时候也打算使用hexo来搭建博客,但苦于当时没能把hexo环境搭建好,急于求成就用已经搭建好环境的jekyll来创建博客了.<br>自己挺钟情hexo的,一直想用上她.恰好最近出差,利用空余的时间在宾馆把hexo环境搭建好了,把之前的博客也迁移到了hexo搭建的博客上面.做个总结,就写了这篇文章</p>
+<p>文章中的命令行代码都是在搭建环境时所另外复制保存的</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/02/13/java/2017-2-13-java-CastingNum/#more" rel="contents">
-              阅读全文 &raquo;
+            <a class="btn" href="/2017/05/05/hexo/2017-05-05-hexoBlog/" rel="contents">
+              阅读全文
             </a>
           </div>
           <!--/noindex-->
         
       
     </div>
+    
+    
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
-    <div>
-      
-    </div>
+    
 
     <footer class="post-footer">
       
@@ -1197,14 +1296,19 @@
         <div class="post-eof"></div>
       
     </footer>
+  </div>
+  
+  
+  
   </article>
 
 
     
   </section>
+
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1228,110 +1332,152 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
+    
+      <div id="sidebar-dimmer"></div>
+    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <img class="site-author-image" itemprop="image"
-               src="/images/avatar.jpg"
-               alt="cg" />
-          <p class="site-author-name" itemprop="name">cg</p>
-           
-              <p class="site-description motion-element" itemprop="description">精致地生活</p>
-          
-        </div>
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
-              <a href="/archives">
-                <span class="site-state-item-count">41</span>
-                <span class="site-state-item-name">日志</span>
-              </a>
-            </div>
-          
-
-          
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="cg" />
             
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">11</span>
-                <span class="site-state-item-name">分类</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
-                <span class="site-state-item-name">标签</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-
-        <div class="links-of-author motion-element">
-          
-            
-              <span class="links-of-author-item">
-                <a href="https://github.com/cgstudios" target="_blank" title="github">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  github
-                </a>
-              </span>
-            
-              <span class="links-of-author-item">
-                <a href="http://weibo.com/5123957375/profile" target="_blank" title="weibo">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                  weibo
-                </a>
-              </span>
-            
-          
-        </div>
-
-        
-        
-
-        
-        
-          <div class="links-of-blogroll motion-element links-of-blogroll-block">
-            <div class="links-of-blogroll-title">
-              <i class="fa  fa-fw fa-globe"></i>
-              Links
-            </div>
-            <ul class="links-of-blogroll-list">
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://blog.lwl12.com/" title="LWL的自由天空" target="_blank">LWL的自由天空</a>
-                </li>
-              
-                <li class="links-of-blogroll-item">
-                  <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
-                </li>
-              
-            </ul>
+              <p class="site-author-name" itemprop="name">cg</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
-        
 
-        
+          <nav class="site-state motion-element">
 
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
 
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/cgstudios" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/cg082702" target="_blank" title="Twitter">
+                    
+                      <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/5123957375" target="_blank" title="weibo">
+                    
+                      <i class="fa fa-fw fa-globe"></i>weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://qqdie.com" title="QQ 爹博客" target="_blank">QQ 爹博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.neverlove.me/" title="不才博客" target="_blank">不才博客</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://siitake.cn/" title="香菇社长" target="_blank">香菇社长</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.dreamwings.cn/" title="若是凉夜已成梦" target="_blank">若是凉夜已成梦</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.thkira.com/" title="兰陵の记事簿" target="_blank">兰陵の记事簿</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://Lao.si" title="孙老四 Lao.si" target="_blank">孙老四 Lao.si</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          <div id="aplayer1" class="aplayer"></div>
+<script src="/lib/aplayer/APlayer.min.js"></script>
+<script>
+	var ap = new APlayer({
+		element: document.getElementById('aplayer1'),
+		narrow: false,
+		autoplay: false,
+		showlrc: false,
+		mutex: true,
+		theme: '#e6d0b2',
+		preload: 'metadata',
+		mode: 'circulation',
+		music: {
+			title: '流浪者之歌',
+			author: '陈绮贞',
+			url: '/lib/song/llzzg/The-song-of-the-Rangers.mp3',
+			pic: 'http://p3.music.126.net/uXxV1FqCCQz61vsOX0JXdA==/5779033115676966.jpg?param=300y300'
+		}
+	});
+</script>
+
+        </div>
       </section>
 
       
@@ -1345,16 +1491,17 @@
         
       </div>
     </main>
+
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy;  2016 - 
-  <span itemprop="copyrightYear">2017</span>
+        <div class="copyright">&copy; 2016 - <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">cg</span>
+
+  
+  
   <span class="span-time"></span>
   <script>
   var startTime = new Date("2016/12/27");
@@ -1365,10 +1512,17 @@
     var hour = parseInt(time / 1000 / 60 / 60 % 24);
     var minute = parseInt(time / 1000 / 60 % 60);
     var seconds = parseInt(time / 1000 % 60);
-    $('.span-time').html("  |  已建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
+    $('.span-time').html("&nbsp;| &nbsp;" + "建站" + day + "天" + hour + "小时" + minute + "分钟" + seconds + "秒");
   }, 1000);
-</script>
+  </script>
 </div>
+
+
+
+
+
+
+
 
 
         
@@ -1377,7 +1531,7 @@
 
   
     <span class="site-uv">
-      <i class="fa fa-user"></i> 访问人次
+      <i class="fa fa-user"></i>访问人次
       <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
       人
     </span>
@@ -1385,7 +1539,7 @@
 
   
     <span class="site-pv">
-      <i class="fa fa-eye"></i> 访问次数
+      <i class="fa fa-eye"></i>访问次数
       <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
       次
     </span>
@@ -1393,16 +1547,25 @@
 </div>
 
 
+
+
+
+
+
+
         
       </div>
     </footer>
+
     
       <div class="back-to-top">
         <i class="fa fa-arrow-up"></i>
         
       </div>
     
+
   </div>
+
   
 
 <script type="text/javascript">
@@ -1454,18 +1617,22 @@
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
 
 
   
   
+
   
+
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1-1"></script>
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
 
 
   
@@ -1483,19 +1650,12 @@
 
 
   
-    
-    <script>
-      var cloudTieConfig = {
-        url: document.location.href, 
-        sourceId: "",
-        productKey: "ec18ccd847d64bfc94031509c79a2056",
-        target: "cloud-tie-wrapper"
-      };
-    </script>
-    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+
+
+
+
+
   
-
-
 
 
 
@@ -1514,7 +1674,7 @@
     var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
-    } else if (search_path.endsWith("json")) {
+    } else if (/json$/i.test(search_path)) {
       isXml = false;
     }
     var path = "/" + search_path;
@@ -1535,7 +1695,10 @@
         .css('overflow', 'hidden');
       $('.search-popup-overlay').click(onPopupClose);
       $('.popup').toggle();
-      $('#local-search-input').focus();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
     }
 
     // search function;
@@ -1825,6 +1988,23 @@
 
 
   
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
 
   
 
